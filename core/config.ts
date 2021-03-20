@@ -1,18 +1,18 @@
 // This config is publicly exposed, do not add secrets.
 export default {
-  name: 'SimpleReactApp',
-  title: 'Simple React App',
-  description: 'Demonstrating some integrations',
-  domainUrl: 'https://next-firebase-plus.web.app',
+  name: 'Takken.io',
+  title: 'Takken.io',
+  description: 'Webber\'s blog about software development and social dynamics',
+  domainUrl: 'https://takken.io',
   creatorTwitter: '@webbertakken',
   themeColor: '#e011c1',
   firebase: {
-    apiKey: 'AIzaSyCQ69zcDTI2CviE_NzNPHs3x2SAp8BSBdE',
-    authDomain: 'next-firebase-plus.firebaseapp.com',
-    projectId: 'next-firebase-plus',
-    storageBucket: 'next-firebase-plus.appspot.com',
-    messagingSenderId: '189564760615',
-    appId: '1:189564760615:web:d9f2f37561983921c19402',
-    measurementId: 'G-S075Q0CH8Y',
+    apiKey: "AIzaSyDk719bY8ogvrsUIw52ACzaRs9HwTkGBa8",
+    authDomain: "takken-io.firebaseapp.com",
+    projectId: "takken-io",
+    storageBucket: "takken-io.appspot.com",
+    messagingSenderId: "862014479293",
+    appId: "1:862014479293:web:af2649e3d2b2f5e77590d4",
+    measurementId: "G-FQQ49BXV2R"
   },
 }
