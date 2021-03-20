@@ -1,4 +1,4 @@
-import SignInSignOutButton from '@/components/auth/SignInSignOutButton'
+import UnderConstructionPage from '@/components/pages/UnderConstruction'
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -7,6 +7,6 @@ const fetcher = (url, token) =>
     credentials: 'same-origin',
   }).then((res) => res.json())
 
-const Index = () => <SignInSignOutButton />
+const Index = () => <UnderConstructionPage />
 
 export default Index
