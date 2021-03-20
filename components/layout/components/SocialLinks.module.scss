@@ -1,0 +1,7 @@
+.link {
+  &:not(:last-child)::after {
+    display: inline-block;
+    content: '•';
+    padding: 0 .5em;
+  }
+}
