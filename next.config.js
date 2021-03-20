@@ -6,6 +6,8 @@ const withLess = require('@zeit/next-less')
 const withSass = require('@zeit/next-sass')
 const withPWA = require('next-pwa')
 
+const isProdBuild = process.env.NODE_ENV === 'production'
+
 const lessNextConfig = {
   lessLoaderOptions: {
     javascriptEnabled: true,
@@ -44,7 +46,7 @@ const sassNextConfig = {
 const pwaNextConfig = {
   pwa: {
     dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
+    disable: !isProdBuild,
   },
 }
 
@@ -95,9 +97,9 @@ const compose = (plugins) => ({
 })
 
 module.exports = compose([
+  isProdBuild ? [withPWA, pwaNextConfig] : null,
   [withBundleAnalyzer, { enabled: process.env.ANALYZE === 'true' }],
   [withCSS],
   [withLess, lessNextConfig],
   [withSass, sassNextConfig],
-  [withPWA, pwaNextConfig],
 ])
