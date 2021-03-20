@@ -1,0 +1,29 @@
+%section {
+  width: 100%;
+  max-width: 1280px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main {
+  min-height: 100vh;
+}
+
+.header {
+  @extend %section;
+  position: relative;
+  background: none;
+  box-shadow: none;
+}
+
+.content {
+  @extend %section;
+  position: relative;
+}
+
+.footer {
+  @extend %section;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
