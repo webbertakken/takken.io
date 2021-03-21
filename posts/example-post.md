@@ -31,7 +31,8 @@ Here are some code examples
 
 ### JSX code
 
-```jsx
+```jsx{1-4,59}
+// SignInSignOutButton.tsx
 import { Button } from 'antd'
 import firebase from 'firebase/app'
 import { useState } from 'react'
@@ -96,7 +97,7 @@ export default SignInSignOutButton
 
 Without highlighting
 
-```ts
+```ts{4,5,6,10}
 import { createSlice } from '@reduxjs/toolkit';
 
 export const counterSlice = createSlice({
@@ -123,7 +124,7 @@ export const { incremented, decremented } = counterSlice.actions;
 
 With highlighting
 
-```ts{1,5-7}
+```ts{1,5-7,9-11}
 import { createSlice } from '@reduxjs/toolkit';
 
 export const counterSlice = createSlice({
