@@ -9,7 +9,7 @@ const EditOnGithubLink = ({ slug }) => {
 
   return (
     <a href={href} type="link">
-      <AiOutlineGithub />
+      <AiOutlineGithub color="rgba(255,255,255,0.85)" />
       <span style={{ paddingLeft: 8 }}>Edit on GitHub</span>
     </a>
   )

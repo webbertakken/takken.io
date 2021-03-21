@@ -11,7 +11,8 @@
       display: inline-block;
       content: '•';
       padding: 0 .5em;
-      color: rgba(255, 125, 179, .85);
+      // Todo - get off-pink color from var
+      color: rgba(255, 169, 205, 0.85);
     }
   }
 }
