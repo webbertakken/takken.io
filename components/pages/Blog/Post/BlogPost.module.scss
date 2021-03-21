@@ -1,0 +1,28 @@
+.metaSubs {
+  display: block;
+  font-style: italic;
+  line-height: inherit;
+  padding-top: .75em;
+
+  > * {
+    font-size: inherit;
+
+    &:not(:last-child)::after {
+      display: inline-block;
+      content: '•';
+      padding: 0 .5em;
+      color: rgba(255, 125, 179, .85);
+    }
+  }
+}
+
+.topMetaInformation {
+  width: 100%;
+  padding-bottom: 5rem;
+}
+
+.bottomMetaInformation {
+  width: 100%;
+  padding-top: 2.5rem;
+  text-align: center;
+}
