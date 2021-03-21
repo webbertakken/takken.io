@@ -8,6 +8,20 @@ const withPWA = require('next-pwa')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
 
+const baseNextConfig = {
+  target: 'serverless',
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/blog',
+        permanent: false,
+      },
+    ]
+  },
+}
+
 const lessNextConfig = {
   lessLoaderOptions: {
     javascriptEnabled: true,
@@ -51,7 +65,7 @@ const pwaNextConfig = {
 }
 
 const compose = (plugins) => ({
-  target: 'serverless',
+  ...baseNextConfig,
 
   webpack: (config, options) => {
     config.module.rules.push(
@@ -79,6 +93,7 @@ const compose = (plugins) => ({
       return config
     }, config)
   },
+
   webpackDevMiddleware(config) {
     return plugins.reduce((config, plugin) => {
       if (Array.isArray(plugin)) {

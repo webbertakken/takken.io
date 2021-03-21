@@ -36,7 +36,7 @@ class CodeBlock extends React.PureComponent {
   render() {
     const { value, language } = this.props
     return (
-      <pre className={styles.codeBlock} style={{ backgroundColor: '#282a36' }}>
+      <pre className={styles.codeBlock}>
         <div ref={this.setRef} className={`language-${language}`}>
           {value}
         </div>

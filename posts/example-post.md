@@ -2,7 +2,8 @@
 title: 'Example post'
 date: '2021-03-21'
 description: "To test styles and rendering."
-category: 'Software development'
+categories: 
+  - 'Software development'
 ---
 
 ## The standard Lorem Ipsum passage, used since the 1500s
