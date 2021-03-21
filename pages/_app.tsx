@@ -11,7 +11,8 @@ import { FirebaseAppProvider } from 'reactfire'
 import config from 'core/config'
 
 // Styles
-import '../assets/styles/antd-custom.less'
+import '../assets/styles/index.less'
+import 'highlight.js/styles/dracula.css'
 
 // Global instances
 const store = configureStore({ reducer })
