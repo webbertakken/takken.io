@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
-import BlogPostPage from '@/components/pages/Blog/Post/BlogPost'
+import BlogPostPage from '@/components/pages/Blog/Post/BlogPostPage'
 
 import { getPostBySlug, getAllPosts } from '@/core/blog/static/blogPosts'
 
