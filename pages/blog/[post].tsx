@@ -7,7 +7,7 @@ import { getPostBySlug, getAllPosts } from '@/core/blog/static/blogPosts'
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = getAllPosts()
   const paths = posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { post: post.slug },
   }))
 
   return { paths, fallback: false }
@@ -19,7 +19,7 @@ interface StaticProps {
 
 // Build time: Generate JSON for each given path
 export const getStaticProps: GetStaticProps = async ({ params }: StaticProps) => {
-  const post = getPostBySlug(params.slug)
+  const post = getPostBySlug(params.post)
 
   return { props: { ...post } }
 }
