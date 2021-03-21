@@ -5,7 +5,6 @@ import CodeBlock from './components/CodeBlock'
 import { List, ListItem } from './components/list'
 import Article from './components/article'
 import HeadingWithAnchor from './components/heading-with-anchor'
-// import Heading from '@/components/markdown/components/heading'
 
 const { Paragraph } = Typography
 
