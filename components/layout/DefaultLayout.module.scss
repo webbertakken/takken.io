@@ -3,6 +3,7 @@
   max-width: 1280px;
   margin-right: auto;
   margin-left: auto;
+  position: relative;
 }
 
 .main {
@@ -11,19 +12,21 @@
 
 .header {
   @extend %section;
-  position: relative;
   background: none;
   box-shadow: none;
 }
 
 .content {
   @extend %section;
-  position: relative;
+  padding: 7.5rem 2.5vw;
 }
 
 .footer {
   @extend %section;
-  position: relative;
   display: flex;
+  padding-left: 2.5vw;
+  padding-right: 2.5vw;
   justify-content: space-between;
+  font-size: 0.875em;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }

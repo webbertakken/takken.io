@@ -1,6 +1,6 @@
 import React from 'react'
-import BlogPage from '@/components/pages/Blog'
+import BlogIndexPage from '@/components/pages/Blog'
 
-const BlogIndex = () => <BlogPage />
+const BlogIndex = () => <BlogIndexPage />
 
 export default BlogIndex
