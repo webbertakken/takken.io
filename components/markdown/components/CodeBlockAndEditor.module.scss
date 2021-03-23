@@ -8,7 +8,9 @@
   text-align: left;
   font-size: 0.875em;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  white-space: pre;
+
+  // reset browser value for pre, which prevents odd scrolling issue
+  white-space: normal;
 
   border-collapse: inherit;
   border-radius: 5px;
