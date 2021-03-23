@@ -1,12 +1,12 @@
 import React from 'react'
-import Highlight, { defaultProps } from 'prism-react-renderer'
+import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/dracula'
 import cx from 'classnames'
 
-import styles from './CodeBlock.module.scss'
+import styles from './CodeBlockAndEditor.module.scss'
 
-const Line = ({ className, ...props }) => <div {...props} className={cx(className, styles.line)} />
 const Container = ({ className, ...props }) => <pre {...props} className={cx(className, styles.container)} />
+const Line = ({ className, ...props }) => <div {...props} className={cx(className, styles.line)} />
 const LineNumber = (props) => <span {...props} className={styles.number} />
 const LineContent = (props) => <span {...props} className={styles.content} />
 
@@ -41,16 +41,24 @@ const getRangeFromString = (input: string) => {
   return range
 }
 
-const CodeBlock = ({ value, language: rawLanguage }) => {
+interface CodeBlockProps {
+  value: string
+  language?: string
+  className?: string
+}
+
+const CodeBlock = ({ value, language, className }: CodeBlockProps) => {
+  language = language || ''
+
   // Match language and optionally highlights
-  const meta = rawLanguage.match(/(?<language>\w+)(?<highlightString>{[\d-,]+})?/)?.groups
-  const { language, highlightString } = meta || {}
+  const meta = language.match(/(?<lang>\w+)(?<highlightString>{[\d-,]+})?/)?.groups
+  const { lang, highlightString } = meta || {}
   let highlights = highlightString ? getRangeFromString(highlightString) : []
 
   return (
-    <Highlight {...defaultProps} theme={theme} code={value} language={language}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <Container className={className} style={style}>
+    <Highlight {...defaultProps} theme={theme} code={value} language={lang as Language}>
+      {({ className: ownClass, style, tokens, getLineProps, getTokenProps }) => (
+        <Container className={cx(ownClass, className)} style={style}>
           {tokens.map((line, i) => {
             const lineNumber = i + 1
             return (
