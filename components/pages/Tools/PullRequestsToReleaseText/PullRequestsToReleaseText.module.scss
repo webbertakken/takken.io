@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 1em;
+}
+
+.flexPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.codePanel {
+  flex-grow: 1;
+}
