@@ -3,7 +3,7 @@ import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/dracula'
 import cx from 'classnames'
 
-import styles from './CodeBlock.module.scss'
+import styles from './CodeBlockAndEditor.module.scss'
 
 const Container = ({ className, ...props }) => <pre {...props} className={cx(className, styles.container)} />
 const Line = ({ className, ...props }) => <div {...props} className={cx(className, styles.line)} />
