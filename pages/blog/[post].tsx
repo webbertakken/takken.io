@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
 import BlogPostPage from '@/components/pages/Blog/Post/BlogPostPage'
 
-import { getPostBySlug, getAllPosts } from '@/core/blog/static/blogPosts'
+import { getPostBySlug, getAllPosts } from '@/core/blog/static/getBlogPosts'
 
 // Build time: Determines which pages are generated
 export const getStaticPaths: GetStaticPaths = async () => {
