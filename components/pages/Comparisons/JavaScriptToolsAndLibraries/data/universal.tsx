@@ -10,11 +10,11 @@ export const dataSource = [
     ],
     reasons: [
       {
-        name: 'de facto standard',
+        name: 'De facto standard',
         url: '',
       },
       {
-        name: 'implements RFC',
+        name: 'Implements RFC',
         url: '',
       },
     ],
@@ -30,8 +30,33 @@ export const dataSource = [
     ],
     reasons: [
       {
-        name: 'comparison',
+        name: 'Comparison',
         url: 'https://github.com/you-dont-need/You-Dont-Need-Momentjs',
+      },
+    ],
+  },
+  {
+    key: '3',
+    purpose: 'Animations',
+    choices: [
+      {
+        name: 'react-spring',
+        url: 'https://www.npmjs.com/package/react-spring',
+      },
+    ],
+    reasons: [
+      {
+        name: 'Easy',
+      },
+      {
+        name: 'Advanced',
+      },
+      {
+        name: 'Performance',
+      },
+      {
+        name: 'comparison',
+        url: 'https://blog.logrocket.com/the-top-5-react-animation-libraries-compared/',
       },
     ],
   },
