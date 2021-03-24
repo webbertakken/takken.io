@@ -9,10 +9,6 @@
     max-width: 940px;
   }
 
-  &.wide %section {
-    max-width: 80%;
-  }
-
   .header {
     @extend %section;
     background: none;
@@ -23,7 +19,11 @@
     @extend %section;
     display: flex;
     flex-direction: column;
-    padding: 7.5rem 2.5vw;
+    padding: 2.5rem 2.5vw;
+  }
+
+  &.wide .content {
+    max-width: 80%;
   }
 
   .footer {

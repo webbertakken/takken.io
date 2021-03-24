@@ -24,6 +24,8 @@ const BlogPostPage = ({ content, slug, meta }: BlogPostPageProps) => {
 
   return (
     <DefaultLayout>
+      <div className={styles.spaceAbove} />
+
       <Heading level={1} children={title} />
 
       <div className={styles.topMetaInformation}>
