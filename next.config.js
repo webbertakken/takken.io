@@ -5,6 +5,7 @@ const withCSS = require('@zeit/next-css')
 const withLess = require('@zeit/next-less')
 const withSass = require('@zeit/next-sass')
 const withPWA = require('next-pwa')
+const withOptimizedImages = require('next-optimized-images')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
 
@@ -55,6 +56,15 @@ const lessNextConfig = {
 
 const sassNextConfig = {
   cssModules: true,
+}
+
+const optimizedImagesNextConfig = {
+  /**
+   * Auto-detects:
+   * - imagemin-mozjpeg
+   * - imagemin-optipng
+   * - webp-loader
+   */
 }
 
 const pwaNextConfig = {
@@ -117,4 +127,5 @@ module.exports = compose([
   [withCSS],
   [withLess, lessNextConfig],
   [withSass, sassNextConfig],
+  [withOptimizedImages, optimizedImagesNextConfig],
 ])
