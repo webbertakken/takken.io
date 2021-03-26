@@ -2,9 +2,10 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+  user-select: none;
 
   .background {
-    position: absolute;
+    position: absolute !important;
 
     top: 0;
     right: 0;
@@ -12,7 +13,7 @@
     left: 0;
 
     z-index: -1;
-    background: #cf6adb;
+    background: rgb(10,20,40);
   }
 
   %section {

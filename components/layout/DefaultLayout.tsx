@@ -1,10 +1,11 @@
 import React from 'react'
 import { Layout } from 'antd'
 import cx from 'classnames'
-
-import styles from './DefaultLayout.module.scss'
+import dynamic from 'next/dynamic'
 import SocialLinks from '@/components/layout/components/SocialLinks'
-import BackgroundCanvas from '@/components/layout/components/BackgroundCanvas'
+import styles from './DefaultLayout.module.scss'
+
+const BackgroundCanvas = dynamic(import('@/components/layout/components/BackgroundCanvas/BackgroundCanvas'))
 
 const { Header, Footer, Content } = Layout
 
