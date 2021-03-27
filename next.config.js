@@ -12,6 +12,11 @@ const isProdBuild = process.env.NODE_ENV === 'production'
 const baseNextConfig = {
   target: 'serverless',
 
+  pwa: {
+    dest: 'public',
+    sw: 'service-worker.js',
+  },
+
   async redirects() {
     return [
       {
@@ -67,13 +72,6 @@ const optimizedImagesNextConfig = {
    */
 }
 
-const pwaNextConfig = {
-  pwa: {
-    dest: 'public',
-    disable: !isProdBuild,
-  },
-}
-
 const compose = (plugins) => ({
   ...baseNextConfig,
 
@@ -122,7 +120,7 @@ const compose = (plugins) => ({
 })
 
 module.exports = compose([
-  isProdBuild ? [withPWA, pwaNextConfig] : null,
+  [withPWA],
   [withBundleAnalyzer, { enabled: process.env.ANALYZE === 'true' }],
   [withCSS],
   [withLess, lessNextConfig],

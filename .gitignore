@@ -10,8 +10,8 @@ serviceAccount.json
 /.firebase
 
 # Service worker
-public/sw.js
-public/workbox-*.js
+public/service-worker.js*
+public/workbox-*.js*
 
 # dependencies
 /node_modules
