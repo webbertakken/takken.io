@@ -5,11 +5,17 @@ const withCSS = require('@zeit/next-css')
 const withLess = require('@zeit/next-less')
 const withSass = require('@zeit/next-sass')
 const withPWA = require('next-pwa')
+const withOptimizedImages = require('next-optimized-images')
 
 const isProdBuild = process.env.NODE_ENV === 'production'
 
 const baseNextConfig = {
   target: 'serverless',
+
+  pwa: {
+    dest: 'public',
+    sw: 'service-worker.js',
+  },
 
   async redirects() {
     return [
@@ -57,11 +63,13 @@ const sassNextConfig = {
   cssModules: true,
 }
 
-const pwaNextConfig = {
-  pwa: {
-    dest: 'public',
-    disable: !isProdBuild,
-  },
+const optimizedImagesNextConfig = {
+  /**
+   * Auto-detects:
+   * - imagemin-mozjpeg
+   * - imagemin-optipng
+   * - webp-loader
+   */
 }
 
 const compose = (plugins) => ({
@@ -112,9 +120,10 @@ const compose = (plugins) => ({
 })
 
 module.exports = compose([
-  isProdBuild ? [withPWA, pwaNextConfig] : null,
+  [withPWA],
   [withBundleAnalyzer, { enabled: process.env.ANALYZE === 'true' }],
   [withCSS],
   [withLess, lessNextConfig],
   [withSass, sassNextConfig],
+  [withOptimizedImages, optimizedImagesNextConfig],
 ])

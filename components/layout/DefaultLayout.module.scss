@@ -1,5 +1,20 @@
 .main {
+  position: relative;
+  width: 100%;
   min-height: 100vh;
+  user-select: none;
+
+  .background {
+    position: absolute !important;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    z-index: -1;
+    background: rgb(10,20,40);
+  }
 
   %section {
     width: 100%;
@@ -34,5 +49,6 @@
     justify-content: space-between;
     font-size: 0.875em;
     border-top: 1px solid rgba(255, 54, 136, .66);
+    background: initial;
   }
 }
