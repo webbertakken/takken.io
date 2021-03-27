@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import SocialLinks from '@/components/layout/components/SocialLinks'
 import styles from './DefaultLayout.module.scss'
 
-const BackgroundCanvas = dynamic(import('@/components/layout/components/BackgroundCanvas/BackgroundCanvas'))
+const BackgroundCanvas = dynamic(() => import('@/components/layout/components/BackgroundCanvas/BackgroundCanvas'))
 
 const { Header, Footer, Content } = Layout
 
