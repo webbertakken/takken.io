@@ -10,14 +10,16 @@ const BackgroundCanvas = dynamic(() => import('@/components/layout/components/Ba
 const { Header, Footer, Content } = Layout
 
 const DefaultLayout = ({ children, wide = false }) => (
-  <Layout className={cx(styles.main, { [styles.wide]: wide })}>
+  <>
     <BackgroundCanvas className={styles.background} />
-    <Header className={styles.header} />
-    <Content className={styles.content}>{children}</Content>
-    <Footer className={styles.footer}>
-      <SocialLinks />
-    </Footer>
-  </Layout>
+    <Layout className={cx(styles.main, { [styles.wide]: wide })}>
+      <Header className={styles.header} />
+      <Content className={styles.content}>{children}</Content>
+      <Footer className={styles.footer}>
+        <SocialLinks />
+      </Footer>
+    </Layout>
+  </>
 )
 
 export default DefaultLayout
