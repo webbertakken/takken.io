@@ -37,6 +37,7 @@ const PullRequestsToReleaseText = (props) => {
     const grouper = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>.*) ago/
 
     const matches = rawPullRequestsString.match(matcher)
+    if (!matches) return setResult('')
 
     const changes = []
     const fixes = []
