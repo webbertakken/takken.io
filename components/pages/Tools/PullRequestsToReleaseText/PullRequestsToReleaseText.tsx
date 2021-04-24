@@ -33,8 +33,8 @@ const PullRequestsToReleaseText = (props) => {
   const [excludedContributors, setExcludedContributors] = useState<string[]>(cookie.getValue() || [])
 
   const convert = (rawPullRequestsString) => {
-    const matcher = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+) was (?<action>closed|merged) (?<when>.*) ago/g
-    const grouper = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+) was (?<action>closed|merged) (?<when>.*) ago/
+    const matcher = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>.*) ago/g
+    const grouper = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>.*) ago/
 
     const matches = rawPullRequestsString.match(matcher)
 
