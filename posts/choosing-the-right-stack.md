@@ -8,9 +8,9 @@ categories:
 
 Choosing the right stack for an application may seem like a trivial task.
 
-As a developer, for several years I have underestimated both the importance of choosing the right tools for the job, and how crucial the time is that you spend evaluating them. In my world, simply picking the most modern library or well supported package for each challenge was time well spent. And if I’m honest, it could have been much worse.
+As a developer, for several years I have underestimated both the importance of choosing the right tools for the job, and how crucial the time spent evaluating them is. In my world, simply picking the most modern library or well supported package for each challenge was time well spent. And if I am honest this approach served me better than expected.
 
-While picking modern well-supported tools and following best practices where applicable will most likely have you succeed to some extent, I’ve learned that you may be able to create working products much faster and with less effort by spending just enough time up-front; thinking about how best to achieve your goal, be it another feature or an entirely new stack.
+However, while picking modern well-supported tools and following best practices will most likely have you succeed to some extent, I’ve learned that you may be able to create working products much faster and with less effort by spending just enough time up-front; thinking about how best to achieve your goal, be it another feature or an entirely new stack.
 
 ## Thinking up front
 
