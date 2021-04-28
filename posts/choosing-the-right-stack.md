@@ -42,7 +42,7 @@ This mindset helps create forward momentum.
 
 Perhaps keeping it practical is easier said than done. It does take a little experience to really keep things practical when there are so many nuances to explore and consider.
 
-Having a mental model is a simple way to not get lost. Over the years I have developed my own mental model, which contains a few steps to consider when trying to systematically determine the most fitting stack for an application. You may use it as a starting point and remove steps or add your own as you see fit for your projects.
+Having a mental model is a simple way to not get lost. Over the years I have developed a mental model that contains a few steps to consider when trying to systematically determine the most fitting stack for an application. You may use it as a starting point and remove steps or add your own as you see fit for your projects.
 
 **1. Analysis**
 
@@ -54,7 +54,7 @@ Having a mental model is a simple way to not get lost. Over the years I have dev
 - Should I use code at all?
 - Language and frameworks
     - Which languages does my team already know?
-    - Which languages offer the most suitable frameworks?\
+    - Which languages offer the most suitable frameworks?
     - Which framework will be at the core of my application?
 
 **3. Technologies**
@@ -81,7 +81,7 @@ I will use Takken.io as a case example to demonstrate one way of interpreting th
 
 **Requirements:**
 
-*   Easy for me to change and extend
+*   Easy to change and extend
 *   Search engine friendly
 *   May not take longer than a weekend or two to set up
 
@@ -165,7 +165,7 @@ Whether it’s being done locally or in the cloud; storing and querying data is 
 
 Decide what level of control is needed over the structure of the data, whether other systems may need to use the same data, and who should have ownership. It may also be helpful to consider who will be interacting with the data and how to comply with data privacy laws.
 
-For Takken.io the posts will be written by myself. My readers and reviewers should be able to comment or fix typographic mistakes directly. Feedback or comments should be possible in some kind of comment section, or at least a thumbs up or down with an input field.
+For Takken.io the posts will be written by myself. Readers and reviewers should be able to comment or fix typographic mistakes directly. Feedback or comments should be possible in some kind of comment section, or at least a thumbs up or down with an input field.
 
 The posts can be stored as markdown. As the code of Takken.io is publicly available, readers will be able to place comments and suggest changes to the blog posts directly on GitHub.
 
