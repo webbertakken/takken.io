@@ -1,0 +1,57 @@
+.list {
+  list-style-type: none;
+  list-style-position: inside;
+  padding-inline-start: 0;
+}
+
+.item {
+  background: rgba(0,0,0,.1);
+  padding: 20px;
+  border-radius: 5px;
+
+  &:not(:last-of-type) {
+    margin-bottom: 16px;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.empty {
+  margin: 0; // empty state looks like an item - override AntD margin
+
+  composes: item;
+
+  display: flex;
+
+  height: 250px;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.post {
+  composes: item clickable;
+
+  h1 {
+    color: rgba(255, 54, 136, 0.85);
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.175);
+    color: rgba(255, 255, 255, 0.85);
+    h1 {
+      color: rgba(255, 27, 119, 0.85);
+    }
+  }
+
+  &:active, &:focus {
+    background: rgba(0,0,0,.25);
+    color: rgba(227, 228, 234, 0.85);
+    h1 {
+      color: rgba(255, 27, 119, 0.85);
+    }
+  }
+}
+

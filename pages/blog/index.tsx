@@ -7,7 +7,9 @@ const BlogIndex = ({ posts, categories }) => <BlogIndexPage posts={posts} catego
 
 // Build time: Generate JSON for each given path
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts().map(({ slug, meta }) => ({ slug, meta }))
+  const posts = getAllPosts()
+    .map(({ slug, meta }) => ({ slug, meta }))
+    .filter(({ slug }) => slug !== 'example-post')
 
   const categoriesWithDuplicates = [].concat.apply([], ...posts.map((post) => post.meta.categories))
   const categories = Array.from(new Set(categoriesWithDuplicates)).slice().sort()

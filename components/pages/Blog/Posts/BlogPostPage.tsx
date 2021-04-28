@@ -2,9 +2,9 @@ import React from 'react'
 import { Tag } from 'antd'
 import DefaultLayout from '@/components/layout/DefaultLayout'
 import Heading from '@/components/markdown/components/heading'
-import EditOnGithubLink from '@/components/pages/Blog/Post/EditOnGithubLink'
+import EditOnGithubLink from '@/components/pages/Blog/Posts/EditOnGithubLink'
 import MarkdownRenderer from '@/components/markdown/markdown-renderer'
-import { EstimatedTimeToRead } from '@/components/pages/Blog/Post/EstimatedTimeToRead'
+import { EstimatedTimeToRead } from '@/components/pages/Blog/Posts/EstimatedTimeToRead'
 
 import styles from './BlogPost.module.scss'
 
