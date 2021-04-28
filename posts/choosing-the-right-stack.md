@@ -8,7 +8,7 @@ categories:
 
 For some developers choosing the right stack for an application may seem like a trivial task; simply follow best practices and choose the most modern well-supported tools out there. 
 
-While this approach will usually lead to a successful outcome, I've found that spending just enough time up-front has lead me to create working products much faster and with less effort.
+While this approach will usually lead to a successful outcome, I've found that spending just enough time up-front has led me to create working products much faster and with less effort.
 
 As a developer, for several years I have underestimated both the importance of choosing the right tools for the job, and how crucial the time spent evaluating them really is. The key is in making informed-enough decisions about how best to achieve your goal, be it another feature, or an entirely new stack.
 
