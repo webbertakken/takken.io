@@ -5,7 +5,7 @@ import CategoryTag from '@/components/pages/Blog/Categories/CategoryTag'
 const BlogCategories = ({ categories, selection, updateSelection }) =>
   categories?.length >= 1 && (
     <div style={{ padding: 32 }}>
-      <span style={{ padding: '2px 12px', fontSize: '80%', opacity: 0.75 }}>Categories:</span>
+      <span style={{ padding: '2px 12px', fontSize: '80%', opacity: 0.75, userSelect: 'none' }}>Categories:</span>
 
       {categories.length >= 3 && (
         <AllCategoriesTag categories={categories} selection={selection} updateSelection={updateSelection} />
