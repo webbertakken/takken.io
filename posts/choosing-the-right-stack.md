@@ -117,7 +117,7 @@ Between JavaScript and TypeScript (a superset of the former) I went with TypeScr
 *   Editor better understands the code, which makes things like autocompletion work much better out of the box
 *   Setting up transpilation and linting is a breeze compared to using Babeljs
 
-The community seems to agree, as a [survey]([https://insights.stackoverflow.com/survey/2020#technology-most-loved-dreaded-and-wanted-languages-loved](https://insights.stackoverflow.com/survey/2020#technology-most-loved-dreaded-and-wanted-languages-loved)) by StackOverflow puts TypeScript among the most loved languages.
+The community seems to agree, as a [survey](https://insights.stackoverflow.com/survey/2020#technology-most-loved-dreaded-and-wanted-languages-loved) by StackOverflow puts TypeScript among the most loved languages.
 
 Python, although capable, was not a great option for the backend because of how useful reusing types between server, client and UI components can be.
 
@@ -193,7 +193,7 @@ Since Vercel has created a ready-to-use action for building and deploying Next.j
 
 ### Outcome
 
-For whoever may be interested; the result of the example case is a template repository called [Simple React App]([https://github.com/webbertakken/simple-react-app](https://github.com/webbertakken/simple-react-app)). The code of Takken.io is based on that and is also [publicly available]([https://github.com/webbertakken/takken.io](https://github.com/webbertakken/takken.io)).
+For whoever may be interested; the result of the example case is a template repository called [Simple React App](https://github.com/webbertakken/simple-react-app). The code of Takken.io is based on that and is also [publicly available](https://github.com/webbertakken/takken.io).
 
 ## Conclusion
 
