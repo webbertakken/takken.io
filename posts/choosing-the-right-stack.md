@@ -193,7 +193,7 @@ Since Vercel has created a ready-to-use action for building and deploying Next.j
 
 ### Outcome
 
-For whoever may be interested; the result of the example case is a template repository called [Simple React App](https://github.com/webbertakken/simple-react-app](https://github.com/webbertakken/simple-react-app). The code of Takken.io is based on that and is also [publicly available](https://github.com/webbertakken/takken.io](https://github.com/webbertakken/takken.io).
+For whoever may be interested; the result of the example case is a template repository called [Simple React App](https://github.com/webbertakken/simple-react-app). The code of Takken.io is based on that and is also [publicly available](https://github.com/webbertakken/takken.io).
 
 ## Conclusion
 
