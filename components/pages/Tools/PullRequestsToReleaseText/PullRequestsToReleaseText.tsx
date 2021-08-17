@@ -35,7 +35,6 @@ const PullRequestsToReleaseText = (props) => {
   const convert = (rawPullRequestsString) => {
     const matcher = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/g
     const grouper = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/
-
     const matches = rawPullRequestsString.match(matcher)
     if (!matches) return setResult('')
 
@@ -49,11 +48,11 @@ const PullRequestsToReleaseText = (props) => {
       if (!title || action === 'closed') continue
 
       const bulletPoint = `- ${number} ${title}`
-      if (title.match(/introduce/i)) {
+      if (title.match(/introduce|feat|feature|docs/i)) {
         changes.push(bulletPoint)
       } else if (title.match(/fix/i)) {
         fixes.push(bulletPoint)
-      } else if (title.match(/refactor|update|bump|Security upgrade/i)) {
+      } else if (title.match(/refactor|update|chore|bump|style|Security upgrade/i)) {
         updates.push(bulletPoint)
       } else {
         changes.push(bulletPoint)
