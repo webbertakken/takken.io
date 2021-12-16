@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@/components/markdown/components/heading'
 import { useCookie } from '@/core/hooks/useCookie'
-
-import styles from './PullRequestsToReleaseText.module.scss'
+import styles from '../Generic/Generic.module.scss'
 import CodeBlock from '@/components/markdown/components/CodeBlock'
 import CodeEditor from '@/components/markdown/components/CodeEditor'
 
@@ -86,17 +85,16 @@ const PullRequestsToReleaseText = (props) => {
 
   return (
     <>
-      <Heading level={1}>Release-text generator</Heading>
       <p>Select and copy the text of all pull requests that have not been released yet.</p>
 
       <div className={styles.flexRow}>
         <div className={styles.flexPanel}>
-          <Heading level={3}>Paste here:</Heading>
+          <Heading level={3}>Paste here</Heading>
           <CodeEditor className={styles.codePanel} onChange={convert} code={exampleCopy} />
         </div>
 
         <div className={styles.flexPanel}>
-          <Heading level={3}>Results:</Heading>
+          <Heading level={3}>Results</Heading>
           <CodeBlock className={styles.codePanel} value={result} />
         </div>
       </div>
