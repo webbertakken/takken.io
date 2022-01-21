@@ -14,6 +14,9 @@ const MainMenu = () => (
     <Link href="/comparisons">
       <a className={styles.link}>Comparisons</a>
     </Link>
+    <Link href="/gists">
+      <a className={styles.link}>Gists</a>
+    </Link>
   </div>
 )
 

@@ -1,10 +1,11 @@
-import React, { CSSProperties, Fragment, useState } from 'react'
+import React, { CSSProperties, Fragment, useMemo, useState } from 'react'
 import Editor from 'react-simple-code-editor'
-import Highlight, { defaultProps } from 'prism-react-renderer'
+import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/dracula'
 import cx from 'classnames'
 
 import classes from './CodeBlockAndEditor.module.scss'
+import { isLanguageSupported } from '@/components/markdown/components/supportedLanguages'
 
 interface OnChangeFn {
   (input: string): void
@@ -14,10 +15,19 @@ interface CodeEditorProps {
   code: string
   className?: string
   onChange?: OnChangeFn
+  language?: string
 }
 
-const CodeEditor = ({ code, className, onChange }: CodeEditorProps) => {
+const defaultLanguage: Language = 'jsx'
+
+const CodeEditor = ({ code, className, onChange, language = defaultLanguage }: CodeEditorProps) => {
   const [value, setValue] = useState<string>(code)
+
+  const usedLanguage = useMemo((): Language => {
+    if (isLanguageSupported(language)) return language as Language
+    if (language === 'yml') return 'yaml'
+    return defaultLanguage
+  }, [language])
 
   const onChangeHandler = (value) => {
     setValue(value)
@@ -25,7 +35,7 @@ const CodeEditor = ({ code, className, onChange }: CodeEditorProps) => {
   }
 
   const highlight = (code) => (
-    <Highlight {...defaultProps} theme={theme} code={code} language="jsx">
+    <Highlight {...defaultProps} theme={theme} code={code} language={usedLanguage}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <Fragment>
           {tokens.map((line, i) => (
