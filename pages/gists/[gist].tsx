@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: StaticProps) =>
 
   return {
     props: { gist },
-    revalidate: 60, // hit backend max once every 3 seconds
+    revalidate: 60, // seconds
   }
 }
 
