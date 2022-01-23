@@ -10,7 +10,10 @@ interface StaticProps {
 export const getStaticProps: GetStaticProps = async ({}: StaticProps) => {
   const gists = await GitHub.getMyGists()
 
-  return { props: { gists } }
+  return {
+    props: { gists },
+    revalidate: 60, // seconds
+  }
 }
 
 export default GistsPage
