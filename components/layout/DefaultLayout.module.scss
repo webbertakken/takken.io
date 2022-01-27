@@ -11,6 +11,7 @@
   width: 100%;
   min-height: 100vh;
   backdrop-filter: blur(8px);
+  padding-left: calc(100vw - 100%);
 
   %section {
     width: 100%;
