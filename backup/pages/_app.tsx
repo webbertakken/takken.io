@@ -11,7 +11,7 @@ import { FirebaseAppProvider } from 'reactfire'
 import config from '@site/src/core/config'
 
 // Styles
-import '../../css/old styles/index.less'
+import '../../src/css/old styles/index.less'
 
 // Global instances
 const store = configureStore({ reducer })

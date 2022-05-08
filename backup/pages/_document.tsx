@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import MetaTags from '../../components/meta/MetaTags'
-import MetaIcons from '../../components/meta/MetaIcons'
+import MetaTags from '../../src/components/meta/MetaTags'
+import MetaIcons from '../../src/components/meta/MetaIcons'
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
