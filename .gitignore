@@ -9,10 +9,6 @@ serviceAccount.json
 # Firebase
 /.firebase
 
-# Service worker
-public/service-worker.js*
-public/workbox-*.js*
-
 # dependencies
 /node_modules
 /.pnp
@@ -21,14 +17,12 @@ public/workbox-*.js*
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# production
+# Production
 /build
 
-# misc
+# Generated files
+.docusaurus
+.cache-loader
 .DS_Store
 *.pem
 
