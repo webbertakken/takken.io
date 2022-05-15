@@ -35,10 +35,6 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        gtag: {
-          trackingID: 'G-226F0LR9KE',
-          anonymizeIP: true,
-        },
         docs: {
           path: 'notes',
           sidebarPath: require.resolve('./sidebars.js'),
@@ -57,6 +53,15 @@ const config = {
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        gtag: {
+          trackingID: 'G-226F0LR9KE',
+          anonymizeIP: true,
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: ['/tags/**'],
         },
       }),
     ],
