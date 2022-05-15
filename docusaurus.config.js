@@ -30,6 +30,13 @@ const config = {
   plugins: [
     ['docusaurus-plugin-sass', {}],
     [
+      'docusaurus-gtm-plugin',
+      {
+        id: 'GTM-T4M9CW8',
+        enabled: true,
+      },
+    ],
+    [
       '@docusaurus/plugin-ideal-image',
       {
         quality: 70,
@@ -91,10 +98,6 @@ const config = {
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
-        },
-        gtag: {
-          trackingID: 'G-226F0LR9KE',
-          anonymizeIP: true,
         },
         sitemap: {
           changefreq: 'weekly',
