@@ -1,9 +1,7 @@
 import React from 'react'
 import DefaultLayout from '@site/src/components/layout/DefaultLayout'
 import styles from '@site/src/components/pages/Blog/Posts/BlogPosts.module.scss'
-
-import { Empty } from 'antd'
-import { Gists } from '@site/src/core/services/GitHub'
+import { Gists } from '@site/src/core/service/GitHub'
 
 interface Props {
   gists: Gists

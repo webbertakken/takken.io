@@ -5,16 +5,16 @@ import styles from './MainMenu.module.scss'
 const MainMenu = () => (
   <div>
     <a href="/blog">
-      <a className={styles.link}>Blog</a>
+      <span className={styles.link}>Blog</span>
     </a>
     <a href="/tools">
-      <a className={styles.link}>Tools</a>
+      <span className={styles.link}>Tools</span>
     </a>
     <a href="/comparisons">
-      <a className={styles.link}>Comparisons</a>
+      <span className={styles.link}>Comparisons</span>
     </a>
     <a href="/gists">
-      <a className={styles.link}>Gists</a>
+      <span className={styles.link}>Gists</span>
     </a>
   </div>
 )

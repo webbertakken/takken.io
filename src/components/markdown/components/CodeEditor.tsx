@@ -20,7 +20,12 @@ interface CodeEditorProps {
 
 const defaultLanguage: Language = 'jsx'
 
-const CodeEditor = ({ code, className, onChange, language = defaultLanguage }: CodeEditorProps) => {
+const CodeEditor = ({
+  code = '',
+  className,
+  onChange,
+  language = defaultLanguage,
+}: CodeEditorProps) => {
   const [value, setValue] = useState<string>(code)
 
   const usedLanguage = useMemo((): Language => {

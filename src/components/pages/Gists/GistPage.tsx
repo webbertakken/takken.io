@@ -1,10 +1,10 @@
 import React from 'react'
 import DefaultLayout from '@site/src/components/layout/DefaultLayout'
-import { Gist } from '@site/src/core/services/GitHub'
 import CodeEditor from '@site/src/components/markdown/components/CodeEditor'
 import { Language } from 'prism-react-renderer'
 import { isLanguageSupported } from '@site/src/components/markdown/components/supportedLanguages'
 import { slugify } from '@site/src/core/utils/slugify'
+import { Gist } from '@site/src/core/service/GitHub'
 
 interface Props {
   gist: Gist
@@ -32,17 +32,27 @@ const GistPage = ({ gist }: Props) => {
         const { language } = file
 
         return (
-          <>
+          <div key={file.filename}>
             {index === 0 ? <h1>{file.filename}</h1> : <h2>{file.filename}</h2>}
 
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: '1em' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingTop: '1em',
+              }}
+            >
               <sup>Created on {createdDate}</sup>
               <sup>Last updated on {updatedDate}</sup>
             </div>
 
-            <CodeEditor code={file.content} language={mapGitHubLanguageToSupportedLanguage(language)} />
+            <CodeEditor
+              code={file.content}
+              language={mapGitHubLanguageToSupportedLanguage(language)}
+            />
             <div style={{ paddingBottom: '1em' }} />
-          </>
+          </div>
         )
       })}
     </DefaultLayout>
