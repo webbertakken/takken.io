@@ -193,18 +193,18 @@ const config = {
       },
       algolia: {
         // The application ID provided by Algolia
-        appId: 'D7O7VEQQIV',
+        appId: '4WBSGCFS9Z',
 
         // Public API key: it is safe to commit it
-        apiKey: '98d3cabea3c965994573b8f7f6e8254f',
+        apiKey: 'dc151c43e2380f4740f1bb41b8191e51',
 
-        indexName: 'main',
+        indexName: 'takken',
 
         // Optional: see doc section below
         contextualSearch: true,
 
         // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
-        externalUrlRegex: 'github\\.com|game\\.ci',
+        // externalUrlRegex: 'github\\.com|game\\.ci',
 
         // Optional: Algolia search parameters
         searchParameters: {},
