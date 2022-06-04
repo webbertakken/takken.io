@@ -1,8 +1,10 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+require('dotenv').config()
+
+const lightCodeTheme = require('prism-react-renderer/themes/github')
+const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -30,6 +32,14 @@ const config = {
   plugins: [
     ['docusaurus-plugin-sass', {}],
     [
+      'docusaurus-plugin-content-gists',
+      {
+        enabled: true,
+        verbose: true,
+        personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+      },
+    ],
+    [
       'docusaurus-gtm-plugin',
       {
         id: 'GTM-T4M9CW8',
@@ -50,11 +60,7 @@ const config = {
       '@docusaurus/plugin-pwa',
       {
         debug: true,
-        offlineModeActivationStrategies: [
-          'appInstalled',
-          'standalone',
-          'queryString',
-        ],
+        offlineModeActivationStrategies: ['appInstalled', 'standalone', 'queryString'],
         pwaHead: [
           {
             tagName: 'link',
@@ -85,16 +91,14 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/webbertakken/takken.io/tree/main/',
+          editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
         },
         blog: {
           routeBasePath: '/',
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/webbertakken/takken.io/tree/main/',
+          editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -118,8 +122,8 @@ const config = {
           src: 'images/logo.svg',
         },
         items: [
-
-          {to: '/', label: 'Blog', position: 'left'},
+          { to: '/', label: 'Blog', position: 'left' },
+          { to: '/gists', label: 'Gists', position: 'left' },
           // {
           //   type: 'doc',
           //   docId: 'intro',
@@ -215,6 +219,6 @@ const config = {
         //... other Algolia params
       },
     }),
-};
+}
 
-module.exports = config;
+module.exports = config

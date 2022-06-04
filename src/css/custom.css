@@ -75,7 +75,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
 
+.main-wrapper {
   /* fix layout shift when navigating */
-  overflow-y: scroll !important;
+  padding-left: calc(100vw - 100%);
 }
