@@ -1,6 +1,8 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
+require('dotenv').config()
+
 const lightCodeTheme = require('prism-react-renderer/themes/github')
 const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 
@@ -32,8 +34,9 @@ const config = {
     [
       'docusaurus-plugin-content-gists',
       {
-        // Requires: GITHUB_PERSONAL_ACCESS_TOKEN
         enabled: true,
+        verbose: true,
+        personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
       },
     ],
     [
