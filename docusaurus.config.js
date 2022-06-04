@@ -123,6 +123,7 @@ const config = {
         },
         items: [
           { to: '/', label: 'Blog', position: 'left' },
+          { to: '/gists', label: 'Gists', position: 'left' },
           // {
           //   type: 'doc',
           //   docId: 'intro',
