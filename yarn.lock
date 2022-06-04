@@ -2339,7 +2339,7 @@
   dependencies:
     loader-utils "^2.0.0"
 
-"@docusaurus/theme-classic@2.0.0-beta.21":
+"@docusaurus/theme-classic@2.0.0-beta.21", "@docusaurus/theme-classic@^2.0.0-beta.21":
   version "2.0.0-beta.21"
   resolved "https://registry.yarnpkg.com/@docusaurus/theme-classic/-/theme-classic-2.0.0-beta.21.tgz#6df5b9ea2d389dafb6f59badeabb3eda060b5017"
   integrity sha512-Ge0WNdTefD0VDQfaIMRRWa8tWMG9+8/OlBRd5MK88/TZfqdBq7b/gnCSaalQlvZwwkj6notkKhHx72+MKwWUJA==
@@ -2431,7 +2431,7 @@
   dependencies:
     tslib "^2.4.0"
 
-"@docusaurus/utils-validation@2.0.0-beta.21":
+"@docusaurus/utils-validation@2.0.0-beta.21", "@docusaurus/utils-validation@^2.0.0-beta.21":
   version "2.0.0-beta.21"
   resolved "https://registry.yarnpkg.com/@docusaurus/utils-validation/-/utils-validation-2.0.0-beta.21.tgz#10169661be5f8a233f4c12202ee5802ccb77400f"
   integrity sha512-6NG1FHTRjv1MFzqW//292z7uCs77vntpWEbZBHk3n67aB1HoMn5SOwjLPtRDjbCgn6HCHFmdiJr6euCbjhYolg==
@@ -4816,6 +4816,19 @@ docusaurus-gtm-plugin@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/docusaurus-gtm-plugin/-/docusaurus-gtm-plugin-0.0.2.tgz#f39864b54ca594e3281902c23b6df0763761602b"
   integrity sha512-Xx/df0Ppd5SultlzUj9qlQk2lX9mNVfTb41juyBUPZ1Nc/5dNx+uN0VuLyF4JEObkDRrUY1EFo9fEUDo8I6QOQ==
+
+docusaurus-plugin-content-gists@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-content-gists/-/docusaurus-plugin-content-gists-0.0.1.tgz#97d8db9e08fb5f55286ae393f212f31f699b1363"
+  integrity sha512-V5YBu4dCO3DzNfWvkpGFaLtHbsVy1XUjmIBKCctz6U5POZcyvYUZkGkQ2bJq7BC8M4Ke3gZpXFvBGsHRk+MRQw==
+  dependencies:
+    "@docusaurus/core" "2.0.0-beta.21"
+    "@docusaurus/theme-classic" "^2.0.0-beta.21"
+    "@docusaurus/theme-common" "2.0.0-beta.21"
+    "@docusaurus/theme-translations" "2.0.0-beta.21"
+    "@docusaurus/types" "2.0.0-beta.21"
+    "@docusaurus/utils-validation" "^2.0.0-beta.21"
+    octokit "^1.7.1"
 
 docusaurus-plugin-sass@^0.2.2:
   version "0.2.2"
