@@ -4195,10 +4195,10 @@ docusaurus-gtm-plugin@^0.0.2:
   resolved "https://registry.yarnpkg.com/docusaurus-gtm-plugin/-/docusaurus-gtm-plugin-0.0.2.tgz#f39864b54ca594e3281902c23b6df0763761602b"
   integrity sha512-Xx/df0Ppd5SultlzUj9qlQk2lX9mNVfTb41juyBUPZ1Nc/5dNx+uN0VuLyF4JEObkDRrUY1EFo9fEUDo8I6QOQ==
 
-docusaurus-plugin-content-gists@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/docusaurus-plugin-content-gists/-/docusaurus-plugin-content-gists-0.1.0.tgz#e32d0d581ea51703c893be3533d49ebf0294d03f"
-  integrity sha512-Ig5SdBxHpfH8kd9ZNqQ1Q/u4Gke+101r8N+wAvuW1bbEjCNkbeY4bPPdlcgT6U291udyvAwTGtE4k7Q+ykdccA==
+docusaurus-plugin-content-gists@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-content-gists/-/docusaurus-plugin-content-gists-0.1.1.tgz#9e61476354dd3228313d6c50600ea76ff8002ab8"
+  integrity sha512-1Qu7QD4gqhPnW+1vHLVlJvbXo2ykn1LmXgxWOif/MT4FnA1tb9Wsukj9UVNOsEF2aRjYdS0JqHVSPiUzRMdgLQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.21"
     "@docusaurus/theme-classic" "^2.0.0-beta.21"
