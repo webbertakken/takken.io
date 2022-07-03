@@ -7,10 +7,10 @@
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: rgba(255, 0, 119, 1);
-  --ifm-color-primary-dark: rgba(255, 0, 119, .9);
-  --ifm-color-primary-darker: rgba(255, 0, 119, .85);
-  --ifm-color-primary-darkest: rgba(255, 0, 119, .8);
-  --ifm-color-primary-light: rgba(255, 125, 179, .85);
+  --ifm-color-primary-dark: rgba(255, 0, 119, 0.9);
+  --ifm-color-primary-darker: rgba(255, 0, 119, 0.85);
+  --ifm-color-primary-darkest: rgba(255, 0, 119, 0.8);
+  --ifm-color-primary-light: rgba(255, 125, 179, 0.85);
   --ifm-color-primary-lighter: rgba(248, 151, 189, 0.85);
   --ifm-color-primary-lightest: rgba(255, 171, 209, 0.85);
   --ifm-code-font-size: 95%;
@@ -20,10 +20,10 @@
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
   --ifm-color-primary: rgba(255, 54, 136, 1);
-  --ifm-color-primary-dark: rgba(255, 54, 136, .9);
-  --ifm-color-primary-darker: rgba(255, 54, 136, .85);
-  --ifm-color-primary-darkest: rgba(255, 54, 136, .8);
-  --ifm-color-primary-light: rgba(255, 125, 179, .85);
+  --ifm-color-primary-dark: rgba(255, 54, 136, 0.9);
+  --ifm-color-primary-darker: rgba(255, 54, 136, 0.85);
+  --ifm-color-primary-darkest: rgba(255, 54, 136, 0.8);
+  --ifm-color-primary-light: rgba(255, 125, 179, 0.85);
   --ifm-color-primary-lighter: rgba(248, 151, 189, 0.85);
   --ifm-color-primary-lightest: rgba(255, 171, 209, 0.85);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
@@ -77,7 +77,9 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.main-wrapper {
-  /* fix layout shift when navigating */
-  padding-left: calc(100vw - 100%);
+/* fix layout shift when navigating */
+@media (min-width: 768px) {
+  .main-wrapper {
+    padding-left: calc(100vw - 100%);
+  }
 }
