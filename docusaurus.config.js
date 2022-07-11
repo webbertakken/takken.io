@@ -40,6 +40,14 @@ const config = {
       },
     ],
     [
+      'docusaurus-plugin-content-tools',
+      {
+        enabled: true,
+        verbose: true,
+        toolsFolder: '@site/src/components/pages/Tools',
+      },
+    ],
+    [
       'docusaurus-gtm-plugin',
       {
         id: 'GTM-T4M9CW8',
@@ -123,6 +131,7 @@ const config = {
         },
         items: [
           { to: '/', label: 'Blog', position: 'left' },
+          { to: '/tools', label: 'Tools', position: 'left' },
           { to: '/gists', label: 'Gists', position: 'left' },
           // {
           //   type: 'doc',

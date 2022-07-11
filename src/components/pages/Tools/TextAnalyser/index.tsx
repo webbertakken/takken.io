@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@site/src/components/markdown/components/heading'
 import CodeEditor from '@site/src/components/markdown/components/CodeEditor'
-import styles from '../Generic/Generic.module.scss'
+import styles from '../Tools.module.scss'
 import { Base64 } from '@site/src/core/utils/base64'
 import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
 import CodeBlock from '@site/src/components/markdown/components/CodeBlock'
+// @ts-ignore
+import ToolPage from '@theme/ToolPage'
 
 const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!
 
@@ -57,7 +59,7 @@ const TextAnalyser = ({}: Props): JSX.Element => {
   useEffect(() => analyse(exampleCopy), [])
 
   return (
-    <>
+    <ToolPage title="Text analyser">
       <p>Paste any text and lets see what we can find out about it. text here.</p>
 
       <div className={styles.flexRow}>
@@ -97,7 +99,7 @@ const TextAnalyser = ({}: Props): JSX.Element => {
           </ul>
         </div>
       </div>
-    </>
+    </ToolPage>
   )
 }
 

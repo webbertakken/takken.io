@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@site/src/components/markdown/components/heading'
 import { useCookie } from '@site/src/core/hooks/useCookie'
-import styles from '../Generic/Generic.module.scss'
+import styles from '../Tools.module.scss'
 import CodeBlock from '@site/src/components/markdown/components/CodeBlock'
 import CodeEditor from '@site/src/components/markdown/components/CodeEditor'
+// @ts-ignore
+import ToolPage from '@theme/ToolPage'
 
 const exampleCopy = `Run license activation in an empty directory
 #109 by txema-martinez-scopely was merged 3 hours ago 3 of 3
@@ -29,11 +31,15 @@ Create versioning.yml
 const PullRequestsToReleaseText = (props) => {
   const cookie = useCookie('release-text-generator-excluded-contributors', { expires: 10 * 365 })
   const [result, setResult] = useState<string>('')
-  const [excludedContributors, setExcludedContributors] = useState<string[]>(cookie.getValue() || [])
+  const [excludedContributors, setExcludedContributors] = useState<string[]>(
+    cookie.getValue() || [],
+  )
 
   const convert = (rawPullRequestsString) => {
-    const matcher = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/g
-    const grouper = /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/
+    const matcher =
+      /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/g
+    const grouper =
+      /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/
     const matches = rawPullRequestsString.match(matcher)
     if (!matches) return setResult('')
 
@@ -84,7 +90,7 @@ const PullRequestsToReleaseText = (props) => {
   useEffect(() => convert(exampleCopy), [])
 
   return (
-    <>
+    <ToolPage title="Release text generator">
       <p>Select and copy the text of all pull requests that have not been released yet.</p>
 
       <div className={styles.flexRow}>
@@ -98,7 +104,7 @@ const PullRequestsToReleaseText = (props) => {
           <CodeBlock className={styles.codePanel} value={result} />
         </div>
       </div>
-    </>
+    </ToolPage>
   )
 }
 
