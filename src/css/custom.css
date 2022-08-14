@@ -6,27 +6,36 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: rgba(255, 0, 119, 1);
-  --ifm-color-primary-dark: rgba(255, 0, 119, 0.9);
-  --ifm-color-primary-darker: rgba(255, 0, 119, 0.85);
-  --ifm-color-primary-darkest: rgba(255, 0, 119, 0.8);
-  --ifm-color-primary-light: rgba(255, 125, 179, 0.85);
-  --ifm-color-primary-lighter: rgba(248, 151, 189, 0.85);
-  --ifm-color-primary-lightest: rgba(255, 171, 209, 0.85);
+  --ifm-color-primary: #e6006b;
+  --ifm-color-primary-dark: #cf0060;
+  --ifm-color-primary-darker: #c4005b;
+  --ifm-color-primary-darkest: #a1004b;
+  --ifm-color-primary-light: #fd0076;
+  --ifm-color-primary-lighter: #ff0a7c;
+  --ifm-color-primary-lightest: #ff2c8e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-background-color: rgba(255, 255, 255, 1);
+  --ifm-background-surface-color: rgba(255, 255, 255, 1);
+  --code-block-background: rgba(246 248 250, 1);
+  --ifm-color-content: rgba(28 30 33, 1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: rgba(255, 54, 136, 1);
-  --ifm-color-primary-dark: rgba(255, 54, 136, 0.9);
-  --ifm-color-primary-darker: rgba(255, 54, 136, 0.85);
-  --ifm-color-primary-darkest: rgba(255, 54, 136, 0.8);
-  --ifm-color-primary-light: rgba(255, 125, 179, 0.85);
-  --ifm-color-primary-lighter: rgba(248, 151, 189, 0.85);
-  --ifm-color-primary-lightest: rgba(255, 171, 209, 0.85);
+  --ifm-color-primary: #ff3688;
+  --ifm-color-primary-dark: #ff1776;
+  --ifm-color-primary-darker: #ff086d;
+  --ifm-color-primary-darkest: #d80058;
+  --ifm-color-primary-light: #ff559a;
+  --ifm-color-primary-lighter: #ff64a3;
+  --ifm-color-primary-lightest: #ff93bf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-color: rgba(27, 27, 29, 1);
+  --ifm-background-surface-color: rgba(36, 37, 38, 1);
+  --code-block-background: rgba(40 42 54, 1);
+  --ifm-color-content: rgba(227 227 227, 1);
+
 }
 
 /* Search */
