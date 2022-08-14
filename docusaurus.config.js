@@ -128,6 +128,8 @@ const config = {
         logo: {
           alt: 'Takken.io',
           src: 'images/logo.svg',
+          width: 32,
+          height: 32,
         },
         items: [
           { to: '/', label: 'Blog', position: 'left' },
