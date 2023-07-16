@@ -4,13 +4,13 @@
 
 #### Code of Conduct
 
-This repository has adopted the Contributor Covenant as it's Code of Conduct. It is expected that participants adhere to
-it.
+This repository has adopted the Contributor Covenant as it's Code of Conduct. It is expected that
+participants adhere to it.
 
 #### Proposing a Change
 
-If you are unsure about whether or not a change is desired, you can create an issue. This is useful because it creates
-the possibility for a discussion that's visible to everyone.
+If you are unsure about whether or not a change is desired, you can create an issue. This is useful
+because it creates the possibility for a discussion that's visible to everyone.
 
 When fixing a bug it is fine to submit a pull request right away.
 
@@ -25,7 +25,8 @@ Steps to be performed to submit a pull request:
 
 #### Pull Request Prerequisites
 
-You use Volta to manage your Node version. (See [DEVELOPMENT.md](./DEVELOPMENT.md) for more information)
+You use Volta to manage your Node version. (See [DEVELOPMENT.md](./DEVELOPMENT.md) for more
+information)
 
 Please note that commit hooks will run automatically to perform some tasks;
 
@@ -36,8 +37,10 @@ Please note that commit hooks will run automatically to perform some tasks;
 #### Windows users
 
 Make sure your editor and terminal that run the tests are set to `Powershell 7` or above with
-`Git's Unix tools for Windows` installed. Some tests require you to be able to run `sh` and other unix commands.
+`Git's Unix tools for Windows` installed. Some tests require you to be able to run `sh` and other
+unix commands.
 
 #### License
 
-By contributing to this repository, you agree that your contributions will be licensed under its MIT license.
+By contributing to this repository, you agree that your contributions will be licensed under its MIT
+license.

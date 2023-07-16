@@ -2,7 +2,8 @@
 
 ## Prerequisites
 
-- Volta (a lightweight zero-config tool manager, [installation](https://docs.volta.sh/guide/getting-started#installation))
+- Volta (a lightweight zero-config tool manager,
+  [installation](https://docs.volta.sh/guide/getting-started#installation))
 
 ## Setup
 

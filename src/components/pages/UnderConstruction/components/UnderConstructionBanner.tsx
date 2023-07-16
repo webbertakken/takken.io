@@ -5,7 +5,9 @@ import styles from './UnderConstructionBanner.module.scss'
 const UnderConstructionBanner = () => (
   <div className={styles.banner}>
     <div className={styles.text}>
-      Takken.io<br />👷‍♂️🏗
+      Takken.io
+      <br />
+      👷‍♂️🏗
     </div>
   </div>
 )

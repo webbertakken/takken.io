@@ -9,12 +9,12 @@ $frame-background-color: #182c3b !default;
 $frame-border-color-bright: #cf6adb !default;
 $frame-border-color-dark: #5585c8 !default;
 $frame-border-size: 2.5vw !default;
-$layout-transition-speed: .25s !default;
+$layout-transition-speed: 0.25s !default;
 
 // Core-ui specific defaults
 $navbar-height: 55px !default;
-$aside-menu-nav-padding-y: .75rem !default;
-$font-size-base: .875rem !default;
+$aside-menu-nav-padding-y: 0.75rem !default;
+$font-size-base: 0.875rem !default;
 
 // Placeholders
 %frame-border {
@@ -28,9 +28,15 @@ $font-size-base: .875rem !default;
 
   // Animation
   @keyframes fadeInFadeOut {
-    0% { opacity: 0 }
-    50% { opacity: 1 }
-    100% { opacity: 0 }
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 
   .vh-100:not(body),
@@ -54,7 +60,7 @@ $font-size-base: .875rem !default;
 
     &::before,
     &::after {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       width: 100%;
@@ -72,7 +78,9 @@ $font-size-base: .875rem !default;
       animation: fadeInFadeOut $frame-animation-time ease-in-out infinite;
 
       // Adapt margin to all screen sizes, keep border easing
-      transition: border $layout-transition-speed ease-in-out, margin $layout-transition-speed ease-in-out;
+      transition:
+        border $layout-transition-speed ease-in-out,
+        margin $layout-transition-speed ease-in-out;
       margin: -$frame-border-size;
     }
 
@@ -122,7 +130,9 @@ $font-size-base: .875rem !default;
   #layout.frame {
     .app-header {
       will-change: width, flex;
-      transition: width $layout-transition-speed, flex $layout-transition-speed;
+      transition:
+        width $layout-transition-speed,
+        flex $layout-transition-speed;
       width: calc(100% - #{2 * $frame-border-size});
     }
   }
@@ -134,8 +144,11 @@ $font-size-base: .875rem !default;
   #layout.frame {
     .sidebar {
       will-change: height, width, margin-left;
-      transition: height $layout-transition-speed, width $layout-transition-speed, margin-left $layout-transition-speed;
-      height: calc(100vh - #{2 * $frame-border-size} - #{$navbar-height} + .5px);
+      transition:
+        height $layout-transition-speed,
+        width $layout-transition-speed,
+        margin-left $layout-transition-speed;
+      height: calc(100vh - #{2 * $frame-border-size} - #{$navbar-height} + 0.5px);
     }
   }
 }
@@ -144,42 +157,57 @@ $font-size-base: .875rem !default;
 .aside-menu-fixed {
   #layout.frame .aside-menu {
     will-change: height, right, margin-right;
-    transition: height $layout-transition-speed, right $layout-transition-speed, margin-right $layout-transition-speed;
-    height: calc(100vh - #{2 * $frame-border-size} - #{$navbar-height} + .5px);
+    transition:
+      height $layout-transition-speed,
+      right $layout-transition-speed,
+      margin-right $layout-transition-speed;
+    height: calc(100vh - #{2 * $frame-border-size} - #{$navbar-height} + 0.5px);
 
     // Tab content within Aside menu
     .tab-content {
       will-change: height;
       transition: height $layout-transition-speed;
-      height: calc(100vh - #{2 * $frame-border-size} - #{$navbar-height} - #{$aside-menu-nav-padding-y * 2 + $font-size-base} + .5px);
+      height: calc(
+        100vh - #{2 * $frame-border-size} - #{$navbar-height} - #{$aside-menu-nav-padding-y * 2 +
+          $font-size-base} + 0.5px
+      );
     }
   }
 }
 
 // Aside menu
 html {
-  &:not([dir="rtl"]) {
+  &:not([dir='rtl']) {
     .aside-menu-fixed #layout.frame .aside-menu,
     .aside-menu-off-canvas #layout.frame .aside-menu {
       will-change: height, right, margin-right;
-      transition: height $layout-transition-speed, right $layout-transition-speed, margin-right $layout-transition-speed;
+      transition:
+        height $layout-transition-speed,
+        right $layout-transition-speed,
+        margin-right $layout-transition-speed;
       right: $frame-border-size;
     }
   }
 
-  &[dir="rtl"] {
+  &[dir='rtl'] {
     // Aside Menu in reversed direction
     .aside-menu-fixed #layout.frame .aside-menu,
     .aside-menu-off-canvas #layout.frame .aside-menu {
       will-change: height, left, margin-left;
-      transition: height $layout-transition-speed, left $layout-transition-speed, margin-left $layout-transition-speed;
+      transition:
+        height $layout-transition-speed,
+        left $layout-transition-speed,
+        margin-left $layout-transition-speed;
       left: $frame-border-size;
     }
 
     // Sidebar in reversed direction
     .sidebar-fixed #layout.frame .sidebar {
       will-change: height, right, margin-right;
-      transition: height $layout-transition-speed, right $layout-transition-speed, margin-right $layout-transition-speed;
+      transition:
+        height $layout-transition-speed,
+        right $layout-transition-speed,
+        margin-right $layout-transition-speed;
       right: $frame-border-size;
     }
   }
@@ -190,7 +218,13 @@ html {
   #layout.frame {
     .breadcrumb {
       will-change: top, right, margin-right, left, margin-left, width;
-      transition: top $layout-transition-speed, right $layout-transition-speed, margin-right $layout-transition-speed, left $layout-transition-speed, margin-left $layout-transition-speed, width $layout-transition-speed;
+      transition:
+        top $layout-transition-speed,
+        right $layout-transition-speed,
+        margin-right $layout-transition-speed,
+        left $layout-transition-speed,
+        margin-left $layout-transition-speed,
+        width $layout-transition-speed;
       top: calc(#{$navbar-height} + #{$frame-border-size});
       margin-right: $frame-border-size;
       margin-left: $frame-border-size;
@@ -203,7 +237,13 @@ html {
   #layout.frame {
     .app-footer {
       will-change: bottom, right, margin-right, left, margin-left, width;
-      transition: bottom $layout-transition-speed, right $layout-transition-speed, margin-right $layout-transition-speed, left $layout-transition-speed, margin-left $layout-transition-speed, width $layout-transition-speed;
+      transition:
+        bottom $layout-transition-speed,
+        right $layout-transition-speed,
+        margin-right $layout-transition-speed,
+        left $layout-transition-speed,
+        margin-left $layout-transition-speed,
+        width $layout-transition-speed;
       bottom: $frame-border-size;
       right: $frame-border-size;
       left: $frame-border-size;
