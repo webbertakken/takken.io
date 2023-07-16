@@ -14,6 +14,8 @@ serviceAccount.json
 **/node_modules
 /.pnp
 .pnp.js
+.yarn/*
+!.yarn/releases
 
 # testing
 /coverage
