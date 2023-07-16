@@ -15,10 +15,16 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "lint": "eslint . --ext .js,.ts,.tsx,mts",
+    "lint": "eslint . --ext .js,.ts,.tsx,.mts --max-warnings 0",
     "format": "prettier --write .",
     "fix": "yarn format && yarn lint --fix",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.@(ts|tsx|mts)": "bash -c 'tsc --skipLibCheck --noEmit'",
+    "*.@(ts|tsx|mts|js|jsx|mjs)": "eslint --max-warnings 0",
+    "*.@(ts|tsx|mts|js|jsx|mjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write"
   },
   "dependencies": {
     "@docusaurus/core": "^2.4.1",
@@ -47,6 +53,8 @@
     "@tsconfig/docusaurus": "^2.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
+    "husky": "=8.0.3",
+    "lint-staged": "=13.2.1",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "vitest": "^0.33.0"

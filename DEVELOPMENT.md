@@ -1,46 +1,54 @@
+# Development
+
+## Prerequisites
+
+- Volta (a lightweight zero-config tool manager, [installation](https://docs.volta.sh/guide/getting-started#installation))
+
 ## Setup
 
-#### Prerequisites
+### Install dependencies
 
-- Create a Firebase project
-- Enable Google Authentication method
-- Copy `.env.local.example` to `.env.local`
+```shell
+yarn
+```
 
-#### Admin
+### Environment variables
 
-- In Firebase generate a private key under `Project settings` > `Service accounts`.
-- Rename the resulting file to `serviceAccount.json`, and place it in the project root (gitignored).
+Create a `.env` file in the root of the project using the following command
 
-#### FirebaseApp
+```shell
+cp .env.dist .env
+```
 
-- In Firebase under `Project settings` > `General` create a web application if you haven't done so already.
-- Copy the `Config` version of the `Firebase SDK snippet` and paste it in `core/config.ts` under the `firebase` key.
+Now fill the `.env` file with the correct values.
 
-#### Database
+## Develop
 
-- Enable Firestore in your Firebase project
-- Adjust the database url to reflect your project/database id
+```shell
+yarn dev
+```
+
+## Test
+
+```shell
+yarn coverage
+```
 
 ## Deploy
 
-Automated by Vercel-GitHub integration (with default settings)
+Merge a PR for it to be deployed to production
 
-Try it yourself:
+## Upgrading tools
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/webbertakken/simple-react-app)
+Upgrade Node
 
-## Customise
+```shell
+volta pin node@lts
+```
 
-#### Icons part 1
+Upgrade Yarn
 
-- Generate the required formats at [https://www.favicon-generator.org/](https://www.favicon-generator.org/)
-- Copy everything **except** `browserconfig.xml` and `manifest.json` to `images/icons` and overwrite all files.
-
-#### Icons part 2
-
-- Generate a manifest file and more icons at [https://manifest-gen.netlify.app/](https://manifest-gen.netlify.app/)
-- Place the resulting `manifest.json` and `images` folder in `/public` (overwrite existing folders and files)
-
-#### Meta information
-
-- Change the variables in `core/config.ts`
+```shell
+yarn set version stable
+volta pin yarn
+```
