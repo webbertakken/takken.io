@@ -5,7 +5,9 @@ import cx from 'classnames'
 
 import styles from './CodeBlockAndEditor.module.scss'
 
-const Container = ({ className, ...props }) => <pre {...props} className={cx(className, styles.container)} />
+const Container = ({ className, ...props }) => (
+  <pre {...props} className={cx(className, styles.container)} />
+)
 const Line = ({ className, ...props }) => <div {...props} className={cx(className, styles.line)} />
 const LineNumber = (props) => <span {...props} className={styles.number} />
 const LineContent = (props) => <span {...props} className={styles.content} />
@@ -53,7 +55,7 @@ const CodeBlock = ({ value, language, className }: CodeBlockProps) => {
   // Match language and optionally highlights
   const meta = language.match(/(?<lang>\w+)(?<highlightString>{[\d-,]+})?/)?.groups
   const { lang, highlightString } = meta || {}
-  let highlights = highlightString ? getRangeFromString(highlightString) : []
+  const highlights = highlightString ? getRangeFromString(highlightString) : []
 
   return (
     <Highlight {...defaultProps} theme={theme} code={value} language={lang as Language}>

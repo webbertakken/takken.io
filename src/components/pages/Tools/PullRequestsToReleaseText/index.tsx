@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Heading from '@site/src/components/markdown/components/heading'
+import Heading from '@site/src/components/common/heading'
 import { useCookie } from '@site/src/core/hooks/useCookie'
 import styles from '../Tools.module.scss'
-import CodeBlock from '@site/src/components/markdown/components/CodeBlock'
-import CodeEditor from '@site/src/components/markdown/components/CodeEditor'
-// @ts-ignore
+import CodeBlock from '@site/src/components/common/CodeBlock'
+import CodeEditor from '@site/src/components/common/CodeEditor'
+
+// @ts-expect-error missing types
 import ToolPage from '@theme/ToolPage'
 
 const exampleCopy = `Run license activation in an empty directory
@@ -28,12 +29,10 @@ Create versioning.yml
 #100 by davidmfinol was merged 22 days ago 3 of 3
 `
 
-const PullRequestsToReleaseText = (props) => {
+const PullRequestsToReleaseText = () => {
   const cookie = useCookie('release-text-generator-excluded-contributors', { expires: 10 * 365 })
   const [result, setResult] = useState<string>('')
-  const [excludedContributors, setExcludedContributors] = useState<string[]>(
-    cookie.getValue() || [],
-  )
+  const [excludedContributors] = useState<string[]>(cookie.getValue() || [])
 
   const convert = (rawPullRequestsString) => {
     const matcher =
@@ -48,7 +47,7 @@ const PullRequestsToReleaseText = (props) => {
     const updates = []
     const credits = []
     for (const pullRequest of matches) {
-      const { title, number, contributor, action, when } = pullRequest.match(grouper).groups
+      const { title, number, contributor, action } = pullRequest.match(grouper).groups
 
       if (!title || action === 'closed') continue
 

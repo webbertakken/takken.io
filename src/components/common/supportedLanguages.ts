@@ -35,4 +35,5 @@ export const supportedLanguages: readonly Language[] = [
   'yaml',
 ] as const
 
-export const isLanguageSupported = (language: string): boolean => supportedLanguages.includes(language as Language)
+export const isLanguageSupported = (language: string): boolean =>
+  supportedLanguages.includes(language as Language)

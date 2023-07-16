@@ -5,7 +5,7 @@ import theme from 'prism-react-renderer/themes/dracula'
 import cx from 'classnames'
 
 import classes from './CodeBlockAndEditor.module.scss'
-import { isLanguageSupported } from '@site/src/components/markdown/components/supportedLanguages'
+import { isLanguageSupported } from '@site/src/components/common/supportedLanguages'
 
 interface OnChangeFn {
   (input: string): void
@@ -41,7 +41,7 @@ const CodeEditor = ({
 
   const highlight = (code) => (
     <Highlight {...defaultProps} theme={theme} code={code} language={usedLanguage}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      {({ tokens, getLineProps, getTokenProps }) => (
         <Fragment>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>

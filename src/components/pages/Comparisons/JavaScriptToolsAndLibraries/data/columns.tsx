@@ -1,6 +1,3 @@
-import { Tag } from 'antd'
-import { GoLinkExternal } from 'react-icons/all'
-
 export const columns = [
   {
     title: 'Purpose',
@@ -35,12 +32,10 @@ export const columns = [
       return reasons.map((reason) => {
         return reason.url ? (
           <a target="_blank" href={reason.url}>
-            <Tag icon={<GoLinkExternal />} color="blue">
-              {reason.name}
-            </Tag>
+            <code>{reason.name}</code>
           </a>
         ) : (
-          <Tag>{reason.name}</Tag>
+          <code>{reason.name}</code>
         )
       })
     },
