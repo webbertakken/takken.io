@@ -36,7 +36,7 @@ const config = {
       {
         enabled: true,
         verbose: true,
-        personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+        personalAccessToken: process.env.GH_PERSONAL_ACCESS_TOKEN,
       },
     ],
     [
