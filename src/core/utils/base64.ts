@@ -47,7 +47,7 @@ export const Base64 = {
     let enc1, enc2, enc3, enc4
     let i = 0
 
-    input = input.replace(/[^A-Za-z0-9+\/=]/g, '')
+    input = input.replace(/[^A-Za-z0-9+/=]/g, '')
 
     while (i < input.length) {
       enc1 = this._keyStr.indexOf(input.charAt(i++))
@@ -100,7 +100,6 @@ export const Base64 = {
     let string = ''
     let i = 0
     let c = 0
-    let c1 = 0
     let c2 = 0
     let c3 = 0
 

@@ -10,7 +10,7 @@ interface MetaSectionProps {
 }
 
 const MetaSection = ({ position, className, children }: MetaSectionProps) => {
-  let classes = cx(className, styles.metaSection, {
+  const classes = cx(className, styles.metaSection, {
     [styles.top]: position === 'top',
     [styles.bottom]: position === 'bottom',
   })

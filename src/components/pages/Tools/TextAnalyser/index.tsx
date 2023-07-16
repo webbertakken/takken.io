@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import Heading from '@site/src/components/markdown/components/heading'
-import CodeEditor from '@site/src/components/markdown/components/CodeEditor'
+import Heading from '@site/src/components/common/heading'
+import CodeEditor from '@site/src/components/common/CodeEditor'
 import styles from '../Tools.module.scss'
 import { Base64 } from '@site/src/core/utils/base64'
 import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
-import CodeBlock from '@site/src/components/markdown/components/CodeBlock'
-// @ts-ignore
+import CodeBlock from '@site/src/components/common/CodeBlock'
+
+// @ts-expect-error missing types
 import ToolPage from '@theme/ToolPage'
 
 const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!
@@ -15,9 +16,7 @@ but lick left leg for ninety minutes, still dirty spot something, big eyes, crou
 
 prepare to pounce for lick the other cats. Bite plants cough fur ball for ears back wide eyed whoops`
 
-interface Props {}
-
-const TextAnalyser = ({}: Props): JSX.Element => {
+const TextAnalyser = (): JSX.Element => {
   // Basics
   const [lineCount, setLineCount] = useState<number>(0)
   const [characterCount, setCharacterCount] = useState<number>(0)

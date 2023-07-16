@@ -18,7 +18,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'webbertakken', // Usually your GitHub org/user name.
+  organizationName: 'webbertakken', // Usually your GitHub org/username.
   projectName: 'takken.io', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -36,7 +36,7 @@ const config = {
       {
         enabled: true,
         verbose: true,
-        personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+        personalAccessToken: process.env.GH_PERSONAL_ACCESS_TOKEN,
       },
     ],
     [

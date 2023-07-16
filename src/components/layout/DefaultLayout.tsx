@@ -4,10 +4,6 @@ import SocialLinks from '@site/src/components/layout/components/SocialLinks'
 import styles from './DefaultLayout.module.scss'
 import MainMenu from '@site/src/components/layout/components/MainMenu'
 
-const BackgroundCanvas = import(
-  '@site/src/components/layout/components/BackgroundCanvas/BackgroundCanvas'
-)
-
 const DefaultLayout = ({ children, wide = false }) => (
   <>
     <div className={styles.background} />
