@@ -1,14 +1,14 @@
 import { vi, describe, expect, it } from 'vitest'
 import { useCookie } from './useCookie'
+import jsCookie from 'js-cookie'
 
-// Methods must be hoisted to reference them in `vi.mock`
-const jsCookie = vi.hoisted(() => ({
-  get: vi.fn(),
-  set: vi.fn(),
-  remove: vi.fn(),
+vi.mock('js-cookie', () => ({
+  default: {
+    get: vi.fn(),
+    set: vi.fn(),
+    remove: vi.fn(),
+  },
 }))
-
-vi.mock('js-cookie', () => ({ default: jsCookie }))
 
 describe('useCookie', () => {
   it('is a function', () => {

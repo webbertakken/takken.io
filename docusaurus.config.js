@@ -96,13 +96,14 @@ const config = {
       ({
         docs: {
           path: 'notes',
+          routeBasePath: '/notes/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
         },
         blog: {
-          routeBasePath: '/',
+          routeBasePath: '/blog/',
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -132,15 +133,16 @@ const config = {
           height: 32,
         },
         items: [
-          { to: '/', label: 'Blog', position: 'left' },
+          { to: '/blog', label: 'Blog', position: 'left' },
+          {
+            type: 'doc',
+            docId: 'index',
+            position: 'left',
+            label: 'Notes',
+          },
           { to: '/tools', label: 'Tools', position: 'left' },
           { to: '/gists', label: 'Gists', position: 'left' },
-          // {
-          //   type: 'doc',
-          //   docId: 'intro',
-          //   position: 'left',
-          //   label: 'Developer notes',
-          // },
+
           {
             href: 'https://github.com/webbertakken/takken.io',
             label: 'GitHub',
@@ -165,7 +167,11 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: '/',
+                to: '/blog',
+              },
+              {
+                to: '/notes/introduction',
+                label: 'Notes',
               },
               {
                 label: 'GitHub',

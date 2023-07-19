@@ -1,0 +1,87 @@
+import Image from '@theme/IdealImage'
+import ImageWrapper from '../../../../src/components/ImageWrapper'
+
+# Nous A1T 16A Power Monitoring Plug
+
+| Type       | Vendor | Model | Chipset | Firmware | Technology | Protocol |
+| ---------- | ------ | ----- | ------- | -------- | ---------- | -------- |
+| Smart plug | Nous   | A1T   | ESP8266 | Tasmota  | WiFi       | MQTT     |
+
+- Friendly name: Smart WiFi Socket A1T
+- Specification: https://templates.blakadder.com/nous_A1T.html
+- Bought from: [Amazon.de](https://www.amazon.de/-/en/gp/product/B0054PSI46/)
+- €49.99 for a 4-pack (March 2023)
+
+#### Installation
+
+This smart plug comes with Tasmota firmware pre-installed.
+
+It needs to be connected to WiFi and then configured to connect to the MQTT broker. Finally the
+device needs to be calibrated so that the energy readings are correct.
+
+##### Connect to WiFi
+
+1. Plug it in (light will be blinking)
+2. Connect to the WiFi network `tasmota-xxxx`
+3. Open http://192.168.4.1
+4. Connect it to your WiFi network
+
+<ImageWrapper>
+  <Image img={require('./assets/configure-wifi.png')} />
+</ImageWrapper>
+
+If you did it correctly it will redirect your browser to the IP address it got from your DHCP
+server.
+
+##### Configure MQTT
+
+1. Open the web interface of the smart plug
+2. Go to `Configuration` > `Configure MQTT`
+3. Enter the IP address or DNS name of your MQTT broker
+4. Enter the username and password of your MQTT broker
+5. Click `Save`
+
+<ImageWrapper>
+  <Image img={require('./assets/configure-mqtt.png')} />
+</ImageWrapper>
+
+If you did it correctly you should be able to see the smart plug in the MQTT broker.
+
+<ImageWrapper>
+  <Image img={require('./assets/message-received.png')} />
+</ImageWrapper>
+
+##### Calibrate power monitoring
+
+You need another device that can measure the power consumption of the smart plug.
+
+1. Plug the smart plug into the power meter
+2. Plug a device into the smart plug that has a constant energy usage and uses 30W or more
+3. Open the web interface of the smart plug
+4. Go to `Console`
+5. Read Wattage from the power meter then type `PowerSet 60.0` and press `Enter`
+6. Read Voltage from the power meter then type `VoltageSet 235.5` and press `Enter`
+7. Read Current from the power meter then type `CurrentSet 254.777` and press `Enter`
+
+:::tip Calculating current
+
+1000\*(60.0/235.5) = 254.777
+
+:::
+
+8. Restart the smart plug by typing `Restart 1` and press `Enter`
+
+<ImageWrapper>
+  <Image img={require('./assets/console.png')} />
+</ImageWrapper>
+
+More information about the calibration can be found at
+https://tasmota.github.io/docs/Power-Monitoring-Calibration/.
+
+:::note
+
+Power consumption graph changes after calibration.
+
+<Image img={require('./assets/visual-after-calibration.png')} />
+
+:::
