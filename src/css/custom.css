@@ -87,7 +87,11 @@ body {
 
 /* fix layout shift when navigating */
 @media (min-width: 768px) {
-  .main-wrapper {
+  .main-wrapper:not(.docsWrapper*) {
+    padding-left: calc(100vw - 100%);
+  }
+
+  #docContainerPadding {
     padding-left: calc(100vw - 100%);
   }
 }
