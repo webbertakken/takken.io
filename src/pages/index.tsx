@@ -6,7 +6,7 @@ import { FaGithub, FaLinkedinIn, FaStackOverflow, FaTwitter } from 'react-icons/
 
 const Index = (): JSX.Element => {
   return (
-    <Layout title="Hello" description="Hello">
+    <Layout title="About me" description="About me">
       <div
         className={styles.container}
         style={{
