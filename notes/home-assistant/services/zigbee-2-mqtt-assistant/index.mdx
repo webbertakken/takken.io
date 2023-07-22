@@ -1,0 +1,70 @@
+import ImageWrapper from '../../../../src/components/ImageWrapper'
+import Image from '@theme/IdealImage'
+
+# Zigbee2MqttAssistant
+
+## Resources
+
+Source: https://github.com/yllibed/Zigbee2MqttAssistant
+
+## Installation
+
+### Setup template
+
+Create a template in **Unraid** using **Advanced view** with the following settings:
+
+```console
+Name: Zigbee2MqttAssistant
+Repository: carldebilly/zigbee2mqttassistant
+Network Type: Bridge
+Icon URL: https://cdn-icons-png.flaticon.com/512/25/25231.png
+WebUI: http://[IP]:[PORT:8880]/
+```
+
+Add the following variables:
+
+- `Z2MA_SETTINGS__MQTTSERVER`
+- `Z2MA_SETTINGS__MQTTUSERNAME`
+- `Z2MA_SETTINGS__MQTTPASSWORD`
+- `Z2MA_SETTINGS__MQTTSECURE` if you don't use SSL
+
+Add a port mapping that maps host port `8880` to container port `80`
+
+:::info
+
+Your template should look like this
+
+<Image img={require('./assets/adding-docker-template.png')} alt="Adding Docker Template" />
+
+:::
+
+### Verify installation
+
+Check the logs to see if everything is working correctly.
+
+You can do this by clicking the **Logs** button in the **Docker** tab.
+
+:::info
+
+Clicking the container icon
+
+<Image
+  img={require('./assets/clicking-the-container-icon.png')}
+  alt="Clicking the container icon"
+/>
+
+:::
+
+You should be seeing
+
+```console
+Hosting environment: Production
+Content root path: /app
+Now listening on: http://[::]:80
+```
+
+### Open the web interface
+
+Open the web interface by clicking the **WebUI** button in the **Docker** tab.
+
+<Image img={require('./assets/web-ui.png')} alt="Opening the web interface" />
