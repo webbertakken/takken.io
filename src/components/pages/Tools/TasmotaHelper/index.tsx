@@ -6,8 +6,7 @@ import { Base64 } from '@site/src/core/utils/base64'
 import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
 import CodeBlock from '@site/src/components/common/CodeBlock'
-
-// @ts-expect-error missing types
+import cx from 'classnames'
 import ToolPage from '@theme/ToolPage'
 
 const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!
@@ -61,7 +60,7 @@ const TextAnalyser = (): JSX.Element => {
     <ToolPage title="Text analyser">
       <p>Paste any text and lets see what we can find out about it. text here.</p>
 
-      <div className={styles.flexRow}>
+      <div className={cx(styles.flexRow, styles.grow)}>
         <div className={styles.flexPanel}>
           <Heading level={3}>Paste here</Heading>
           <CodeEditor className={styles.codePanel} onChange={analyse} code={exampleCopy} />

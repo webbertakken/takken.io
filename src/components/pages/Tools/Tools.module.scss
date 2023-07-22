@@ -4,11 +4,23 @@
   flex: 1;
 }
 
+.section {
+  border: 1px solid white;
+  border-radius: 0.5em;
+  max-width: 360px;
+  padding: 1em;
+}
+
 .flexRow {
   display: flex;
   flex-direction: row;
   flex: 1;
+  flex-grow: 0;
   gap: 1em;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .flexPanel {
@@ -20,4 +32,21 @@
 
 .codePanel {
   flex-grow: 1;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 0.5rem;
+  flex-grow: 0;
+  align-items: center;
+
+  input {
+    padding: 0.5em;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    opacity: 1;
+  }
 }

@@ -4,9 +4,8 @@ import { useCookie } from '@site/src/core/hooks/useCookie'
 import styles from '../Tools.module.scss'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
-
-// @ts-expect-error missing types
 import ToolPage from '@theme/ToolPage'
+import cx from 'classnames'
 
 const exampleCopy = `Run license activation in an empty directory
 #109 by txema-martinez-scopely was merged 3 hours ago 3 of 3
@@ -92,7 +91,7 @@ const PullRequestsToReleaseText = () => {
     <ToolPage title="Release text generator">
       <p>Select and copy the text of all pull requests that have not been released yet.</p>
 
-      <div className={styles.flexRow}>
+      <div className={cx(styles.flexRow, styles.grow)}>
         <div className={styles.flexPanel}>
           <Heading level={3}>Paste here</Heading>
           <CodeEditor className={styles.codePanel} onChange={convert} code={exampleCopy} />
