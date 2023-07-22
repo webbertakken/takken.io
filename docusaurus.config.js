@@ -133,7 +133,6 @@ const config = {
           height: 32,
         },
         items: [
-          { to: '/blog', label: 'Blog', position: 'left' },
           {
             type: 'doc',
             docId: 'index',
@@ -142,7 +141,7 @@ const config = {
           },
           { to: '/tools', label: 'Tools', position: 'left' },
           { to: '/gists', label: 'Gists', position: 'left' },
-
+          { to: '/blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/webbertakken/takken.io',
             label: 'GitHub',
@@ -166,20 +165,20 @@ const config = {
             title: 'About me',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
                 to: '/notes/introduction',
                 label: 'Notes',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/webbertakken',
+                to: '/tools',
+                label: 'Tools',
               },
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/users/3593896/webber',
+                to: '/gists',
+                label: 'Code snippets',
+              },
+              {
+                label: 'Blog',
+                to: '/blog',
               },
             ],
           },
@@ -194,6 +193,14 @@ const config = {
                 label: 'LinkedIn',
                 href: 'https://www.linkedin.com/in/webbertakken/',
               },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/webbertakken',
+              },
+              {
+                label: 'Stack Overflow',
+                href: 'https://stackoverflow.com/users/3593896/webber',
+              },
             ],
           },
           {
@@ -202,6 +209,10 @@ const config = {
               {
                 label: 'GameCI',
                 href: 'https://github.com/game-ci',
+              },
+              {
+                label: 'PR Code Reviewer',
+                href: 'https://github.com/marketplace/pr-code-reviewer',
               },
             ],
           },
