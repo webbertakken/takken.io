@@ -15,7 +15,7 @@ but lick left leg for ninety minutes, still dirty spot something, big eyes, crou
 
 prepare to pounce for lick the other cats. Bite plants cough fur ball for ears back wide eyed whoops`
 
-const TextAnalyser = (): JSX.Element => {
+const TasmotaHelper = (): JSX.Element => {
   // Basics
   const [lineCount, setLineCount] = useState<number>(0)
   const [characterCount, setCharacterCount] = useState<number>(0)
@@ -101,4 +101,4 @@ const TextAnalyser = (): JSX.Element => {
   )
 }
 
-export default TextAnalyser
+export default TasmotaHelper

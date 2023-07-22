@@ -22,16 +22,29 @@ services.
 
 ## Services
 
-Services different tools that can be installed separately and integrated with HomeAssistant.
+Services are tools that can be installed and deployed separately. I'll commonly refer to
+applications that are installed in their own docker images as services, (e.g. InfluxDB, Grafana,
+Zigbee2MQTT etc.). Many services have a dedicated web interface, but can also be integrated with
+HomeAssistant by using plugins.
 
 ## Plugins
 
-I'll refer to whatever you can install inside the Home Assistant docker container as Plugins; they
-might make use of services.
+I'll refer to functionality that you can install inside the Home Assistant docker container as
+plugins. They work as part of the Home Assistant executable and may connect to and make use of
+services to offer their functionality.
 
 ## Hubs and dongles
 
-My hubs and dongles.
+Hubs and dongles allow many connections. They are the means to connect your devices to Home
+Assistant.
+
+Following are my hubs and dongles.
+
+#### Wi-Fi
+
+- Ubiquiti Unifi 6 LR (Access Point)
+
+#### Zigbee
 
 - SONOFF Zigbee 3.0 USB Dongle Plus V2 (ZBDongle-E)
 
