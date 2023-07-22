@@ -55,26 +55,34 @@ If you did it correctly you should be able to see the smart plug in the MQTT bro
 
 ##### Calibrate power monitoring
 
-You need another device that can measure the power consumption of the smart plug.
+You need another power meter or multi meter that can measure the power consumption of the smart
+plug.
 
-1. Plug the smart plug into the power meter
-2. Plug a device into the smart plug that has a constant energy usage and uses 30W or more
-3. Open the web interface of the smart plug
-4. Go to `Console`
-5. Read Wattage from the power meter then type `PowerSet 60.0` and press `Enter`
-6. Read Voltage from the power meter then type `VoltageSet 235.5` and press `Enter`
-7. Read Current from the power meter then type `CurrentSet 254.777` and press `Enter`
+1. Plug the smart plug into the power meter (or multi meter)
+2. Plug a device into the smart plug that has a constant energy usage and uses between 30W and 50W.
 
-:::tip Calculating current
+:::tip
 
-1000\*(60.0/235.5) = 254.777
+Resistive loads, like oldskool incandescent light bulbs 💡, have a power factor of 1.
 
 :::
 
-8. Restart the smart plug by typing `Restart 1` and press `Enter`
+3. Open the web interface of the smart plug
+4. Go to `Console`
+5. Read the values and enter them in [this tool](/tools/tasmotahelper).
+6. Enter the resulting commands in the console of the smart plug one by one.
+7. Restart the smart plug by using the command `Restart 1`.
 
 <ImageWrapper>
   <Image img={require('./assets/console.png')} />
+</ImageWrapper>
+
+If you did it correctly you should see the power consumption of the smart plug in the web interface.
+If you used a resistive load, like an incandescent light bulb, the Active Power reading should be
+the same as the Apparent Power reading. In this example they are set to 42W and 42VA respectively.
+
+<ImageWrapper>
+  <Image img={require('./assets/va-equals-w-for-resistive-loads.png')} />
 </ImageWrapper>
 
 More information about the calibration can be found at
