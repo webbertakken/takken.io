@@ -13,3 +13,9 @@ declare module '@theme/IdealImage' {
   const IdealImage: ComponentType<{ className?: string; img: string }>
   export default IdealImage
 }
+
+declare module '@theme/ToolPage' {
+  import { ComponentType, PropsWithChildren } from 'react'
+  const ToolPage: ComponentType<PropsWithChildren<{ title?: string }>>
+  export default ToolPage
+}

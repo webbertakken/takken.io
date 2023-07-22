@@ -1,0 +1,88 @@
+import Image from '@theme/IdealImage'
+import ImageWrapper from '../../../../src/components/ImageWrapper'
+
+# Nous A1Z 16A Power Monitoring Plug (Zigbee)
+
+| Type       | Vendor | Model | Chipset | Firmware | Technology | Protocol |
+| ---------- | ------ | ----- | ------- | -------- | ---------- | -------- |
+| Smart plug | Nous   | A1Z   |         | Tasmota  | Zigbee     | Zigbee   |
+
+- Friendly name: Smart Zigbee Socket A1Z
+- Bought from: [Amazon.nl](https://www.amazon.nl/dp/B0054PSH6K?psc=1)
+- €54.99 for a 4-pack (March 2023)
+
+## Installation
+
+#### Introduction
+
+This smart plug is Zigbee based, meaning all communication goes over the Zigbee technology and
+protocol.
+
+It needs to be connected to a Zigbee orchestrator. Any communication received by that orchestrator
+can be read by the Zigbee2MQTT service. Zigbee2MQTT exposes information to HomeAssistant using MQTT
+discovery. Finally, the device needs to be calibrated so that the energy readings are correct.
+
+#### Prerequisites
+
+- A working Zigbee dongle or hub
+- Zigbee2MQTT service running
+
+##### Pairing
+
+1. In the Zigbee2MQTT service set the following setting in the root of `configuration.yaml`
+
+```yaml
+permit_join: true
+```
+
+2. Plug in the socket (light will be blinking)
+3. Wait for a few seconds for the pairing to complete.
+4. Open `configuration.yaml` of the `Zigbee2MQTT` service and change the friendly name of the newly
+   detected device like so:
+
+```diff
+devices:
+  '0xa4c138053f778359':
+-    friendly_name: '0xa4c138053f778359'
++    friendly_name: 'The Projector'
+```
+
+:::tip
+
+Use a name that might be useful in phrases like "Hey Google, turn on <friendly_name>"
+
+:::
+
+5. Restart the `Zigbee2MQTT` service.
+
+:::note
+
+In Zigbee2MQTT, the following setting allows HomeAssistant to discover the paired devices.
+
+```yaml
+homeassistant: true
+```
+
+:::
+
+6. Inside HomeAssistant you should be able to see devices under the `MQTT` plugin
+
+<ImageWrapper>
+  <Image img={require('./assets/devices-in-mqtt-plugin.png')} />
+  <Image img={require('./assets/mqtt-devices.png')} />
+  <Image img={require('./assets/controls.png')} />
+</ImageWrapper>
+
+7. Use the controls to test if the socket goes on and off without any problems.
+
+:::note
+
+In my case not all devices functioned as expected
+
+:::
+
+#### Calibration
+
+Calibration of the energy meter can be done MQTT
+
+I've found this guide: https://www.zigbee2mqtt.io/devices/A1Z.html
