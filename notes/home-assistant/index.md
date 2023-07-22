@@ -1,6 +1,8 @@
 # Home Assistant
 
-:::info
+## Introduction
+
+:::info Home Assistant
 
 Home Assistant is an open source home automation system that allows you to use a wide range of
 devices and services to automate your home, all from a single interface.
@@ -13,16 +15,16 @@ This is where I keep my notes on how to configure Home Assistant.
 
 :::info Installation types
 
-There are 2 ways of installing Home Assistant: **Standalone** and **Home Assistant OS**.
+There are 2 ways of installing Home Assistant: **Container** and **Home Assistant OS**.
 
-Standalone is much more portable as you can run it inside a docker container. However, it requires
+Container is much more portable as you can run it inside a docker container. However, it requires
 you to install any services separately, whereas in Home Assistant OS these can be installed as part
 of installing Plugins. Home Assistant OS is usually installed directly on the hardware.
 
 :::
 
-My setup consists of an `Unraid` server that runs the `Standalone` version alongside various other
-services.
+My setup consists of an **Unraid** server that runs the **Container** version alongside various
+other services.
 
 ## Services
 
@@ -37,14 +39,15 @@ HomeAssistant by using `integrations`.
 
 These are the services I use in my setup.
 
-| Service       | Purpose                |
-| ------------- | ---------------------- |
-| HomeAssistant | Home automation system |
-| InfluxDB      | Time series database   |
-| Grafana       | Data visualization     |
-| Mosquitto     | MQTT broker            |
-| Zigbee2MQTT   | Zigbee to MQTT bridge  |
-| ESPHome       | ESP8266/ESP32 firmware |
+| Service              | Purpose                                                                          |
+| -------------------- | -------------------------------------------------------------------------------- |
+| HomeAssistant        | Home automation system                                                           |
+| HA Cloud (Nabu Casa) | Secure remote access to Home Assistant (needed for Google Assistant, Alexa etc.) |
+| InfluxDB             | Time series database                                                             |
+| Grafana              | Data visualization                                                               |
+| Mosquitto            | MQTT broker                                                                      |
+| Zigbee2MQTT          | Zigbee to MQTT bridge                                                            |
+| ESPHome              | ESP8266/ESP32 firmware                                                           |
 
 ## Integrations
 
@@ -58,7 +61,7 @@ of - services to offer their functionality.
 
 These are the integrations I use in my setup.
 
-| Plugin        | Purpose                                   |
+| Integration   | Purpose                                   |
 | ------------- | ----------------------------------------- |
 | Backup        | Backup Home Assistant                     |
 | MQTT          | Read/write to Mosquitto                   |
@@ -69,9 +72,9 @@ These are the integrations I use in my setup.
 
 ## Network
 
-To connect your devices to Home Assistant, you need a network. I use a combination of (powered)
-Ethernet, Wi-Fi and Zigbee. I've thought about leaving zigbee away entirely in favour of Wi-Fi, but
-I've learned that connecting too many devices to Wi-Fi can cause issues.
+To connect your devices to Home Assistant, you need networking capabilities. I use a combination of
+(powered) Ethernet, Wi-Fi and Zigbee. I've thought about leaving zigbee away entirely in favour of
+Wi-Fi, but I've learned that connecting too many devices to Wi-Fi can cause issues.
 
 #### Ethernet
 
@@ -102,7 +105,9 @@ different frequencies in different countries.
 
 ## Devices
 
-These are the devices I've adopted into my home.
+These are the devices I've adopted into my home. For some of them I've described the installation
+process.
 
+- Ubiquiti Protect G4 Pro
 - [Nous A1T 16A Power Monitoring Plug (Wi-Fi)](devices/nous-a1t-16a-power-monitoring-plug)
 - [Nous A1Z 16A Power Monitoring Plug (Zigbee)](devices/nous-a1z-16a-power-monitoring-plug)
