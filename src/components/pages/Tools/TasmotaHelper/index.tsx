@@ -1,100 +1,61 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@site/src/components/common/heading'
-import CodeEditor from '@site/src/components/common/CodeEditor'
 import styles from '../Tools.module.scss'
-import { Base64 } from '@site/src/core/utils/base64'
-import { md5 } from '@site/src/core/utils/md5'
-import { sha256 } from '@site/src/core/utils/sha256'
 import CodeBlock from '@site/src/components/common/CodeBlock'
-import cx from 'classnames'
+import { dedent } from 'ts-dedent'
 import ToolPage from '@theme/ToolPage'
-
-const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!
-
-but lick left leg for ninety minutes, still dirty spot something, big eyes, crouch, shake butt,
-
-prepare to pounce for lick the other cats. Bite plants cough fur ball for ears back wide eyed whoops`
+import cx from 'classnames'
 
 const TasmotaHelper = (): JSX.Element => {
-  // Basics
-  const [lineCount, setLineCount] = useState<number>(0)
-  const [characterCount, setCharacterCount] = useState<number>(0)
-  const [wordCount, setWordCount] = useState<number>(0)
-  const [byteSize, setByteSize] = useState<number>(0)
+  const [power, setPower] = useState<number>(63)
+  const [voltage, setVoltage] = useState<number>(234.5)
+  const [current, setCurrent] = useState<string>('0')
 
-  // Encodings
-  const [base64Encoded, setBase64Encoded] = useState<string>('')
-  const [base64Decoded, setBase64Decoded] = useState<string>('')
-
-  // Hashes
-  const [md5Hash, setMd5Hash] = useState<string>('')
-  const [sha256Hash, setSha256Hash] = useState<string>('')
-
-  const analyse = (subject: string) => {
-    // Lines
-    const lineMatches = subject.match(/\n/g)
-    setLineCount(lineMatches?.length + 1 || 1)
-
-    // Characters
-    setCharacterCount(subject.length)
-
-    // Words
-    const wordMatches = subject.match(/\w+/g)
-    setWordCount(wordMatches?.length || 0)
-
-    // Size
-    setByteSize(new Blob([subject]).size)
-
-    // Encoding
-    setBase64Encoded(Base64.encode(subject))
-    setBase64Decoded(Base64.decode(subject))
-
-    // Hashed
-    setMd5Hash(md5(subject))
-    sha256(subject).then((hash) => setSha256Hash(hash))
-  }
-
-  useEffect(() => analyse(exampleCopy), [])
+  useEffect(() => setCurrent((1000 * (power / voltage)).toFixed(3)), [power, voltage])
 
   return (
-    <ToolPage title="Text analyser">
-      <p>Paste any text and lets see what we can find out about it. text here.</p>
-
-      <div className={cx(styles.flexRow, styles.grow)}>
+    <ToolPage title="Tasmota helper">
+      <div className={cx(styles.flexRow, styles.section)}>
         <div className={styles.flexPanel}>
-          <Heading level={3}>Paste here</Heading>
-          <CodeEditor className={styles.codePanel} onChange={analyse} code={exampleCopy} />
-        </div>
+          <p>Calibrate power socket and energy meter</p>
 
-        <div className={styles.flexPanel}>
-          <Heading level={3}>Results</Heading>
-          <ul>
-            <li>Words: {wordCount}</li>
-            <li>Characters: {characterCount}</li>
-            <li>Lines: {lineCount}</li>
-            <li>Size: {byteSize} bytes</li>
-          </ul>
+          <Heading level={3}>Type here</Heading>
+          <div className={styles.formRow}>
+            <input
+              style={{ width: '60px' }}
+              type="number"
+              pattern="0.00"
+              value={power}
+              onChange={(x) => setPower(parseInt(x.target.value))}
+            />
+            <span>W</span>
+          </div>
+          <div className={styles.formRow}>
+            <input
+              style={{ width: '80px' }}
+              type="number"
+              prefix="V"
+              pattern="0"
+              value={voltage}
+              onChange={(x) => setVoltage(parseFloat(x.target.value))}
+            />
+            <span>V</span>
+          </div>
 
-          <Heading level={4}>Encodings</Heading>
-          <ul>
-            <li>
-              Base64 encoded:
-              <CodeBlock className={styles.codePanel} value={base64Encoded} />
-            </li>
-            <li>
-              Base64 decoded: <CodeBlock className={styles.codePanel} value={base64Decoded} />
-            </li>
-          </ul>
+          <br />
 
-          <Heading level={4}>Hashed</Heading>
-          <ul>
-            <li>
-              md5: <CodeBlock className={styles.codePanel} value={md5Hash} />
-            </li>
-            <li>
-              sha: <CodeBlock className={styles.codePanel} value={sha256Hash} />
-            </li>
-          </ul>
+          <Heading level={3}>Tasmota commands</Heading>
+
+          <div className={styles.formRow}>
+            <CodeBlock
+              className={styles.codePanel}
+              value={dedent`
+                PowerSet ${power}
+                VoltageSet ${voltage}
+                CurrentSet ${current}
+              `}
+            />
+          </div>
         </div>
       </div>
     </ToolPage>
