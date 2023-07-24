@@ -1,0 +1,129 @@
+---
+slug: cleaning-a-cpu
+title: Cleaning a CPU
+description: That time you buy a second hand CPU and dirt is stuck connecting the pins together.
+authors: [webber]
+tags:
+  - Hardware
+---
+
+import ImageWrapper from '../../src/components/ImageWrapper'
+import Image from '@theme/IdealImage'
+
+While ordering parts for my new [energy efficient server](/notes/unraid/efficient-server), I ended
+up buying a second hand `I7 9700K` processor.
+
+When the piece had arrived, I was surprised to see a chunk of dirt that was burnt in, seemingly
+connecting some contact points together. I was worried that this would cause a short circuit and
+damage the CPU.
+
+<!-- truncate -->
+
+## Analysis
+
+<Image img={require('./assets/cpu-with-dirt.jpg')} alt="CPU with dirt" />
+
+I found that the shape of the dirt was different from what it seems on the first picture.
+
+Upon closer inspection, using a digital microscope, the dirt seemed to be a bit more loose and some
+discolouration became visible.
+
+<Image img={require('./assets/cpu-under-microscope.jpg')} alt="Microscope view 1" />
+
+On this second picture you see more discolouration and one contact that's almost completely covered
+in dirt.
+
+<Image img={require('./assets/cpu-under-microscope-2.jpg')} alt="Microscope view 2" />
+
+## Cleaning
+
+### What not to use?
+
+After some research, I found out the following:
+
+- Don't use any liquid that corrodes the metal
+- Don't use any liquid that leaves a residue
+- Don't use any liquid that evaporates too slowly
+- Don't use a material that can leave behind residue
+
+### So what can you use?
+
+- I found that **isopropyl alcohol** is a good choice. It's a solvent that evaporates quickly and
+  doesn't leave any residue. It's also used to clean electronics. I use
+  [Isopropanol 99.9% Isopropyl Alcohol 2-Propanol 250ml in Glass Bottle](https://www.amazon.de/-/en/gp/product/B07G5MT4N1).
+- **Cotton swabs** are a good choice. They are small and don't leave behind any residue.
+- **Toothpicks** are a good choice. They are small and can be used to scrape off dirt.
+- A **plastic scraper** can also be helpful to scrape off dirt. Be sure to remove any particles that
+  might break off.
+  - I happened to have
+    [this glue remover](https://www.amazon.nl/FOSHIO-kunststof-schrapers-verwijderen-lijmverwijderaar/dp/B07YDF2RFJ)
+    lying around. While it's not ideal, it's better than using a metal scraper.
+
+:::danger
+
+I'm not responsible for any damage you might cause to your hardware.
+
+:::
+
+### The process
+
+There is always a risk that your hardware stops working. I would recommend to only clean your
+hardware if there is a good reason to do so.
+
+#### Rubbing
+
+Cleaning with isopropyl alcohol and a cotton swab
+
+:::caution
+
+Be careful not to touch parts in the center of the CPU, as some components may be sensitive to
+static or alcohol.
+
+:::
+
+1. Dip the cotton swab in the isopropyl alcohol
+2. Gently rub the dirt with the cotton swab
+3. Repeat until the dirt is gone
+
+In my case, the dirt was pretty **persistent**. I had to use something with an edge to scrape it
+off.
+
+#### Scraping
+
+4. Use a toothpick or plastic scraper in a gentle motion to scrape off the dirt.
+5. Use the cotton swab to remove any material that might have broken off.
+
+#### Rubbing again
+
+After scraping off the dirt, I used the cotton swab again to remove any residue.
+
+6. Dip the cotton swab in the isopropyl alcohol
+7. Gently rub the dirt with the cotton swab.
+
+This is a video of what it looked like for me:
+
+<iframe
+  width="560"
+  height="315"
+  style={{ width: '100%' }}
+  src="https://www.youtube.com/embed/rjfujfhaVRA"
+  title="YouTube video player"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowFullScreen
+></iframe>
+
+As you can see in the video, the dirt isn't completely gone. However, this should be clean enough to
+get it working without short-circuiting.
+
+#### Drying
+
+Some alcohol may have seeped into the CPU. It's important to let it dry before installing it.
+
+8. Wait 15 minutes to make sure the CPU is completely.
+
+#### Testing
+
+9. Install the CPU, apply thermal paste and install the cooler.
+10. Boot the system and check if it works.
+
+In my case, I installed the CPU, and it worked without any issues.

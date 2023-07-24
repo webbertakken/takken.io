@@ -1,0 +1,163 @@
+import ImageWrapper from '../../../src/components/ImageWrapper'
+import Image from '@theme/IdealImage'
+
+# Efficient server
+
+I've built a server that's both powerful and very energy efficient!
+
+In this chapter I'll document any reasoning around the build as well as explain the tweaks I've done
+for my specific setup.
+
+## Hardware
+
+Let's start with the hardware. What did I get and why?
+
+In order to tell you why, I need to tell you what requirements I had.
+
+### Requirements
+
+- Since it will be running Home Assistant, and basically be the brain of my home, it needs to be
+  **reliable**.
+- It also needs to run 24/7 without costing a fortune in electricity, so **low power usage**.
+- I really wanted it to be able to run a few virtualised workloads for when I want to play around
+  with stuff, so **decent performance**.
+- My 19" rack is connected to the kitchen, so it needs to be **quiet**.
+
+### Research
+
+I did a lot of research on what hardware to get and looked at many different options.
+
+:::info
+
+One of the main resources I used was
+[The Big Efficient Server Topic (Part 3)](https://gathering.tweakers.net/forum/list_messages/2096876/0)
+on a Dutch tech website called [Tweakers.net](https://tweakers.net). It really is a great resource
+for anyone looking to build an energy efficient server.
+
+:::
+
+### Components
+
+These are the components I ended up with. I've tried to describe my reasoning for each component,
+but if you have any questions please don't hesitate to drop a comment.
+
+#### Main components
+
+| #   | Component          | Product                                                                                                                                                  | Reasoning                                                                                                                                                                                                                                 |
+| --- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Enclosure          | [Inter-Tech IPC 2U-20248](https://tweakers.net/pricewatch/439087/inter-tech-ipc-2u-20248.html)                                                           | 2U, small enough to fit in my very small server rack                                                                                                                                                                                      |
+| 1   | Motherboard        | [Fujitsu D3642-B](https://tweakers.net/pricewatch/1216049/fujitsu-d3642-b.html)                                                                          | With a cost around €200 it's not exactly a budget board, but it's a modern and energy efficient mobo that's well worth the price.                                                                                                         |
+| 1   | CPU                | [Intel Core i7-9700K Tray (SRG15)](https://tweakers.net/pricewatch/1539830/intel-core-i7-9700k-tray-srg15.html)                                          | Supports virtualisation technologies like VT-x. 9th gen because it's more efficient than 10th gen, and especially 11~13th gen. I7 over I3 because it's more powerful, even with the TDP being limited                                     |
+| 1   | CPU Cooling        | [Noctua NH-L9i Brown](https://tweakers.net/pricewatch/320033/noctua-nh-l9i-bruin.html)                                                                   | I love this brand. Absolutely silent.                                                                                                                                                                                                     |
+| 1   | Memory             | [64GB Crucial CT2K32G4DFD832A](https://tweakers.net/pricewatch/1490902/crucial-ct2k32g4dfd832a.html)                                                     | Memory size has a relatively small effect on energy usage. 64GB for running virtual workloads without worries.                                                                                                                            |
+| 1   | Drive bay          | [DeLOCK 47221 drive bay panel](https://www.delock.com/produkt/47221/merkmale.html)                                                                       | I didn't want to go for a SASS backplane because it might need upgrading when disk sizes become larger. Also challenging to find SASS platforms that don't require much power. This is rather simple: 6 sata cables directly to the mobo. |
+| 2   | Solid state drives | [Samsung 870 Evo (MZ-77E4T0B/EU) 4TB](https://tweakers.net/pricewatch/1645084/samsung-870-evo-mz-77e4t0b-eu-4tb.html)                                    | To be used as the Array in Unraid, which requires 1 Parity disk (which you can not use). Unraid is basically utilising a modern version of software RAID.                                                                                 |
+| 1   | Power Supply       | [Mini-box PicoPSU-90 + 84W (Fortron) Adapter Power Kit](https://tweakers.net/pricewatch/273614/mini-box-picopsu-90-+-84w-fortron-adapter-power-kit.html) | Power supplies become very inefficient when utilised below 20%. This PSU is tailored towards idle load, which is expected to be lower than 10W                                                                                            |
+
+#### Accessories
+
+| #   | Component            | Product                                                                                                                                       | Reasoning                                                                                                                                                                                      |
+| --- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Rack rails           | [Inter-Tech 18" telescopic rails 350mm - 450mm](https://tweakers.net/pricewatch/1429530/inter-tech-18-inch-telescopic-rails-350mm-450mm.html) | For fitting it in the server rack. I had to customise these to fit in my very small 60cm rack                                                                                                  |
+| 2   | Sata cables          | [3 x 7-pin SATA 3 / 6Gbit/s 30cm](https://www.amazon.nl/dp/B01LFB3R0W)                                                                        | Standard cables that look nice                                                                                                                                                                 |
+| 1   | Sata to Molex        | [zdyCGTime SATA 15 Pin to Dual 4 Pin Molex One to Two Power Cable](https://www.amazon.nl/dp/B08PQFXVBV)                                       | PicoPSU only has 1x SATA power and 1x Molex power. This cable splits the SATA power connector into two Molex connectors, both of which go into the drive bay. It powers all six potential SSDs |
+| 1   | USB flash drive (OS) | [Verbatim Metal Executive USB 3.0 flash drive 64 GB, USB flash drive](https://www.amazon.de/-/en/gp/product/B017L5BXSY)                       | The operating system will run from this USB flash drive, simply because it uses less power than when using another disk                                                                        |
+
+### The build
+
+Here's what the build looks like.
+
+<ImageWrapper>
+  <Image img={require('./assets/hardware-front.jpg')} alt="Hardware front" />
+  <Image img={require('./assets/hardware-overview.jpg')} alt="Hardware overview" />
+</ImageWrapper>
+
+<Image img={require('./assets/hardware-running.jpg')} alt="Hardware running" />
+
+## Efficiency tweaks
+
+### Measuring
+
+To measure the power usage I used a calibrated
+[Nous A1T](/notes/home-assistant/devices/nous-a1t-16a-power-monitoring-plug/).
+
+I calibrated the plug using a multi meter and a 40W light bulb (resistive load).
+
+<ImageWrapper>
+  <Image img={require('./assets/amps-reading.jpg')} alt="Amps reading" />
+  <Image img={require('./assets/voltage-reading.jpg')} alt="Voltage reading" />
+</ImageWrapper>
+
+### First boot
+
+First thing I did was boot it up with no additional settings. Not surprisingly, it crashed while
+booting into Unraid. Loading an OS is CPU heavy task and the energy usage spiked above the maximum
+the PSU could handle.
+
+So the first tweak was to
+
+- set the CPU TDP limit to 35W.
+
+After this everything worked very smoothly. 🎉
+
+Time for stats!
+
+### Stress testing
+
+I ran a stress test with `mprime` to see what the maximum power usage was.
+
+Source: https://www.mersenne.org/download/
+
+```shell
+# Download
+wget https://www.mersenne.org/download/software/v30/30.8/p95v308b17.linux64.tar.gz
+
+# Extract
+mkdir mprime && tar -xf ./p95v308b17.linux64.tar.gz -C mprime
+
+# Manual
+./mprime/mprime --help
+
+# Run
+./mprime/mprime -t
+```
+
+For the visual people among us, here's what that looks like:
+
+<Image img={require('./assets/install-mprime.png')} alt="Install mprime" />
+<Image img={require('./assets/run-mprime.png')} alt="Run mprime" />
+<ImageWrapper>
+  <Image img={require('./assets/unraid-load.png')} alt="Unraid reading of the loads" />
+  <Image img={require('./assets/energy-reading.png')} alt="Energy reading in Nous A1T" />
+</ImageWrapper>
+
+### Initial stats
+
+Now that we know both our idle and stress power usage, we can start tweaking.
+
+But before that, time for the initial stats!
+
+| Idle low | Idle avg | Idle high |     | Stress low | Stress avg | Stress high |
+| :------: | :------: | :-------: | --- | :--------: | :--------: | :---------: |
+|   11W    | **13W**  |    16W    |     |    54W     |  **56W**   |     62W     |
+
+:::info
+
+The server will be running 24/7, so the average idle power usage is the most important metric.
+
+:::
+
+:::note
+
+The artificial load is not representative of real world usage. Therefore, I will not be using the
+`high` values but at maximum the `avg` values when reconfiguring max TDP for the CPU.
+
+:::
+
+### BIOS tweaks
+
+WIP
+
+### Software tweaks
+
+WIP
