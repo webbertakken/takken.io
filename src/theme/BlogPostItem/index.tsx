@@ -13,7 +13,9 @@ export default function BlogPostItemWrapper(props: Props): JSX.Element {
   return (
     <>
       <BlogPostItem {...props} />
-      {isBlogPostPage && <CommentsSection />}
+      {isBlogPostPage && (
+        <CommentsSection category="Blog comments" categoryId="DIC_kwDOFNg3cs4CX7Xk" />
+      )}
     </>
   )
 }

@@ -9,6 +9,7 @@ export default function MainWrapper(props: Props): JSX.Element {
   return (
     <>
       <div id="docContainerPadding" />
+
       <Main {...props} />
     </>
   )
