@@ -2,7 +2,12 @@ import React from 'react'
 import Giscus from '@giscus/react'
 import { useColorMode } from '@docusaurus/theme-common'
 
-const CommentsSection = (): JSX.Element => {
+interface Props {
+  category: string
+  categoryId: string
+}
+
+const CommentsSection = ({ category, categoryId }: Props): JSX.Element => {
   const { colorMode: theme } = useColorMode()
 
   return (
@@ -12,8 +17,8 @@ const CommentsSection = (): JSX.Element => {
         id="comments"
         repo="webbertakken/takken.io"
         repoId="MDEwOlJlcG9zaXRvcnkzNDk3MTQyOTA="
-        category="Blog comments"
-        categoryId="DIC_kwDOFNg3cs4CX7Xk"
+        category={category}
+        categoryId={categoryId}
         mapping="title"
         term="Welcome to @giscus/react component!"
         reactionsEnabled="1"
