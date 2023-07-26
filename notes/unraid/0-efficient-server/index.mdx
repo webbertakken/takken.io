@@ -4,7 +4,7 @@ import Image from '@theme/IdealImage'
 # Efficient server
 
 I've built a server that's both powerful and quite energy efficient. It has modern hardware running
-on less than 15 Watts!
+on less than 10 Watts!
 
 In this chapter I've documented my reasoning around the build and each component. I also explain the
 tweaks I've done for my specific setup.
@@ -142,23 +142,238 @@ But before that, time for the initial stats!
 | :------: | :------: | :-------: | --- | :--------: | :--------: | :---------: |
 |   11W    | **13W**  |    16W    |     |    54W     |  **56W**   |     62W     |
 
+What's interesting is that even without any tweaks, the idle power usage of the server is already
+very low.
+
+This has everything to do with the specific hardware that was chosen, especially the motherboard
+with its focus on energy efficiency and the power supply unit (PSU) not being so large that it
+becomes inefficient at low loads.
+
 :::info
 
-The server will be running 24/7, so the average idle power usage is the most important metric.
+The server will be running 24/7, so the average idle power usage is the most important metric here.
 
 :::
 
 :::note
 
-The artificial load is not representative of real world usage. Therefore, I will not be using the
-`high` values but at maximum the `avg` values when reconfiguring max TDP for the CPU.
+The artificial load of the stress test is not representative of real world usage. Therefore, I will
+not be using the `high` values but at maximum the `avg` values when reconfiguring max TDP for the
+CPU.
 
 :::
 
-### BIOS tweaks
+## BIOS tweaks
 
-WIP
+### BIOS tweaks: Turn off unused devices
 
-### Software tweaks
+Firstly, the most obvious tweaks: turning off all the things we don't need.
 
-WIP
+- Audio: Disabled
+- PCI Express Slot 1: Disabled
+- PCI Express Slot 2: Disabled
+- PCI Express Slot 3: Disabled
+- PCI Express Slot 4: Disabled
+- Serial port: Disabled
+
+Great results so far!
+
+| Idle low | Idle avg | Idle high |
+| :------: | :------: | :-------: |
+|    8W    | **10W**  |    13W    |
+
+### BIOS tweaks: Review all relevant settings
+
+#### CPU
+
+- Enhanced Intel SpeedStep Technology: Enabled (was Enabled)
+- Turbo Boost: Disabled (was Enabled)
+- C States: Enabled (was Enabled)
+- Package C State Limit: Auto (was Auto)
+
+And since there's some headroom left, I also increase the maximum power limit.
+
+- CPU TDP Limit: 60W (was 35W)
+
+#### USB
+
+- USB 3.1 Gen 2 speed: Disabled (was Enabled)
+- USB Port Control: Enable rear and internal ports (was Enable all ports)
+
+#### NIC
+
+- Wake on LAN: Disabled (was Enabled)
+
+#### PCI
+
+- Above 4G Decoding: Disabled (was Enabled)
+
+| Idle low | Idle avg | Idle high |
+| :------: | :------: | :-------: |
+|    7W    | **9.5W** |    12W    |
+
+### BIOS tweaks: Disable graphics
+
+The default settings for my motherboard are as follows:
+
+- Primary display: Auto
+- Internal graphics: Auto
+
+:::info
+
+When using `Internal graphics: Auto`, the BIOS detects automatically if the internal graphics
+controller can be disabled.
+
+:::
+
+This means that the next test is to pull out the monitor cable and see how it affects power usage.
+Unfortunately pulling out the cable didn't make any difference.
+
+I then manually disabled the internal graphics controller, which did seem to make a small
+difference, but still too small to measure.
+
+:::info
+
+At this point the difference also becomes hard to measure, as the power usage can jump around a bit
+and the update interval of the Nous A1T is about 1 second.
+
+:::
+
+I wasn't able to detect a significant difference in power usage with this tweak.
+
+## Software tweaks
+
+Software tweaks can help out where hardware settings are not sufficient or not available. One of the
+main things to focus on is the CPU, or more specifically, the C-states.
+
+### C-states
+
+:::info
+
+C-states, also known as CPU states, are power-saving states for processors (CPUs) in modern computer
+systems. These states are designed to reduce the power consumption of the CPU when it is idle or not
+performing any computational tasks.
+
+:::
+
+The different C-states (C0 through C10) represent varying levels of power-saving modes:
+
+- C0 is the operating state.
+- C10 is the deepest idle state.
+- The higher the C-state, the more power is saved.
+
+We'll use Powertop to try and improve the C-state usage.
+
+### Powertop
+
+:::info
+
+Powertop is a tool provided by Intel to enable various power saving modes in userspace, kernel and
+on hardware level.
+
+:::
+
+Powertop comes as one of the recommended tools to tweak power usage on Linux. It's a tool that gives
+you quite a bit of insight into what's going on with your system. It also allows you to tweak some
+settings.
+
+I've followed
+[this guide](https://forums.unraid.net/topic/98070-reduce-power-consumption-with-powertop/) to
+install it on Unraid. I'll describe some of the steps here.
+
+#### Install
+
+Download the file in /boot/extra, then reboot to automatically install it.
+
+```shell
+mkdir /boot/extra
+cd /boot/extra
+wget https://github.com/mgutt/unraid-packages/raw/main/6.11.0/powertop-2.15-x86_64-1.txz
+```
+
+#### Analyse
+
+Run powertop without `--auto-tune` (for now) to get an overview of what's going on.
+
+```shell
+powertop
+```
+
+On the `Idle stats` tab it looks like much of the time is spent in the C2 state.
+
+<Image img={require('./assets/powertop-idle-states.png')} alt="Powertop idle stats" />
+
+Looking at the `Tunables` tab: It seems like there are many things to tune still.
+
+<Image img={require('./assets/powertop-tunables.png')} alt="Powertop tunables" />
+
+#### Tuning
+
+Now that we have an overview of what's going on, let's try to tune some of the settings.
+
+```shell
+powertop --auto-tune
+
+# or alternatively
+powertop --quiet --auto-tune
+```
+
+:::note
+
+This command will be undone after every reboot, unless you add it to the `go` file. Keep reading 🙂
+
+:::
+
+After running this command, the `Tunables` tab looks like this:
+
+<Image img={require('./assets/powertop-tunables-tuned.png')} alt="Powertop tunables tuned" />
+
+The `Idle stats` tab looks a lot better now too: Instead of the CPU spending most of the time in the
+C2 state it's now spending most of the time in the C8 state.
+
+<Image img={require('./assets/powertop-idle-states-tuned.png')} alt="Powertop idle stats tuned" />
+
+#### Keep tuning after reboot
+
+First of, let's test that the array still comes up after tuning.
+
+In Unraid stop the array, then run the tuning command again.
+
+```shell
+powertop --quiet --auto-tune
+```
+
+Now start the array again. If the array comes up, you should be good to go.
+
+To keep the tuning after reboot, add the tuning command to the `go` file like so:
+
+```shell
+echo "powertop --quiet --auto-tune" >> /boot/config/go
+```
+
+Finally, reboot and check if everything still works as expected.
+
+```shell
+reboot
+```
+
+### Results
+
+Et voilà! After applying tuning, the power usage is down to 7W on average. Awesome! 🎉
+
+| Idle low | Idle avg | Idle high |
+| :------: | :------: | :-------: |
+|    6W    |  **7W**  |    10W    |
+
+## Conclusion
+
+And there we have it!
+
+A powerful server that uses only 7W on average when idle. I'm really happy with the results.
+
+## Credits
+
+I could not have done it without the awesome contributions people made to the
+[Big Efficient Server Topic](https://gathering.tweakers.net/forum/list_messages/2096876/0).
+
+Special thanks to [mrmrmr](https://tweakers.net/gallery/216161/) in particular. 🙏🏻
