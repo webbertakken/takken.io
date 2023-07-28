@@ -15,19 +15,19 @@
 - Mutability is a first class concept in Rust. Values by default can not be mutated. You’ll need to
   add the `mut` keyword for that.
 
-```rs
+```rust
 let foo = 1 // immutable
 let mut bar = 2 // mutable
 ```
 
 - References are by default also not mutable.
 
-```rs
+```rust
 // Given mutable string
 let mut s1 = String::from("foo");
 ```
 
-```rs
+```rust
 // Example 1
 fn side_effect(string: &String) {
     println!("{}", string);
@@ -37,7 +37,7 @@ fn side_effect(string: &String) {
 side_effect(&s1);
 ```
 
-```rs
+```rust
 // Example 2
 fn function_that_updates_string(string: &mut String) {
     // The * gives mutable access to the variables value.
@@ -53,13 +53,13 @@ function_that_updates_string(&mut s1);
 - Each value has an owner (a value is tied to a variable), there is only one owner of a value (other
   variables can borrow). The value gets dropped when the owner goes out of scope.
 
-```rs
+```rust
 fn move_value_to_new_pointer() {
     let s1 = String::from("abc");
     //  -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
 
     let s2 = s1;
-    //             -- value moved here (s1 no longer points to the value)
+    //       -- value moved here (s1 no longer points to the value)
 
     // println!("{}", s1);
     // Error:         ^^ value borrowed here after move
@@ -79,7 +79,7 @@ fn copy_value_to_new_pointer() {
 Closures, in some languages called anonymous functions, are very powerful in Rust. It’s important to
 know how they behave about ownership as well.
 
-```rs
+```rust
 // Example closure
 |x, y| x + y
 
@@ -87,7 +87,7 @@ know how they behave about ownership as well.
 || x + y
 ```
 
-```rs
+```rust
 // Any owned type
 let s = String::from("🐈");
 
@@ -110,7 +110,7 @@ f(); // prints "🐈"
   - Great explanation by Jake Dawkins
     [https://jakedawkins.com/2020-04-16-unwrap-expect-rust](https://jakedawkins.com/2020-04-16-unwrap-expect-rust/)/
 
-```rs
+```rust
 // `Option` resolves into `Some` or `None`
 fn get_status(username: &str) -> Option<&str> {
   // some user lookup code here...
@@ -127,7 +127,7 @@ match result {
 }
 ```
 
-```rs
+```rust
 // `Result` resolves into `Ok` or `Err`
 fn get_status(username: &str) -> Result<&str, String> {
   // some user lookup code here...
@@ -144,7 +144,7 @@ match result {
 }
 ```
 
-```rs
+```rust
 // Unwrap is a shorthand...
 let status = get_status("takken.io").unwrap();
 
