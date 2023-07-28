@@ -10,7 +10,7 @@ Useful stuff you should know about Go when moving from another language.
 
 ## Concepts
 
-These are the concepts I picked up while learning Go myself.
+These are the things I picked up (over time) while learning Go.
 
 ### Loops over iterator abstractions
 

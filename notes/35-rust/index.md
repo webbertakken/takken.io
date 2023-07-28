@@ -10,6 +10,8 @@
 
 ## Concepts
 
+These are the things I picked up (over time) while learning Rust.
+
 ### Mutability
 
 - Mutability is a first class concept in Rust. Values by default can not be mutated. You’ll need to
