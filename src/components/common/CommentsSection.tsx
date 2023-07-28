@@ -12,7 +12,16 @@ const CommentsSection = ({ category, categoryId }: Props): JSX.Element => {
 
   return (
     <div role="region" aria-label="Comments section">
-      <h2 style={{ margin: '40px 0 20px' }}>What are your thoughts?</h2>
+      <h2 className="anchor" style={{ margin: '40px 0 20px' }} id="comments">
+        What are your thoughts?
+        <a
+          href="#comments"
+          className="hash-link"
+          aria-label="Direct link to the comments section"
+          title="Direct link to the comments section"
+        />
+      </h2>
+
       <Giscus
         id="comments"
         repo="webbertakken/takken.io"
