@@ -46,7 +46,7 @@ permit_join: true
 devices:
   '0xa4c138053f778359':
 -    friendly_name: '0xa4c138053f778359'
-+    friendly_name: 'The Projector'
++    friendly_name: 'The Fan'
 ```
 
 :::tip
@@ -88,3 +88,19 @@ In my case not all devices functioned as expected
 Calibration of the energy meter can be done MQTT
 
 I've found this guide: https://www.zigbee2mqtt.io/devices/A1Z.html
+
+Use an MQTT client (like MQTT Explorer) to send below commands.
+
+Commands will consist of a `topic` and a `payload`. The `topic` is the first part of the command and
+the `payload` is the second (JSON) part of the command.
+
+##### Check connection
+
+First things first, lets check that we are connected and calibrating the correct socket by switching
+it on and off.
+
+```bash
+zigbee2mqtt/the_fan/set {"state": "TOGGLE"}
+```
+
+##### Get status
