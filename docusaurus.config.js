@@ -222,7 +222,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['powershell', 'rust'],
+        additionalLanguages: ['powershell', 'rust', 'ini'],
       },
       algolia: {
         // The application ID provided by Algolia

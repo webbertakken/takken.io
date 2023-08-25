@@ -1,0 +1,261 @@
+import ImageWrapper from '../../src/components/ImageWrapper'
+import Image from '@theme/IdealImage'
+
+# Git
+
+Here are my notes on Git.
+
+## Introduction
+
+Using Git is an essential skill for almost every developer. Git sounds simple enough, but it does
+have a bit of a learning curve. And if you get stuck, it can be hard to get unstuck if you lack some
+understanding.
+
+Over the years I've derived at a relatively simple and foolproof workflow. I'll first describe the
+basic steps. Then I'll describe how to deal with specific situations, like merge conflicts.
+
+:::note
+
+I'm using [Git for Windows](https://gitforwindows.org/) and opt-in ot the linux tools for bash
+during the installation, which allows using linux commands in Windows (PowerShell 7+)
+
+:::
+
+## One-time setup
+
+### Setup key
+
+(once per machine)
+
+I use SSH keys to authenticate with GitHub. The private key requires a passphrase, so I'm the only
+one who can use it.
+
+To set up a new key I always use
+[this excellent guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+from GitHub.
+
+### Setup git config
+
+(once per machine)
+
+Over the years I've collected a few useful settings for my git config. Take what you need.
+
+```ini
+# ~/.gitconfig
+
+# First things first, always set up your user info.
+[user]
+name = my_username
+email = my_email@example.com
+
+# Display colours in the console
+[color]
+ui = auto
+branch = auto
+status = auto
+
+# Always rebase when using `git pull`, except for `main, master, develop` branches.
+[branch]
+autosetuprebase = always
+
+[branch "main"]
+rebase = false
+
+[branch "master"]
+rebase = false
+
+[branch "develop"]
+rebase = false
+
+# Automatically set up remote tracking branches for all new local branches.
+[push]
+autoSetupRemote = true
+
+# Important setting in windows that allows working on both Windows and cross-platform projects
+[core]
+eol = native
+autocrlf = input
+
+# Common typos and aliases for long commands
+[alias]
+chekcout = checkout
+ocmmit = commit
+statsu = status
+sttaus = status
+fa = fetch --all
+pushf = push --force-with-lease
+stsah = stash
+
+# Common LFS Settings
+[filter "lfs"]
+smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = true
+clean = git-lfs clean -- %f
+
+# How private registries are handled
+[credential "https://my_company_vcs.example.com"]
+provider = generic
+```
+
+### Clone
+
+(once per repository)
+
+I usually clone using SSH, because my private key has a passphrase for extra security.
+
+```bash
+git clone git@github.com:webbertakken/takken.io.git
+```
+
+:::note
+
+LFS repositories really don't work well with SSH, so in those cases I clone using HTTPS instead.
+
+```bash
+git clone https://github.com/webbertakken/takken.io.git
+```
+
+:::
+
+### The Commit tool window
+
+(discovering this feature: once in your life)
+
+To review the changes I use WebStorms built-in `commit` tool window.
+
+<Image img={require('./assets/commit-panel.png')} alt="Intellij Commit-tool window" />
+
+You can enable this tool window by clicking `View > Tool Windows > Commit`.
+
+<Image img={require('./assets/enable-commit-tool-window.png')} alt="Intellij Commit tool window" />
+
+If the tool window is still not visible or looks very different, you might have to enable the
+`non-modal commit interface` in the settings.
+
+<Image img={require('./assets/non-modal-commit-interface.png')} alt="Intellij Commit-tool window" />
+
+## Basic workflow
+
+:::info
+
+This way of working with Git strikes a balance between maximum flexibility and keeping a very easy
+to understand rationale.
+
+:::
+
+Most commonly I work with repositories that I have direct access to, so I can push and pull.
+
+When using your own fork you have to create a pull request to the upstream repository instead of to
+the `main` branch. The rest works the same.
+
+### 1. Create a local branch
+
+Mostly I try to make every change or group of changes in a separate (local) branch so that I can
+create a pull request when the changes are finished. create Pull Requests.
+
+```bash
+git checkout -b my-feature
+```
+
+:::note
+
+Sometimes I make changes first, but I always switch from `main` to a feature branch before
+committing the first changes
+
+:::
+
+### 2. Make changes
+
+Make changes to the code, add files, remove files, etc.
+
+:::tip
+
+When editing code, or any file for that matter, use a proper editor like VS Code, Intellij (e.g.
+WebStorm or Rider), Google IDX etc.
+
+:::
+
+I mostly use Intellij editors because of their superior refactoring capabilities and because of
+their really neat [commit tool window](#Make-and-review-changes). All Intellij editors are free if
+you contribute to open source.
+
+### 3. Review the changes locally
+
+Then review those changes (the `diff`) inside the IDE.
+
+<ImageWrapper>
+  <Image img={require('./assets/right-click-to-show-diff.png')} alt="Right click, show diff" />
+</ImageWrapper>
+
+<Image img={require('./assets/review-diff.png')} alt="Review diff example" />
+
+Once reviewed and satisfied, I commit the changes, then repeat steps 2 and 3 as needed.
+
+### 4. commit the changes
+
+I use two ways to commit changes.
+
+1. Simply committing **all changes** at once from the command line, using
+   `git commit -am "feat: my feature description"`
+2. Only committing **partial changes**. I do this using the commit tool window, simply by checking
+   all files, and then unchecking some of them.
+
+:::tip
+
+Using the commit tool window you can even select specific lines of code to commit when you click
+show diff.
+
+<Image img="assets/include-or-exclude-specific-lines.png" alt="Include or exclude specific lines" />
+
+:::
+
+### 5. Push the changes
+
+When the changes are ready to be shared, I push the changes to the remote repository.
+
+```bash
+git push
+```
+
+:::note
+
+Since my git config is set up to automatically set up remote tracking branches for all new local
+branches, that is all.
+
+If that is not the case the command would be
+
+```bash
+git push -u origin my-feature
+```
+
+:::
+
+### 6. Pull request
+
+When the changes are pushed to the remote repository, I create a pull request to the `main` branch.
+
+When working on a repository by myself, I usually work on getting the pull request merged
+immediately.
+
+### 7. Getting ready to work on the next feature
+
+Update the main branch before switching back to it.
+
+```bash
+git fetch -u origin main:main
+```
+
+Then switch to it
+
+```bash
+git checkout main
+```
+
+:::info
+
+This can be especially quick if you have just merged the feature into main, since no files need to
+be changed locally - because main is already up-to-date with remote (and thus the feature that you
+just merged).
+
+:::
