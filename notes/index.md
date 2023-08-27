@@ -8,4 +8,7 @@ slug: introduction
 
 These are personal notes on mostly nerdy stuff.
 
-I'm sharing them publicly in case anyone could find a use for it.
+If any of the sections is somehow useful to even a single person, I'll consider these notes a
+success.
+
+I'm also keen to hear any tips, corrections, thoughts or suggestions you may have.

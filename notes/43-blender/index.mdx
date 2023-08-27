@@ -8,7 +8,39 @@ Here's my notes on blender. I'll keep adding to it as I learn more.
 
 ## Conventions
 
+### Rationale
+
 - Always render the front towards `-Y` (create Monkey object to see the default orientation)
+
+### Non default settings
+
+#### Status bar
+
+Right click the status bar to enable `Scene statistics`.
+
+#### Navigation
+
+- Enable `Orbit around selection`
+- Enable `Auto depth`
+- Enable `Zoom to mouse position`
+
+## Vocabulary
+
+### Manipulator
+
+The manipulator is the tool that allows you to move, rotate and scale objects in the 3d viewport.
+
+### Vertex
+
+A vertex is a point in 3d space. It is the most basic element of a 3d object.
+
+### Edge
+
+An edge is a line between two vertices.
+
+### Face
+
+A face is a flat surface between three or more vertices. Sometimes called Polygon.
 
 ## Important hotkeys
 
@@ -34,16 +66,43 @@ Blender shortcuts depend on the mouse cursor position.
 - `Numpad 9` to rotate view 180 degrees
 - `Numpad 5` to toggle orthographic/perspective view
 
-### Editors and Workspaces general
+### User interface
 
 - `Ctrl + PgUp` and `Ctrl + PgDn` to switch between workspaces (Layout, Modeling, Sculpting etc.)
 - `Ctrl + Space` to toggle editor fullscreen mode
+- `Tab` to toggle edit mode
+- `1, 2, 3` to switch between vertex, edge and face selection mode
+- `F9` to open last operation settings
+- `N` to toggle right panel
+- `Shift + S` snap menu
 
-### 3d object mode
+### Viewport
 
-Object manipulation
+- `Home` to focus on scene
+- `Numpad .` to focus on selected object
+- `Alt + Z` to toggle X-ray mode
+
+### Adding an object
+
+- `Shift + RMB` to set the 3d cursor position
+- `Shift + A` to add object
+- `Shift + C` to reset 3d cursor position
+
+### Transformations
+
+- `G` to move selected
+- `R` to rotate selected
+- `S` to scale selected
+
+### Selection
 
 - `A` to select all
 - `A, A` or `Alt + A` to deselect all
 - `Ctrl + I` to invert selection
 - `X` to delete selected
+- `H` to hide selected
+- `Shift + H` to hide unselected
+- `Alt + H` to reveal hidden objects
+- `/` to isolate selected objects
+- `L` to select linked sub-objects (vertices, edges, faces)
+- `Shift + L` to deselect linked sub-objects
