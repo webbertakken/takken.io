@@ -268,3 +268,45 @@ just merged).
 Here's what the complete happy flow looks like in practice.
 
 <Image img={require('./assets/complete-flow-in-action.png')} alt="Complete flow in action" />
+
+## Workflow: Remote changes, rebase using stash
+
+Sometimes you have changes on the remote repository that you want to pull in, but you also have
+local changes that you want to keep.
+
+:::info
+
+This is common when working on the same branch with multiple people, or when you are working from
+multiple machines, or when you haven't switched into a feature branch yet.
+
+:::
+
+If you haven't committed your local changes yet, you can simply stash them, pull the remote changes,
+and then re-apply the stashed changes.
+
+### 1. Stash local changes
+
+```bash
+git stash
+```
+
+### 2. Pull remote changes
+
+```bash
+git pull
+```
+
+### 3. Re-apply stashed changes
+
+```bash
+git stash pop
+```
+
+### Complete flow in practice
+
+Here's what the complete flow looks like in practice.
+
+<Image
+  img={require('./assets/rebase-local-changes-by-stashing-them.png')}
+  alt="Rebase local changes by stashing them"
+/>
