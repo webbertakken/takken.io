@@ -26,21 +26,31 @@ Right click the status bar to enable `Scene statistics`.
 
 ## Vocabulary
 
-### Manipulator
+### Interface
 
-The manipulator is the tool that allows you to move, rotate and scale objects in the 3d viewport.
+| Term        | Description                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------- |
+| Manipulator | The manipulator is the tool that allows you to move, rotate and scale objects in the 3d viewport. |
 
-### Vertex
+### Objects
 
-A vertex is a point in 3d space. It is the most basic element of a 3d object.
+| Term   | Description                                                                                                |
+| ------ | ---------------------------------------------------------------------------------------------------------- |
+| Vertex | A vertex is a point in 3d space. It is the most basic element of a 3d object.                              |
+| Edge   | An edge is a line between two vertices.                                                                    |
+| Face   | A face is a flat surface between three or more vertices. Sometimes called Polygon.                         |
+| Mesh   | A mesh is a collection of vertices, edges and faces, that create a shape.                                  |
+| Object | An object is the combination of a mesh, the material and the texture. Two objects can share the same mesh. |
 
-### Edge
+### Visuals
 
-An edge is a line between two vertices.
+| Term     | Type       | Description                                                                                                                                                 |
+| -------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Material | parameters | A material is a set of properties that define what an object looks like when rendered.                                                                      |
+| Shader   | logic      | A shader is a program that consists of rules and logic and runs on the GPU to determine the color of each pixel of an object based on different conditions. |
+| Texture  | image      | A texture is an image that is placedon the surface of an object to give it a move realistic look.                                                           |
 
-### Face
-
-A face is a flat surface between three or more vertices. Sometimes called Polygon.
+###
 
 ## Important hotkeys
 
@@ -81,6 +91,7 @@ Blender shortcuts depend on the mouse cursor position.
 - `Home` to focus on scene
 - `Numpad .` to focus on selected object
 - `Alt + Z` to toggle X-ray mode
+- `Z` to open shading overlay
 
 ### Adding an object
 
