@@ -38,6 +38,7 @@
     "@docusaurus/plugin-ideal-image": "^2.4.1",
     "@docusaurus/plugin-pwa": "^2.4.1",
     "@docusaurus/preset-classic": "^2.4.1",
+    "@garmin-fit/sdk": "^21.115.0",
     "@giscus/react": "^2.3.0",
     "@mdx-js/react": "^1.6.22",
     "@types/dedent": "^0.7.0",
