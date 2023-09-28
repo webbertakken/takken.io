@@ -98,8 +98,8 @@ const SsiDiveLogHelper = (): JSX.Element => {
       // var_surface_id:10;
       // var_divetype_id:23;
       // user_master_id:3679373; // Added if created from SSI app, seemingly not useful for importing
-      // user_firstname: firstName, // Added if created from SSI app, seemingly not useful for importing
-      // user_lastname: lastName, // Added if created from SSI app, seemingly not useful for importing
+      user_firstname: firstName, // Added if created from SSI app, seemingly not useful for importing
+      user_lastname: lastName, // Added if created from SSI app, seemingly not useful for importing
       // watertemp_c:16 ;
       // airtemp_c:20;
       // vis_m:3;
