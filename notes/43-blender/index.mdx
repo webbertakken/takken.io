@@ -10,13 +10,19 @@ Here's my notes on blender. I'll keep adding to it as I learn more.
 
 ### Rationale
 
-- Always render the front towards `-Y` (create Monkey object to see the default orientation)
+- Always render the front towards `-Y` (create Monkey object to see the default orientation).
+- A material should ideally be used to represent a material in the real world.
 
 ### Non default settings
 
 #### Status bar
 
 Right click the status bar to enable `Scene statistics`.
+
+#### Interface
+
+- Set `Color Picker Type` to `Square (SV + H)`. This will make it easier to pick more granular
+  colours.
 
 #### Navigation
 
@@ -46,11 +52,15 @@ Right click the status bar to enable `Scene statistics`.
 
 | Term     | Type       | Description                                                                                                                                                 |
 | -------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Material | parameters | A material is a set of properties that define what an object looks like when rendered.                                                                      |
+| Material | parameters | A material is a set of properties that define what an object looks like when rendered. It contains 1 or more shaders and 0 or more textures.                |
 | Shader   | logic      | A shader is a program that consists of rules and logic and runs on the GPU to determine the color of each pixel of an object based on different conditions. |
 | Texture  | image      | A texture is an image that is placedon the surface of an object to give it a move realistic look.                                                           |
 
 ###
+
+## Gotchas
+
+- The camera with the solid triangle is the active camera.
 
 ## Important hotkeys
 
@@ -78,6 +88,8 @@ Blender shortcuts depend on the mouse cursor position.
 
 ### User interface
 
+- Hover a field and `Ctrl + C` to copy the value. Can be a text or a number or even things like
+  colours. Hover another field and `Ctrl + V` to paste the value.
 - `Ctrl + PgUp` and `Ctrl + PgDn` to switch between workspaces (Layout, Modeling, Sculpting etc.)
 - `Ctrl + Space` to toggle editor fullscreen mode
 - `Tab` to toggle edit mode
@@ -93,6 +105,20 @@ Blender shortcuts depend on the mouse cursor position.
 - `Alt + Z` to toggle X-ray mode
 - `Z` to open shading overlay
 
+### Camera
+
+:::note
+
+The camera with the solid triangle is the active camera.
+
+:::
+
+- `Numpad 0` to toggle Camera view
+- `Ctrl + Numpad 0` to set active camera
+- `Ctrl + Alt + Numpad 0` to align active camera to current view
+- `G` pan camera
+- `G, Z, Z` to pan camera along Z axis
+
 ### Adding an object
 
 - `Shift + RMB` to set the 3d cursor position
@@ -101,9 +127,9 @@ Blender shortcuts depend on the mouse cursor position.
 
 ### Transformations
 
-- `G` to move selected
-- `R` to rotate selected
-- `S` to scale selected
+- `G` to move selected (`Alt + G` to reset)
+- `R` to rotate selected (`Alt + R` to reset)
+- `S` to scale selected (`Alt + S` to reset)
 
 ### Selection
 

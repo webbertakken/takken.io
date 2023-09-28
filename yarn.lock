@@ -4386,6 +4386,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@garmin-fit/sdk@npm:^21.115.0":
+  version: 21.115.0
+  resolution: "@garmin-fit/sdk@npm:21.115.0"
+  checksum: 32473ade095c134667f693e01313acd3dae11e3a0d0f8fd79a5f4590dd7842ea1f9cdee5a27beac17a60e2c2bb07005f68b30b24e277e5013c1c63b6732870b5
+  languageName: node
+  linkType: hard
+
 "@giscus/react@npm:^2.3.0":
   version: 2.3.0
   resolution: "@giscus/react@npm:2.3.0"
@@ -16327,6 +16334,7 @@ __metadata:
     "@docusaurus/plugin-ideal-image": ^2.4.1
     "@docusaurus/plugin-pwa": ^2.4.1
     "@docusaurus/preset-classic": ^2.4.1
+    "@garmin-fit/sdk": ^21.115.0
     "@giscus/react": ^2.3.0
     "@mdx-js/react": ^1.6.22
     "@tsconfig/docusaurus": ^2.0.0
