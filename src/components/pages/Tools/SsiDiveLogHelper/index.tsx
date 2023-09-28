@@ -9,7 +9,6 @@ import {
 } from '@site/src/components/pages/Tools/SsiDiveLogHelper/data'
 
 interface GarminMessages {
-  [key: string]: { [key: string]: any }[]
   fileIdMesgs: { timeCreated: Date }[]
   sportMesgs: GarminSport[]
   diveSettingsMesgs: GarminDiveSettings[]
