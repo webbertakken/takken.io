@@ -17,7 +17,7 @@ interface GarminMessages {
 }
 
 interface DiveData {
-  [key: string]: string
+  [key: string]: string | number | null
 }
 
 const interestingMessages = [
@@ -81,14 +81,16 @@ const SsiDiveLogHelper = (): JSX.Element => {
   }
 
   const parseDive = async (messages): Promise<void> => {
+    const session = messages.diveSummaryMesgs.find((m) => m.referenceMesg === 'session')
+
     // Todo - Map the rest of Garmin data to SSI data
     const dive = {
       dive: null,
       noid: null,
       dive_type: '0',
-      // divetime:33;
-      datetime: formatDate(messages.sessionMesgs[0].startTime),
-      // depth_m:13.5;
+      divetime: Math.round(session.bottomTime / 60),
+      datetime: formatDate(messages.sessionMesgs[0].startTime), // 202309151957
+      depth_m: Math.round(session.maxDepth * 10) / 10, // 9.6
       // site:80095;
       // var_weather_id:2;
       // var_entry_id:21;
@@ -98,8 +100,8 @@ const SsiDiveLogHelper = (): JSX.Element => {
       // var_surface_id:10;
       // var_divetype_id:23;
       // user_master_id:3679373; // Added if created from SSI app, seemingly not useful for importing
-      user_firstname: firstName, // Added if created from SSI app, seemingly not useful for importing
-      user_lastname: lastName, // Added if created from SSI app, seemingly not useful for importing
+      user_firstname: firstName || '', // Added if created from SSI app, seemingly not useful for importing
+      user_lastname: lastName || '', // Added if created from SSI app, seemingly not useful for importing
       // watertemp_c:16 ;
       // airtemp_c:20;
       // vis_m:3;
