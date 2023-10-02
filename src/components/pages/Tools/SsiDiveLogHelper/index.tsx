@@ -1,6 +1,7 @@
 import React, { createRef, useState } from 'react'
 import ToolPage from '@theme/ToolPage'
 import { Decoder, Stream } from '@garmin-fit/sdk'
+import { unzipSync } from 'fflate'
 import {
   GarminDiveGas,
   GarminDiveSettings,
@@ -25,6 +26,7 @@ const interestingMessages = [
   'sportMesgs',
   'diveSettingsMesgs',
   'diveGasMesgs',
+  'diveSummaryMesgs',
   'sessionMesgs',
   'recordMesgs',
   'tankSummaryMesgs',
@@ -41,31 +43,53 @@ const SsiDiveLogHelper = (): JSX.Element => {
 
   const onUploadFile = async (): Promise<void> => {
     // Select file
-    const file = fileInputRef.current?.files[0]
-    if (!file) return setError('No file selected.')
+    const fileHandle = fileInputRef.current?.files[0]
+    if (!fileHandle) return setError('No file selected.')
 
-    // Read file
-    const buffer = await file.arrayBuffer()
-    const stream = Stream.fromByteArray(buffer)
-    const decoder = new Decoder(stream)
+    const buffer = await fileHandle.arrayBuffer()
 
-    // Check integrity
-    if (!decoder.isFIT(stream)) return setError('Unable to parse FIT file')
-    if (!decoder.checkIntegrity()) return setError('Integrity check failed')
+    // Select files
+    const files = new Map<string, Uint8Array>()
+    if (fileHandle.name.toLowerCase().endsWith('.fit')) {
+      files.set(fileHandle.name, new Uint8Array(buffer))
+    } else if (fileHandle.name.toLowerCase().endsWith('.zip')) {
+      const decompressedFiles = unzipSync(new Uint8Array(buffer), {
+        filter: (file) =>
+          file.name.toLowerCase().endsWith('.fit') && file.originalSize <= 10_000_000,
+      })
 
-    // Check for errors
-    const { messages, errors } = decoder.read({
-      // convertTypesToStrings: false,
-      includeUnknownData: false,
-      mergeHeartRates: true,
-    })
-    if (errors.length >= 1) return setError(errors.join(','))
+      Object.entries(decompressedFiles).forEach(([fileName, bytes]) => {
+        files.set(fileName, bytes)
+      })
+    } else {
+      return setError('unsupported file')
+    }
 
-    // Update messages
-    setMessages(messages)
-    setError(null)
+    for (const [fileName, bytes] of files) {
+      console.log('reading', fileName)
+      const decoder = new Decoder(Stream.fromByteArray(bytes))
 
-    await parseDive(messages)
+      // Check integrity
+      if (!decoder.isFIT(bytes)) return setError('Unable to parse FIT file')
+      if (!decoder.checkIntegrity()) return setError('Integrity check failed')
+
+      // Todo - Scale messages / errors / display for multi-file
+
+      // Check for errors
+      const { messages, errors } = decoder.read({
+        // convertTypesToStrings: false,
+        includeUnknownData: false,
+        mergeHeartRates: true,
+      })
+      if (errors.length >= 1) return setError(errors.join(','))
+
+      // Update messages
+      setMessages(messages)
+      setError(null)
+
+      console.log(messages)
+      await parseDive(messages)
+    }
   }
 
   const formatDate = (date: Date): string => {
@@ -81,16 +105,17 @@ const SsiDiveLogHelper = (): JSX.Element => {
   }
 
   const parseDive = async (messages): Promise<void> => {
-    const session = messages.diveSummaryMesgs.find((m) => m.referenceMesg === 'session')
+    const summary = messages.diveSummaryMesgs?.find((m) => m.referenceMesg === 'session')
+    const session = messages.sessionMesgs?.[0]
 
     // Todo - Map the rest of Garmin data to SSI data
     const dive = {
       dive: null,
       noid: null,
       dive_type: '0',
-      divetime: Math.round(session.bottomTime / 60),
-      datetime: formatDate(messages.sessionMesgs[0].startTime), // 202309151957
-      depth_m: Math.round(session.maxDepth * 10) / 10, // 9.6
+      divetime: summary ? Math.round(summary.bottomTime / 60) : undefined,
+      datetime: session ? formatDate(session.startTime) : undefined, // 202309151957
+      depth_m: summary ? Math.round(summary.maxDepth * 10) / 10 : undefined, // 9.6
       // site:80095;
       // var_weather_id:2;
       // var_entry_id:21;
@@ -116,6 +141,8 @@ const SsiDiveLogHelper = (): JSX.Element => {
 
   return (
     <ToolPage title="SSI DiveLog helper">
+      <link rel="dns-prefetch" href="https://chart.googleapis.com" />
+
       <div>
         <ul>
           <li>Upload your garmin .fit file</li>
@@ -166,13 +193,13 @@ const SsiDiveLogHelper = (): JSX.Element => {
 
         {error && <p style={{ display: 'inline-block', paddingLeft: 16, color: 'red' }}>{error}</p>}
       </div>
-
       {dive && (
         <>
           <div>
             <br />
             <h2>Key information</h2>
-            <p>{diveQR}</p>
+            <p>Scan the QR code in your SSI app</p>
+            <p style={{ opacity: 0.5 }}>{diveQR}</p>
             <img
               alt="Dive QR code for scanning in SSI app"
               src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${diveQR}&cho=UTF-8`}
@@ -180,7 +207,6 @@ const SsiDiveLogHelper = (): JSX.Element => {
           </div>
         </>
       )}
-
       {messages && (
         <div>
           <br />
