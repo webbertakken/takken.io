@@ -1,13 +1,13 @@
 import React, { createRef, useState } from 'react'
 import ToolPage from '@theme/ToolPage'
 import { Decoder, Stream } from '@garmin-fit/sdk'
-import { unzipSync } from 'fflate'
 import {
   GarminDiveGas,
   GarminDiveSettings,
   GarminSession,
   GarminSport,
 } from '@site/src/components/pages/Tools/SsiDiveLogHelper/data'
+import { useGarminFiles } from '@site/src/domain/diving/garmin/GarminFiles'
 
 interface GarminMessages {
   fileIdMesgs: { timeCreated: Date }[]
@@ -40,32 +40,18 @@ const SsiDiveLogHelper = (): JSX.Element => {
   const [error, setError] = useState<string | null>(null)
   const [firstName, setFirstName] = useState<string>()
   const [lastName, setLastName] = useState<string>()
+  const garminFiles = useGarminFiles()
 
   const onUploadFile = async (): Promise<void> => {
     // Select file
-    const fileHandle = fileInputRef.current?.files[0]
-    if (!fileHandle) return setError('No file selected.')
 
-    const buffer = await fileHandle.arrayBuffer()
+    const fileInput = fileInputRef.current
+    if (!fileInput) return
 
-    // Select files
-    const files = new Map<string, Uint8Array>()
-    if (fileHandle.name.toLowerCase().endsWith('.fit')) {
-      files.set(fileHandle.name, new Uint8Array(buffer))
-    } else if (fileHandle.name.toLowerCase().endsWith('.zip')) {
-      const decompressedFiles = unzipSync(new Uint8Array(buffer), {
-        filter: (file) =>
-          file.name.toLowerCase().endsWith('.fit') && file.originalSize <= 10_000_000,
-      })
+    await garminFiles.add(fileInput.files)
 
-      Object.entries(decompressedFiles).forEach(([fileName, bytes]) => {
-        files.set(fileName, bytes)
-      })
-    } else {
-      return setError('unsupported file')
-    }
-
-    for (const [fileName, bytes] of files) {
+    for (const [fileName, bytes] of garminFiles) {
+      // Todo - render each file instead of one
       console.log('reading', fileName)
       const decoder = new Decoder(Stream.fromByteArray(bytes))
 
