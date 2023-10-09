@@ -1,3 +1,12 @@
+export interface GarminMessages {
+  fileIdMesgs: { timeCreated: Date }[]
+  sportMesgs: GarminSport[]
+  diveSettingsMesgs: GarminDiveSettings[]
+  diveGasMesgs: GarminDiveGas[]
+  sessionMesgs: GarminSession[]
+  diveSummaryMesgs: DiveSummary[]
+}
+
 export interface GarminSport {
   name: string
   sport: 'diving'
@@ -78,4 +87,23 @@ export interface GarminSession {
   minTemperature: number // 22,
   totalFractionalAscent: number // 0,
   totalFractionalDescent: number // 0
+}
+
+export interface DiveSummary {
+  timestamp: Date // "2023-09-15T18:32:52.000Z",
+  avgDepth: number // 6.222,
+  maxDepth: number // 9.624,
+  diveNumber: number // 7,
+  bottomTime: number // 2074.407,
+  descentTime: number // 937,
+  ascentTime: number // 2880188.287,
+  avgAscentRate: number // 0.07,
+  referenceMesg: 'session' | 'lap' | string // "session",
+  referenceIndex: number // 0,
+  startN2: number // 1,
+  endN2: number // 33,
+  o2Toxicity: number // 0,
+  avgPressureSac: number // 2.9,
+  startCns: number // 0,
+  endCns: number // 0
 }
