@@ -14,7 +14,7 @@ import {
   SsiDiveSubType,
   SsiDiveType,
   SsiSurface,
-  SsiWaterEntry,
+  SsiEntry,
   SsiWaterType,
   SsiWeather,
 } from '@site/src/domain/diving/ssi/SsiParameters'
@@ -29,7 +29,7 @@ export class SsiDive {
   depth_m: DepthInMeters
   site: SsiDiveSite
   var_weather_id: SsiWeather
-  var_entry_id: SsiWaterEntry
+  var_entry_id: SsiEntry
   var_water_body_id: SsiBodyOfWater
   var_watertype_id: SsiWaterType
   var_current_id: SsiCurrent
@@ -49,7 +49,7 @@ export class SsiDive {
     return {
       dive: null,
       noid: null,
-      dive_type: SsiDiveType.Scuba,
+      dive_type: SsiDive.diveTypeFromSport(garmin.sport),
       divetime: garmin.diveTime,
       datetime: garmin.startTime ? SsiDive.formatDate(garmin.startTime) : undefined,
       depth_m: garmin.maxDepth,
@@ -64,9 +64,12 @@ export class SsiDive {
       // user_master_id:3679373; // Added if created from SSI app, seemingly not useful for importing
       user_firstname: garmin.firstName || '', // Added if created from SSI app, seemingly not useful for importing
       user_lastname: garmin.lastName || '', // Added if created from SSI app, seemingly not useful for importing
-      // watertemp_c:16 ;
-      // airtemp_c:20;
-      // vis_m:3;
+      // user_leader_id: number // Todo - confirm
+      watertemp_c: garmin.minTemperature,
+      watertemp_max_c: garmin.maxTemperature,
+      // airtemp_c: AirTempCelcius
+      // vis_m: VisibilityInMeters
+      deco: 0,
     }
   }
 
@@ -86,5 +89,22 @@ export class SsiDive {
     const minutes = pad(date.getMinutes(), 2)
 
     return parseInt(`${year}${month}${day}${hours}${minutes}`)
+  }
+
+  private static diveTypeFromSport = (sport: string): SsiDiveType => {
+    switch (sport) {
+      case 'diving':
+        return SsiDiveType.Scuba
+      case 'freediving':
+        return SsiDiveType.Freediving
+      case 'extended_range':
+        return SsiDiveType.ExtendedRange
+      case 'rebreather_scr':
+        return SsiDiveType.RebreatherSelfContained
+      case 'rebreather_ccr':
+        return SsiDiveType.RebreatherClosedCircuit
+      default:
+        throw new Error(`Unsupported sport ${sport}`)
+    }
   }
 }
