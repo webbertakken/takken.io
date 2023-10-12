@@ -1,0 +1,63 @@
+# GoPro
+
+# Introduction
+
+:::info
+
+GoPro is an American company known for its durable and versatile action cameras designed to capture
+high-definition video in extreme conditions. 📷
+
+:::
+
+In 2023, I purchased a GoPro Hero 12 Black, that I use for diving, hiking, skiing and other outdoor
+activities. Below I'm keeping track of things I've learned about the camera and any configuration
+options.
+
+## GoPro Labs
+
+:::info
+
+GoPro Labs is a platform for sharing experimental features for GoPro cameras. It is a way for GoPro
+to get feedback on features that are still in development and to test new features that may or may
+not be included in future camera updates.
+
+:::
+
+Special firmware has to be installed to unlock the latest beta features.
+
+### Getting started
+
+- Download a GoPro Labs image: https://gopro.github.io/labs/
+- Follow the update procedure: https://gopro.github.io/labs/install/
+- Download the (unofficial) QR Control app on your phone to generate QR codes
+  ([Google Play](https://play.google.com/store/apps/details?id=com.miscdata.qrcontrol&hl=en_US),
+  [Apple](https://apps.apple.com/us/app/qrcontrol/id1518134202)).
+- Scan any QR codes with your Labs-enabled GoPro to enable the features.
+
+### Histogram
+
+To see the exposure levels of your GoPro, you can enable the histogram feature.
+
+<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline', gap: '1rem' }}>
+  <details style={{ width: 284 }}>
+    <summary>Try it out</summary>
+    <img
+      alt="GoPro Labs QR code for enabling histogram - temporarily"
+      src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${'oMHIST=1oMHSTP=27,40,100'}&cho=UTF-8`}
+    />
+  </details>
+  <details style={{ width: 284 }}>
+    <summary>Permanent</summary>
+    <img
+      alt="GoPro Labs QR code for enabling histogram - permanently"
+      src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${'!MHIST=1!MHSTP=27,40,100'}&cho=UTF-8`}
+    />
+  </details>
+  <details style={{ width: 284 }}>
+    <summary>Turn off</summary>
+    <img
+      alt="GoPro Labs QR code for enabling histogram - permanently"
+      src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${'!MHIST=0'}&cho=UTF-8`}
+    />
+  </details>
+</div>
