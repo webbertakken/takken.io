@@ -1,0 +1,10 @@
+---
+label: Poems
+collapsible: true
+collapsed: true
+link:
+  type: 'generated-index'
+  title: 'Poems'
+  slug: '/poems'
+  description: 'Poems I liked or wrote myself with the help of LLMs'
+  keywords: ['poems', 'poetry']
