@@ -1,10 +1,10 @@
-import React from 'react';
-import styles from './index.module.css';
+import React from 'react'
+import styles from './index.module.css'
 
 interface Props {
-  src: string;
-  alt: string;
-  year?: number;
+  src: string
+  alt: string
+  year?: number
 }
 
 const Image = ({ src, alt, year, ...props }: Props): JSX.Element => {
@@ -18,7 +18,7 @@ const Image = ({ src, alt, year, ...props }: Props): JSX.Element => {
         </em>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Image;
+export default Image

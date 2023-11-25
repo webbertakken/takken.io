@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import styles from './index.module.css';
+import styles from './index.module.css'
 
 interface Props {
-  children: string;
+  children: string
 }
 
 const PoemText = ({ children }: Props): JSX.Element => {
@@ -11,7 +11,7 @@ const PoemText = ({ children }: Props): JSX.Element => {
     <div>
       <div className={styles.poem}>{children}</div>
     </div>
-  );
-};
+  )
+}
 
-export default PoemText;
+export default PoemText
