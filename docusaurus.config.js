@@ -3,8 +3,7 @@
 
 require('dotenv').config()
 
-const lightCodeTheme = require('prism-react-renderer/themes/github')
-const darkCodeTheme = require('prism-react-renderer/themes/dracula')
+const { github: theme, dracula: darkTheme } = require('prism-react-renderer').themes
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -220,8 +219,8 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Webber.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme,
+        darkTheme,
         additionalLanguages: ['powershell', 'rust', 'ini'],
       },
       algolia: {
