@@ -98,16 +98,16 @@ const config = {
           path: 'notes',
           routeBasePath: '/notes/',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
+          editUrl: ({ docPath }) => {
+            return `https://holocron.so/github/pr/webbertakken/takken.io/main/editor/notes/${docPath}`
+          },
         },
         blog: {
           routeBasePath: '/blog/',
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
+          editUrl: ({ docPath }) => {
+            return `https://holocron.so/github/pr/webbertakken/takken.io/main/editor/blog/${docPath}`
+          },
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
