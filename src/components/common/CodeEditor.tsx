@@ -1,11 +1,9 @@
 import React, { CSSProperties, Fragment, useMemo, useState } from 'react'
 import Editor from 'react-simple-code-editor'
-import Highlight, { defaultProps, Language } from 'prism-react-renderer'
-import theme from 'prism-react-renderer/themes/dracula'
+import { Highlight, themes, Language } from 'prism-react-renderer'
 import cx from 'classnames'
-
 import classes from './CodeBlockAndEditor.module.scss'
-import { isLanguageSupported } from '@site/src/components/common/supportedLanguages'
+import { isLanguageSupported } from './supportedLanguages'
 
 interface OnChangeFn {
   (input: string): void
@@ -40,7 +38,7 @@ const CodeEditor = ({
   }
 
   const highlight = (code) => (
-    <Highlight {...defaultProps} theme={theme} code={code} language={usedLanguage}>
+    <Highlight theme={themes.dracula} code={code} language={usedLanguage}>
       {({ tokens, getLineProps, getTokenProps }) => (
         <Fragment>
           {tokens.map((line, i) => (
@@ -62,7 +60,7 @@ const CodeEditor = ({
       highlight={highlight}
       padding={10}
       className={cx(classes.container, className)}
-      style={theme.plain as CSSProperties}
+      style={themes.dracula.plain as CSSProperties}
     />
   )
 }

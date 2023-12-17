@@ -1,9 +1,8 @@
-import { ReactNodeLike } from 'prop-types'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styles from './blockquote.module.scss'
 
 interface Props {
-  children: ReactNodeLike
+  children: ReactNode
 }
 
 const Blockquote = ({ children }: Props) => {

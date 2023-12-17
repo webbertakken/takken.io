@@ -376,7 +376,7 @@ const john = { name: 'John' } as Person
 
 TypeScript now thinks the object has `age: number` but it doesn't. This can lead to bugs in runtime.
 
-:::caution Type assertions
+:::warning Type assertions
 
 Type assertions are often a sign of a design flaw in your code. Don't use them unless you have to.
 

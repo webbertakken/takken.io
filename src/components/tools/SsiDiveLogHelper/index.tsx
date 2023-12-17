@@ -1,5 +1,5 @@
 import React, { createRef, useState } from 'react'
-import ToolPage from '@theme/ToolPage'
+import ToolPage from '@theme/ToolPage/ToolPage'
 import { useGarminFiles } from '@site/src/domain/diving/garmin/GarminFiles'
 import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
 import { GarminMessages } from '@site/src/domain/diving/garmin/GarminMessages'

@@ -1,0 +1,11 @@
+/* loosely based on blog plugin theme */
+.layout {
+  width: var(--ifm-container-width-xl);
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 0 var(--ifm-spacing-horizontal);
+}
+
+.layout.wide {
+  width: 100%;
+}

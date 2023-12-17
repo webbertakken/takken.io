@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import cx from 'classnames'
 import styles from './MetaSection.module.scss'
-import { ReactNodeLike } from 'prop-types'
 
 interface MetaSectionProps {
   position: 'top' | 'bottom'
   className?: string
-  children: ReactNodeLike
+  children: ReactNode
 }
 
 const MetaSection = ({ position, className, children }: MetaSectionProps) => {
