@@ -1,8 +1,5 @@
-import React from 'react'
-import Highlight, { defaultProps, Language } from 'prism-react-renderer'
-import theme from 'prism-react-renderer/themes/dracula'
+import { Highlight, themes, Language } from 'prism-react-renderer'
 import cx from 'classnames'
-
 import styles from './CodeBlockAndEditor.module.scss'
 
 const Container = ({ className, ...props }) => (
@@ -54,11 +51,11 @@ const CodeBlock = ({ value, language, className }: CodeBlockProps) => {
 
   // Match language and optionally highlights
   const meta = language.match(/(?<lang>\w+)(?<highlightString>{[\d-,]+})?/)?.groups
-  const { lang, highlightString } = meta || {}
+  const { lang, highlightString } = meta || { lang: '' }
   const highlights = highlightString ? getRangeFromString(highlightString) : []
 
   return (
-    <Highlight {...defaultProps} theme={theme} code={value} language={lang as Language}>
+    <Highlight theme={themes.dracula} code={value} language={lang as Language}>
       {({ className: ownClass, style, tokens, getLineProps, getTokenProps }) => (
         <Container className={cx(ownClass, className)} style={style}>
           {tokens.map((line, i) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Heading from '@site/src/components/common/heading'
 import CodeEditor from '@site/src/components/common/CodeEditor'
 import styles from '../Tools.module.scss'
@@ -7,7 +7,7 @@ import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import cx from 'classnames'
-import ToolPage from '@theme/ToolPage'
+import ToolPage from '@theme/ToolPage/ToolPage'
 
 const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!
 

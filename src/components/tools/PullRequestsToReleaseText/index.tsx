@@ -4,7 +4,7 @@ import { useCookie } from '@site/src/core/hooks/useCookie'
 import styles from '../Tools.module.scss'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
-import ToolPage from '@theme/ToolPage'
+import ToolPage from '@theme/ToolPage/ToolPage'
 import cx from 'classnames'
 
 const exampleCopy = `Run license activation in an empty directory

@@ -17,6 +17,8 @@ serviceAccount.json
 .yarn/*
 !.yarn/releases
 !.yarn/plugins
+/yalc.lock
+/.yalc
 
 # testing
 /coverage
