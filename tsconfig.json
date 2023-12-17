@@ -5,6 +5,7 @@
     "baseUrl": ".",
     "jsx": "react-jsx",
     "target": "ES2020",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "allowSyntheticDefaultImports": true
   }
