@@ -1,10 +1,6 @@
-// @ts-ignore
 import React, { ReactNode } from 'react'
-// @ts-ignore
 import cx from 'classnames'
-// @ts-ignore
 import Layout from '@theme/Layout'
-// @ts-ignore
 import styles from './ToolPageLayout.module.css'
 
 interface Props {

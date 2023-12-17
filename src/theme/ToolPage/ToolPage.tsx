@@ -1,10 +1,9 @@
-// @ts-ignore
 import ToolPageLayout from '@theme/ToolPage/ToolPageLayout'
-import { ReactNodeLike } from 'prop-types'
+import { ReactNode } from 'react'
 
 interface Props {
   title?: string
-  children: ReactNodeLike
+  children: ReactNode
 }
 
 const ToolPage = ({ title = '', children }: Props): JSX.Element => {

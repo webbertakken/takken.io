@@ -1,4 +1,3 @@
-// @ts-ignore
 import ToolPageLayout from '@theme/ToolPage/ToolPageLayout'
 
 const tools = [
