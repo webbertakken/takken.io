@@ -1,0 +1,66 @@
+# Unreal Engine 5
+
+Here's my notes on Unreal Engine 5. I'll keep adding to it as I learn more.
+
+## Resources
+
+- https://www.udemy.com/course/unreal-engine-course
+- https://docs.unrealengine.com/5.0/en-US/lumen-global-illumination-and-reflections-in-unreal-engine/
+
+## Conventions
+
+### Rationale
+
+I did not come across any noteworthy conventions yet.
+
+### Non default settings
+
+#### Interface
+
+- Open project settings and pin it to the left side of the screen.
+
+## Vocabulary
+
+### Assets
+
+| Term              | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| Main Material     | Template for Material instances, prepended with `M_` |
+| Material Instance | Instance of a Main Material, prepended with `MI_`    |
+
+### Materials
+
+| Term       | Description                                 |
+| ---------- | ------------------------------------------- |
+| Base Color | Color of the material                       |
+| Metallic   | How metallic the material is                |
+| Roughness  | How rough the material is (smooth vs rough) |
+| Normal     | How much the material is affected by light  |
+
+## Gotchas
+
+- When lighting shows low quality baking, try to increase the lightmap resolution of the mesh.
+
+## Important hotkeys
+
+### General
+
+- `Ctrl` + `Space` to open Content Drawer
+
+### Mouse navigation
+
+- `LMB` to move
+- `RMB` to pan view
+- `MMB` to drag view
+
+### Keyboard navigation
+
+- `F` to focus on selected object
+
+### Graph
+
+- `1` + `RMB` to create a scalar node.
+- `2` + `RMB` to create a vector2 node.
+- `3` + `RMB` to create a vector3 node.
+- `M` + `RMB` to create a multiply node.
+- `L` + `RMB` to create a lerp node.
