@@ -6,12 +6,16 @@ Here's my notes on Unreal Engine 5. I'll keep adding to it as I learn more.
 
 - https://www.udemy.com/course/unreal-engine-course
 - https://docs.unrealengine.com/5.0/en-US/lumen-global-illumination-and-reflections-in-unreal-engine/
+- https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/
 
 ## Conventions
 
 ### Rationale
 
-I did not come across any noteworthy conventions yet.
+- Always use Lumen (and disable static lighting)
+- Always use Nanite (and set Nanite to Enabled for the mesh of each object asset)
+  - Nanite does not work for non-opaque materials and two-sided meshes
+- Get assets from Quixel Bridge
 
 ### Non default settings
 
@@ -23,10 +27,14 @@ I did not come across any noteworthy conventions yet.
 
 ### Assets
 
-| Term              | Description                                          |
-| ----------------- | ---------------------------------------------------- |
-| Main Material     | Template for Material instances, prepended with `M_` |
-| Material Instance | Instance of a Main Material, prepended with `MI_`    |
+| Prefix | Term              | Description                     |
+| ------ | ----------------- | ------------------------------- |
+| `BP_`  | Blueprint         | Encapsulates objects and logic  |
+| `M_`   | Main Material     | Template for Material instances |
+| `MI_`  | Material Instance | Instance of a Main Material     |
+| `SM_`  | Static Mesh       | Mesh that does not move         |
+| `S_`   | Skeletal Mesh     | Mesh that moves                 |
+| `T_`   | Texture           | Image used for materials        |
 
 ### Materials
 
@@ -37,6 +45,15 @@ I did not come across any noteworthy conventions yet.
 | Roughness  | How rough the material is (smooth vs rough) |
 | Normal     | How much the material is affected by light  |
 
+## Concepts
+
+### Blueprints
+
+- Use variables to store values. The setting `Instance Editable` makes it possible to change the value in the editor.
+- Use functions to encapsulate and reuse logic.
+- Use custom events to organize logic.
+- Use event dispatchers to send events to other blueprints.
+
 ## Gotchas
 
 - When lighting shows low quality baking, try to increase the lightmap resolution of the mesh.
@@ -46,6 +63,8 @@ I did not come across any noteworthy conventions yet.
 ### General
 
 - `Ctrl` + `Space` to open Content Drawer
+- `Ctrl` + `B` to
+- `Shift` + `F1` to get the mouse cursor back
 
 ### Mouse navigation
 
@@ -64,3 +83,10 @@ I did not come across any noteworthy conventions yet.
 - `3` + `RMB` to create a vector3 node.
 - `M` + `RMB` to create a multiply node.
 - `L` + `RMB` to create a lerp node.
+- Drag + `R` to create a reroute node.
+
+## Important console commands
+
+- `stat fps` to show fps
+- `stat unit` to show frame time
+- `stat rhi` to show gpu mem and triangles count
