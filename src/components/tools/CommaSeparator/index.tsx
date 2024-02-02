@@ -14,11 +14,15 @@ const PullRequestsToReleaseText = () => {
 
   const [splitRegex, setSplitRegex] = useState<string>('\\n')
   const [isRegexValid, setIsRegexValid] = useState<boolean>(true)
+  const [matchCount, setMatchCount] = useState<number>(0)
+
   const [trimLeading, setTrimLeading] = useState<boolean>(true)
   const [trimTrailing, setTrimTrailing] = useState<boolean>(true)
   const [matchMultiple, setMatchMultiple] = useState<boolean>(true)
 
   const [separator, setSeparator] = useState<string>(', ')
+
+  const escapeRegex = (input: string) => input.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 
   useEffect(() => {
     try {
@@ -27,13 +31,14 @@ const PullRequestsToReleaseText = () => {
         : new RegExp(splitRegex, 'g')
 
       setIsRegexValid(true)
+      setMatchCount(input.match(regex).length)
 
       let newResult = input.replace(regex, separator)
       if (trimLeading) {
-        newResult = newResult.replace(new RegExp(`^(${separator})+`), '')
+        newResult = newResult.replace(new RegExp(`^(${escapeRegex(separator)})+`), '')
       }
       if (trimTrailing) {
-        newResult = newResult.replace(new RegExp(`(${separator})+$`), '')
+        newResult = newResult.replace(new RegExp(`(${escapeRegex(separator)})+$`), '')
       }
       setResult(newResult)
     } catch {
@@ -57,7 +62,7 @@ const PullRequestsToReleaseText = () => {
           <Heading level={4}>Input</Heading>
           <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
             <li>
-              Split regex {isRegexValid ? '✅' : '❌'}
+              Split regex {isRegexValid ? '✅' : '❌'} ({matchCount} matches)
               <CodeEditor
                 className={cx(styles.codePanel, { [styles.borderRed]: !isRegexValid })}
                 onChange={setSplitRegex}
