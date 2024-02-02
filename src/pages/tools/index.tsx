@@ -5,6 +5,7 @@ const tools = [
   { name: 'SsiDiveLogHelper', slug: 'ssidiveloghelper' },
   { name: 'TasmotaHelper', slug: 'tasmotahelper' },
   { name: 'TextAnalyser', slug: 'textanalyser' },
+  { name: 'CommaSeparator', slug: 'commaseparator' },
 ]
 
 const Tools = (): JSX.Element => {
