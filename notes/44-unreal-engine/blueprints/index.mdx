@@ -1,0 +1,99 @@
+import Image from '@theme/IdealImage'
+import ImageWrapper from '../../../src/components/ImageWrapper'
+
+# Blueprints
+
+Blueprints are graphical representations of anything you would otherwise have to code.
+
+In blueprint projects, blueprints can completely replace code. They are quite intuitive and easy to
+use, and you can make them as complex as you want.
+
+:::info Higher level languages
+
+In terms of programming languages, I would argue that the higher level the language, the faster you
+can develop, as you're less bogged down by details. This often goes at the expense of flexibility
+and performance. However, as long as performance is still adequate for making great user experiences
+and you have enough flexibility to be effective, it's often a great trade-off.
+
+:::
+
+## Variables
+
+Variables are the most basic building blocks of blueprints. They are used to store and manipulate
+data.
+
+### Types
+
+These are the basic variable types:
+
+<Image img={require('./assets/variable-types.png')} alt="Variable types" />
+
+### Splitting and recombining
+
+You can split and recombine pins.
+
+<ImageWrapper>
+  <Image img={require('./assets/splitting-a-pin.png')} alt="Splitting a pin" />
+  <Image img={require('./assets/result-of-splitting-a-pin.png')} alt="Result of splitting a pin" />
+  <Image img={require('./assets/recombining-a-pin.png')} alt="Recombining a pin" />
+</ImageWrapper>
+
+### Making and breaking
+
+An simple but important concept is making and breaking.
+
+<Image img={require('./assets/making-and-breaking.png')} alt="Making and breaking" />
+
+### Custom types
+
+You can create custom types.
+
+- A `struct` (Structure) combines multiple variables into a single variable.
+- An `enum` (Enumeration) is a variable that can only have a few specific values.
+
+You can create both from the context menu in the Content Drawer.
+
+<Image img={require('./assets/creating-a-struct-or-enum.png')} alt="Creating a struct" />
+
+You can then define the shape of the struct or enum.
+
+<ImageWrapper>
+  <Image img={require('./assets/defining-a-struct.png')} alt="Defining a struct" />
+  <Image img={require('./assets/defining-an-enum.png')} alt="Defining an enum" />
+</ImageWrapper>
+
+You can then use the custom type as a variable. You can also use them in collections, like arrays.
+
+<ImageWrapper>
+  <Image
+    img={require('./assets/using-custom-variable-types.png')}
+    alt="Using custom variable types"
+  />
+  <Image
+    img={require('./assets/turn-variable-into-collection-of-type.png')}
+    alt="Turn variable into collection of type"
+  />
+</ImageWrapper>
+
+### Collections
+
+Collections are variables that store multiple values of the same type.
+
+#### Arrays
+
+Arrays are the most common type of collection. They are used to store a list of values. You can add
+and remove items from an array.
+
+<Image img={require('./assets/array-adding-and-removing.png')} alt="Array - adding and removing" />
+
+Utility functions are used to manipulate arrays.
+
+<Image img={require('./assets/array-utilities.png')} alt="Array - utility functions" />
+
+Example: moving an item from one array to another.
+
+<Image img={require('./assets/move-item-between-arrays.png')} alt="Move item between arrays" />
+
+## Events
+
+Events are used to trigger actions in response to something happening.

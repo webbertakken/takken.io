@@ -112,6 +112,8 @@ f(); // prints "🐈"
   - Great explanation by Jake Dawkins
     [https://jakedawkins.com/2020-04-16-unwrap-expect-rust](https://jakedawkins.com/2020-04-16-unwrap-expect-rust/)/
 
+#### Option
+
 ```rust
 // `Option` resolves into `Some` or `None`
 fn get_status(username: &str) -> Option<&str> {
@@ -128,6 +130,8 @@ match result {
   None => println!("couldn't find a status for takken.io"),
 }
 ```
+
+#### Result
 
 ```rust
 // `Result` resolves into `Ok` or `Err`
@@ -146,12 +150,16 @@ match result {
 }
 ```
 
+#### Unwrap
+
+Use sparingly, as it can panic
+
 ```rust
 // Unwrap is a shorthand...
 let status = get_status("takken.io").unwrap();
 
 // For `Option`
-let status = match get_something("takken.io") {
+let status = match get_status("takken.io") {
   Some(s) => s,
   None => panic!()
 }
