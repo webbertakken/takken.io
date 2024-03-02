@@ -52,7 +52,8 @@ See addendum for more resources.
 
 ### Blueprints
 
-- Use variables to store values. The setting `Instance Editable` makes it possible to change the value in the editor.
+- Use variables to store values. The setting `Instance Editable` makes it possible to change the
+  value in the editor.
 - Use functions to encapsulate and reuse logic.
 - Use custom events to organize logic.
 - Use event dispatchers to send events to other blueprints.
@@ -97,20 +98,25 @@ See addendum for more resources.
 
 ## Version control - Perforce
 
-Since Git is [not so well suited](https://stackoverflow.com/a/17723552/3593896) for repositories over 1 gigabyte, it's better to use Perforce for Unreal Engine projects.
+Since Git is [not so well suited](https://stackoverflow.com/a/17723552/3593896) for repositories
+over 1 gigabyte, it's better to use Perforce for Unreal Engine projects.
 
-Perforce has a server and a client component. The server is called _Helix Core_ and the client is called _P4V_.
+Perforce has a server and a client component. The server is called _Helix Core_ and the client is
+called _P4V_.
 
-Within Perforce we will be using the newer Stream-Depot model, which has the newer features and is more suited for Unreal Engine projects.
+Within Perforce we will be using the newer Stream-Depot model, which has the newer features and is
+more suited for Unreal Engine projects.
 
 ### Vocabulary
 
 #### Concepts
 
-- Workspace: A local copy of the depot.
-- Depot: A repository of files.
+- Depot (remote): A repository of files.
 - Stream: A branch of the depot.
+- Workspace (local): A local copy of the depot (mapped to a stream).
+- Client: Synonym for workspace.
 - TypeMap: A file that maps file types to Perforce commands. (similar to `.gitattributes` in Git)
+- Ignore file: A file, commonly `.p4ignore`, that lists files that should be ignored by Perforce.
 
 #### Workflow
 
@@ -120,7 +126,23 @@ Within Perforce we will be using the newer Stream-Depot model, which has the new
 
 ### How to set up
 
-Creating a Depot, TypeMap and mapping a workspace to it.
+Follow these steps or watch the video below.
+
+- (once) Set up stream
+  [depot](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-set-up-admin-account-and-stream-depot.html),
+- configure
+  [TypeMap](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-configure-typemap-settings.html),
+- create
+  [main stream](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-create-stream.html),
+- create
+  [workspace](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-create-workspace.html),
+- (once) create the
+  [ignore file](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-set-up-create-ignore-file.html),
+- (once) add
+  [project files](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-add-project-files.html)
+  and
+- setup
+  [integration with UE](https://help.perforce.com/helix-core/quickstart-unreal/Content/quickstart/game-set-up-integration-unreal-engine.html).
 
 <iframe
   width="560"
@@ -147,6 +169,8 @@ Checking out, submitting, reverting and resolving conflicts.
 ## Addendum - Resources
 
 ### Landscape
+
+Some landscaping essentials
 
 #### Road splines
 
