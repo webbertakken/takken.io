@@ -2,3 +2,10 @@
   font-size: 150%;
   white-space: pre;
 }
+
+.poem p {
+  line-height: 0.9em;
+  padding-top: 0.55em;
+  padding-bottom: 0.55em;
+  color: rgba(255, 255, 255, 0.9);
+}
