@@ -1,0 +1,70 @@
+# Best practices
+
+On this page I'll list some best practice basics. It's intended to be a list of "wish I'd known that
+sooner" items.
+
+I assume that you are familiar with everything from the [blueprints](../blueprints) section.
+
+## Blueprint Interfaces
+
+:::info Heuristic
+
+Use interfaces where you can, but only when the number of use cases exceeds one.
+
+**Example 1:** if multiple actors can be picked up, have them implement `IPickupable`.  
+**Example 2:** if receiving currency is unique to `Players`, you should not use interface for it.
+
+:::
+
+Prevent casting and make your blueprints more modular by using Blueprint Interfaces.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/96vJiKrAa9k?si=3_Djh1Ue2TOWdVro"
+  title="YouTube video player"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowFullScreen
+></iframe>
+
+## Enums, Structs and Datatables
+
+:::info Heuristic
+
+Everything you don't want to hardcode goes into an Enum or a DataTable.
+
+:::
+
+- `Enums` are a way to create a list of predefined values that you can use in your blueprints.
+- `Structs` allow you to make structured collections of data that fit your needs.
+- `DataTables` are lightweight databases where you can store information based on a struct.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/Mb2iWvDxXNk?si=QnUXXS6HJ_-vu8i6"
+  title="YouTube video player"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowFullScreen
+></iframe>
+
+## Blueprint Function Libraries
+
+:::info Heuristic
+
+Find yourself copy-pasting logic between blueprints?  
+It's time to create a Blueprint Function Library.
+
+:::
+
+Blueprint Function Libraries are a way to create reusable functions that can be called from any
+blueprint.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/gNC1mMNeDu0?si=cPpYcK3G7k38FIkZ"
+  title="YouTube video player"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowFullScreen
+></iframe>
