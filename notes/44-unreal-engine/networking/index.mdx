@@ -1,0 +1,97 @@
+import Image from '@theme/IdealImage'
+
+# Networking
+
+## Rationale
+
+Adding networking to a project quickly adds a lot of complexity and is non-trivial. Tutorials make
+it seem easy, but don't usually cover many edge cases and real world implementation problems.
+
+:::info
+
+It is generally not recommended to add multiplayer to your first project. Most developers, including
+myself, ignore this.
+
+:::
+
+So what is there to know?
+
+1. It is complex and takes much time.
+2. When integrating multiplayer it is crucial to understand the underlying concepts that make for
+   non-buggy multiplayer experiences. Without understanding these concepts, your networked game
+   might open the door to cheaters or fall apart when introducing some latency.
+
+## Framework
+
+Firstly, here are
+[some old docs](https://docs.unrealengine.com/4.27/en-US/InteractiveExperiences/Networking/Blueprints/)
+with a decent explanation of the different blueprints and their replication rationale.
+
+You can have replication using Blueprints only (perhaps not recommended for complex games yet).
+
+Below image, taken from
+[Unreal Engine Framework Reference](https://docs.unrealengine.com/5.3/en-US/gameplay-framework-quick-reference-in-unreal-engine/),
+illustrates how classes relate to each other
+
+<Image
+  img={require('./assets/framework-class-relationships.png')}
+  alt="Framework class relationships"
+/>
+
+## Authority
+
+[A quick read](https://www.gabrielgambetta.com/client-server-game-architecture.html).
+
+It's important to understand what kind of experience you're trying to create. The incentive to cheat
+in a friendly 4 player co-op game might be negligible. A competitive race game is a very different
+story.
+
+For the co-op game you might choose to have clients make decisions that reflect the game state. This
+is called **client-authoritative**. For the competitive race game, you will need a server that
+confirms the data for every frame each client sends. This is called **server-authoritative**.
+
+If the nature of your game allows you to implement features in a client-authoritative way, it might
+be legitimately valuable to choose that to keep complexity down and development speed up. For
+example, you might consider having clients make decisions about their characters and the game state
+and exchange data (perhaps directly) with other clients.
+
+## Replication
+
+[Client-side prediction](https://www.gabrielgambetta.com/client-side-prediction-server-reconciliation.html) -
+and for server authoritative games, server reconciliation - are essential for networked games.
+
+**Client-side prediction** is when you don't wait for the server to accept your movement data based
+on previous frames, but rather already take the unconfirmed actions (i.e. movement) to conceal
+negative effects of network latency. This is essential in any networked game.
+
+**Server reconciliation** is the process where a client's game state is updated to match the
+server's authoritative version to ensure consistency in multiplayer games. A client should be ready
+to roll back a number of framed to the last confirmed frame if necessary.
+
+The
+[Character Movement Component (CMC)](https://docs.unrealengine.com/5.3/en-US/understanding-networked-movement-in-the-character-movement-component-for-unreal-engine/)
+and Vehicle Movement Component (VMC) from
+[Chaos Vehicles-plugin](https://docs.unrealengine.com/5.3/en-US/vehicles-in-unreal-engine/) have
+built-in support for client-side prediction and server reconciliation. They take away **much** of
+the complexity for you. However, adding custom animations quickly complicate things; you will need
+to extend the blueprint and might quickly also need C++ code.
+
+### Testing
+
+Testing replication at its basis is very simple.
+
+#### Use multiple clients
+
+- Start the game using multiple clients
+
+<Image img={require('./assets/testing-replication.png')} alt="Testing replication" />
+
+#### Increase network latency
+
+- [Can we simulate network latency?](https://forums.unrealengine.com/t/can-we-simulate-a-network-latency-between-client-and-server/292760/7)
+
+## Other resources
+
+- Using
+  [steam sockets](https://docs.unrealengine.com/5.3/en-US/using-steam-sockets-in-unreal-engine/) for
+  networking
