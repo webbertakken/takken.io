@@ -19,3 +19,19 @@ Because this server running 24/7, I've opted for a custom-built energy efficient
 
 - [My server](./efficient-server)
 - [Commands](./commands)
+
+## Docker
+
+### Using private registries
+
+For personal applications, I use a private registry to store my docker images.
+
+To use a private registry in Unraid, you need to authenticate with the registry. This can be done by
+running the `docker login` command on the Unraid server.
+
+```bash
+docker login registry.example.com
+```
+
+Here's a [step-by-step video guide](https://www.youtube.com/watch?v=SZkfOehWu_s&t=612s) on how to do
+this.

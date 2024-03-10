@@ -1,6 +1,7 @@
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import { EnumChangefreq } from 'sitemap/dist/lib/types'
+import tailwindPlugin from './plugins/tailwind-config.cjs' // add this
 
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
@@ -35,6 +36,7 @@ const config: Config = {
   },
 
   plugins: [
+    tailwindPlugin,
     ['docusaurus-plugin-sass', {}],
     [
       'docusaurus-plugin-content-gists',
