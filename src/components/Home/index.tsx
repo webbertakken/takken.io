@@ -48,11 +48,16 @@ const Index = (): JSX.Element => {
         </div>
 
         <div className="flex flex-grow flex-row flex-wrap gap-8">
-          <Card title="Passions">
-            <Card.Item>🔨 Building things</Card.Item>
-            <Card.Item>👨🏻‍💻 Software engineering</Card.Item>
-            <Card.Item>🫴 Helping other people learn and grow</Card.Item>
-            <Card.Item>💬 Stimulating positive narratives for a more impactful community</Card.Item>
+          <Card title="About me">
+            <Card.Item>⚙️ Techie</Card.Item>
+            <Card.Item>💡 Curious</Card.Item>
+            <Card.Item>🎯 Driven</Card.Item>
+            <Card.Item>🙂 Mindful</Card.Item>
+            <Card.Item>🧡 Compassionate</Card.Item>
+            <Card.Item>🏡 Introvert</Card.Item>
+            <Card.Item>🧠 Neurodiverse</Card.Item>
+            <Card.Item>🌻 Optimistic</Card.Item>
+            <Card.Item>😴 Dreamer</Card.Item>
           </Card>
 
           <Card title="I like">
@@ -66,12 +71,11 @@ const Index = (): JSX.Element => {
             <Card.Item>🚀 Being able to make a difference</Card.Item>
           </Card>
 
-          <Card title="Hobbies">
-            <Card.Item>👨🏻‍💻 Coding</Card.Item>
-            <Card.Item>⛷️ Skiing</Card.Item>
-            <Card.Item>🤿 Scuba diving</Card.Item>
-            <Card.Item>🏃🏻‍♂️ Running</Card.Item>
-            <Card.Item>🎸 Ukulele</Card.Item>
+          <Card title="Passions">
+            <Card.Item>🔨 Building things</Card.Item>
+            <Card.Item>👨🏻‍💻 Software engineering</Card.Item>
+            <Card.Item>🫴 Helping other people learn and grow</Card.Item>
+            <Card.Item>💬 Stimulating positive narratives for a more impactful community</Card.Item>
           </Card>
 
           <Card title="Aspirations">
@@ -85,11 +89,12 @@ const Index = (): JSX.Element => {
             </Card.Item>
           </Card>
 
-          <Card title="Ideals">
-            <Card.Item>🌈 Inclusivity</Card.Item>
-            <Card.Item>⚖️ Nuance</Card.Item>
-            <Card.Item>🧡 Practicing kindness</Card.Item>
-            <Card.Item>🌱 Sustainability</Card.Item>
+          <Card title="Hobbies">
+            <Card.Item>👨🏻‍💻 Coding</Card.Item>
+            <Card.Item>⛷️ Skiing</Card.Item>
+            <Card.Item>🤿 Scuba diving</Card.Item>
+            <Card.Item>🏃🏻‍♂️ Running</Card.Item>
+            <Card.Item>🎸 Ukulele</Card.Item>
           </Card>
 
           <Card title="Guilty pleasures">
@@ -105,6 +110,13 @@ const Index = (): JSX.Element => {
             <Card.Item>👨🏻‍🦲 Yuval Noah Harari</Card.Item>
           </Card>
 
+          <Card title="Ideals">
+            <Card.Item>🌈 Inclusivity</Card.Item>
+            <Card.Item>⚖️ Nuance</Card.Item>
+            <Card.Item>🧡 Practicing kindness</Card.Item>
+            <Card.Item>🌱 Sustainability</Card.Item>
+          </Card>
+
           <Card title="Projects">
             <Card.Item>
               🌍{' '}
@@ -112,18 +124,6 @@ const Index = (): JSX.Element => {
                 GameCI
               </a>
             </Card.Item>
-          </Card>
-
-          <Card title="About me">
-            <Card.Item>⚙️ Techie</Card.Item>
-            <Card.Item>🧠 Neurodiverse</Card.Item>
-            <Card.Item>🏡 Introvert</Card.Item>
-            <Card.Item>🧡 Compassionate</Card.Item>
-            <Card.Item>💡 Curious</Card.Item>
-            <Card.Item>🌻 Optimistic</Card.Item>
-            <Card.Item>🎯 Driven</Card.Item>
-            <Card.Item>🙂 Mindful</Card.Item>
-            <Card.Item>😴 Dreamer</Card.Item>
           </Card>
 
           <Card title="Movies">
