@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 function tailwindPlugin(context, options) {
   return {
     name: 'tailwind-plugin',
@@ -6,10 +7,10 @@ function tailwindPlugin(context, options) {
         require('postcss-import'),
         require('tailwindcss'),
         require('autoprefixer'),
-      ];
-      return postcssOptions;
+      ]
+      return postcssOptions
     },
-  };
+  }
 }
 
-module.exports = tailwindPlugin;
+module.exports = tailwindPlugin
