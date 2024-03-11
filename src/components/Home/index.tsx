@@ -48,6 +48,27 @@ const Index = (): JSX.Element => {
         </div>
 
         <div className="flex flex-grow flex-row flex-wrap gap-8">
+          <Card title="Projects">
+            <Card.Item>
+              🌍{' '}
+              <a href="https://game.ci" target="_blank">
+                GameCI
+              </a>
+            </Card.Item>
+          </Card>
+
+          <Card title="Latest posts">
+            <Card.Item>
+              📖 <a href="/blog/cleaning-a-cpu">Cleaning a CPU</a>
+            </Card.Item>
+            <Card.Item>
+              📖 <a href="/blog/sweet-transition">Sweet Transition</a>
+            </Card.Item>
+            <Card.Item>
+              📖 <a href="/blog/choosing-the-right-stack">Choosing the right stack</a>
+            </Card.Item>
+          </Card>
+
           <Card title="About me">
             <Card.Item>⚙️ Techie</Card.Item>
             <Card.Item>💡 Curious</Card.Item>
@@ -102,7 +123,7 @@ const Index = (): JSX.Element => {
             <Card.Item>🚿 Taking long showers</Card.Item>
           </Card>
 
-          <Card title="Influencers">
+          <Card title="Influences">
             <Card.Item>👨🏻 Lex Fridman</Card.Item>
             <Card.Item>🧑🏾‍🦱 Naval Ravikant</Card.Item>
             <Card.Item>🧑🏻 Simon Sinek</Card.Item>
@@ -115,15 +136,6 @@ const Index = (): JSX.Element => {
             <Card.Item>⚖️ Nuance</Card.Item>
             <Card.Item>🧡 Practicing kindness</Card.Item>
             <Card.Item>🌱 Sustainability</Card.Item>
-          </Card>
-
-          <Card title="Projects">
-            <Card.Item>
-              🌍{' '}
-              <a href="https://game.ci" target="_blank">
-                GameCI
-              </a>
-            </Card.Item>
           </Card>
 
           <Card title="Movies">
