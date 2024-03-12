@@ -95,9 +95,19 @@ Testing replication at its basis is very simple.
 
 <Image img={require('./assets/testing-replication.png')} alt="Testing replication" />
 
-#### Increase network latency
+#### Simulating network latency
 
-- [Can we simulate network latency?](https://forums.unrealengine.com/t/can-we-simulate-a-network-latency-between-client-and-server/292760/7)
+Simulating latency and package loss can be done in the Editor Preferences.
+
+These settings will most likely start showing some lag-induced stutter in the movement of actors.
+
+This is what client-side prediction is for. Currently, UE5 example projects don't have client-side
+prediction implemented, so you will need to implement it yourself.
+
+<Image
+  img={require('./assets/simulating-latency-and-package-loss.png')}
+  alt="Settings for simulating latency and package loss"
+/>
 
 ## Other resources
 
