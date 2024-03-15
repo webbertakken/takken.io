@@ -45,6 +45,7 @@
     "@giscus/react": "^2.4.0",
     "@mdx-js/react": "^3.0.1",
     "@types/dedent": "^0.7.2",
+    "@types/react-dom": "^18.2.22",
     "classnames": "^2.5.1",
     "clsx": "^2.1.0",
     "docusaurus-gtm-plugin": "^0.0.2",
