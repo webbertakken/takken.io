@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install package manager from package.json
+      - name: Install package manager (from package.json)
         run: |
           corepack enable
           corepack install
