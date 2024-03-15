@@ -11,13 +11,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node (for node lts)
+        uses: actions/setup-node@v4
+
       - name: Install Yarn
         run: |
-          npm install -g yarn
+          npm i -g yarn@4.1.1
           node --version
           yarn --version
 
-      - name: Setup Node
+      - name: Setup Node (for cache)
         uses: actions/setup-node@v4
         with:
           node-version-file: package.json
