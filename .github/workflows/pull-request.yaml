@@ -16,7 +16,8 @@ jobs:
 
       - name: Install Yarn
         run: |
-          npm i -g yarn@4.1.1
+          yarn --version
+          yarn set version stable
           node --version
           yarn --version
 
