@@ -1,11 +1,11 @@
 import ToolPageLayout from '@theme/ToolPage/ToolPageLayout'
 
 const tools = [
-  { name: 'PullRequestsToReleaseText', slug: 'pullrequeststoreleasetext' },
-  { name: 'SsiDiveLogHelper', slug: 'ssidiveloghelper' },
-  { name: 'TasmotaHelper', slug: 'tasmotahelper' },
-  { name: 'TextAnalyser', slug: 'textanalyser' },
-  { name: 'CommaSeparator', slug: 'commaseparator' },
+  { name: 'Pull requests to release text', slug: 'pull-requests-to-release-text' },
+  { name: 'Garmin to SSI dive log helper', slug: 'garmin-to-ssi-dive-log-helper' },
+  { name: 'Tasmota helper', slug: 'tasmota-helper' },
+  { name: 'Text analyser', slug: 'text-analyser' },
+  { name: 'Comma separator', slug: 'comma-separator' },
 ]
 
 const Tools = (): JSX.Element => {

@@ -16,7 +16,7 @@ const interestingMessages = [
   'tankSummaryMesgs',
 ]
 
-const SsiDiveLogHelper = (): JSX.Element => {
+const GarminToSsiDiveLogHelper = (): JSX.Element => {
   const fileInputRef = createRef<HTMLInputElement>()
   const [messages, setMessages] = useState<GarminMessages | null>(null)
   const [ssiDive, setSsiDive] = useState<Partial<SsiDive> | null>(null)
@@ -28,7 +28,7 @@ const SsiDiveLogHelper = (): JSX.Element => {
 
   const onUploadFile = async (): Promise<void> => {
     const fileInput = fileInputRef.current
-    if (!fileInput) return
+    if (!fileInput?.files) return
 
     await garminFiles.add(fileInput.files)
 
@@ -150,4 +150,4 @@ const SsiDiveLogHelper = (): JSX.Element => {
   )
 }
 
-export default SsiDiveLogHelper
+export default GarminToSsiDiveLogHelper

@@ -81,7 +81,7 @@ const Index = (): JSX.Element => {
             <Card.Item>😴 Dreamer</Card.Item>
           </Card>
 
-          <Card title="I like">
+          <Card title="Likes">
             <Card.Item>✨ Novelty</Card.Item>
             <Card.Item>⛴️ Ferries</Card.Item>
             <Card.Item>📚 Audiobooks</Card.Item>
@@ -147,14 +147,15 @@ const Index = (): JSX.Element => {
             <Card.Item>🎬 Shawshank Redemption</Card.Item>
           </Card>
 
-          <Card title="Series">
-            <Card.Item>📺 Mr. Robot</Card.Item>
-            <Card.Item>📺 The Witcher</Card.Item>
-            <Card.Item>📺 Vikings</Card.Item>
-            <Card.Item>📺 Jericho</Card.Item>
-            <Card.Item>📺 The Big Bang Theory</Card.Item>
-            <Card.Item>📺 Suits</Card.Item>
-          </Card>
+          {/* Make sure amount of boxes is even */}
+          {/*<Card title="Series">*/}
+          {/*  <Card.Item>📺 Mr. Robot</Card.Item>*/}
+          {/*  <Card.Item>📺 The Witcher</Card.Item>*/}
+          {/*  <Card.Item>📺 Vikings</Card.Item>*/}
+          {/*  <Card.Item>📺 Jericho</Card.Item>*/}
+          {/*  <Card.Item>📺 The Big Bang Theory</Card.Item>*/}
+          {/*  <Card.Item>📺 Suits</Card.Item>*/}
+          {/*</Card>*/}
 
           <Card title="Books">
             <Card.Item>📚 Sapiens</Card.Item>

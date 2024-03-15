@@ -1,0 +1,25 @@
+import Image from '@theme/IdealImage'
+import ImageWrapper from '../../../src/components/ImageWrapper'
+
+# Importing in UE5
+
+## Missing faces
+
+When importing a mesh into UE5, it is possible that some faces are missing.
+
+The most common reason for this is that the normals of the faces are not pointing outwards. A normal
+is essentially a direction vector.
+
+The issue can easily be fixed by recalculating the face normals in Blender.
+
+<ImageWrapper>
+  <Image img={require('./assets/missing-faces-in-ue5.png')} alt="Missing faces in UE5" />
+  <Image
+    img={require('./assets/recalculating-normals-in-blender.png')}
+    alt="Recalculating normals in Blender"
+  />
+  <Image
+    img={require('./assets/missing-faces-in-ue5-fixed.png')}
+    alt="Missing faces in UE5 fixed"
+  />
+</ImageWrapper>

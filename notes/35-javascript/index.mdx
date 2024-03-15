@@ -1,0 +1,164 @@
+# JavaScript
+
+:::info Ecosystem
+
+By JavaScript, I mean the entire ecosystem including different runtimes, package managers and
+TypeScript.
+
+:::
+
+## Resources
+
+- [Web Spec](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Just JavaScript](https://justjavascript.com/learn) by Dan Abramov and Maggie Appleton (excellent
+  quality)
+
+## Runtime Manager
+
+:::note
+
+_More about [runtimes](#runtimes)._
+
+:::
+
+My current favourite is **Volta**.
+
+- Installing **global versions** of Node and add global dependencies.
+- Pinning **project versions** of Node and Yarn to a project
+  - The pinned version is stored package.json
+  - Switching project directories automatically switches to the pinned runtime and package manager
+    versions, which makes for a great experience 🚀
+
+Most used commands
+
+```powershell
+# Global
+volta install node@lts
+volta install <package>
+volta list
+
+# In projects
+volta pin node@lts
+volta pin yarn@latest
+cat package.json
+```
+
+## Package management
+
+Tips and tricks for how to manage packages in practice.
+
+I've been using Yarn. `yarn` is quick to type, plays well with other tools like Volta, and it has
+been progressively maintained over the years.
+
+| Description                | Yarn                                                                                                                                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Update packages            | `yarn upgrade-interactive`                                                                                                                                                                                    |
+| Install a package globally | `volta install <package>`<br />_<sup><sub>**Note:** (`yarn global add` never worked well across platforms)</sub></sup>_<br />_<sup><sub>**Note:** (outside of a project folder when using volta)</sub></sup>_ |
+| Linking a dependency       | `volta install yalc`<br />`yalc publish` _<sup><sub>(in dependency root)</sub></sup>_<br />`yalc link` _<sup><sub>(in project root)</sub></sup>_                                                              |
+
+## Runtimes
+
+Overview of JavaScript runtime landscape.
+
+```mermaid
+flowchart TB
+
+classDef stable fill:#1d7f1d
+classDef experimental fill:#ff7f1d
+classDef embedded fill:#1d7f7f
+classDef dead fill:#7f1d1d
+
+subgraph Legend
+  Stable("Stable")
+  class Stable stable
+
+  Experimental("Experimental")
+  class Experimental experimental
+
+  Embedded("Embedded")
+  class Embedded embedded
+
+  Dead("Dead")
+  class Dead dead
+end
+
+subgraph JavaScript runtime environments
+  Runtimes --> Rust & Zig & C++ & Java
+    Rust --> V8 & QuickJS
+      V8 --> Node.js & Deno & Cloudflare_Workers
+        Node.js --> N_Solid
+      QuickJS --> LLRT
+    Zig --> Bun
+    C++ --> SpiderMonkey & Chakra & WebKit
+    Java --> Nashorn & Rhino
+end
+
+Runtimes("Runtimes")
+click Runtimes "https://en.wikipedia.org/wiki/List_of_ECMAScript_engines" "Open in new tab" _blank
+
+Rust("Rust")
+click Rust "https://www.rust-lang.org/" "Open in new tab" _blank
+
+Zig("Zig")
+click Zig "https://ziglang.org/" "Open in new tab" _blank
+
+C++("C++")
+click C++ "https://en.wikipedia.org/wiki/C%2B%2B" "Open in new tab" _blank
+
+Java("Java")
+click Java "https://www.java.com/" "Open in new tab" _blank
+
+V8("V8")
+click V8 "https://v8.dev/" "Open in new tab" _blank
+class V8 stable
+
+QuickJS("QuickJS")
+click QuickJS "https://bellard.org/quickjs/" "Open in new tab" _blank
+class QuickJS experimental
+
+Node.js("Node.js")
+click Node.js "https://nodejs.org/" "Open in new tab" _blank
+class Node.js stable
+
+N_Solid("N|Solid")
+click N_Solid "https://nodesource.com/products/nsolid" "Open in new tab" _blank
+class N_Solid stable
+
+Deno("Deno")
+click Deno "https://deno.land/" "Open in new tab" _blank
+class Deno experimental
+
+Cloudflare_Workers("Cloudflare Workers")
+click Cloudflare_Workers "https://workers.cloudflare.com/" "Open in new tab" _blank
+class Cloudflare_Workers stable
+
+LLRT("LLRT (AWS)")
+click LLRT "https://github.com/awslabs/llrt" "Open in new tab" _blank
+class LLRT experimental
+
+Bun("Bun")
+click Bun "https://bun.sh/" "Open in new tab" _blank
+class Bun experimental
+
+SpiderMonkey("SpiderMonkey (Mozilla)")
+click SpiderMonkey "https://en.wikipedia.org/wiki/SpiderMonkey" "Open in new tab" _blank
+class SpiderMonkey embedded
+
+Chakra("Chakra (Microsoft for Edge)")
+click Chakra "https://en.wikipedia.org/wiki/Chakra_(JScript_engine)" "Open in new tab" _blank
+class Chakra dead
+
+WebKit("WebKit (Apple for Safari)")
+click WebKit "https://webkit.org/" "Open in new tab" _blank
+class WebKit embedded
+
+Nashorn("Nashorn (Oracle)")
+click Nashorn "https://openjdk.java.net/projects/nashorn/" "Open in new tab" _blank
+class Nashorn dead
+
+Rhino("Rhino (Mozilla)")
+click Rhino "https://en.wikipedia.org/wiki/Rhino_(JavaScript_engine)" "Open in new tab" _blank
+class Rhino dead
+
+
+```
