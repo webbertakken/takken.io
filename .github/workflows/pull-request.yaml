@@ -14,12 +14,10 @@ jobs:
       - name: Setup Node (for node lts)
         uses: actions/setup-node@v4
 
-      - name: Install Yarn
+      - name: Install package manager from package.json
         run: |
-          yarn --version
-          yarn set version stable
-          node --version
-          yarn --version
+          corepack enable
+          corepack install
 
       - name: Setup Node (for cache)
         uses: actions/setup-node@v4
