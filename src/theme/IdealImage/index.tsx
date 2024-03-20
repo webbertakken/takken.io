@@ -15,7 +15,7 @@ const IdealImageWrapper: React.FC<IdealImageWrapperProps> = (props) => {
   return (
     <>
       {isOpen && (
-        <Modal onCloseRequested={close} title="test">
+        <Modal onCloseRequested={close}>
           <div onClick={close} className="flex flex-row cursor-zoom-out">
             {/*<div>⏮️</div>*/}
             <IdealImage

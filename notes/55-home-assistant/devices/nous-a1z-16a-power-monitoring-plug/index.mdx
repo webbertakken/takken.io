@@ -15,75 +15,18 @@ import ImageWrapper from '../../../../src/components/ImageWrapper'
 
 ## Installation
 
-#### Introduction
+### Pairing
 
-This smart plug is Zigbee based, meaning all communication goes over the Zigbee technology and
-protocol.
+This smart LED spotlight is Zigbee based, meaning all communication goes over the Zigbee technology
+and protocol. It needs to be [paired](../../pairing/zigbee) with a Zigbee coordinator.
 
-It needs to be connected to a Zigbee orchestrator. Any communication received by that orchestrator
-can be read by the Zigbee2MQTT service. Zigbee2MQTT exposes information to HomeAssistant using MQTT
-discovery. Finally, the device needs to be calibrated so that the energy readings are correct.
+Finally, this device also needs to be calibrated so that the energy readings are correct.
 
-#### Prerequisites
+### Configuration
 
-- A working Zigbee dongle or hub
-- Zigbee2MQTT service running
+Use the controls to test if the socket goes on and off without any problems.
 
-##### Pairing
-
-1. In the Zigbee2MQTT service set the following setting in the root of `configuration.yaml`
-
-```yaml
-permit_join: true
-```
-
-2. Plug in the socket (light will be blinking)
-3. Wait for a few seconds for the pairing to complete.
-4. Open `configuration.yaml` of the `Zigbee2MQTT` service and change the friendly name of the newly
-   detected device like so:
-
-```diff
-devices:
-  '0xa4c138053f778359':
--    friendly_name: '0xa4c138053f778359'
-+    friendly_name: 'The Fan'
-```
-
-:::tip
-
-Use a name that might be useful in phrases like "Hey Google, turn on &lt;friendly_name&gt; "
-
-:::
-
-5. Restart the `Zigbee2MQTT` service.
-
-:::note
-
-In Zigbee2MQTT, the following setting allows HomeAssistant to discover the paired devices.
-
-```yaml
-homeassistant: true
-```
-
-:::
-
-6. Inside HomeAssistant you should be able to see devices under the `MQTT` plugin
-
-<ImageWrapper>
-  <Image img={require('./assets/devices-in-mqtt-plugin.png')} />
-  <Image img={require('./assets/mqtt-devices.png')} />
-  <Image img={require('./assets/controls.png')} />
-</ImageWrapper>
-
-7. Use the controls to test if the socket goes on and off without any problems.
-
-:::note
-
-In my case not all devices functioned as expected
-
-:::
-
-#### Calibration
+### Calibration
 
 Calibration of the energy meter can be done MQTT
 
@@ -94,7 +37,7 @@ Use an MQTT client (like MQTT Explorer) to send below commands.
 Commands will consist of a `topic` and a `payload`. The `topic` is the first part of the command and
 the `payload` is the second (JSON) part of the command.
 
-##### Check connection
+#### Check connection
 
 First things first, lets check that we are connected and calibrating the correct socket by switching
 it on and off.
@@ -102,5 +45,3 @@ it on and off.
 ```bash
 zigbee2mqtt/the_fan/set {"state": "TOGGLE"}
 ```
-
-##### Get status

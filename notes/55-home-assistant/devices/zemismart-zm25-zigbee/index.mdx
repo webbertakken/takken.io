@@ -37,22 +37,82 @@ Then the motor is installed inside the roller blinds tube.
 
 #### Pairing with the network
 
-- Put the Zigbee network in pairing mode
+- Put the Zigbee network in pairing mode (see [pairing](../../pairing/zigbee))
 - Press the button on the motor 3 times
 - The motor will shake
 
-#### Pairing with remote
+The device exposes the following features:
 
-You need to have one version with a remote, because the remote is used to set the min and the max of
-the rolling blinds.
+<Image img={require('./assets/exposes.png')} alt="Zigbee2Mqtt exposes view" />
+
+#### Remotes
+
+You need to buy one motor with a remote, because the remote is used to set the direction, min and
+max of the rolling blinds.
+
+There are 3 remotes that I know of. From left to right the `ZC175A-9`, `Z123a-1` and `ZC171A-1`.
+
+<Image img={require('./assets/remotes-front.jpg')} alt="Zemismart remotes from the front" />
+<Image img={require('./assets/remotes-back.jpg')} alt="Zemismart remotes from the front" />
+
+I've configured my setup using the `ZC171A-1` remote. The `Set` button in the back is important.
 
 #### Installing the motor
 
 The tube is 38mm in diameter.
 
-## Resources used
+## Pairing
+
+#### Pairing the remote
+
+- Long-press the motor button, until the motor shakes
+- Press the remote `Up` or `Down` button immediately after
+
+#### Unpairing the remote
+
+- Long-press the motor button, until 5 seconds after the motor shakes
+
+## Configuration
+
+#### Reversing the motor direction
+
+- Remote `Set` 4 times - it should show the number 4
+- Press and hold the `Up` button on the remote until the motor shakes
+
+#### Setting the upper limit
+
+- Move the roller blinds to the desired position
+- Remote `Set` 1 time, immediately followed by the `Up` button
+- The motor will shake
+
+#### Setting the lower limit
+
+- Move the roller blinds to the desired position
+- Remote `Set` 1 time, immediately followed by the `Down` button
+- The motor will shake
+
+#### Removing the upper limit
+
+- Remote `Set` 3 times, immediately followed by the `Up` button
+- The motor will shake
+
+#### Removing the lower limit
+
+- Remote `Set` 3 times, immediately followed by the `Down` button
+- The motor will shake
+
+## Experience
+
+<ImageWrapper>
+  <Image img={require('./assets/controls.png')} alt="Zemismart roller blinds controls" />
+  <Image img={require('./assets/scenes.png')} alt="Scenes" />
+</ImageWrapper>
+
+## Resources
 
 - For setting up the software part I worked off of Mr.ToR's
   [guide](https://community.home-assistant.io/t/zemismart-zm25-zigbee-howto-tubular-roller-blind-shade-cover-motor/474992)
   on the Home Assistant forums.
-- For the hardware part I used a [blog post](https://m.blog.naver.com/2kiu/221955091776) by JayN
+- For the hardware part I used a [blog post](https://m.blog.naver.com/2kiu/221955091776)
+  <sup>(translation\: [English](./assets/BlogPost-JayN-ZemismartZigbeeRollerShadeMotor.pdf))</sup> by
+  JayN as a reference.

@@ -1,0 +1,46 @@
+import Image from '@theme/IdealImage'
+import ImageWrapper from '@site/src/components/ImageWrapper'
+
+# MOES ZB-TDA9-RCW-E27-MS
+
+## Smart Light Bulb E27 (Zigbee)
+
+| Type       | Vendor | Model              | Chipset | Firmware | Technology | Protocol   |
+| ---------- | ------ | ------------------ | ------- | -------- | ---------- | ---------- |
+| Light bulb | MOES   | ZB-TDA9-RCW-E27-MS |         | Tuya     | Zigbee     | Zigbee 3.0 |
+
+- Friendly name: Smart Light Bulb
+- Bought from:
+  [moeshouse.com](https://moeshouse.com/products/zigbee-smart-bulb-zb-tda9-rcw-e27-ms?variant=40209490214993)
+- €12.85 EUR for 1 (March 2024)
+- Dimensions: 60mm x 118mm
+- Color: RGB + CCT
+- Color temperature: 2700K-6500K
+- Power: 9W
+- Brightness: 806lm ±10%
+- Form factor: E27
+- Input voltage: AC90-250V
+- Beam angle: 200°
+
+<ImageWrapper>
+  <Image img={require('./assets/width.png')} alt="Width" />
+  <Image img={require('./assets/height.png')} alt="Height" />
+</ImageWrapper>
+
+## Installation
+
+### Introduction
+
+This smart light bulb is Zigbee based, meaning all communication goes over the Zigbee technology and
+protocol. It needs to be [paired](../../pairing/zigbee) with a Zigbee coordinator.
+
+### Configuration
+
+This device is plug and play. However, I had to retry pairing it 3 times before it was successfully
+listed as "Supported".
+
+### Experience
+
+Here are the features it exposes:
+
+<Image img={require('./assets/exposes.png')} alt="Zigbee2Mqtt exposes view" />
