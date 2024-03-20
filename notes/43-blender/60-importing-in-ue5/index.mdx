@@ -1,0 +1,51 @@
+import Image from '@theme/IdealImage'
+import ImageWrapper from '../../../src/components/ImageWrapper'
+
+# Importing in UE5
+
+## Exporting from Blender
+
+When exporting a mesh from Blender, it is important to use the correct settings.
+
+<Image img={require('./assets/exporting-fbx-from-blender.png')} alt="Exporting FBX from Blender" />
+
+## Importing into UE5
+
+When importing a mesh into UE5, it is important to use the correct settings.
+
+<ImageWrapper>
+  <Image
+    img={require('./assets/importing-fbx-in-ue5-part1.png')}
+    alt="Importing FBX in UE5: Enable Skeletal Mesh and Create Physics Asset"
+  />
+  <Image
+    img={require('./assets/importing-fbx-in-ue5-part2.png')}
+    alt="Importing FBX in UE5: Enable Force Front X Axis"
+  />
+</ImageWrapper>
+
+The result should look similar to this. The X axis (red arrow) should be pointing to the front of
+the mesh.
+
+<Image img={require('./assets/importing-fbx-in-ue5-result.png')} alt="Imported mesh in UE5" />
+
+## Missing faces
+
+When importing a mesh into UE5, it is possible that some faces are missing.
+
+The most common reason for this is that the normals of the faces are not pointing outwards. A normal
+is essentially a direction vector.
+
+The issue can easily be fixed by recalculating the face normals in Blender.
+
+<ImageWrapper>
+  <Image img={require('./assets/missing-faces-in-ue5.png')} alt="Missing faces in UE5" />
+  <Image
+    img={require('./assets/recalculating-normals-in-blender.png')}
+    alt="Recalculating normals in Blender"
+  />
+  <Image
+    img={require('./assets/missing-faces-in-ue5-fixed.png')}
+    alt="Missing faces in UE5 fixed"
+  />
+</ImageWrapper>
