@@ -108,6 +108,9 @@ different frequencies in different countries.
 These are the devices I've adopted into my home. For some of them I've described the installation
 process.
 
-- Ubiquiti Protect G4 Pro
+- Ubiquiti UniFi Protect G4-PRO Camera (PoE)
 - [Nous A1T 16A Power Monitoring Plug (Wi-Fi)](devices/nous-a1t-16a-power-monitoring-plug)
 - [Nous A1Z 16A Power Monitoring Plug (Zigbee)](devices/nous-a1z-16a-power-monitoring-plug)
+- [Moes ZB-SD-TD5 GU10 MS LED Spotlight (Zigbee)](devices/moes-zb-td5-gu10-ms-led-spotlight)
+- [Moes ZB-TDA9-RCW E27 MS Bulb (Zigbee)](devices/moes-zb-tda9-rcw-e27-ms-bulb)
+- [Zemismart ZM25 (Zigbee)](devices/zemismart-zm25-zigbee)
