@@ -11,3 +11,5 @@ fi
 # Allow corepack to select the correct version of Node and Yarn
 corepack enable
 corepack install
+pwd
+ls
