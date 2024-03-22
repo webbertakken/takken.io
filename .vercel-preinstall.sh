@@ -13,3 +13,6 @@ corepack enable
 corepack install
 pwd
 ls
+yarn --version
+which yarn
+ls -alh "$(which yarn)"
