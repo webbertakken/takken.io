@@ -19,7 +19,7 @@
     "format": "prettier --write .",
     "fix": "yarn format && yarn lint --fix",
     "typecheck": "tsc",
-    "prepare": "husky install ; node -e \\\"if (process.env.CI === 'true') { require('child_process').execSync('.ci-preinstall.sh', { stdio: 'inherit' }); }\\\""
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.@(sh|bash|zsh|fish)": [
