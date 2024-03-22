@@ -11,8 +11,10 @@ fi
 # Allow corepack to select the correct version of Node and Yarn
 corepack enable
 corepack install
-pwd
-ls
-yarn --version
-which yarn
-ls -alh "$(which yarn)"
+corepack use yarn@4.1.1 # Must match package.json
+#pwd
+#ls
+#yarn --version
+#which yarn
+#ls -alh "$(which yarn)"
+#rm
