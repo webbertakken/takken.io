@@ -2,6 +2,8 @@
 
 # This is only needed for CI systems to respect yarn version in package.json and can be removed
 # later. In github CI it's already handled by the workflow. Vercel however needs this script.
+# In vercel, override install and add `yarn prepare ; yarn` explicitly. Otherwise it doesn't run
+# prepare.
 
 echo "Running in CI. Using corepack to select the correct version of Node and Yarn."
 
