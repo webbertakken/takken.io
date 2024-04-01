@@ -1,0 +1,27 @@
+import Image from '@theme/IdealImage'
+
+# Zigbee2MQTT
+
+## Gotchas
+
+### Safety against errors
+
+Even though Zigbee2MQTT might run fine for months, it could suddenly start crashing periodically.
+
+One example is the Zigbee USB device
+[suddenly stop working](https://github.com/Koenkk/zigbee2mqtt/issues/17809) after having worked
+flawlessly for a while.
+
+:::note
+
+When Zigbee2MQTT docker crashes, it will not restart automatically.
+
+:::
+
+To solve this, I've added `--restart unless-stopped` to Extra Parameters in the docker (advanced)
+edit view
+
+<Image
+  img={require('./assets/add-restart-unless-stopped-parameter.png')}
+  alt="Adding restart unless-stopped extra parameter in the advanced view of the docker container"
+/>
