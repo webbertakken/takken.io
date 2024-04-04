@@ -21,8 +21,33 @@ import ImageWrapper from '@site/src/components/ImageWrapper'
 - Input voltage: AC90-250V
 - Beam angle: 36°
 
+This is what they look like:
+
+<ImageWrapper>
+  <Image img={require('./assets/body-front.png')} alt="Front of the LED spot" />
+  <Image img={require('./assets/body-backside.png')} alt="Backside of the LED spot" />
+</ImageWrapper>
+
+Here are some measurements, first that of the manufacturer:
+
 <ImageWrapper>
   <Image img={require('./assets/dimensions.png')} alt="Dimensions" />
+</ImageWrapper>
+
+And here are some measurements I took:
+
+<ImageWrapper>
+  <Image img={require('./assets/measurement-border.png')} alt="Measurements of the border" />
+  <Image img={require('./assets/measurement-main.png')} alt="Measurements of the main body" />
+  <Image img={require('./assets/measurement-slim-part.png')} alt="Measurements of the slim part" />
+  <Image
+    img={require('./assets/measurement-height-without-pins.png')}
+    alt="Measurements of the height without the pins"
+  />
+  <Image
+    img={require('./assets/measurement-height-with-pins.png')}
+    alt="Measurements of the height with the pins"
+  />
 </ImageWrapper>
 
 ## Installation
