@@ -127,6 +127,12 @@ const config: Config = {
   ],
 
   themeConfig: {
+    metadata: [
+      {
+        name: 'darkreader-lock',
+        content: 'this site supported dark mode and uses QR codes with white backgrounds',
+      },
+    ],
     navbar: {
       title: 'Takken.io',
       logo: {
