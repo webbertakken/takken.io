@@ -4,9 +4,11 @@ import Modal from '@site/src/components/Modal/Modal'
 import cx from 'classnames'
 import styles from './index.module.css'
 
-interface IdealImageWrapperProps extends React.ComponentProps<typeof IdealImage> {}
+interface IdealImageWrapperProps extends React.ComponentProps<typeof IdealImage> {
+  noPadding?: boolean
+}
 
-const IdealImageWrapper: React.FC<IdealImageWrapperProps> = (props) => {
+const IdealImageWrapper: React.FC<IdealImageWrapperProps> = ({ noPadding, ...props }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const open = () => setIsOpen(true)
@@ -27,8 +29,8 @@ const IdealImageWrapper: React.FC<IdealImageWrapperProps> = (props) => {
         </Modal>
       )}
 
-      <div onClick={open} className="cursor-zoom-in">
-        <IdealImage {...props} className={cx(props.className, 'pb-8')} />
+      <div onClick={open} className="cursor-zoom-in leading-[0]">
+        <IdealImage {...props} className={cx(props.className, { 'pb-8': !noPadding })} />
       </div>
     </>
   )

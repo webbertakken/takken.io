@@ -8863,6 +8863,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"goober@npm:^2.1.10":
+  version: 2.1.14
+  resolution: "goober@npm:2.1.14"
+  peerDependencies:
+    csstype: ^3.0.10
+  checksum: 10/372f18333ef64c403d29be7c1175cc9cd74cb947ec52cd42fbb1cf3f9870ac1dfec9c7671192cbf47ebc0ec17d8b05b6ef9a2b92952397d5b555a692381d5eaa
+  languageName: node
+  linkType: hard
+
 "gopd@npm:^1.0.1":
   version: 1.0.1
   resolution: "gopd@npm:1.0.1"
@@ -13839,6 +13848,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qrcode.react@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "qrcode.react@npm:3.1.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/71953241f151ca5ad4013c034cb13033e1ebad56a1db77297a7ddd7fd4d5f137f37f3be51133aeef0b54dc52d6c76630429d2269bd72e6858c3209fe42310498
+  languageName: node
+  linkType: hard
+
 "qs@npm:6.11.0":
   version: 6.11.0
   resolution: "qs@npm:6.11.0"
@@ -14012,6 +14030,18 @@ __metadata:
     react: ^16.6.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
   checksum: 10/73d6383dd5d5794cad3837cf6b71d7e23afa6f3ba745e50a9d0d6bf42ff0ab175e4292f250ffe757f4bd782e64c37c4583fb884340cd63891deb33e144628661
+  languageName: node
+  linkType: hard
+
+"react-hot-toast@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "react-hot-toast@npm:2.4.1"
+  dependencies:
+    goober: "npm:^2.1.10"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 10/9af91efdb98837e39a126aff084b54db0336c5f88a7dad7c42daf7ee873d06a79d6e59f398412cc250a35ddf1a73c25700fe90b3c3a2a0c394fd17d99b2bcf8b
   languageName: node
   linkType: hard
 
@@ -15933,8 +15963,10 @@ __metadata:
     postcss: "npm:^8.4.35"
     prettier: "npm:^3.2.5"
     prism-react-renderer: "npm:^2.3.1"
+    qrcode.react: "npm:^3.1.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    react-hot-toast: "npm:^2.4.1"
     react-icons: "npm:^5.0.1"
     react-simple-code-editor: "npm:^0.13.1"
     react-three-fiber: "npm:^6.0.13"

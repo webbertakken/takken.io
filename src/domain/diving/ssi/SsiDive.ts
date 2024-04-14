@@ -69,7 +69,7 @@ export class SsiDive {
       watertemp_max_c: garmin.maxTemperature,
       // airtemp_c: AirTempCelcius
       // vis_m: VisibilityInMeters
-      deco: 0,
+      // deco: 0, // Note: Even when set to 0 it will open the deco settings in the SSI app, no deco should be property not present
     }
   }
 
