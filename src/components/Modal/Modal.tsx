@@ -77,23 +77,21 @@ const Modal: React.FC<ModalProps> = ({ hasCloseButton, title, children, onCloseR
         onTouchEnd={endClick}
         aria-label={title}
       >
-        <div className="relative w-full h-full">
-          {hasTitleBar && (
-            <div className="flex flex-row justify-between content-center w-full p-4 gap-4">
-              {title && <h2 className="mb-0">{title}</h2>}
+        {hasTitleBar && (
+          <div className="flex flex-row justify-between content-center w-full p-4 gap-4">
+            {title && <h2 className="mb-0">{title}</h2>}
 
-              {/* Title bar always has a close button for UX purposes */}
-              <button
-                autoFocus
-                className="bg-transparent grayscale border-none hover:cursor-pointer text-3xl -my-1"
-                onClick={onCloseRequested}
-              >
-                ×
-              </button>
-            </div>
-          )}
-          {children}
-        </div>
+            {/* Title bar always has a close button for UX purposes */}
+            <button
+              autoFocus
+              className="bg-transparent grayscale border-none hover:cursor-pointer text-3xl -my-1"
+              onClick={onCloseRequested}
+            >
+              ×
+            </button>
+          </div>
+        )}
+        {children}
       </dialog>
     </ErrorBoundary>,
     document.body,

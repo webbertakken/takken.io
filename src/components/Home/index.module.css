@@ -16,7 +16,7 @@
   animation: pulse 4s infinite;
 }
 
-.image img {
+.image:not(dialog .image) img {
   border-radius: 10px !important;
 }
 
