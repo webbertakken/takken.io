@@ -59,6 +59,9 @@ const Index = (): JSX.Element => {
 
           <Card title="Latest posts">
             <Card.Item>
+              📖 <a href="/blog/a-modern-terminal-for-windows">A modern terminal for Windows</a>
+            </Card.Item>
+            <Card.Item>
               📖{' '}
               <a href="/blog/building-an-energy-efficient-server">
                 Building an energy efficient server

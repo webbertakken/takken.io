@@ -1,6 +1,5 @@
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
-import { EnumChangefreq } from 'sitemap/dist/lib/types'
 import tailwindPlugin from './plugins/tailwind-config.cjs' // add this
 
 // @ts-check
@@ -62,10 +61,10 @@ const config: Config = {
     [
       '@docusaurus/plugin-ideal-image',
       {
-        quality: 70,
-        max: 1030, // max resized image's size.
-        min: 640, // min resized image's size. if original is lower, use that size.
-        steps: 3, // the max number of images generated between min and max (inclusive)
+        quality: 90, // JPEG quality
+        max: 2560, // max resized image's size.
+        min: 738, // min resized image's size. if original is lower, use that size.
+        steps: 4, // the max number of images generated between min and max (inclusive)
         disableInDev: false,
       },
     ],
@@ -97,7 +96,7 @@ const config: Config = {
 
   presets: [
     [
-      'classic',
+      '@docusaurus/preset-classic',
       {
         docs: {
           path: 'notes',
@@ -118,9 +117,9 @@ const config: Config = {
           customCss: require.resolve('./src/css/custom.css'),
         },
         sitemap: {
-          changefreq: EnumChangefreq.WEEKLY,
-          priority: 0.5,
-          ignorePatterns: ['/tags/**'],
+          lastmod: 'date',
+          changefreq: null,
+          priority: null,
         },
       } satisfies Preset.Options,
     ],

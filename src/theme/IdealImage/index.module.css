@@ -1,4 +1,0 @@
-/* Remove the 8 pixels from the bottom */
-.idealImageWithoutPadding img {
-  margin-bottom: -8px !important;
-}

@@ -96,7 +96,7 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
 
           <div>
             <Image
-              img={require('./assets/exporting-dive-activity-from-garmin-dashboard.webp')}
+              img={require('./assets/exporting-dive-activity-from-garmin-dashboard.png')}
               alt="SSI app showing the QR code scanner"
               noPadding
             />
@@ -120,7 +120,7 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
                 </p>
               </div>
               <Image
-                img={require('./assets/ssi-app-showing-the-qr-code-scanner.webp')}
+                img={require('./assets/ssi-app-showing-the-qr-code-scanner.png')}
                 alt="SSI app showing the QR code scanner"
                 height={400}
                 width={184.5}
