@@ -284,8 +284,10 @@ WSL also lacks direct integration with Windows-specific features and commands. A
 environment is now effectively linux, it can lead to compatibility issues with Windows-based scripts
 and the scripts you create will not work for other Windows users, unless they are also using WSL.
 
-Lastly, WSL does not support the pass-through of physical devices. In my experience, using graphics-
-or usb devices can be cumbersome.
+Lastly, while WSL does support the pass-through of physical devices (GPU and USB devices through
+[WDDM GPU-PV](https://learn.microsoft.com/en-us/windows-hardware/drivers/display/gpu-paravirtualization#gpu-paravirtualization-in-wddm) +
+[WSLg](https://github.com/microsoft/wslg) and [USBIPD-WIN](https://github.com/dorssel/usbipd-win),
+respectively), in my experience, using graphics- or usb devices can be cumbersome.
 
 My recommendation would be to use it when you specifically need a Unix/Linux environment. Not as
 your default terminal.
