@@ -41,9 +41,3 @@ jobs:
 
       - name: Typecheck
         run: yarn typecheck
-
-      - name: Build
-        run: yarn build
-        env:
-          NODE_ENV: production
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
