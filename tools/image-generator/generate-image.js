@@ -44,7 +44,7 @@ generator = ClaudeImageGenerator()
 
 # Generate image based on description using natural language processing
 generator.generate_from_description(
-    "${description.replace(/"/g, '\\"')}", 
+    "${description.replace(/"/g, '\\"')}",
     "${outputFile.replace(/\\/g, '/')}"
 )
 

@@ -20,7 +20,8 @@
     "format": "prettier --write .",
     "fix": "yarn format && yarn lint --fix",
     "typecheck": "tsc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate-image": "node tools/image-generator/generate-image.js"
   },
   "lint-staged": {
     "*.@(sh|bash|zsh|fish)": [
