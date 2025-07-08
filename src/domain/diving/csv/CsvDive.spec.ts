@@ -78,8 +78,7 @@ describe('CsvDive', () => {
 
   describe('Negative scenarios', () => {
     it('should return undefined for missing duration', () => {
-      const data = { ...validCsvData }
-      delete data['Duration']
+      const data = { ...validCsvData, 'Duration': undefined }
       const dive = new CsvDive(data)
       expect(dive.diveTime).toBeUndefined()
     })
@@ -90,8 +89,7 @@ describe('CsvDive', () => {
     })
 
     it('should return undefined for missing date', () => {
-      const data = { ...validCsvData }
-      delete data['Date']
+      const data = { ...validCsvData, 'Date': undefined }
       const dive = new CsvDive(data)
       expect(dive.startTime).toBeUndefined()
     })
@@ -102,8 +100,7 @@ describe('CsvDive', () => {
     })
 
     it('should return undefined for missing depth', () => {
-      const data = { ...validCsvData }
-      delete data['Max depth [m]']
+      const data = { ...validCsvData, 'Max depth [m]': undefined }
       const dive = new CsvDive(data)
       expect(dive.maxDepth).toBeUndefined()
     })
@@ -114,9 +111,11 @@ describe('CsvDive', () => {
     })
 
     it('should return undefined for missing temperature values', () => {
-      const data = { ...validCsvData }
-      delete data['Min temp [°C]']
-      delete data['Max temp [°C]']
+      const data = { 
+        ...validCsvData, 
+        'Min temp [°C]': undefined,
+        'Max temp [°C]': undefined
+      }
       const dive = new CsvDive(data)
       
       expect(dive.minTemperature).toBeUndefined()
@@ -269,6 +268,26 @@ describe('CsvDive', () => {
       expect(dive.firstName).toBe('')
       expect(dive.lastName).toBe('')
       expect(dive.sport).toBe('diving')
+    })
+
+    it('should handle undefined properties identically to missing properties', () => {
+      const undefinedData = {
+        'Date': undefined,
+        'Duration': undefined,
+        'Max depth [m]': undefined,
+        'Min temp [°C]': undefined,
+        'Max temp [°C]': undefined,
+      }
+      
+      const diveUndefined = new CsvDive(undefinedData)
+      const diveMissing = new CsvDive({})
+      
+      // Security: ensure undefined and missing properties behave identically
+      expect(diveUndefined.diveTime).toBe(diveMissing.diveTime)
+      expect(diveUndefined.startTime).toBe(diveMissing.startTime)
+      expect(diveUndefined.maxDepth).toBe(diveMissing.maxDepth)
+      expect(diveUndefined.minTemperature).toBe(diveMissing.minTemperature)
+      expect(diveUndefined.maxTemperature).toBe(diveMissing.maxTemperature)
     })
   })
 })
