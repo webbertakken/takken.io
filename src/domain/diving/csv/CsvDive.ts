@@ -4,7 +4,12 @@ export class CsvDive {
 
   private parseNumber(value: string | undefined): number | undefined {
     if (!value || value.trim() === '') return undefined
-    const num = parseFloat(value.trim())
+    
+    // Sanitize input to prevent potential issues
+    const sanitizedValue = value.trim()
+    if (sanitizedValue.length > 20) return undefined // Prevent extremely long strings
+    
+    const num = parseFloat(sanitizedValue)
     
     // Validate the parsed result is a valid finite number
     if (isNaN(num) || !Number.isFinite(num)) return undefined
@@ -14,8 +19,17 @@ export class CsvDive {
 
   private parseInteger(value: string | undefined): number | undefined {
     if (!value || value.trim() === '') return undefined
-    const num = parseInt(value.trim(), 10)
-    return num // This will be NaN for unparseable strings, but that's expected by tests
+    
+    // Sanitize input to prevent potential issues
+    const sanitizedValue = value.trim()
+    if (sanitizedValue.length > 10) return undefined // Prevent extremely long strings
+    
+    const num = parseInt(sanitizedValue, 10)
+    
+    // Validate the parsed result is a valid finite integer
+    if (isNaN(num) || !Number.isFinite(num)) return undefined
+    
+    return num
   }
 
   get diveTime() {
@@ -46,6 +60,10 @@ export class CsvDive {
     const dateStr = this.csvData['Date']
     if (!dateStr) return undefined
     
+    // Sanitize input to prevent extremely long strings and control characters
+    if (dateStr.length > 50) return undefined
+    if (/[\x00-\x1F\x7F]/.test(dateStr)) return undefined // Reject control characters
+    
     const parts = dateStr.split(' ')
     if (parts.length !== 2) return undefined
     
@@ -53,8 +71,8 @@ export class CsvDive {
     const dateParts = datePart.split('/')
     const timeParts = timePart.split(':')
     
-    // Validate format: need some date and time parts (lenient for backward compatibility)
-    if (dateParts.length === 0 || timeParts.length === 0) return undefined
+    // Validate format: require exact format (DD/MM/YYYY HH:MM)
+    if (dateParts.length !== 3 || timeParts.length < 2) return undefined
     
     const day = this.parseInteger(dateParts[0])
     const month = this.parseInteger(dateParts[1])
@@ -62,14 +80,19 @@ export class CsvDive {
     const hour = this.parseInteger(timeParts[0])
     const minute = this.parseInteger(timeParts[1])
     
-    // Create Date object even with missing/invalid parts (maintains backward compatibility)
-    // Date constructor will handle NaN/undefined by creating an invalid date
+    // Validate all required parts are valid numbers
+    if (day === undefined || month === undefined || year === undefined || 
+        hour === undefined || minute === undefined) return undefined
     
-    // Basic range validation (more lenient to maintain some backward compatibility)
-    // Still create Date object if numbers are parsed, even if potentially invalid
-    // Date constructor will handle out-of-range values by adjusting them
+    // Validate reasonable ranges to prevent malicious or invalid dates
+    if (day < 1 || day > 31 || month < 1 || month > 12 || 
+        year < 1900 || year > 2100 || hour < 0 || hour > 23 || 
+        minute < 0 || minute > 59) return undefined
     
-    return new Date(year, month - 1, day, hour, minute)
+    const date = new Date(year, month - 1, day, hour, minute)
+    
+    // Final validation: ensure the Date object is valid
+    return isNaN(date.getTime()) ? undefined : date
   }
 
   get maxDepth() {
