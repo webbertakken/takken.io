@@ -4,6 +4,8 @@ import { GarminFiles } from '@site/src/domain/diving/garmin/GarminFiles'
 import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
 import { GarminMessages } from '@site/src/domain/diving/garmin/GarminMessages'
 import { SsiDive } from '@site/src/domain/diving/ssi/SsiDive'
+import { CsvDive } from '@site/src/domain/diving/csv/CsvDive'
+import { parseCsv } from '@site/src/core/utils/csvParser'
 import QrCode from '@site/src/components/QrCode/QrCode'
 import Image from '@site/src/theme/IdealImage'
 import { useNotification } from '@site/src/core/hooks/useNotification'
@@ -31,22 +33,47 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
     const fileInput = fileInputRef.current
     if (!fileInput?.files) return
 
-    // Idea: Could also use `useGarminFiles` to keep adding uploaded files to the UI
-    const garminFiles = new GarminFiles()
-    await garminFiles.add(fileInput.files)
-
-    const errors = []
-    for (const dive of garminFiles) {
+    const file = fileInput.files[0]
+    
+    if (file.name.endsWith('.csv')) {
+      // Handle CSV file upload
       try {
-        setMessages(dive.messages)
-        await parseDive(dive)
-        notify.success('Dive parsed')
+        const csvText = await file.text()
+        const csvRows = parseCsv(csvText)
+        
+        const errors = []
+        for (const row of csvRows) {
+          try {
+            const csvDive = new CsvDive(row)
+            await parseCsvDive(csvDive)
+            notify.success('CSV dive parsed')
+          } catch (error) {
+            errors.push(error)
+          }
+        }
+        
+        setError(errors.length >= 1 ? errors.join('\n') : null)
       } catch (error) {
-        errors.push(error)
+        setError(`CSV parsing failed: ${error.message}`)
       }
-    }
+    } else {
+      // Existing Garmin file handling
+      const garminFiles = new GarminFiles()
+      await garminFiles.add(fileInput.files)
 
-    setError(errors.length >= 1 ? errors.join('\n') : null)
+      const errors = []
+      for (const dive of garminFiles) {
+        try {
+          setMessages(dive.messages)
+          await parseDive(dive)
+          notify.success('Dive parsed')
+        } catch (error) {
+          errors.push(error)
+        }
+      }
+
+      setError(errors.length >= 1 ? errors.join('\n') : null)
+    }
   }
 
   const parseDive = async (garminDive: GarminDive): Promise<void> => {
@@ -56,14 +83,22 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
     setDiveQR(SsiDive.toQR(dive))
   }
 
+  // Parse CSV dive data using same pattern as Garmin parsing
+  const parseCsvDive = async (csvDive: CsvDive): Promise<void> => {
+    const dive = SsiDive.fromCsv(csvDive)
+
+    setSsiDive(dive)
+    setDiveQR(SsiDive.toQR(dive))
+  }
+
   return (
-    <ToolPage title="Garmin to SSI DiveLog helper">
+    <ToolPage title="Garmin & DiveOrganizer to SSI DiveLog helper">
       <link rel="dns-prefetch" href="https://chart.googleapis.com" />
 
       <input
         type="file"
         ref={fileInputRef}
-        accept="*.fit,*.zip"
+        accept="*.fit,*.zip,*.csv"
         style={{ display: 'none' }}
         onInput={onUploadFile}
       />
@@ -73,8 +108,9 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
           <div className="flex flex-col items-center">
             <ul className="w-full">
               <li>
-                Upload your garmin <code className="text-blue-600 dark:text-blue-400">.fit</code> or{' '}
-                <code className="text-blue-600 dark:text-blue-400">.zip</code> file
+                Upload your garmin or Mares DiveOrganizer <code className="text-blue-600 dark:text-blue-400">.fit</code>,{' '}
+                <code className="text-blue-600 dark:text-blue-400">.zip</code>, or{' '}
+                <code className="text-blue-600 dark:text-blue-400">.csv</code> file
               </li>
               <li>Scan the resulting QR code in the SSI app</li>
               <li>Correct any details and save the dive</li>
