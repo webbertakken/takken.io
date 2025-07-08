@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(yarn generate-image:*)",
+      "Bash(rm:*)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": []
+  }
+}
