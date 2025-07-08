@@ -5,7 +5,6 @@ describe('csvParser', () => {
   const sampleCsvHeaders = 'Date;Duration;Surface time;Max depth [m];Average depth [m];Min temp [°C];Max temp [°C];Dive mode'
   const sampleDiveRow = '24/11/2023 14:40:00;01:00:20;01:26:00;19.2;11.5;26.5;27.6;NITROX'
   const metadataRow = 'CSV Generator;Generated @;Imported @;DB Version'
-  const invalidRow = 'Some random text without proper format'
 
   describe('Positive scenarios', () => {
     it('should parse valid CSV with single dive row', () => {
