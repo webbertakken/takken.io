@@ -22,6 +22,8 @@ serviceAccount.json
 
 # testing
 /coverage
+**/*.spec.ts
+**/*.test.ts
 
 # Production
 /build
