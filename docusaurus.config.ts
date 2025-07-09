@@ -179,10 +179,10 @@ const config: Config = {
               to: '/tools',
               label: 'Tools',
             },
-            // {
-            //   to: '/gists',
-            //   label: 'Code snippets',
-            // },
+            {
+              to: '/gists',
+              label: 'Code snippets',
+            },
             {
               label: 'Blog',
               to: '/blog',
