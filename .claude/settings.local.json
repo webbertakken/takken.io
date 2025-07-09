@@ -1,33 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python:*)",
       "Bash(yarn generate-image:*)",
-      "Bash(rm:*)",
-      "WebFetch(domain:github.com)",
-      "Bash(find:*)",
-      "Bash(ls:*)",
-      "Bash(yarn:*)",
-      "Bash(yalc publish:*)",
-      "Bash(npx yalc publish:*)",
-      "Bash(yalc add:*)",
-      "Bash(npx yalc add:*)",
-      "Bash(cat:*)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists status)",
       "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists log --oneline -n 5)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists log --oneline -5)",
       "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists diff --stat)",
       "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists add -A)",
-      "Bash(git add:*)",
-      "Bash(grep:*)",
       "Bash(NODE_ENV=production yarn build-only)",
-      "Bash(mv:*)",
-      "Bash(mkdir:*)",
-      "Bash(npx tsc:*)",
-      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists status)",
-      "Bash(npx yalc:*)",
-      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists log --oneline -5)",
-      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists commit -m \"revert: use environment variable approach for security\")",
-      "Bash(git commit:*)"
+      "Bash(bash -c:*)"
     ],
-    "deny": []
+    "deny": ["Bash(cd:*)"]
   }
 }

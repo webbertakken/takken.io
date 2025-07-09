@@ -48,7 +48,6 @@ const config: Config = {
       {
         enabled: true,
         verbose: true,
-        // Token is read from environment variable during build time only
       },
     ],
     [
@@ -148,7 +147,7 @@ const config: Config = {
           label: 'Notes',
         },
         { to: '/tools', label: 'Tools', position: 'left' },
-        // { to: '/gists', label: 'Gists', position: 'left' },
+        { to: '/gists', label: 'Gists', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://github.com/webbertakken/takken.io',

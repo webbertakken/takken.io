@@ -13,9 +13,9 @@ const MainMenu = () => (
     <a href="/comparisons">
       <span className={styles.link}>Comparisons</span>
     </a>
-    {/*<a href="/gists">*/}
-    {/*  <span className={styles.link}>Gists</span>*/}
-    {/*</a>*/}
+    <a href="/gists">
+      <span className={styles.link}>Gists</span>
+    </a>
   </div>
 )
 

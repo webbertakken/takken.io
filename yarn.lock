@@ -10396,9 +10396,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docusaurus-plugin-content-gists@file:.yalc/docusaurus-plugin-content-gists::locator=takken-io%40workspace%3A.":
-  version: 3.2.0
-  resolution: "docusaurus-plugin-content-gists@file:.yalc/docusaurus-plugin-content-gists#.yalc/docusaurus-plugin-content-gists::hash=1810b2&locator=takken-io%40workspace%3A."
+"docusaurus-plugin-content-gists@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "docusaurus-plugin-content-gists@npm:4.0.0"
   dependencies:
     "@docusaurus/core": "npm:^3.1.1"
     "@docusaurus/theme-classic": "npm:^3.1.1"
@@ -10411,7 +10411,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.0||^18.0.0||^19.0.0
     react-dom: "*"
-  checksum: 10/c4f58999e61d105b35e5cdb39703e60a18caf944b0b8da84725b1b4736a8fef15f2fe72ff6584b7ee3f02c905104b85f45c89e0c8785d9d3f1efd8ea28817c2e
+  checksum: 10/c24f04df732c4c914f6a92f79acbb9bf51d9136583cf0ca792966c7e57c82b6dbce47577911429d7cf019d58712e417798ace62548a7cd83b368555c997a26a8
   languageName: node
   linkType: hard
 
@@ -20367,7 +20367,7 @@ __metadata:
     clsx: "npm:^2.1.0"
     cross-env: "npm:^7.0.3"
     docusaurus-gtm-plugin: "npm:^0.0.2"
-    docusaurus-plugin-content-gists: "file:.yalc/docusaurus-plugin-content-gists"
+    docusaurus-plugin-content-gists: "npm:^4.0.0"
     docusaurus-plugin-sass: "npm:^0.2.5"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"

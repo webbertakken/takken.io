@@ -50,7 +50,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.0",
     "docusaurus-gtm-plugin": "^0.0.2",
-    "docusaurus-plugin-content-gists": "file:.yalc/docusaurus-plugin-content-gists",
+    "docusaurus-plugin-content-gists": "^4.0.0",
     "docusaurus-plugin-sass": "^0.2.5",
     "fflate": "^0.8.2",
     "js-cookie": "^3.0.5",
