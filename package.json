@@ -6,7 +6,8 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "dev": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "docusaurus build && yarn security-check",
+    "security-check": "vitest run --config vitest.config.post-build.ts --reporter=verbose",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -34,13 +35,13 @@
     "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.7.0",
-    "@docusaurus/module-type-aliases": "^3.7.0",
-    "@docusaurus/plugin-ideal-image": "^3.7.0",
-    "@docusaurus/plugin-pwa": "^3.7.0",
-    "@docusaurus/preset-classic": "^3.7.0",
-    "@docusaurus/theme-mermaid": "^3.7.0",
-    "@docusaurus/utils-validation": "^3.7.0",
+    "@docusaurus/core": "^3.8.1",
+    "@docusaurus/module-type-aliases": "^3.8.1",
+    "@docusaurus/plugin-ideal-image": "^3.8.1",
+    "@docusaurus/plugin-pwa": "^3.8.1",
+    "@docusaurus/preset-classic": "^3.8.1",
+    "@docusaurus/theme-mermaid": "^3.8.1",
+    "@docusaurus/utils-validation": "^3.8.1",
     "@garmin-fit/sdk": "^21.115.0",
     "@giscus/react": "^2.4.0",
     "@mdx-js/react": "^3.0.1",
@@ -49,7 +50,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.0",
     "docusaurus-gtm-plugin": "^0.0.2",
-    "docusaurus-plugin-content-gists": "^3.1.0",
+    "docusaurus-plugin-content-gists": "^4.0.0",
     "docusaurus-plugin-sass": "^0.2.5",
     "fflate": "^0.8.2",
     "js-cookie": "^3.0.5",
@@ -66,9 +67,10 @@
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.7.0",
-    "@docusaurus/tsconfig": "^3.7.0",
-    "@docusaurus/types": "^3.7.0",
+    "@docusaurus/module-type-aliases": "^3.8.1",
+    "@docusaurus/tsconfig": "^3.8.1",
+    "@docusaurus/types": "^3.8.1",
+    "@types/glob": "^9.0.0",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.64",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -80,6 +82,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vitest": "^0.3.25",
+    "glob": "^11.0.3",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
     "postcss": "^8.4.35",
@@ -104,7 +107,7 @@
   },
   "volta": {
     "node": "22.13.1",
-    "yarn": "4.6.0"
+    "yarn": "4.9.2"
   },
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "yarn@4.9.2"
 }

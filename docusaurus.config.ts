@@ -48,7 +48,6 @@ const config: Config = {
       {
         enabled: true,
         verbose: true,
-        personalAccessToken: process.env.GH_PERSONAL_ACCESS_TOKEN,
       },
     ],
     [

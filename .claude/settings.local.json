@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn generate-image:*)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists status)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists log --oneline -n 5)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists log --oneline -5)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists diff --stat)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists add -A)",
+      "Bash(NODE_ENV=production yarn build-only)",
+      "Bash(bash -c:*)"
+    ],
+    "deny": ["Bash(cd:*)"]
+  }
+}
