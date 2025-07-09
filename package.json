@@ -7,7 +7,7 @@
     "docusaurus": "docusaurus",
     "dev": "docusaurus start",
     "build": "docusaurus build && yarn security-check",
-    "security-check": "vitest run tests/post-build --reporter=verbose",
+    "security-check": "vitest run --config vitest.config.post-build.ts --reporter=verbose",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
