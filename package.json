@@ -35,13 +35,13 @@
     "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.7.0",
-    "@docusaurus/module-type-aliases": "^3.7.0",
-    "@docusaurus/plugin-ideal-image": "^3.7.0",
-    "@docusaurus/plugin-pwa": "^3.7.0",
-    "@docusaurus/preset-classic": "^3.7.0",
-    "@docusaurus/theme-mermaid": "^3.7.0",
-    "@docusaurus/utils-validation": "^3.7.0",
+    "@docusaurus/core": "^3.8.1",
+    "@docusaurus/module-type-aliases": "^3.8.1",
+    "@docusaurus/plugin-ideal-image": "^3.8.1",
+    "@docusaurus/plugin-pwa": "^3.8.1",
+    "@docusaurus/preset-classic": "^3.8.1",
+    "@docusaurus/theme-mermaid": "^3.8.1",
+    "@docusaurus/utils-validation": "^3.8.1",
     "@garmin-fit/sdk": "^21.115.0",
     "@giscus/react": "^2.4.0",
     "@mdx-js/react": "^3.0.1",
@@ -67,9 +67,9 @@
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.7.0",
-    "@docusaurus/tsconfig": "^3.7.0",
-    "@docusaurus/types": "^3.7.0",
+    "@docusaurus/module-type-aliases": "^3.8.1",
+    "@docusaurus/tsconfig": "^3.8.1",
+    "@docusaurus/types": "^3.8.1",
     "@types/glob": "^9.0.0",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.64",

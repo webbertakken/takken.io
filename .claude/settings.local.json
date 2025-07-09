@@ -21,7 +21,12 @@
       "Bash(NODE_ENV=production yarn build-only)",
       "Bash(mv:*)",
       "Bash(mkdir:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists status)",
+      "Bash(npx yalc:*)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists log --oneline -5)",
+      "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists commit -m \"revert: use environment variable approach for security\")",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
