@@ -51,3 +51,4 @@ yarn-error.log*
 # Image generator
 generated-images
 test-output
+__pycache__
