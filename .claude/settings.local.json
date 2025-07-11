@@ -8,7 +8,14 @@
       "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists diff --stat)",
       "Bash(git -C /home/webber/Repositories/docusaurus-plugin-content-gists add -A)",
       "Bash(NODE_ENV=production yarn build-only)",
-      "Bash(bash -c:*)"
+      "Bash(bash -c:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(npm run swizzle:*)",
+      "Bash(yarn swizzle:*)",
+      "Bash(npx docusaurus swizzle:*)"
     ],
     "deny": ["Bash(cd:*)"]
   }
