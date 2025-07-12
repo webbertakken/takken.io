@@ -39,36 +39,47 @@ This setup enables you to leverage Windows tools where they excel while maintain
 filesystem I/O in WSL for Python, machine learning, and other Linux-native workloads. GPU
 virtualization ensures you can run CUDA and DirectX workloads efficiently.
 
-The approach almost completely eliminates cross-platform filesystem performance bottlenecks.
+The approach almost completely circumvents the cross-platform filesystem performance bottleneck.
 
 <!-- truncate -->
 
-## Premise
+## Introduction
 
-Allround developers will need a wide range of development tools to work with near-native performance
-and direct access to hardware devices.
+Windows is used by [28%](https://2025.stateofdevs.com/en-US/technology/#desktop_os) of all
+developers. And since not every tool runs on Windows, they may also need a unix-based operating
+system on the side.
 
-Since not every tool runs on Windows, we'll need an additional or replacing operating system.
+Usually, any [popular](https://distrowatch.com/dwres.php?resource=popularity) linux distro will do.
+Personally I prefer something [Debian](https://www.debian.org/) based like
+[Ubuntu](https://ubuntu.com/desktop). Or [Pop!OS](https://system76.com/pop/) which is based on
+Ubuntu.
 
-Any [popular linux distro](https://distrowatch.com/dwres.php?resource=popularity) will do.
-Personally I prefer something Debian based like Ubuntu. Or Pop!OS which is based on Ubuntu.
+The most popular way to run Linux on Windows is using the
+[Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about). WSL2 provides a
+full Linux kernel and allows running Linux applications natively on Windows. It has become the de
+facto standard for Windows developers who need Linux tools.
 
 ## The problem with WSL filesystem performance
 
-WSL2 has revolutionized Windows development, but it comes with a critical limitation:
+While WSL2 has revolutionized Windows development, it comes with an inhibiting limitation:
 **cross-filesystem I/O is painfully slow**.
 
-Reading Windows files from WSL (via `/mnt/c/`) results in terrible performance. While reading WSL
-files from Windows (via `\\wsl.localhost\`) is slightly more acceptable, it's still far from native
-speed.
+Reading Windows files from WSL (via `/mnt/c/`) results in terrible performance. Reading WSL files
+from Windows (via `\\wsl.localhost\`) is slightly better, but also pretty bad.
 
 For developers working with large codebases, Python environments, or machine learning datasets, this
-performance gap is an absolute deal-breaker.
+performance gap is a deal-breaker. And even for smaller projects, the difference is very noticeable.
 
-To quantify this issue, I conducted comprehensive benchmarks comparing native filesystem performance
-against cross-filesystem operations:
+### Benchmarking the performance gap
 
-![Filesystem I/O Performance Comparison](./assets/filesystem-performance-comparison.png)
+To quantify this issue, I created a
+[benchmark](https://github.com/webbertakken/wsl-filesystem-benchmark) for comparing native
+filesystem performance against cross-filesystem operations.
+
+<Image
+  img={require('./assets/filesystem-performance-comparison.svg')}
+  alt="Bar chart comparing filesystem performance between Windows and WSL"
+/>
 
 The results are stark: while both Windows and WSL achieve excellent performance on their native
 filesystems (100% baseline), cross-filesystem operations tell a different story:
