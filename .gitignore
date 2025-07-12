@@ -7,6 +7,11 @@
 *.log
 serviceAccount.json
 
+# Generated images
+generated-images/
+tools/image-generator/test-output/
+tools/image-generator/example-images/
+
 # Firebase
 /.firebase
 
@@ -42,3 +47,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Image generator
+generated-images
+test-output
+__pycache__

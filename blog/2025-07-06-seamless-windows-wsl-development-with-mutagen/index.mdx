@@ -1,0 +1,719 @@
+---
+slug: seamless-windows-wsl-development-with-mutagen
+title: Seamless development across Windows and Linux
+description:
+  How to achieve native filesystem performance when developing across Windows and WSL using Mutagen
+  for real-time bidirectional synchronisation.
+authors: [webber]
+tags:
+  - Windows
+  - Linux
+  - WSL
+  - Filesystem
+  - Performance
+  - Mutagen
+  - Development tools
+keywords:
+  - Windows WSL sync
+  - WSL filesystem performance
+  - Mutagen sync Windows
+  - WSL development setup
+  - Bidirectional sync
+  - Real-time file sync
+  - WSL2 performance
+  - Windows Linux development
+  - Cross-platform development
+  - Native filesystem performance
+  - Development workflow optimization
+---
+
+import ImageWrapper from '../../src/components/ImageWrapper'
+import Image from '@theme/IdealImage'
+
+# Seamless Windows-WSL development with Mutagen
+
+The holy grail of Windows development: native filesystem performance on both Windows and Linux, with
+real-time synchronization between them.
+
+This setup enables you to leverage Windows tools where they excel while maintaining blazing-fast
+filesystem I/O in WSL for Python, machine learning, and other Linux-native workloads. GPU
+virtualization ensures you can run CUDA and DirectX workloads efficiently.
+
+The approach almost completely circumvents the cross-platform filesystem performance bottleneck.
+
+<!-- truncate -->
+
+## Introduction
+
+Windows is used by [28%](https://2025.stateofdevs.com/en-US/technology/#desktop_os) of all
+developers. And since not every tool runs on Windows, they may also need a unix-based operating
+system on the side.
+
+Usually, any [popular](https://distrowatch.com/dwres.php?resource=popularity) linux distro will do.
+Personally I prefer something [Debian](https://www.debian.org/) based like
+[Ubuntu](https://ubuntu.com/desktop). Or [Pop!OS](https://system76.com/pop/) which is based on
+Ubuntu.
+
+The most popular way to run Linux on Windows is using the
+[Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about). WSL2 provides a
+full Linux kernel and allows running Linux applications natively on Windows. It has become the de
+facto standard for Windows developers who need Linux tools.
+
+## The problem with WSL filesystem performance
+
+While WSL2 has revolutionized Windows development, it comes with an inhibiting limitation:
+**cross-filesystem I/O is painfully slow**.
+
+Reading Windows files from WSL (via `/mnt/c/`) results in terrible performance. Reading WSL files
+from Windows (via `\\wsl.localhost\`) is slightly better, but also pretty bad.
+
+For developers working with large codebases, Python environments, or machine learning datasets, this
+performance gap is a deal-breaker. And even for smaller projects, the difference is very noticeable.
+
+### Benchmarking the performance gap
+
+To quantify this issue, I created a
+[benchmark](https://github.com/webbertakken/wsl-filesystem-benchmark) for comparing native
+filesystem performance against cross-filesystem operations.
+
+<Image
+  img={require('./assets/filesystem-performance-comparison.webp')}
+  alt="Bar chart comparing filesystem performance between Windows and WSL"
+/>
+
+The results are stark: while both Windows and WSL achieve excellent performance on their native
+filesystems (100% baseline), cross-filesystem operations tell a different story:
+
+- WSL accessing Windows filesystem: ~9% of native performance
+- Windows accessing WSL filesystem: ~12% of native performance
+
+These numbers represent averaged results across various file sizes and operations. In practical
+terms, this means operations like `npm install`, `git status`, or Python package installations can
+take 10-20x longer when crossing filesystem boundaries.
+
+## The solution
+
+We can completely circumvent the performance bottleneck by following a simple rule
+
+- 💡 When working in Windows, use the Windows filesystem
+- 💡 When working in Linux, use the Linux filesystem
+
+This leaves us with a new problem:
+
+- ❌ Changed files are only reflected on one side
+- ❌ Diverging filesystems
+
+Both of which we can solve
+
+- ✅ Real-time cross-system file synchronisation
+
+## Alternatives
+
+Before getting into the details, you might ask; why not just use VMs or dual boot? It's a fair
+question.
+
+In fact, I have evaluated a few categories of alternatives, before settling on a WSL-based solution
+with synchronisation.
+
+### Type 2 hypervisors
+
+- ❌ **VMware Workstation Pro**: The pro version allows using host APIs to access the GPU and
+  provides 3D acceleration, but not true passthrough (PCIe-level access). This limitation can be
+  significant for machine learning workloads that expect direct GPU access.
+- ❌ **QEMU/KVM VFIO**: QEMU on Windows 11 typically runs without hardware-assisted virtualization
+  (like KVM), limiting its efficiency. Windows 11 lacks direct support for VFIO, inhibiting true GPU
+  passthrough.
+
+Since there is no passthrough, we would not be able to work with LLMs and other GPU workloads
+effectively.
+
+### Type 1 Hypervisors
+
+- ⚠️ **VMware ESXi**: The free version has limited GPU passthrough support. The paid version
+  supports GPU passthrough (Direct Device Assignment), although no official support for consumer
+  GPUs.
+- ⚠️ **Hyper-V**: Microsoft's Hyper-V does offer GPU passthrough (Discrete Device Assignment),
+  although no official support for either Windows 11 or consumer GPUs.
+- ✅ **Proxmox**: Offers built-in PCI passthrough and works well for this task
+
+Looks like Proxmox is an excellent candidate bare metal hypervisor that allows you to run Windows
+and Linux alongside each other and assign hardware to either of them
+
+Caveat: To switch, Shut down VM #1 → detach GPU → attach GPU to VM #2 → start VM #2.
+
+:::info
+
+For the gamers among us, this approach would also incur a small performance loss (1-5% loss in FPS).
+
+:::
+
+### Dual Boot
+
+- ✅ **Native performance**: Files live natively where they're accessed most.
+- ❌ **Context switching**: Rebooting between OSes disrupts flow.
+- ❌ **Shared state issues**: Managing shared files and configurations between OSes is messy.
+
+A dual boot setup is probably a good option if you intend to do all development work on Linux and
+other tasks on Windows that are not needed at the same time.
+
+Personally I like to alternate between playing games and developing stuff on the regular.
+
+### WSL2 + Sync (This approach)
+
+- ✅ **Native performance**: Files live natively where they're accessed
+- ✅ **Unified development environment**: No context switching, instant tool access
+- ⚠️ **GPU Virtualization**: WSL2 provides GPU acceleration using a virtual GPU driver. It runs CUDA
+  and DirectX workloads (AI/ML workloads, graphics rendering, etc.) efficiently.
+
+For sake of moving forward I made the assumption that GPU virtualisation will be sufficient for my
+development needs.
+
+What remains then is to solve the cross-filesystem performance issue with real-time synchronisation.
+
+<Image
+  img={require('./assets/development-workflow-comparison.png')}
+  alt="Workflow diagram showing three approaches: VM (complex), Dual Boot (fragmented), WSL+Sync (seamless)"
+/>
+
+## Enter Mutagen: real-time bidirectional sync
+
+The solution is surprisingly elegant: keep files native on both filesystems and synchronise them in
+real-time. This is where Mutagen excels.
+
+[Mutagen](https://mutagen.io/) is a real-time file synchronization tool designed for development
+workflows. Unlike traditional sync tools, it's built specifically for handling development files
+with features like:
+
+- **Real-time synchronization** with cross-platform filesystem watching
+- **Conflict resolution** for simultaneous edits, creation, deletes
+- **Extensive ignore patterns** for node_modules, build artifacts, etc.
+
+Mutagen places a filesystem watcher on both the Windows and WSL sides. When you save a file on
+Windows, the watcher detects the change and syncs it to WSL within the same second. The same happens
+in reverse—changes in WSL appear instantly on Windows. This includes new files, modifications, and
+deletions.
+
+Because each environment accesses files on its native filesystem, you get full native performance.
+The synchronisation happens so quickly that it feels like you're working with a single, unified
+filesystem.
+
+I evaluated several synchronisation solutions before choosing Mutagen:
+
+- **rsync**: Doesn't support bidirectional sync with proper conflict resolution
+- **Unison**: Requires identical versions on both endpoints and complex configuration
+- **rclone bisync**: Designed for cloud storage, not optimised for rapid local changes
+- **Syncthing**: Looked promising but doesn't support two folders on the same host
+- **Native Windows tools**: Not designed for development workflows
+
+Mutagen stands out with its development-focused features:
+
+- Intelligent conflict resolution
+- Comprehensive ignore patterns
+- Minimal CPU and memory overhead
+- Symbolic link support
+- Permission handling
+
+<Image
+  img={require('./assets/mutagen-sync-architecture.png')}
+  alt="Architecture diagram showing Mutagen daemon syncing between Windows C:\Users\Webber\Repositories and WSL /home/webber/Repositories with bidirectional arrows"
+/>
+
+## Setting up the perfect sync
+
+Let's walk through setting up a robust, production-ready sync between Windows and WSL2.
+
+### Prerequisites
+
+- Windows 10/11 with WSL2 enabled
+- Ubuntu 22.04 (or your preferred WSL distro) installed
+- Administrative access to Windows
+
+### Step 1: install Mutagen
+
+Download Mutagen from [mutagen.io/downloads](https://mutagen.io/downloads) and install it on
+Windows. Add it to your PATH for easy command-line access.
+
+### Step 2: configure ignore patterns
+
+Create a `.mutagen.yml` file in your Windows home directory (`C:\Users\YourName\.mutagen.yml`):
+
+<details>
+  <summary>WSL2 installation reminder</summary>
+
+If you don't have WSL2 set up yet:
+
+```powershell
+# Install WSL2 and Ubuntu
+wsl --install -d Ubuntu-22.04
+
+# Verify installation
+wsl --list --verbose
+```
+
+</details>
+
+### Step 1: Install Mutagen
+
+Download and install Mutagen on Windows:
+
+<Image
+  img={require('./assets/mutagen-download-page.png')}
+  alt="Screenshot of Mutagen GitHub releases page highlighting the Windows download"
+/>
+
+```powershell
+# Create directory and download (adjust version as needed)
+mkdir C:\Users\$env:USERNAME\Bin
+cd C:\Users\$env:USERNAME\Bin
+
+# Download latest release
+Invoke-WebRequest -Uri "https://github.com/mutagen-io/mutagen/releases/download/v0.17.5/mutagen_windows_amd64.zip" -OutFile "mutagen.zip"
+
+# Extract
+Expand-Archive -Path mutagen.zip -DestinationPath . -Force
+Remove-Item mutagen.zip
+
+# Add to PATH
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Users\$env:USERNAME\Bin", [EnvironmentVariableTarget]::User)
+
+# Verify installation
+mutagen version
+```
+
+<Image
+  img={require('./assets/mutagen-installation-success.png')}
+  alt="PowerShell terminal showing successful Mutagen version output"
+/>
+
+### Step 2: Configure ignore patterns
+
+Create a comprehensive ignore configuration to avoid syncing unnecessary files:
+
+```yaml
+# ~/.mutagen.yml (in Windows homedir)
+sync:
+  defaults:
+    mode: 'two-way-resolved'
+    scanMode: 'accelerated'
+    watch:
+      mode: 'portable'
+      pollingInterval: 2
+    permissions:
+      defaultFileMode: 0644
+      defaultDirectoryMode: 0755
+    ignore:
+      vcs: false
+      paths:
+        # Node.js / JavaScript
+        - 'node_modules/'
+        - '.next/'
+        - '.nuxt/'
+        - '.output/'
+        - 'dist/'
+        - 'build/'
+        - 'out/'
+        - '.turbo/'
+        - '.parcel-cache/'
+        - '.cache/'
+        - '.cache-loader/'
+        - 'coverage/'
+        - '.nyc_output/'
+        - '.grunt/'
+        - 'bower_components/'
+        - '.sass-cache/'
+        - '.fusebox/'
+        - '.dynamodb/'
+        - '.serverless/'
+        - '.webpack/'
+        - '.vuepress/dist/'
+        - '.docusaurus/'
+        - '.umi/'
+        - '.umi-production/'
+        - '.tern-port'
+        - '.lock-wscript'
+        - '.node_repl_history'
+        - '*.pid'
+        - '*.seed'
+        - '*.pid.lock'
+        - '.npm/'
+        - '.config/configstore/'
+        - '.pnp.cjs'
+        - '.pnp.loader.mjs'
+        - '.yarn/'
+        - '.pnp/'
+        - '.pnp.js'
+        - '.pnp.*'
+        - '.yarn-integrity'
+        - '*.tsbuildinfo'
+        - '.eslintcache'
+        - '.stylelintcache'
+        - '.terser-cache'
+        - '.rpt2_cache/'
+        - '.rts2_cache_cjs/'
+        - '.rts2_cache_es/'
+        - '.rts2_cache_umd/'
+        - 'playwright-report/'
+        - 'test-results/'
+        - 'cypress/videos/'
+        - 'cypress/screenshots/'
+
+        # Python
+        - '__pycache__/'
+        - '*.py[cod]'
+        - '*$py.class'
+        - 'venv/'
+        - 'env/'
+        - 'ENV/'
+        - '.Python'
+        - '.pytest_cache/'
+        - '.tox/'
+        - '.coverage'
+        - '.coverage.*'
+        - 'htmlcov/'
+        - '.hypothesis/'
+        - '.pytype/'
+        - '.mypy_cache/'
+        - '.dmypy.json'
+        - 'dmypy.json'
+        - '.pyre/'
+        - '.ruff_cache/'
+
+        # Rust
+        - 'target/'
+        - 'Cargo.lock'
+        - '**/*.rs.bk'
+        - 'src-tauri/'
+
+        # Java/Gradle
+        - '.gradle/'
+        - 'gradle-app.setting'
+        - '.gradletasknamecache'
+
+        # C#
+        - 'bin/'
+        - 'obj/'
+        - 'artifacts/'
+
+        # Unity
+        - 'Library/'
+        - 'Temp/'
+        - 'obj/'
+        - 'Build/'
+        - 'Builds/'
+        - 'Logs/'
+        - 'UserSettings/'
+        - 'UnityConnectSettings.asset'
+
+        # PHP
+        - '.phpunit.result.cache'
+        - 'vendor/'
+
+        # Go
+        - 'vendor/'
+        - 'go.sum'
+
+        # IDEs and editors
+        - '*.swp'
+        - '*.swo'
+        - '*~'
+        - '.project'
+        - '.classpath'
+        - '.vscode-test/'
+
+        # OS files
+        - '.DS_Store'
+        - '.DS_Store?'
+        - '._*'
+        - '.Spotlight-V100'
+        - '.Trashes'
+        - 'ehthumbs.db'
+        - 'Thumbs.db'
+        - 'desktop.ini'
+
+        # Temporary files
+        - 'tmp/'
+        - 'temp/'
+        - '.tmp/'
+        - '.temp/'
+        - '*.tmp'
+        - '*.temp'
+        - '*.bak'
+        - '*.backup'
+        - '*.old'
+
+        # Logs
+        - '*.log'
+        - '*.log*'
+        - 'logs/'
+
+        # Documentation builds
+        - '_site/'
+        - 'site/'
+```
+
+<Image
+  img={require('./assets/mutagen-config-file.png')}
+  alt="Text editor showing the .mutagen.yml configuration file with syntax highlighting"
+/>
+Key configuration decisions: - **mode: "two-way-resolved"**: Enables bidirectional sync with
+automatic conflict resolution - **scanMode: "accelerated"**: Uses filesystem watching for better
+performance - **watch mode: "portable"**: Ensures compatibility across Windows and Linux filesystems
+- **Comprehensive ignore patterns**: Prevents synchronising build artifacts, dependencies, and
+temporary files
+
+### Step 3: create the sync session
+
+Now we'll create the actual sync between your Windows and WSL repositories:
+
+```powershell
+# Start the Mutagen daemon
+mutagen daemon start
+
+# Create the sync session
+mutagen sync create `
+  "C:\Users\$env:USERNAME\Repositories" `
+  "\\wsl.localhost\Ubuntu-22.04\home\$env:USERNAME\Repositories" `
+  --name="repositories"
+
+# Verify sync creation
+mutagen sync list
+```
+
+<Image
+  img={require('./assets/sync-creation-success.png')}
+  alt="PowerShell terminal showing successful sync creation with green status indicators"
+/>
+
+The initial sync may take several minutes depending on how many repositories you already have in
+your `~/Repositories` folder.
+
+You can monitor progress:
+
+```powershell
+# Watch sync progress in real-time
+mutagen sync monitor repositories
+```
+
+In my case I had 130 repositories with loads of files, so it was taking a while.
+
+Turns out you can skip discovering files and force a synchronisation cycle using the `flush` option.
+
+```powershell
+mutagen sync flush repositories
+```
+
+Now the initial sync was very quick.
+
+<Image
+  img={require('./assets/sync-monitor-output.png')}
+  alt="Terminal showing Mutagen sync monitor with file counts and transfer progress"
+/>
+
+### Step 4: Automate startup
+
+To ensure Mutagen starts automatically when Windows boots, create a startup script:
+
+<details>
+  <summary>Create startup script</summary>
+
+```powershell
+# register-startup.ps1
+$startupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+$mutagenPath = (Get-Command mutagen).Path
+$startupScript = @"
+@echo off
+mutagen daemon start
+mutagen sync resume repositories
+"@
+
+# Create startup batch file
+$scriptPath = "C:\Users\$env:USERNAME\Bin\mutagen-startup.bat"
+New-Item -ItemType Directory -Path (Split-Path $scriptPath) -Force | Out-Null
+Set-Content -Path $scriptPath -Value $startupScript
+
+# Create shortcut in startup folder
+$WshShell = New-Object -comObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("$startupFolder\Mutagen.lnk")
+$Shortcut.TargetPath = $scriptPath
+$Shortcut.Save()
+
+Write-Host "Mutagen will now start automatically on login" -ForegroundColor Green
+```
+
+</details>
+
+### Step 5: managing multiple projects
+
+Let's verify everything works correctly:
+
+<Image
+  img={require('./assets/sync-verification-test.png')}
+  alt="Split-screen showing the same file being edited simultaneously in Windows VS Code and WSL vim, with real-time sync"
+/>
+<details>
+<summary>setup-all-sync-jobs.ps1 - Multiple Sync Job Configuration</summary>
+
+```powershell
+mutagen sync terminate home
+mutagen sync create `
+  "C:\Users\Webber\" `
+  "\\wsl.localhost\Ubuntu-22.04\home\webber\" `
+  --name="home" `
+  --ignore '**' `
+  --ignore '!.mutagen.yml' `
+  --ignore '!.gitconfig*' `
+  --ignore '!.claude/' `
+  --ignore '!.claude/test.md' `
+  --ignore '!.claude/CLAUDE.md' `
+  --ignore '!.claude/mcp.json' `
+  --ignore '!.claude/settings.json' `
+  --ignore '!.claude/settings.local.json' `
+  --ignore '!.aws/' `
+  --ignore '!.aws/**' `
+  --ignore '!.config/' `
+  --ignore '!.config/**' `
+  --ignore '!.ssh/' `
+  --ignore '!.ssh/**' `
+  --ignore '!.editorconfig' `
+  --ignore '!.wslconfig'
+
+mutagen sync terminate repositories-takken
+mutagen sync create `
+  "C:\Users\Webber\Repositories\takken.io\" `
+  "\\wsl.localhost\Ubuntu-22.04\home\webber\Repositories\takken.io\" `
+  --name="repositories-takken"
+
+mutagen sync terminate docusaurus-plugin-content-gists
+mutagen sync create `
+  "C:\Users\Webber\Repositories\docusaurus-plugin-content-gists\" `
+  "\\wsl.localhost\Ubuntu-22.04\home\webber\Repositories\docusaurus-plugin-content-gists\" `
+  --name="docusaurus-plugin-content-gists"
+
+# By default don't reinit the repositories sync job, as it's big and takes a while.
+#mutagen sync terminate repositories
+#mutagen sync create `
+#  "C:\Users\Webber\Repositories\" `
+#  "\\wsl.localhost\Ubuntu-22.04\home\webber\Repositories\" `
+#  --name="repositories"
+
+mutagen sync list
+```
+
+</details>
+
+This sets up:
+
+- **Selective home directory sync**: Only syncs specific configuration files
+- **Project-specific syncs**: Individual sync jobs for active projects
+- **Flexibility**: Commented option for syncing entire repository directory
+
+## Working with Mutagen
+
+### Daily workflow
+
+Once configured, Mutagen runs transparently in the background:
+
+1. **Edit in Windows**: Use your favourite Windows IDE or editor
+2. **Run in WSL**: Execute commands in WSL with native Linux performance
+3. **Instant sync**: Changes appear on both sides within a second
+
+## Useful commands
+
+Here's a quick reference for managing your sync:
+
+```powershell
+# Essential commands
+mutagen sync list                     # List all syncs
+mutagen sync monitor repositories     # Watch sync activity
+mutagen sync pause repositories       # Pause sync
+mutagen sync resume repositories      # Resume sync
+mutagen sync list -l repositories     # Detailed sync info
+```
+
+<Image
+  img={require('./assets/useful-commands-reference.png')}
+  alt="Terminal showing output of various Mutagen commands with color-coded status indicators"
+/>
+
+## Other configurations
+
+### Adjustments to the linux environment
+
+- CUDA Toolkit
+
+```bash
+sudo apt install -y nvidia-cuda-toolkit
+```
+
+Verify
+
+```
+nvidia-smi
+```
+
+<Image
+  img={require('./assets/useful-commands-reference.png')}
+  alt="Terminal showing output of various Mutagen commands with color-coded status indicators"
+/>
+
+## Real-world development workflow
+
+With this setup, my typical development workflow now looks like:
+
+1. **Code editing**: JetBrains IDE in Windows
+2. **Command line operations**: Choose at any moment between Windows native and Linux native when
+   starting the dev server, running tests etc.
+3. **GPU-intensive tasks**: Machine learning and CUDA operations run natively in WSL2
+
+## Results
+
+With Mutagen in place, the development experience is transformed:
+
+- **Native performance**: Each environment accesses files at full native speed
+- **Transparent synchronisation**: Changes appear instantly on both sides
+- **No manual intervention**: Once configured, synchronisation happens automatically
+- **Preserved workflows**: Use Windows tools on Windows paths, Linux tools on Linux paths
+
+The synchronisation overhead is negligible compared to the 10-20x performance penalty of
+cross-filesystem access. File changes typically sync within milliseconds, maintaining the illusion
+of a unified filesystem while delivering native performance.
+
+<Image
+  img={require('./assets/development-workflow-diagram.png')}
+  alt="Workflow diagram showing seamless integration between Windows development tools and WSL execution environment"
+/>
+
+## Why this matters for the future
+
+As tools like Claude Code gain traction—many of which prioritize Linux support—having a seamless
+Windows-WSL workflow becomes increasingly important. This setup ensures you can adopt new tools
+without sacrificing the Windows ecosystem you rely on.
+
+The Python and machine learning ecosystems continue to be Linux-first, making WSL2 essential for
+Windows developers. With proper sync, you get the best of both worlds: Windows productivity tools
+and Linux development performance.
+
+:::note
+
+This approach scales beautifully. I've been running this setup for months across multiple projects,
+including large repositories with hundreds of thousands of files, without any performance
+degradation.
+
+:::
+
+## Conclusion
+
+While the ideal solution would be native cross-filesystem performance in WSL, the current reality
+requires workarounds. Mutagen provides an elegant solution that maintains the benefits of both
+Windows and WSL without the complexity of hypervisors or the disruption of dual booting.
+
+For developers working with mixed technology stacks—particularly those combining traditional Windows
+development with modern Python/ML workflows—this approach offers the best balance of performance,
+usability, and simplicity.
+
+Whether you're working with Python, Node.js, machine learning, or just want the flexibility to use
+the best tools from both ecosystems, this setup provides the foundation for a truly modern
+development environment.
+
+Have you tried this setup? I'd love to hear about your experience and any optimizations you've
+discovered. Drop a comment below!

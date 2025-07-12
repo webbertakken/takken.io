@@ -20,7 +20,9 @@ const IdealImageWrapper: React.FC<IdealImageWrapperProps> = ({
   const open = () => setIsOpen(true)
   const close = () => setIsOpen(false)
 
-  const { width, height } = img.src
+  // Handle cases where img.src might be undefined (e.g., WebP images)
+  const imageData = img.src || img
+  const { width = 2000, height = 1200 } = imageData || {}
   const aspectRatio = width / height
   const reverseAspectRatio = height / width
 
