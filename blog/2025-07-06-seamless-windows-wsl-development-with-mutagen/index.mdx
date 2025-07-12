@@ -77,7 +77,7 @@ To quantify this issue, I created a
 filesystem performance against cross-filesystem operations.
 
 <Image
-  img={require('./assets/filesystem-performance-comparison.svg')}
+  img={require('./assets/filesystem-performance-comparison.webp')}
   alt="Bar chart comparing filesystem performance between Windows and WSL"
 />
 
@@ -455,10 +455,11 @@ sync:
   img={require('./assets/mutagen-config-file.png')}
   alt="Text editor showing the .mutagen.yml configuration file with syntax highlighting"
 />
-Key configuration decisions: - **mode: "two-way-resolved"**: Enables bidirectional sync with automatic
-conflict resolution - **scanMode: "accelerated"**: Uses filesystem watching for better performance -
-**watch mode: "portable"**: Ensures compatibility across Windows and Linux filesystems - **Comprehensive
-ignore patterns**: Prevents synchronising build artifacts, dependencies, and temporary files
+Key configuration decisions: - **mode: "two-way-resolved"**: Enables bidirectional sync with
+automatic conflict resolution - **scanMode: "accelerated"**: Uses filesystem watching for better
+performance - **watch mode: "portable"**: Ensures compatibility across Windows and Linux filesystems
+- **Comprehensive ignore patterns**: Prevents synchronising build artifacts, dependencies, and
+temporary files
 
 ### Step 3: create the sync session
 

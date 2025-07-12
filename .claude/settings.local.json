@@ -15,7 +15,12 @@
       "Bash(mv:*)",
       "Bash(npm run swizzle:*)",
       "Bash(yarn swizzle:*)",
-      "Bash(npx docusaurus swizzle:*)"
+      "Bash(npx docusaurus swizzle:*)",
+      "Bash(cwebp:*)",
+      "Bash(rsvg-convert:*)",
+      "WebFetch(domain:stackoverflow.com)",
+      "Bash(pip install:*)",
+      "Bash(wget:*)"
     ],
     "deny": ["Bash(cd:*)"]
   }
