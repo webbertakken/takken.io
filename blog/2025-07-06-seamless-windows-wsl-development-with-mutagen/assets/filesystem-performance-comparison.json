@@ -1,0 +1,10 @@
+{
+  "type": "bar-chart",
+  "title": "Filesystem I/O Performance Comparison",
+  "data": [
+    ["Windows Native", 100, "green"],
+    ["WSL Native", 100, "cyan"],
+    ["WSL → Windows Filesystem", 6, "red"],
+    ["Windows → WSL Filesystem", 14, "orange"]
+  ]
+}

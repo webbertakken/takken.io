@@ -1,11 +1,22 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .idea/*
 !.idea/dictionaries
+!.idea/prettier.xml
+!.idea/vcs.xml
+!.idea/takken.io.iml
+!.idea/jsLinters
+!.idea/inspectionProfiles
+!.idea/codeStyles
 /.vscode
 
 # Private variables
 *.log
 serviceAccount.json
+
+# Generated images
+generated-images/
+tools/image-generator/test-output/
+tools/image-generator/example-images/
 
 # Firebase
 /.firebase
@@ -42,3 +53,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Image generator
+generated-images
+test-output
+__pycache__
