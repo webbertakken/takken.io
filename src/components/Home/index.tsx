@@ -59,6 +59,12 @@ const Index = (): JSX.Element => {
 
           <Card title="Latest posts">
             <Card.Item>
+              📖{' '}
+              <a href="/blog/seamless-windows-linux-development">
+                Seamless Windows-Linux development
+              </a>
+            </Card.Item>
+            <Card.Item>
               📖 <a href="/blog/a-modern-terminal-for-windows">A modern terminal for Windows</a>
             </Card.Item>
             <Card.Item>
@@ -72,9 +78,6 @@ const Index = (): JSX.Element => {
             </Card.Item>
             <Card.Item>
               📖 <a href="/blog/sweet-transition">Sweet Transition</a>
-            </Card.Item>
-            <Card.Item>
-              📖 <a href="/blog/choosing-the-right-stack">Choosing the right stack</a>
             </Card.Item>
           </Card>
 
