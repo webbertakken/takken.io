@@ -141,6 +141,7 @@ const Index = (): JSX.Element => {
             <Card.Item>🧑🏻 Simon Sinek</Card.Item>
             <Card.Item>👱🏻‍♀️ Erin Meyer</Card.Item>
             <Card.Item>👨🏻‍🦲 Yuval Noah Harari</Card.Item>
+            <Card.Item>👨🏼‍🦲 Martin Fowler</Card.Item>
           </Card>
 
           <Card title="Ideals">
