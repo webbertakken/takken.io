@@ -1,0 +1,1068 @@
+---
+slug: seamless-windows-linux-development
+title: Seamless Windows-Linux development
+description:
+  How to achieve native filesystem performance when developing across Windows and WSL using Mutagen
+  for real-time bidirectional synchronisation.
+authors: [webber]
+tags:
+  - Windows
+  - Linux
+  - WSL
+  - Filesystem
+  - Performance
+  - Mutagen
+  - Development tools
+keywords:
+  - Windows WSL sync
+  - WSL filesystem performance
+  - Mutagen sync Windows
+  - WSL development setup
+  - Bidirectional sync
+  - Real-time file sync
+  - WSL2 performance
+  - Windows Linux development
+  - Cross-platform development
+  - Native filesystem performance
+  - Development workflow optimization
+---
+
+import ImageWrapper from '../../src/components/ImageWrapper'
+import Image from '@theme/IdealImage'
+
+# Seamless Windows-WSL development with Mutagen
+
+Achieve native filesystem performance on both Windows and WSL2 with real-time bidirectional sync.
+
+This approach enables Windows tools and Linux workloads (Python, ML, CUDA) to run at full speed by
+eliminating the cross-filesystem bottleneck.
+
+<!-- truncate -->
+
+## Introduction
+
+[28%](https://2025.stateofdevs.com/en-US/technology/#desktop_os) of developers use Windows, yet many
+need Linux for tools that don't run natively.
+[WSL2](https://docs.microsoft.com/en-us/windows/wsl/about) has become the standard solution,
+providing a full Linux kernel to run any
+[popular](https://distrowatch.com/dwres.php?resource=popularity) distro - like
+[Ubuntu](https://ubuntu.com/desktop), [Debian](https://www.debian.org/), or
+[Pop!OS](https://system76.com/pop/).
+
+## The problem
+
+WSL2's **major limitation**: cross-platform filesystem operations are terribly slow.
+
+I've created a [benchmark](https://github.com/webbertakken/wsl-filesystem-benchmark) to quantify the
+performance differences. The results are even worse than expected.
+
+<Image
+  img={require('./assets/filesystem-performance-comparison.png')}
+  alt="Bar chart comparing filesystem performance between Windows and WSL"
+/>
+
+- **WSL accessing the Windows filesystem** (`/mnt/c/`) averages at **~6%** of native performance,
+  with `random reads` as low as **3%** 🤔.
+- **Windows accessing the WSL filesystem** (`\\wsl.localhost\`) averages at **~14%**, with
+  sequential writes for large files dropping below **1%** performance 🤯.
+
+In practice, this means that installing packages (`yarn install`), running the development server
+(`yarn dev`), or even checking the status of a Git repository (`git status`) can typically take
+**10-20x longer** when crossing filesystem boundaries.
+
+## The solution
+
+We can completely circumvent the performance bottleneck by following a simple rule
+
+- 💡 When working in Windows, use the Windows filesystem
+- 💡 When working in Linux, use the Linux filesystem
+
+This leaves us with a new problem:
+
+- ❌ Changes to files and folders only reflected on one side
+
+Both of which we can solve using:
+
+- ✅ Real-time cross-system file synchronisation
+
+There aren't many tools that do bidirectional local sync with conflict resolution well. But I've
+found a solution.
+
+## Alternatives
+
+Before we dive further into details, you might wonder: **why not just use VMs or dual boot?** It's a
+fair question.
+
+I evaluated the following alternatives before settling on WSL with bi-directional sync.
+
+TL;DR:
+
+<Image
+  img={require('./assets/development-workflow-comparison.png')}
+  alt="Workflow diagram showing three approaches: VM (complexity in setup and hardware passthrough), Dual Boot (rebooting breaks flow), WSL+Sync (full flexibility)"
+/>
+
+### Type 2 hypervisors
+
+- ❌ **VMware Workstation Pro**: The pro version allows using host APIs to access the GPU and
+  provides 3D acceleration, but not true passthrough (PCIe-level access). This limitation can be
+  significant for machine learning workloads that expect direct GPU access.
+- ⚠️ **QEMU/KVM VFIO**: QEMU on Windows 11 typically runs without hardware-assisted virtualization
+  (like KVM), limiting its efficiency. Windows 11 lacks direct support for VFIO, inhibiting true GPU
+  passthrough.
+
+Since there is no passthrough, we would not be able to work with LLMs and other GPU workloads
+effectively.
+
+### Type 1 Hypervisors
+
+- ⚠️ **VMware ESXi**: The free version has limited GPU passthrough support. The paid version
+  supports GPU passthrough (Direct Device Assignment), although no official support for consumer
+  GPUs.
+- ⚠️ **Hyper-V**: Microsoft's Hyper-V does offer GPU passthrough (Discrete Device Assignment),
+  although no official support for either Windows 11 or consumer GPUs.
+- ✅ **Proxmox**: Offers built-in PCI passthrough and works well for this task
+
+Looks like Proxmox is an excellent candidate bare metal hypervisor that allows you to run Windows
+and Linux alongside each other and assign hardware to either of them
+
+Caveat: To switch, Shut down VM #1 → detach GPU → attach GPU to VM #2 → start VM #2.
+
+:::info
+
+For the gamers among us, this approach would also incur a small performance loss (1-5% loss in FPS).
+Acceptable?
+
+:::
+
+### Dual Boot
+
+- ✅ **Native performance**: Files live natively where they're accessed most.
+- ⚠️ **Context switching**: Rebooting between OSes disrupts flow.
+- ⚠️ **Shared state issues**: Managing shared files and configurations between OSes is messy.
+
+A dual boot setup is probably a good option if you intend to do all development work on Linux and
+other tasks on Windows that are not needed at the same time.
+
+Personally I like to alternate between playing games and developing stuff on the regular.
+
+### WSL2 + Sync (This approach)
+
+- ✅ **Native performance**: Files live natively where they're accessed
+- ✅ **Unified development environment**: No context switching, instant tool access
+- ⚠️ **GPU Virtualization**: WSL2 provides GPU acceleration using a virtual GPU driver. It runs CUDA
+  and DirectX workloads (AI/ML workloads, graphics rendering, etc.) efficiently.
+
+For sake of moving forward I made the assumption that GPU virtualisation will be sufficient for my
+development needs.
+
+What remains then is to solve the cross-filesystem performance issue with real-time synchronisation.
+
+## Enter Mutagen: real-time bidirectional sync
+
+[Mutagen](https://mutagen.io/) provides real-time bidirectional file synchronisation designed
+specifically for development workflows:
+
+- **Real-time synchronization** with cross-platform filesystem watchers
+- **Conflict resolution** for simultaneous edits, creation, deletes
+- **Extensive ignore patterns** for node_modules, build artifacts, etc.
+
+Each environment accesses files on their own filesystem. Mutagen synchronises files between them in
+the background.
+
+<Image
+  img={require('./assets/mutagen-sync-architecture.png')}
+  alt="Architecture diagram showing Mutagen daemon syncing between Windows C:\Users\Webber\Repositories and WSL /home/webber/Repositories with bidirectional arrows"
+/>
+
+Alternative solutions I've looked at lack important features:
+
+- **rsync**: Not made for bidirectional sync; no conflict resolution
+- **Unison**: Requires multiple endpoints and complex configuration
+- **rclone bisync**: Cloud-optimised, complicated ignore patterns
+- **Syncthing**: Looked promising, but no same-host folder support
+- **Native Windows tools**: Not designed for development workflows
+
+## Mutagen setup guide
+
+Let's walk through setting up a robust, production-ready sync between Windows and WSL2.
+
+### Prerequisites
+
+- Windows 10/11 with WSL2 enabled
+- Ubuntu 22.04 (or your preferred WSL distro from `wsl --list --online`)
+- Username in WSL your Windows username in lowercase (e.g., `webber` for `Webber`)
+- Administrative access to Windows
+
+### Step 1: install the Mutagen binary
+
+Download the latest version of [Mutagen](https://github.com/mutagen-io/mutagen/releases) and install
+it on Windows.
+
+#### Manual installation
+
+For example,
+
+- download `mutagen_windows_amd64_v0.18.1.tar.gz` from that page,
+- use 7-Zip to extract it, and
+- place the `mutagen.exe` in a directory like `C:\Users\YourName\Bin`.
+- Then add that directory to your PATH environment variable.
+
+#### Automated installation
+
+<details>
+<summary>Installing the mutagen binary</summary>
+
+Here's a PowerShell script to automate the installation:
+
+```powershell
+# Create directory and download (adjust version as needed)
+mkdir C:\Users\$env:USERNAME\Bin
+cd C:\Users\$env:USERNAME\Bin
+
+# Download latest release
+Invoke-WebRequest -Uri "https://github.com/mutagen-io/mutagen/releases/download/v0.18.1/mutagen_windows_amd64_v0.18.1.zip" -OutFile "mutagen.zip"
+
+# Extract
+Expand-Archive -Path mutagen.zip -DestinationPath . -Force
+Remove-Item mutagen.zip
+
+# Add to PATH
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Users\$env:USERNAME\Bin", [EnvironmentVariableTarget]::User)
+
+# Verify installation
+mutagen version
+```
+
+</details>
+
+You can now run `mutagen` from any location.
+
+### Step 2: global configuration
+
+Before setting up sync sessions, be sure to configure Mutagen globally. This ensures that all sync
+sessions use consistent settings and ignore patterns.
+
+Create a `.mutagen.yml` file in your Windows home directory.
+
+```yaml
+# Example `~/.mutagen.yml` with most important settings
+sync:
+  defaults:
+    mode: 'two-way-resolved' # Bidirectional sync with auto-resolution
+    scanMode: 'accelerated' # Filesystem watching for better performance
+    watch:
+      mode: 'portable' # Use watchers for Windows and Linux filesystems
+    ignore:
+      # Ignore unnecessary and platform specific files
+      - 'node_modules/'
+      - '__pycache__/'
+      - 'vendor/'
+```
+
+You can configure ignore patterns in two ways: Ignores that should always apply can be configured
+globally in `.mutagen.yml`, while session-specific ignores can be defined when creating sync
+sessions.
+
+<details>
+  <summary>Here is my actual `.mutagen.yml` configuration</summary>
+
+```yaml
+# ~/.mutagen.yml (in Windows homedir)
+sync:
+  defaults:
+    mode: 'two-way-resolved'
+    scanMode: 'accelerated'
+    watch:
+      mode: 'portable'
+      pollingInterval: 2
+    permissions:
+      defaultFileMode: 0644
+      defaultDirectoryMode: 0755
+    ignore:
+      vcs: false
+      # Add any ignore patterns you want to apply for every sync session
+      paths:
+        # Node.js / JavaScript
+        - 'node_modules/'
+        - '.next/'
+        - '.nuxt/'
+        - '.output/'
+        - 'dist/'
+        - 'build/'
+        - 'out/'
+        - '.turbo/'
+        - '.parcel-cache/'
+        - '.cache/'
+        - '.cache-loader/'
+        - 'coverage/'
+        - '.nyc_output/'
+        - '.grunt/'
+        - 'bower_components/'
+        - '.sass-cache/'
+        - '.fusebox/'
+        - '.dynamodb/'
+        - '.serverless/'
+        - '.webpack/'
+        - '.vuepress/dist/'
+        - '.docusaurus/'
+        - '.umi/'
+        - '.umi-production/'
+        - '.tern-port'
+        - '.lock-wscript'
+        - '.node_repl_history'
+        - '*.pid'
+        - '*.seed'
+        - '*.pid.lock'
+        - '.npm/'
+        - '.config/configstore/'
+        - '.pnp.cjs'
+        - '.pnp.loader.mjs'
+        - '.yarn/'
+        - '.pnp/'
+        - '.pnp.js'
+        - '.pnp.*'
+        - '.yarn-integrity'
+        - '*.tsbuildinfo'
+        - '.eslintcache'
+        - '.stylelintcache'
+        - '.terser-cache'
+        - '.rpt2_cache/'
+        - '.rts2_cache_cjs/'
+        - '.rts2_cache_es/'
+        - '.rts2_cache_umd/'
+        - 'playwright-report/'
+        - 'test-results/'
+        - 'cypress/videos/'
+        - 'cypress/screenshots/'
+
+        # Python
+        - '__pycache__/'
+        - '*.py[cod]'
+        - '*$py.class'
+        - 'venv/'
+        - 'env/'
+        - 'ENV/'
+        - '.Python'
+        - '.pytest_cache/'
+        - '.tox/'
+        - '.coverage'
+        - '.coverage.*'
+        - 'htmlcov/'
+        - '.hypothesis/'
+        - '.pytype/'
+        - '.mypy_cache/'
+        - '.dmypy.json'
+        - 'dmypy.json'
+        - '.pyre/'
+        - '.ruff_cache/'
+
+        # Rust
+        - 'target/'
+        - 'Cargo.lock'
+        - '**/*.rs.bk'
+        - 'src-tauri/'
+
+        # Java/Gradle
+        - '.gradle/'
+        - 'gradle-app.setting'
+        - '.gradletasknamecache'
+
+        # C#
+        - 'bin/'
+        - 'obj/'
+        - 'artifacts/'
+
+        # Unity
+        - 'Library/'
+        - 'Temp/'
+        - 'obj/'
+        - 'Build/'
+        - 'Builds/'
+        - 'Logs/'
+        - 'UserSettings/'
+        - 'UnityConnectSettings.asset'
+
+        # PHP
+        - '.phpunit.result.cache'
+        - 'vendor/'
+
+        # Go
+        - 'vendor/'
+        - 'go.sum'
+
+        # IDEs and editors
+        - '*.swp'
+        - '*.swo'
+        - '*~'
+        - '.project'
+        - '.classpath'
+        - '.vscode-test/'
+
+        # OS files
+        - '.DS_Store'
+        - '.DS_Store?'
+        - '._*'
+        - '.Spotlight-V100'
+        - '.Trashes'
+        - 'ehthumbs.db'
+        - 'Thumbs.db'
+        - 'desktop.ini'
+
+        # Temporary files
+        - 'tmp/'
+        - 'temp/'
+        - '.tmp/'
+        - '.temp/'
+        - '*.tmp'
+        - '*.temp'
+        - '*.bak'
+        - '*.backup'
+        - '*.old'
+
+        # Logs
+        - '*.log'
+        - '*.log*'
+        - 'logs/'
+
+        # Documentation builds
+        - '_site/'
+        - 'site/'
+```
+
+</details>
+
+### Step 3: Automate startup
+
+To ensure Mutagen starts automatically when Windows boots, create a startup script that's executed
+when your system starts.
+
+I've created a PowerShell script that checks all prerequisites and sets up the necessary
+environment. It also creates a startup script that starts the Mutagen daemon and resumes all sync
+sessions on startup.
+
+<details>
+  <summary>Install mutagen setup</summary>
+
+```powershell
+# install-mutagen.ps1
+
+# Mutagen Installation and Setup
+# This script handles Mutagen installation checks and general setup
+# Running this script multiple times will have no negative effects
+
+Write-Host "=== Mutagen Installation and Setup ===" -ForegroundColor Cyan
+
+# Check if Mutagen is installed
+Write-Host "Checking Mutagen installation..." -NoNewline
+try {
+  $mutagenVersion = mutagen version 2>$null
+  if ($LASTEXITCODE -ne 0) {
+    throw "Mutagen command failed"
+  }
+  Write-Host " OK" -ForegroundColor Green
+  Write-Host "  Version: $mutagenVersion" -ForegroundColor DarkGray
+} catch {
+  Write-Host " FAILED" -ForegroundColor Red
+  Write-Host "Error: Mutagen is not installed or not in PATH" -ForegroundColor Red
+  Write-Host "Please install Mutagen from: https://github.com/mutagen-io/mutagen/releases" -ForegroundColor Yellow
+  exit 1
+}
+
+# Check if WSL is available
+Write-Host "Checking WSL availability..." -NoNewline
+try {
+  $wslStatus = wsl --status 2>$null
+  if ($LASTEXITCODE -ne 0) {
+    throw "WSL command failed"
+  }
+  Write-Host " OK" -ForegroundColor Green
+} catch {
+  Write-Host " FAILED" -ForegroundColor Red
+  Write-Host "Error: WSL is not installed or not running" -ForegroundColor Red
+  Write-Host "Please install WSL: wsl --install" -ForegroundColor Yellow
+  exit 1
+}
+
+# Check if Ubuntu-22.04 distro exists
+Write-Host "Checking Ubuntu-22.04 distro..." -NoNewline
+$distros = wsl --list --quiet
+if ($distros -notcontains "Ubuntu-22.04") {
+  Write-Host " FAILED" -ForegroundColor Red
+  Write-Host "Error: Ubuntu-22.04 distro not found" -ForegroundColor Red
+  Write-Host "Available distros:" -ForegroundColor Yellow
+  $distros | ForEach-Object { Write-Host "  - $_" -ForegroundColor DarkGray }
+  exit 1
+}
+Write-Host " OK" -ForegroundColor Green
+
+# Check if .mutagen.yml exists in home directory
+$mutagenConfig = "$env:USERPROFILE\.mutagen.yml"
+Write-Host "Checking .mutagen.yml configuration..." -NoNewline
+if (!(Test-Path $mutagenConfig)) {
+  Write-Host " MISSING" -ForegroundColor Yellow
+  Write-Host "Warning: No .mutagen.yml found in $env:USERPROFILE" -ForegroundColor Yellow
+  Write-Host "Sync will use command-line ignore patterns only" -ForegroundColor Yellow
+} else {
+  Write-Host " OK" -ForegroundColor Green
+}
+
+# Start Mutagen daemon if not running
+Write-Host "Starting Mutagen daemon..." -NoNewline
+try {
+  mutagen daemon start 2>$null
+  Write-Host " OK" -ForegroundColor Green
+} catch {
+  Write-Host " FAILED" -ForegroundColor Red
+  Write-Host "Error: Could not start Mutagen daemon" -ForegroundColor Red
+  exit 1
+}
+
+# Create startup bat file
+$binDir = "C:\Users\$env:USERNAME\Bin"
+$startupScript = "$binDir\mutagen-startup.bat"
+
+Write-Host "Creating startup script..." -NoNewline
+if (Test-Path $startupScript) {
+  Write-Host " EXISTS" -ForegroundColor Yellow
+  Write-Host "  Found: $startupScript" -ForegroundColor DarkGray
+} else {
+  try {
+    # Create Bin directory if it doesn't exist
+    if (!(Test-Path $binDir)) {
+      New-Item -ItemType Directory -Path $binDir -Force | Out-Null
+    }
+
+    # Create the bat file content
+    $batContent = @"
+@echo off
+mutagen daemon start
+mutagen sync resume --all
+"@
+
+    Set-Content -Path $startupScript -Value $batContent -Encoding ASCII
+    Write-Host " OK" -ForegroundColor Green
+    Write-Host "  Created: $startupScript" -ForegroundColor DarkGray
+  } catch {
+    Write-Host " FAILED" -ForegroundColor Red
+    Write-Host "Error: Could not create startup script" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    exit 1
+  }
+}
+
+# Register startup shortcut
+$startupShortcut = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Mutagen.lnk"
+
+Write-Host "Registering startup shortcut..." -NoNewline
+if (Test-Path $startupShortcut) {
+  Write-Host " EXISTS" -ForegroundColor Yellow
+  Write-Host "  Found: $startupShortcut" -ForegroundColor DarkGray
+} else {
+  try {
+    if (Test-Path $startupScript) {
+      $WshShell = New-Object -comObject WScript.Shell
+      $Shortcut = $WshShell.CreateShortcut($startupShortcut)
+      $Shortcut.TargetPath = $startupScript
+      $Shortcut.WorkingDirectory = $binDir
+      $Shortcut.WindowStyle = 7  # Minimized
+      $Shortcut.Description = "Start Mutagen sync daemon and resume all sessions"
+      $Shortcut.Save()
+      Write-Host " OK" -ForegroundColor Green
+      Write-Host "  Created: $startupShortcut" -ForegroundColor DarkGray
+    } else {
+      throw "Startup script not found"
+    }
+  } catch {
+    Write-Host " FAILED" -ForegroundColor Red
+    Write-Host "Error: Could not create startup shortcut" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    exit 1
+  }
+}
+
+Write-Host "`n=== Installation Complete ===" -ForegroundColor Green
+Write-Host "Mutagen is installed and configured for auto-startup." -ForegroundColor Green
+Write-Host "`nNext steps:" -ForegroundColor Cyan
+Write-Host "  .\install-mutagen-syncs.ps1          # Create sync sessions" -ForegroundColor DarkGray
+Write-Host "  .\install-mutagen-syncs.ps1 -Force   # Recreate sync sessions" -ForegroundColor DarkGray
+```
+
+</details>
+
+Example output
+
+<Image
+  img={require('./assets/install-mutagen-example-output.png')}
+  alt="Screenshot of PowerShell output showing successful Mutagen installation and setup"
+/>
+
+Mutagen will now start automatically when you log in to Windows.
+
+## Managing sync sessions
+
+We can now create sync sessions.
+
+### Example usage
+
+<details>
+  <summary>Example usage</summary>
+
+Create a sync
+
+```powershell
+# Create a sync session
+mutagen sync create `
+  "C:\Users\$env:USERNAME\Repositories" `
+  "\\wsl.localhost\Ubuntu-22.04\home\$($env:USERNAME.ToLower())\Repositories\" `
+  --name="repositories"
+```
+
+Monitor progress.
+
+```powershell
+# Watch sync progress in real-time
+mutagen sync monitor repositories
+```
+
+Skip file discovery and force a sync cycle using the `flush` option.
+
+```powershell
+# Skip file discovery and force a sync
+mutagen sync flush repositories
+```
+
+Remove a sync session using the `terminate` command.
+
+```powershell
+# Remove a sync session
+mutagen sync terminate repositories
+```
+
+</details>
+
+### Creating sync sessions with a script
+
+Here's my setup script that creates the sync session for my repositories and home directory.
+
+<details>
+
+<summary>Sync script</summary>
+
+Look for the `Create-Sync` function calls to see how syncs are configured.
+
+```powershell
+# Mutagen Sync Session Management
+# This script manages Mutagen sync sessions between Windows and WSL
+
+param(
+    [switch]$Force  # Force recreation of syncs even if they exist
+)
+
+Write-Host "Mutagen Sync Session Management" -ForegroundColor Cyan
+
+# Track if any syncs already exist (for showing tip at end)
+$script:HasExistingSyncs = $false
+
+# Function to create or recreate a sync with simpler positional parameters
+function Create-Sync {
+    param(
+        [Parameter(Position=0, Mandatory=$true)]
+        [string]$Name,
+
+        [Parameter(Position=1, Mandatory=$true)]
+        [string]$SourcePath,
+
+        [Parameter(Position=2, Mandatory=$true)]
+        [string]$DestPath,
+
+        [Parameter(Position=3, Mandatory=$false)]
+        [string[]]$IgnorePatterns = @()
+    )
+
+    Write-Host "Managing '$Name' sync..." -ForegroundColor DarkGray -NoNewline
+
+    # Sanitize name for mutagen:
+    # - Replace invalid characters with hyphens
+    # - Only allow alphanumeric, hyphens, and underscores
+    # - Truncate to 63 characters max
+    $SafeName = $Name -replace '[^a-zA-Z0-9_-]', '-'
+    if ($SafeName.Length -gt 63) {
+        $SafeName = $SafeName.Substring(0, 63)
+    }
+
+    # Check if sync exists
+    $syncList = mutagen sync list 2>$null
+    $existingSync = $syncList | Where-Object { $_ -match "^Name:\s+$SafeName\s*$" }
+
+    if ($existingSync -and !$Force) {
+        Write-Host " Exists" -ForegroundColor DarkGray
+        $script:HasExistingSyncs = $true
+        return
+    }
+
+    if ($existingSync -and $Force) {
+        Write-Host " Terminating" -ForegroundColor Yellow
+        mutagen sync terminate $SafeName 2>$null
+        Start-Sleep -Seconds 1
+    }
+
+    if (!$existingSync) {
+        Write-Host " Creating" -ForegroundColor Yellow
+    }
+
+    # Check if source and destination exist
+    if (!(Test-Path $SourcePath)) {
+        Write-Host " Failed" -ForegroundColor Red
+        Write-Host "  Source path not found: $SourcePath" -ForegroundColor Red
+        return
+    }
+
+    # Create destination directory if it doesn't exist
+    if (!(Test-Path $DestPath)) {
+        try {
+            New-Item -ItemType Directory -Path $DestPath -Force | Out-Null
+        } catch {
+            Write-Host " Failed" -ForegroundColor Red
+            Write-Host "  Cannot create destination: $DestPath" -ForegroundColor Red
+            return
+        }
+    }
+
+    # Build create command
+    $createArgs = @(
+        "sync", "create",
+        $SourcePath,
+        $DestPath,
+        "--name=$SafeName"
+    )
+
+    # Add ignore patterns if provided
+    foreach ($pattern in $IgnorePatterns) {
+        $createArgs += "--ignore=$pattern"
+    }
+
+    try {
+        $output = & mutagen @createArgs 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "Sync creation failed"
+        }
+        # Show mutagen output indented and in dark gray (filter out empty lines)
+        if ($output) {
+            $output | Where-Object { $_.Trim() -ne "" } | ForEach-Object { Write-Host "    $_" -ForegroundColor DarkGray }
+        }
+    } catch {
+        Write-Host " Failed" -ForegroundColor Red
+        Write-Host "  Error creating sync: $($_.Exception.Message)" -ForegroundColor Red
+        exit 1
+    }
+}
+
+# Create syncs using simplified positional parameters
+
+# Home sync with specific ignore patterns
+Create-Sync `
+    "home" `
+    "C:\Users\$env:USERNAME\" `
+    "\\wsl.localhost\Ubuntu-22.04\home\$($env:USERNAME.ToLower())\" `
+    @(
+        '**',
+        '!.mutagen.yml',
+        '!.gitconfig*',
+        '!.claude/',
+        '!.claude/test.md',
+        '!.claude/CLAUDE.md',
+        '!.claude/mcp.json',
+        '!.claude/settings.json',
+        '!.claude/settings.local.json',
+        '!.aws/',
+        '!.aws/**',
+        '!.config/',
+        '!.config/**',
+        '!.ssh/',
+        '!.ssh/**',
+        '!.editorconfig',
+        '!.wslconfig'
+    )
+
+# Repository syncs - explicit paths for clarity
+Create-Sync `
+    "takken.io" `
+    "C:\Users\$env:USERNAME\Repositories\takken.io\" `
+    "\\wsl.localhost\Ubuntu-22.04\home\$($env:USERNAME.ToLower())\Repositories\takken.io\"
+
+Create-Sync `
+    "docusaurus-plugin-content-gists" `
+    "C:\Users\$env:USERNAME\Repositories\docusaurus-plugin-content-gists\" `
+    "\\wsl.localhost\Ubuntu-22.04\home\$($env:USERNAME.ToLower())\Repositories\docusaurus-plugin-content-gists\"
+
+# Show tip if any syncs already existed
+if ($script:HasExistingSyncs) {
+    Write-Host "`nTip: Use " -ForegroundColor DarkGray -NoNewline
+    Write-Host "-Force" -ForegroundColor White -NoNewline
+    Write-Host " to recreate existing syncs" -ForegroundColor DarkGray
+}
+
+Write-Host "`nSync Status" -ForegroundColor Cyan
+
+# Parse mutagen sync list output manually
+$syncListOutput = mutagen sync list 2>$null
+if ($syncListOutput) {
+    $lines = $syncListOutput -split "`n"
+    $currentSync = @{}
+
+    foreach ($line in $lines) {
+        $line = $line.Trim()
+
+        if ($line -match "^Name:\s*(.+)$") {
+            $currentSync.Name = $matches[1]
+        }
+        elseif ($line -match "^URL:\s*(.+)$" -and !$currentSync.Alpha) {
+            $currentSync.Alpha = $matches[1]
+        }
+        elseif ($line -match "^URL:\s*(.+)$" -and $currentSync.Alpha) {
+            $currentSync.Beta = $matches[1]
+        }
+        elseif ($line -match "^Status:\s*(.+)$") {
+            $currentSync.Status = $matches[1]
+
+            # Output the sync info when we have all parts
+            if ($currentSync.Name -and $currentSync.Alpha -and $currentSync.Beta -and $currentSync.Status) {
+                if ($currentSync.Status -match "(Watching for changes|Scanning files)") {
+                    $statusDisplay = "✓"
+                    $statusColor = "Green"
+                } elseif ($currentSync.Status -match "(conflict|error|failed|problem)") {
+                    $statusDisplay = "✗ $($currentSync.Status)"
+                    $statusColor = "Red"
+                } else {
+                    $statusDisplay = "⚠ $($currentSync.Status)"
+                    $statusColor = "Yellow"
+                }
+                Write-Host "  $($currentSync.Name): " -ForegroundColor White -NoNewline
+                Write-Host "$statusDisplay" -ForegroundColor $statusColor
+                Write-Host "    " -NoNewline
+                Write-Host "$($currentSync.Alpha) " -ForegroundColor DarkGray -NoNewline
+                Write-Host "↔ " -ForegroundColor Yellow -NoNewline
+                Write-Host "$($currentSync.Beta)" -ForegroundColor DarkGray
+                $currentSync = @{}
+            }
+        }
+    }
+} else {
+    Write-Host "  No syncs found" -ForegroundColor DarkGray
+}
+
+Write-Host "`nUseful Commands" -ForegroundColor Cyan
+Write-Host "  mutagen sync create " -ForegroundColor DarkGray -NoNewline; Write-Host "[name]" -ForegroundColor Magenta -NoNewline; Write-Host " " -ForegroundColor DarkGray -NoNewline; Write-Host "[source]" -ForegroundColor Magenta -NoNewline; Write-Host " " -ForegroundColor DarkGray -NoNewline; Write-Host "[dest]" -ForegroundColor Magenta -NoNewline; Write-Host "   # Create a new sync" -ForegroundColor DarkGray
+Write-Host "  mutagen sync terminate " -ForegroundColor DarkGray -NoNewline; Write-Host "[name]" -ForegroundColor Magenta -NoNewline; Write-Host "                # Remove specific sync" -ForegroundColor DarkGray
+Write-Host "  mutagen sync list                            # List all syncs" -ForegroundColor DarkGray
+Write-Host "  mutagen sync list -l                         # List all syncs with detailed info" -ForegroundColor DarkGray
+Write-Host "  mutagen sync monitor " -ForegroundColor DarkGray -NoNewline; Write-Host "[name]" -ForegroundColor Magenta -NoNewline; Write-Host "                  # Watch sync activity for a specific sync" -ForegroundColor DarkGray
+```
+
+</details>
+
+Example output:
+
+<Image
+  img={require('./assets/install-mutagen-syncs-example-output.png')}
+  alt="Example output of install-mutagen-syncs.ps1 showing sync creation and status"
+/>
+
+**And that's it!** Mutagen will keep the desired folders in sync!
+
+## WSL configuration
+
+### Config file
+
+Create a `.wslconfig` file in your Windows home directory.
+
+```ini
+[wsl2]
+# Machine configuration for WSL2 on Windows 11
+memory=16GB
+processors=8
+swap=0                      # Disable swap if you have enough RAM
+nestedVirtualization=false  # Disable if not needed
+
+# Networking settings
+localhostForwarding=true    # Allows you to run dev server on WSL and access it via localhost
+dhcp=true                   # WSL obtains IP via DHCP
+ipv6=true                   # Enable IPv6 support
+```
+
+Change it to suit your hardware. This example allocates 16GB of RAM and 8 CPU cores to WSL2.
+
+:::note
+
+Run `wsl --shutdown` to apply the changes.
+
+:::
+
+### GPU access
+
+To run GPU workloads in WSL2, you need to install CUDA toolkit.
+
+```bash
+sudo apt install -y nvidia-cuda-toolkit
+```
+
+Verify that passthrough works:
+
+```bash
+nvidia-smi
+```
+
+It works if you see the driver version and CUDA version.
+
+<Image
+  img={require('./assets/nvidia-smi-output.png')}
+  alt="Output of nvidia-smi showing GPU details in WSL2, important parts are marked red: Driver Version, CUDA Version"
+/>
+
+### Docker CLI access
+
+To use Docker CLI in WSL2, enable Docker integration in Docker Desktop settings on Windows.
+
+<Image
+  img={require('./assets/configure-docker-desktop-for-wsl.png')}
+  alt="Screenshot of Docker Desktop settings showing WSL integration enabled for Ubuntu-22.04"
+/>
+
+At that point you should be able to run Docker commands in WSL2.
+
+```bash
+docker --help
+```
+
+#### Troubleshooting
+
+In my case, I wasn't able to connect to the Docker daemon in WSL2, even though Docker Desktop was
+running.
+
+<details>
+  <summary>Fix: Incorrect binary</summary>
+
+WSL was picking up the wrong Docker binary from the Windows filesystem.
+
+```bash
+which docker # /mnt/c/Program Files/Docker/Docker/resources/bin/docker
+```
+
+To fix this, prevent the Windows PATH from being passed to WSL.
+
+```bash
+sudo tee /etc/wsl.conf <<EOF
+[interop]
+appendWindowsPath = false
+EOF
+```
+
+Then in PowerShell run:
+
+```powershell
+wsl --shutdown
+
+# Restart WSL
+wsl
+```
+
+Once back into WSL, the correct binary should be picked up.
+
+```bash
+which docker # /usr/bin/docker
+```
+
+</details>
+
+<details>
+  <summary>Fix: Cannot connect to `.sock`</summary>
+  
+You can run `docker context ls` to see if the context is set up correctly.
+
+<Image
+  img={require('./assets/wsl-docker-contexts.png')}
+  alt="Screenshot of Docker CLI error in WSL2 showing Cannot connect to the Docker daemon at unix:///var/run/docker.sock"
+/>
+It should be using `default`. If it's not, run `docker context use default` to switch.
+
+Either way, you might see an error like this when running Docker commands:
+
+```bash
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+```
+
+First thing you think of when this happens is to start Docker Desktop on Windows.
+
+In my case, it was already running, but the socket file was not created in WSL2.
+
+You can check this by running:
+
+```bash
+ls -alh /var/run/docker.sock
+```
+
+If it doesn't exist, then you must link the Windows Docker socket to WSL2.
+
+First find it:
+
+```bash
+# List in the general location
+ls /mnt/wsl/docker-desktop
+
+# drill down to find the socket file, in my case it was here:
+ls /mnt/wsl/docker-desktop/shared-sockets/host-services/
+```
+
+<Image
+  img={require('./assets/wls-find-docker-sock.png')}
+  alt="Screenshot of WSL2 showing the location of the shared docker sock from the Host OS"
+/>
+
+Link it to the WSL2 `/var/run/docker.sock` location:
+
+```bash
+  # Create the directory if it doesn't exist
+  sudo mkdir -p /var/run
+
+  # Link the socket file
+  sudo ln -sf /mnt/wsl/docker-desktop/shared-sockets/host-services/docker.proxy.sock /var/run/docker.sock
+
+  # Set the correct permissions
+  sudo chmod 666 /var/run/docker.sock
+
+  # Make sure your user is part of the group that owns the link
+  GROUP=$(stat -c '%G' /var/run/docker.sock)
+  sudo usermod -aG "$GROUP" "$(whoami)"
+
+  # Verify the link
+  ls -alh /var/run/docker.sock
+
+  # Verify that the sock works
+  docker ps
+```
+
+Your output should be similar to this:
+
+  <Image 
+    img={require('./assets/wsl-symlink-socket.png')}
+    alt="Screenshot of WSL2 showing the linked docker.sock file with correct permissions"
+/>
+  
+</details>
+
+## Conclusion
+
+This solution, using Mutagen offers an elegant workaround that delivers the best of both worlds:
+Windows productivity tools along with Linux capabilities.
+
+- **Preserved workflows**: Use Windows tools on Windows paths, Linux tools on Linux paths
+- **Native performance**: Each environment accesses files at full native speed
+- **Transparent synchronisation**: Changes appear on both sides almost instantly
+- **No manual intervention**: Once configured, synchronisation happens automatically
+
+No more 10-20x slowdowns. No more choosing between ecosystems. Whether you're building web apps,
+training ML models, or juggling mixed technology stacks, this approach will help make WSL2 viable
+for serious development work.
+
+Have you tried this setup? Share your experience in the comments!

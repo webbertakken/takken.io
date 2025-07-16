@@ -1,0 +1,34 @@
+{
+  "type": "comparison",
+  "title": "Development Workflow Comparison",
+  "boxes": [
+    {
+      "title": "Type 2 Hypervisors",
+      "subtitle": "VMware, QEMU",
+      "features": ["Complex GPU setup", "Resource overhead", "Context switching"],
+      "verdict": "Limited Capabilities",
+      "color": "red"
+    },
+    {
+      "title": "Type 1 Hypervisors",
+      "subtitle": "Proxmox, ESXi",
+      "features": ["GPU passthrough", "VM switching required", "Hardware dedicated"],
+      "verdict": "Limited Flexibility",
+      "color": "orange"
+    },
+    {
+      "title": "Dual Boot",
+      "subtitle": "Windows + Linux",
+      "features": ["Native performance", "Rebooting breaks flow", "Shared state issues"],
+      "verdict": "Limited Flexibility",
+      "color": "orange"
+    },
+    {
+      "title": "WSL2 + Sync",
+      "subtitle": "This approach",
+      "features": ["Native performance", "Direct GPU access", "Unified environment"],
+      "verdict": "Full Flexibility",
+      "color": "green"
+    }
+  ]
+}

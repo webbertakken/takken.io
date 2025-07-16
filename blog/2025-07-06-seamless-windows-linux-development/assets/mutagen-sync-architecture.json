@@ -1,0 +1,46 @@
+{
+  "type": "architecture",
+  "title": "Mutagen Sync Architecture",
+  "boxes": [
+    {
+      "id": "windows",
+      "title": "Windows",
+      "subtitle": "C:\\Users\\Webber\\Repositories",
+      "filesystem": "NTFS",
+      "x": 100,
+      "y": 130,
+      "width": 300,
+      "height": 150,
+      "borderColor": "purple",
+      "backgroundColor": "dark_bg"
+    },
+    {
+      "id": "wsl",
+      "title": "WSL2 Ubuntu",
+      "subtitle": "/home/webber/Repositories",
+      "filesystem": "ext4",
+      "x": 800,
+      "y": 130,
+      "width": 300,
+      "height": 150,
+      "borderColor": "orange",
+      "backgroundColor": "dark_bg"
+    },
+    {
+      "id": "mutagen",
+      "title": "Mutagen Daemon",
+      "subtitle": "Real-time Bidirectional Sync",
+      "x": 425,
+      "y": 380,
+      "width": 350,
+      "height": 100,
+      "borderColor": "green",
+      "backgroundColor": "dark_bg"
+    }
+  ],
+  "arrows": [
+    { "from": "windows", "to": "wsl", "label": "Sync files", "color": "green", "offset": -15 },
+    { "from": "wsl", "to": "windows", "label": "Sync files", "color": "green", "offset": 15 }
+  ],
+  "indicators": [{ "from": "mutagen", "toArrow": 1, "style": "dotted", "color": "comment" }]
+}

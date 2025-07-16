@@ -25,3 +25,22 @@ declare module '@theme/ToolPage/ToolPageLayout' {
   const ToolPage: ComponentType<PropsWithChildren<{ title?: string }>>
   export default ToolPage
 }
+
+declare module '@theme/BlogPostItem/Header/Title' {
+  import { ComponentType, PropsWithChildren } from 'react'
+  const BlogPostItemHeaderTitle: ComponentType<PropsWithChildren<{ className?: string }>>
+  export default BlogPostItemHeaderTitle
+}
+
+declare module '@theme/MDXComponents/Heading' {
+  import { ComponentType, PropsWithChildren } from 'react'
+  interface HeadingProps {
+    as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+    id?: string
+    children?: React.ReactNode
+    className?: string
+  }
+
+  const Heading: ComponentType<PropsWithChildren<HeadingProps>>
+  export default Heading
+}
