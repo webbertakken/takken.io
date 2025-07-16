@@ -37,7 +37,7 @@ jobs:
         run: yarn lint
 
       - name: Formatting
-        run: yarn prettier --check . --log-level debug
+        run: yarn prettier --check .
 
       - name: Typecheck
         run: yarn typecheck
