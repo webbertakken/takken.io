@@ -28,13 +28,7 @@
 
   /* Must be in sync with tailwind.config.js */
   --ifm-font-family-base:
-    'Fira Mono',
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    'Liberation Mono',
-    'Courier New',
+    'Fira Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
   --ifm-heading-font-family: var(--ifm-font-family-base);
   --ifm-font-family-monospace: var(--ifm-font-family-base);
