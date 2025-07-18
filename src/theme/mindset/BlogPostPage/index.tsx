@@ -29,14 +29,51 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
     setImageUrl(extractedImage)
   }, [frontMatter.image])
 
+  // Swipe gesture support
+  useEffect(() => {
+    let startX = 0
+    let startY = 0
+
+    const handleTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX
+      startY = e.touches[0].clientY
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const endX = e.changedTouches[0].clientX
+      const endY = e.changedTouches[0].clientY
+      const deltaX = endX - startX
+      const deltaY = endY - startY
+
+      // Only trigger if horizontal swipe is dominant and significant
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0 && prevItem) {
+          // Swipe right - go to previous
+          window.location.href = prevItem.permalink
+        } else if (deltaX < 0 && nextItem) {
+          // Swipe left - go to next
+          window.location.href = nextItem.permalink
+        }
+      }
+    }
+
+    document.addEventListener('touchstart', handleTouchStart)
+    document.addEventListener('touchend', handleTouchEnd)
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart)
+      document.removeEventListener('touchend', handleTouchEnd)
+    }
+  }, [nextItem, prevItem])
+
   return (
     <Layout title={title} description={frontMatter.description}>
-      <div className="container mx-auto px-4 py-8 max-w-4xl relative">
-        {/* Navigation arrows positioned close to content */}
+      <div className="container mx-auto max-w-4xl relative">
+        {/* Navigation arrows positioned at 50% viewport height */}
         {prevItem && (
           <Link
             to={prevItem.permalink}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 z-10 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border"
+            className="fixed -left-3 xl:left-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Previous: ${prevItem.title}`}
           >
             <ChevronLeft className="w-6 h-6" />
@@ -46,16 +83,22 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
         {nextItem && (
           <Link
             to={nextItem.permalink}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 z-10 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border"
+            className="fixed -right-3 xl:right-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Next: ${nextItem.title}`}
           >
             <ChevronRight className="w-6 h-6" />
           </Link>
         )}
 
-        {/* Content card */}
-        <div className="p-8 border rounded-lg">
-          <h1 className="mb-8">{title}</h1>
+        {/* Content */}
+        <div>
+          {imageUrl && (
+            <div className="lg:hidden">
+              <Image img={imageUrl} alt={title} className="w-full h-auto" />
+            </div>
+          )}
+
+          <h1>{title}</h1>
 
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <MDXContent>
@@ -64,13 +107,13 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
           </div>
 
           {imageUrl && (
-            <div className="mt-8 rounded-lg overflow-hidden">
-              <Image img={imageUrl} alt={title} className="w-full h-auto rounded-lg" />
+            <div className="hidden lg:block">
+              <Image img={imageUrl} alt={title} className="w-full h-auto" />
             </div>
           )}
 
           {editUrl && (
-            <div className="mt-8 pt-8 border-t">
+            <div className="border-t">
               <a href={editUrl} target="_blank" rel="noopener noreferrer" className="text-sm">
                 Edit this page
               </a>
