@@ -1,0 +1,47 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Brain/Mind Icon -->
+  <g transform="translate(400, 300)">
+    <!-- Outer circle -->
+    <circle cx="0" cy="0" r="100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    
+    <!-- Brain paths -->
+    <path d="M-60,-40 Q-40,-60 -20,-40 Q0,-50 20,-40 Q40,-60 60,-40 Q50,-20 40,0 Q60,20 40,40 Q20,50 0,40 Q-20,50 -40,40 Q-60,20 -50,0 Q-70,-20 -60,-40Z" 
+          fill="rgba(255,255,255,0.9)" 
+          stroke="rgba(255,255,255,0.2)" 
+          stroke-width="1"/>
+    
+    <!-- Neural connections -->
+    <circle cx="-30" cy="-20" r="3" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="30" cy="-20" r="3" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="0" cy="10" r="3" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="-20" cy="30" r="3" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="20" cy="30" r="3" fill="rgba(255,255,255,0.7)"/>
+    
+    <!-- Connection lines -->
+    <line x1="-30" y1="-20" x2="0" y2="10" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+    <line x1="30" y1="-20" x2="0" y2="10" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+    <line x1="0" y1="10" x2="-20" y2="30" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+    <line x1="0" y1="10" x2="20" y2="30" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+  </g>
+  
+  <!-- Floating elements for dynamics -->
+  <circle cx="150" cy="150" r="4" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="650" cy="450" r="6" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="700" cy="200" r="3" fill="rgba(255,255,255,0.5)"/>
+  <circle cx="100" cy="450" r="5" fill="rgba(255,255,255,0.4)"/>
+  
+  <!-- Text -->
+  <text x="400" y="450" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="300">
+    Mindset Concept
+  </text>
+</svg>

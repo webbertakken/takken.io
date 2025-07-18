@@ -2,53 +2,36 @@ import React from 'react'
 import Layout from '@theme/Layout'
 import type { Props } from '@theme/BlogListPage'
 import Link from '@docusaurus/Link'
-
-function extractImageFromContent(content: unknown): string | null {
-  try {
-    // Convert content to string and extract image URL
-    const contentStr = content?.toString() || ''
-    const imgMatch = contentStr.match(/https:\/\/images\.unsplash\.com\/[^"'\s)]+/)
-    return imgMatch?.[0] || null
-  } catch {
-    return null
-  }
-}
+import OptimizedThumbnail from '../components/OptimizedThumbnail'
 
 export default function MindsetBlogListPage(props: Props): JSX.Element {
-  const { items } = props
+  const { items, metadata } = props
+  const { blogTitle, blogDescription } = metadata
 
   return (
-    <Layout title="Mindset concepts" description="Concepts for mental growth and development">
+    <Layout title={blogTitle} description={blogDescription}>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-12">Mindset concepts</h1>
+        <h1>{blogTitle}</h1>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {items.map(({ content: BlogPostContent }) => {
             const { metadata: postMetadata, frontMatter } = BlogPostContent
             const { permalink, title } = postMetadata
 
-            // Extract image URL from frontmatter or content
-            const imageUrl = frontMatter.image || extractImageFromContent(BlogPostContent)
+            // Use image from frontmatter, fallback to placeholder
+            const imageUrl = frontMatter.image || '/images/mindset-placeholder.svg'
 
             return (
-              <Link
-                key={permalink}
-                to={permalink}
-                className="group block no-underline hover:no-underline"
-              >
-                <div className="h-full p-4 border-2 border-solid border-gray-300 dark:border-gray-500 rounded hover:border-gray-400 dark:hover:border-gray-400 transition-colors">
-                  {imageUrl && (
-                    <div className="aspect-square mb-3 overflow-hidden rounded">
-                      <img
-                        src={imageUrl}
-                        alt={title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                      />
-                    </div>
-                  )}
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {title}
-                  </h3>
+              <Link key={permalink} to={permalink} className="group block h-full">
+                <div className="h-full border-2 border-solid border-gray-300 dark:border-gray-500 rounded hover:border-gray-400 dark:hover:border-gray-400 transition-colors overflow-hidden flex flex-col">
+                  <div className="aspect-square overflow-hidden flex-shrink-0">
+                    <OptimizedThumbnail imageUrl={imageUrl} title={title} />
+                  </div>
+                  <div className="p-2 lg:p-3 flex items-center justify-center h-16 sm:h-16 md:h-20 lg:h-16">
+                    <h3 className="text-xs sm:text-sm md:text-base lg:text-sm font-medium leading-tight text-center m-0">
+                      {title}
+                    </h3>
+                  </div>
                 </div>
               </Link>
             )

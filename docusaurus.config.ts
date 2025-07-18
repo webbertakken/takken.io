@@ -62,8 +62,8 @@ const config: Config = {
       {
         quality: 90, // JPEG quality
         max: 2560, // max resized image's size.
-        min: 738, // min resized image's size. if original is lower, use that size.
-        steps: 4, // the max number of images generated between min and max (inclusive)
+        min: 256, // min resized image's size for small thumbnails
+        steps: 6, // more steps for better thumbnail optimization
         disableInDev: false,
       },
     ],
