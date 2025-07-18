@@ -4,6 +4,7 @@ import MDXContent from '@theme/MDXContent'
 import type { Props } from '@theme/BlogPostPage'
 import Link from '@docusaurus/Link'
 import Image from '@theme/IdealImage'
+import EditThisPage from '@theme/EditThisPage'
 
 const ChevronLeft = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -112,13 +113,7 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
             </div>
           )}
 
-          {editUrl && (
-            <div className="border-t">
-              <a href={editUrl} target="_blank" rel="noopener noreferrer" className="text-sm">
-                Edit this page
-              </a>
-            </div>
-          )}
+          {editUrl && <EditThisPage editUrl={editUrl} />}
         </div>
       </div>
     </Layout>

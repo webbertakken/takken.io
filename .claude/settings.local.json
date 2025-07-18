@@ -24,7 +24,8 @@
       "Bash(sed:*)",
       "Bash(cp:*)",
       "Bash(true)",
-      "WebFetch(domain:docusaurus.io)"
+      "WebFetch(domain:docusaurus.io)",
+      "Bash(fd:*)"
     ],
     "deny": ["Bash(cd:*)"]
   }
