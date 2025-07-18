@@ -21,7 +21,10 @@
       "WebFetch(domain:stackoverflow.com)",
       "Bash(pip install:*)",
       "Bash(wget:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(cp:*)",
+      "Bash(true)",
+      "WebFetch(domain:docusaurus.io)"
     ],
     "deny": ["Bash(cd:*)"]
   }
