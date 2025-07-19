@@ -17,27 +17,27 @@ export default function PageTransition({ children, direction = 'none' }: PageTra
     // Detect if this is a mindset navigation
     const isMindsetPage = location.pathname.startsWith('/mindset/')
     const wasMindsetPage = previousLocation.current.startsWith('/mindset/')
-    
+
     if (isMindsetPage && wasMindsetPage && location.pathname !== previousLocation.current) {
       // Trigger slide transition
       setIsTransitioning(true)
       setCurrentDirection(direction)
-      
+
       // Complete transition after animation duration
       const timer = setTimeout(() => {
         setIsTransitioning(false)
         setCurrentDirection('none')
       }, 500) // Match CSS animation duration
-      
+
       return () => clearTimeout(timer)
     }
-    
+
     previousLocation.current = location.pathname
   }, [location.pathname, direction])
 
   const getTransformClass = () => {
     if (!isTransitioning) return ''
-    
+
     switch (currentDirection) {
       case 'left':
         return 'animate-slide-in-left'
@@ -49,12 +49,12 @@ export default function PageTransition({ children, direction = 'none' }: PageTra
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`transition-container ${getTransformClass()}`}
       style={{
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
       {children}
