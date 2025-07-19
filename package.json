@@ -17,8 +17,9 @@
     "test": "vitest",
     "coverage": "vitest --coverage",
     "lint": "eslint . --ext .js,.ts,.tsx,.mts --max-warnings 0",
+    "lint:css": "stylelint **/*.{css,scss,sass} --fix",
     "format": "prettier --write .",
-    "fix": "yarn format && yarn lint --fix",
+    "fix": "yarn format && yarn lint:css && yarn lint --fix",
     "typecheck": "tsc --skipLibCheck --noEmit",
     "prepare": "husky install",
     "image": "ts-node tools/image-generator/index.ts"
@@ -33,7 +34,8 @@
       "eslint --max-warnings 0",
       "vitest related --run"
     ],
-    "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml|css|scss|sass)": "prettier --write"
+    "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write",
+    "*.@(css|scss|sass)": "stylelint --fix"
   },
   "dependencies": {
     "@docusaurus/core": "^3.8.1",
@@ -91,6 +93,9 @@
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "shellcheck": "^2.2.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-scss": "^6.8.1",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
