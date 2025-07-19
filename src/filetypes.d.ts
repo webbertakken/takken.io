@@ -10,7 +10,13 @@ declare module '*.scss' {
 
 declare module '@theme/IdealImage' {
   import { ComponentType } from 'react'
-  const IdealImage: ComponentType<{ className?: string; img: string }>
+  const IdealImage: ComponentType<{
+    className?: string
+    img: string
+    alt?: string
+    noPadding?: boolean
+    source?: React.JSX.Element
+  }>
   export default IdealImage
 }
 

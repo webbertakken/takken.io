@@ -62,8 +62,8 @@ const config: Config = {
       {
         quality: 90, // JPEG quality
         max: 2560, // max resized image's size.
-        min: 738, // min resized image's size. if original is lower, use that size.
-        steps: 4, // the max number of images generated between min and max (inclusive)
+        min: 256, // min resized image's size for small thumbnails
+        steps: 6, // more steps for better thumbnail optimization
         disableInDev: false,
       },
     ],
@@ -91,6 +91,45 @@ const config: Config = {
         ],
       },
     ],
+    // Main blog plugin
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'blog',
+        routeBasePath: '/blog/',
+        path: 'blog',
+        showReadingTime: true,
+        editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
+      },
+    ],
+    // Mindset blog plugin
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'mindset',
+        routeBasePath: '/mindset/',
+        path: 'mindset',
+        showReadingTime: false,
+        editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
+        // Customisations
+        blogTitle: 'Mindset',
+        blogDescription:
+          'A curated list of mental growth and development concepts I’ve come across.',
+        postsPerPage: 'ALL', // Show all posts on one page
+        blogSidebarCount: 0,
+        sortPosts: 'ascending', // Show oldest concepts first
+        feedOptions: {
+          type: 'all',
+          title: 'Takken.io - Mindset',
+          description: 'Mindset concepts feed',
+          limit: false, // Include all posts in feed
+        },
+        // Custom theme components for mindset
+        blogListComponent: '@site/src/theme/mindset/BlogListPage',
+        blogPostComponent: '@site/src/theme/mindset/BlogPostPage',
+        exclude: ['**/*.prompt.md'],
+      },
+    ],
   ],
 
   presets: [
@@ -105,13 +144,7 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
         },
-        blog: {
-          routeBasePath: '/blog/',
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
-        },
+        blog: false, // Disabled because we're using separate blog plugins
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -149,6 +182,7 @@ const config: Config = {
         { to: '/tools', label: 'Tools', position: 'left' },
         { to: '/gists', label: 'Gists', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
+        { to: '/mindset', label: 'Mindset', position: 'left' },
         {
           href: 'https://github.com/webbertakken/takken.io',
           label: 'GitHub',
@@ -186,6 +220,10 @@ const config: Config = {
             {
               label: 'Blog',
               to: '/blog',
+            },
+            {
+              label: 'Mindset',
+              to: '/mindset',
             },
           ],
         },

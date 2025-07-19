@@ -50,6 +50,49 @@
   --ifm-color-content: rgba(227, 227, 227, 1);
 }
 
+/* Skeleton loading animation */
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes skeleton-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes content-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton-animate {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeleton-fade-in {
+  animation: skeleton-fade-in 0.3s ease-out forwards;
+}
+
+.content-fade-in {
+  animation: content-fade-in 0.4s ease-out forwards;
+}
+
 /* Search */
 [data-theme='light'] .DocSearch {
   /* --docsearch-primary-color: var(--ifm-color-primary); */

@@ -33,7 +33,7 @@
       "eslint --max-warnings 0",
       "vitest related --run"
     ],
-    "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write"
+    "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml|css|scss|sass)": "prettier --write"
   },
   "dependencies": {
     "@docusaurus/core": "^3.8.1",
