@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '@theme/Layout'
 import MDXContent from '@theme/MDXContent'
 import type { Props } from '@theme/BlogPostPage'
 import Image from '@theme/IdealImage'
 import EditThisPage from '@theme/EditThisPage'
 import { useHistory } from '@docusaurus/router'
+import Link from '@docusaurus/Link'
 import MindsetSkeleton from '@site/src/components/MindsetSkeleton'
 
 const ChevronLeft = ({ className }: { className?: string }) => (
@@ -37,9 +38,8 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
   }, [frontMatter.image])
 
   // Function to handle smooth page transitions
-  const navigateWithTransition = (url: string, direction: 'left' | 'right') => {
+  const navigateWithTransition = () => {
     setShowSkeleton(true) // Show skeleton immediately
-    history.push(url) // Navigate immediately
   }
 
   // Swipe gesture support
@@ -61,11 +61,13 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
       // Only trigger if horizontal swipe is dominant and significant
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
         if (deltaX > 0 && prevItem) {
-          // Swipe right - go to previous (slides in from left)
-          navigateWithTransition(prevItem.permalink, 'left')
+          // Swipe right - go to previous
+          navigateWithTransition()
+          history.push(prevItem.permalink)
         } else if (deltaX < 0 && nextItem) {
-          // Swipe left - go to next (slides in from right)
-          navigateWithTransition(nextItem.permalink, 'right')
+          // Swipe left - go to next
+          navigateWithTransition()
+          history.push(nextItem.permalink)
         }
       }
     }
@@ -79,28 +81,52 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
     }
   }, [nextItem, prevItem])
 
+  // Keyboard navigation support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only handle arrow keys when not typing in an input field
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+
+      if (e.key === 'ArrowLeft' && prevItem) {
+        navigateWithTransition()
+        history.push(prevItem.permalink)
+      } else if (e.key === 'ArrowRight' && nextItem) {
+        navigateWithTransition()
+        history.push(nextItem.permalink)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [nextItem, prevItem])
+
   return (
     <Layout title={title} description={frontMatter.description}>
       <div className="container mx-auto max-w-4xl relative margin-vert--lg">
         {/* Navigation arrows positioned at 50% viewport height - hide during skeleton */}
         {!showSkeleton && prevItem && (
-          <button
-            onClick={() => navigateWithTransition(prevItem.permalink, 'left')}
+          <Link
+            to={prevItem.permalink}
+            onClick={navigateWithTransition}
             className="fixed -left-3 xl:left-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Previous: ${prevItem.title}`}
           >
             <ChevronLeft className="w-6 h-6" />
-          </button>
+          </Link>
         )}
 
         {!showSkeleton && nextItem && (
-          <button
-            onClick={() => navigateWithTransition(nextItem.permalink, 'right')}
+          <Link
+            to={nextItem.permalink}
+            onClick={navigateWithTransition}
             className="fixed -right-3 xl:right-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Next: ${nextItem.title}`}
           >
             <ChevronRight className="w-6 h-6" />
-          </button>
+          </Link>
         )}
 
         {/* Content - show skeleton only during transitions */}
