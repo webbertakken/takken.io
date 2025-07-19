@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Layout from '@theme/Layout'
 import MDXContent from '@theme/MDXContent'
 import type { Props } from '@theme/BlogPostPage'
-import Link from '@docusaurus/Link'
 import Image from '@theme/IdealImage'
 import EditThisPage from '@theme/EditThisPage'
+import { useHistory } from '@docusaurus/router'
+import MindsetSkeleton from '@site/src/components/MindsetSkeleton'
 
 const ChevronLeft = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -23,12 +24,23 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
   const { metadata, frontMatter } = BlogPostContent
   const { title, nextItem, prevItem, editUrl } = metadata
   const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [showSkeleton, setShowSkeleton] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     // Use image from frontmatter, fallback to placeholder
     const extractedImage = frontMatter.image || '/images/mindset-placeholder.svg'
     setImageUrl(extractedImage)
+
+    // Hide skeleton when new page loads
+    setShowSkeleton(false)
   }, [frontMatter.image])
+
+  // Function to handle smooth page transitions
+  const navigateWithTransition = (url: string, direction: 'left' | 'right') => {
+    setShowSkeleton(true) // Show skeleton immediately
+    history.push(url) // Navigate immediately
+  }
 
   // Swipe gesture support
   useEffect(() => {
@@ -49,11 +61,11 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
       // Only trigger if horizontal swipe is dominant and significant
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
         if (deltaX > 0 && prevItem) {
-          // Swipe right - go to previous
-          window.location.href = prevItem.permalink
+          // Swipe right - go to previous (slides in from left)
+          navigateWithTransition(prevItem.permalink, 'left')
         } else if (deltaX < 0 && nextItem) {
-          // Swipe left - go to next
-          window.location.href = nextItem.permalink
+          // Swipe left - go to next (slides in from right)
+          navigateWithTransition(nextItem.permalink, 'right')
         }
       }
     }
@@ -70,50 +82,64 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
   return (
     <Layout title={title} description={frontMatter.description}>
       <div className="container mx-auto max-w-4xl relative margin-vert--lg">
-        {/* Navigation arrows positioned at 50% viewport height */}
-        {prevItem && (
-          <Link
-            to={prevItem.permalink}
+        {/* Navigation arrows positioned at 50% viewport height - hide during skeleton */}
+        {!showSkeleton && prevItem && (
+          <button
+            onClick={() => navigateWithTransition(prevItem.permalink, 'left')}
             className="fixed -left-3 xl:left-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Previous: ${prevItem.title}`}
           >
             <ChevronLeft className="w-6 h-6" />
-          </Link>
+          </button>
         )}
 
-        {nextItem && (
-          <Link
-            to={nextItem.permalink}
+        {!showSkeleton && nextItem && (
+          <button
+            onClick={() => navigateWithTransition(nextItem.permalink, 'right')}
             className="fixed -right-3 xl:right-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Next: ${nextItem.title}`}
           >
             <ChevronRight className="w-6 h-6" />
-          </Link>
+          </button>
         )}
 
-        {/* Content */}
-        <div>
-          {imageUrl && (
-            <div className="lg:hidden">
-              <Image img={imageUrl} alt={title} className="w-full h-auto" />
+        {/* Content - show skeleton only during transitions */}
+        <div className="relative  w-full">
+          {/* Show skeleton only when transitioning */}
+          {showSkeleton && (
+            <div className="skeleton-fade-in">
+              <MindsetSkeleton />
             </div>
           )}
 
-          <h1>{title}</h1>
+          {/* Real content - hide only during skeleton transitions */}
+          {!showSkeleton && (
+            <div className="content-fade-in">
+              {/* Image always at the top */}
+              {imageUrl && (
+                <div className="pb-4">
+                  <div className="w-full aspect-[2/1] overflow-hidden rounded-lg">
+                    <Image img={imageUrl} alt={title} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              )}
 
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <MDXContent>
-              <BlogPostContent />
-            </MDXContent>
-          </div>
+              {/* Title after image */}
+              <h1>{title}</h1>
 
-          {imageUrl && (
-            <div className="hidden lg:block">
-              <Image img={imageUrl} alt={title} className="w-full h-auto" />
+              {/* Text content after title */}
+              <div
+                className="prose prose-lg dark:prose-invert max-w-none"
+                style={{ height: '280px', overflow: 'hidden' }}
+              >
+                <MDXContent>
+                  <BlogPostContent />
+                </MDXContent>
+              </div>
+
+              {editUrl && <EditThisPage editUrl={editUrl} />}
             </div>
           )}
-
-          {editUrl && <EditThisPage editUrl={editUrl} />}
         </div>
       </div>
     </Layout>
