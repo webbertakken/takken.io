@@ -113,7 +113,7 @@ const config: Config = {
         editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
         // Customisations
         blogTitle: 'Mindset',
-        blogDescription: 'Concepts for mental growth and development',
+        blogDescription: 'Curated list of concepts for mental growth and development.',
         postsPerPage: 'ALL', // Show all posts on one page
         blogSidebarCount: 0,
         sortPosts: 'ascending', // Show oldest concepts first

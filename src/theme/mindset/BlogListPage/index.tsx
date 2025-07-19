@@ -10,8 +10,9 @@ export default function MindsetBlogListPage(props: Props): JSX.Element {
 
   return (
     <Layout title={blogTitle} description={blogDescription}>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 min-h-[calc(100vh-60px)]">
         <h1>{blogTitle}</h1>
+        <p>{blogDescription}</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {items.map(({ content: BlogPostContent }) => {

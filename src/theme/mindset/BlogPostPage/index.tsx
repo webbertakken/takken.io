@@ -105,7 +105,7 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
 
   return (
     <Layout title={title} description={frontMatter.description}>
-      <div className="container mx-auto max-w-4xl relative margin-vert--lg">
+      <div className="container mx-auto max-w-4xl relative py-8 min-h-[calc(100vh-60px)]">
         {/* Navigation arrows positioned at 50% viewport height - hide during skeleton */}
         {!showSkeleton && prevItem && (
           <Link
