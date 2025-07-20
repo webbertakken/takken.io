@@ -34,3 +34,19 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           timeout_minutes: '60'
+          allowed_tools: |
+            Bash(yarn generate-image:*)
+            Bash(NODE_ENV=production yarn build-only)
+            Bash(bash -c:*)
+            Bash(find:*)
+            Bash(mkdir:*)
+            Bash(mv:*)
+            Bash(npm run swizzle:*)
+            Bash(yarn swizzle:*)
+            Bash(npx docusaurus swizzle:*)
+            Bash(wget:*)
+            Bash(sed:*)
+            Bash(cp:*)
+            Bash(fd:*)
+            WebFetch(domain:stackoverflow.com)
+            WebFetch(domain:docusaurus.io)
