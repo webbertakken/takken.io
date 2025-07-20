@@ -92,6 +92,7 @@
     "husky": "8.0.3",
     "lint-staged": "15.1.0",
     "postcss": "^8.5.6",
+    "postcss-import": "^16.1.0",
     "prettier": "^3.6.2",
     "shellcheck": "^3.1.0",
     "stylelint": "^16.22.0",
