@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars,@typescript-eslint/no-require-imports */
 function tailwindPlugin(context, options) {
   return {
     name: 'tailwind-plugin',
     configurePostCss(postcssOptions) {
       postcssOptions.plugins = [
         require('postcss-import'),
-        require('@tailwindcss/postcss'),
+        require('tailwindcss'),
         require('autoprefixer'),
       ]
       return postcssOptions
