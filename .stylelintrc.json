@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-config-standard"],
+  "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
   "plugins": ["stylelint-scss"],
   "rules": {
     "selector-pseudo-class-no-unknown": [
@@ -8,14 +8,7 @@
         "ignorePseudoClasses": ["global"]
       }
     ],
-    "scss/at-rule-no-unknown": true,
     "scss/at-import-partial-extension": null,
-    "property-no-unknown": [
-      true,
-      {
-        "ignoreProperties": ["/^--/", "composes"]
-      }
-    ],
     "selector-class-pattern": null,
     "custom-property-pattern": null,
     "keyframes-name-pattern": null,

@@ -18,6 +18,7 @@ module.exports = {
     'no-console': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-require-imports': ['error', { allow: ['.(jpg|png|svg|webp|gif)$'] }],
   },
-  ignorePatterns: ['dist', 'node_modules'],
+  ignorePatterns: ['dist/', 'coverage/', 'build/', 'node_modules/', '.yarn/'],
 }

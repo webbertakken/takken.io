@@ -5,10 +5,11 @@
  */
 
 import { createCanvas, registerFont, CanvasRenderingContext2D, Canvas } from 'canvas'
-import { writeFileSync, existsSync, mkdtempSync } from 'fs'
+import { writeFileSync, readFileSync, existsSync, mkdtempSync } from 'fs'
 import { join } from 'path'
 import { execSync } from 'child_process'
 import { tmpdir } from 'os'
+import * as path from 'path'
 
 // Dracula colour scheme
 const COLOURS = {
@@ -1118,7 +1119,7 @@ class ClaudeImageGenerator {
         jsonData = JSON.parse(jsonStr)
         console.log('✅ Successfully extracted and parsed JSON from response')
         return jsonData
-      } catch (parseError) {
+      } catch {
         // Method 3: Try to clean up common issues
         const cleanedJson = jsonStr
           .replace(/```json\s*/g, '')
@@ -1289,7 +1290,7 @@ Output the following JSON structure ONLY, replacing the example with appropriate
       "color": "red"
     },
     {
-      "title": "Type 1 Hypervisors", 
+      "title": "Type 1 Hypervisors",
       "subtitle": "Proxmox, ESXi",
       "features": ["GPU passthrough", "VM switching required", "Hardware dedicated"],
       "verdict": "Limited Flexibility",
@@ -1299,7 +1300,7 @@ Output the following JSON structure ONLY, replacing the example with appropriate
       "title": "Dual Boot",
       "subtitle": "Windows + Linux",
       "features": ["Native performance", "Constant rebooting", "Shared state issues"],
-      "verdict": "Limited Flexibility", 
+      "verdict": "Limited Flexibility",
       "color": "orange"
     },
     {
@@ -1436,7 +1437,7 @@ IMPORTANT: Your response must be ONLY the JSON object above with appropriate com
         // Clean up temp file
         try {
           execSync(`rm -rf "${tempDir}"`)
-        } catch (error) {
+        } catch {
           // Ignore cleanup errors
         }
       }
@@ -1550,9 +1551,6 @@ IMPORTANT: Your response must be ONLY the JSON object above with appropriate com
     type: string,
   ): void {
     try {
-      const fs = require('fs')
-      const path = require('path')
-
       // Create JSON filename based on output path
       const parsedPath = path.parse(outputPath)
       const jsonPath = path.join(parsedPath.dir, `${parsedPath.name}-${type}.json`)
@@ -1564,7 +1562,7 @@ IMPORTANT: Your response must be ONLY the JSON object above with appropriate com
       }
 
       // Save JSON with pretty formatting
-      fs.writeFileSync(jsonPath, JSON.stringify(dataWithType, null, 2))
+      writeFileSync(jsonPath, JSON.stringify(dataWithType, null, 2))
       console.log(`💾 JSON saved to: ${jsonPath}`)
     } catch (error) {
       console.warn(`⚠️ Could not save JSON data: ${error}`)
@@ -1573,8 +1571,7 @@ IMPORTANT: Your response must be ONLY the JSON object above with appropriate com
 
   generateFromJson(jsonPath: string, outputPath: string): boolean {
     try {
-      const fs = require('fs')
-      const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
+      const jsonData = JSON.parse(readFileSync(jsonPath, 'utf8'))
 
       if (!jsonData.type) {
         console.error('❌ JSON file missing "type" field')

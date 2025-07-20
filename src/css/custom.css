@@ -1,8 +1,42 @@
-@import url('tailwindcss/base.css');
-@import url('tailwindcss/components.css');
-@import url('tailwindcss/utilities.css');
-
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+@theme {
+  --font-*: initial;
+  --font-sans:
+    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --font-mono:
+    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --color-pink: #e6006b;
+  --color-pink-dark: #cf0060;
+  --color-pink-darker: #c4005b;
+  --color-pink-darkest: #a1004b;
+  --color-pink-light: #fd0076;
+  --color-pink-lighter: #ff0a7c;
+  --color-pink-lightest: #ff2c8e;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /**
  * Any CSS included here will be global. The classic template
@@ -23,7 +57,7 @@
   --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
   --ifm-background-color: rgb(255 255 255 / 100%);
   --ifm-background-surface-color: rgb(255 255 255 / 100%);
-  --code-block-background: rgba(246 248 250, 100%);
+  --code-block-background: rgb(246 248 250, 100%);
   --ifm-color-content: rgb(28 30 33 / 100%);
 
   /* Must be in sync with tailwind.config.js */

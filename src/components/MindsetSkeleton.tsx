@@ -5,7 +5,7 @@ export default function MindsetSkeleton() {
     <>
       {/* Image skeleton - matches exact structure */}
       <div className="pb-4">
-        <div className="w-full aspect-[2/1] overflow-hidden rounded-lg">
+        <div className="w-full aspect-2/1 overflow-hidden rounded-lg">
           <div className="w-full h-full bg-gray-200 dark:bg-gray-700 skeleton-animate flex items-center justify-center">
             <div className="text-gray-400 dark:text-gray-500">
               <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
@@ -22,7 +22,7 @@ export default function MindsetSkeleton() {
 
       {/* Title skeleton - matches h1 */}
       <h1
-        className="bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"
+        className="bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"
         style={{ height: '2.5rem', width: '50%', marginBottom: '1rem' }}
       ></h1>
 
@@ -34,28 +34,28 @@ export default function MindsetSkeleton() {
         <div className="space-y-[1.275rem]">
           {/* First paragraph */}
           <div className="space-y-[0.175rem]">
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"></div>
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"></div>
+            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"></div>
+            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"></div>
             <div
-              className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"
+              className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"
               style={{ width: '83%' }}
             ></div>
           </div>
 
           {/* Second paragraph */}
           <div className="space-y-[0.175rem]">
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"></div>
+            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"></div>
             <div
-              className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"
+              className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"
               style={{ width: '80%' }}
             ></div>
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate"></div>
+            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate"></div>
           </div>
         </div>
       </div>
 
       {/* Edit link skeleton */}
-      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded skeleton-animate w-40"></div>
+      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-sm skeleton-animate w-40"></div>
     </>
   )
 }

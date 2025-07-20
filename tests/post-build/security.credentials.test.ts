@@ -125,7 +125,7 @@ describe('Security Tests', () => {
             })
           }
         }
-      } catch (error) {
+      } catch {
         // Skip files that can't be read as text
         continue
       }
@@ -184,7 +184,7 @@ describe('Security Tests', () => {
             })
           }
         }
-      } catch (error) {
+      } catch {
         // Skip files that can't be read as text
         continue
       }

@@ -144,7 +144,7 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
               {/* Image always at the top */}
               {imageUrl && (
                 <div className="pb-4">
-                  <div className="w-full aspect-[2/1] overflow-hidden rounded-lg">
+                  <div className="w-full aspect-2/1 overflow-hidden rounded-lg">
                     <Image img={imageUrl} alt={title} className="w-full h-full object-cover" />
                   </div>
                 </div>
