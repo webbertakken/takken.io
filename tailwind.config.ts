@@ -12,10 +12,6 @@ const singleFont = [
 ]
 
 export default {
-  corePlugins: {
-    preflight: false,
-    container: false,
-  },
   darkMode: ['class', '[data-theme="dark"]'], // Backwards compatibility with Docusaurus theme
   content: ['./src/**/*.{js,jsx,ts,tsx,md,mdx}', './notes/**/*.{js,jsx,ts,tsx,md,mdx}'],
   theme: {

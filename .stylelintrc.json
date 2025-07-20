@@ -37,7 +37,8 @@
         "ignore": ["after-comment"],
         "ignoreAtRules": ["import"]
       }
-    ]
+    ],
+    "declaration-property-value-no-unknown": null
   },
   "ignoreFiles": ["dist/**/*", "build/**/*", "coverage/**/*", "node_modules/**/*"]
 }

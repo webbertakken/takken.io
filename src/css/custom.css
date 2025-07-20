@@ -23,7 +23,7 @@
   --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
   --ifm-background-color: rgb(255 255 255 / 100%);
   --ifm-background-surface-color: rgb(255 255 255 / 100%);
-  --code-block-background: rgba(246 248 250, 100%);
+  --code-block-background: rgb(246 248 250, 100%);
   --ifm-color-content: rgb(28 30 33 / 100%);
 
   /* Must be in sync with tailwind.config.js */

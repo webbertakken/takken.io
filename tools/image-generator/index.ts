@@ -1118,7 +1118,7 @@ class ClaudeImageGenerator {
         jsonData = JSON.parse(jsonStr)
         console.log('✅ Successfully extracted and parsed JSON from response')
         return jsonData
-      } catch (parseError) {
+      } catch (_parseError) {
         // Method 3: Try to clean up common issues
         const cleanedJson = jsonStr
           .replace(/```json\s*/g, '')
@@ -1436,7 +1436,7 @@ IMPORTANT: Your response must be ONLY the JSON object above with appropriate com
         // Clean up temp file
         try {
           execSync(`rm -rf "${tempDir}"`)
-        } catch (error) {
+        } catch (_error) {
           // Ignore cleanup errors
         }
       }
