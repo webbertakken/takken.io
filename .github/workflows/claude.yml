@@ -38,6 +38,8 @@ jobs:
             Bash(npm:*)
             Bash(pkill -f \"node\")
           allowed_tools: |
+            Bash(corepack:*)
+            Bash(yarn:*)
             Bash(yarn generate-image:*)
             Bash(NODE_ENV=production yarn build-only)
             Bash(bash -c:*)
@@ -75,7 +77,6 @@ jobs:
             WebFetch(domain:github.com)
             Bash(find:*)
             Bash(ls:*)
-            Bash(yarn:*)
             Bash(yalc publish:*)
             Bash(npx yalc publish:*)
             Bash(yalc add:*)
