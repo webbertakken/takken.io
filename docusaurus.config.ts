@@ -1,12 +1,8 @@
+import 'dotenv/config'
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
-import tailwindPlugin from './plugins/tailwind-config.cjs' // add this
+import tailwindPlugin from './plugins/tailwind-config.cjs'
 import { themes } from 'prism-react-renderer'
-import { config } from 'dotenv'
-
-config()
-
-const { dracula: darkTheme, github: theme } = themes
 
 // Errors that are actually in plugins may be hidden if stacktrace only shows 10 lines.
 Error.stackTraceLimit = 20
@@ -352,8 +348,8 @@ export default {
       },
     },
     prism: {
-      theme,
-      darkTheme,
+      theme: themes.github,
+      darkTheme: themes.dracula,
       additionalLanguages: [
         'bash',
         'css',
