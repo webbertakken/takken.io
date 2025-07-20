@@ -1,18 +1,17 @@
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import tailwindPlugin from './plugins/tailwind-config.cjs' // add this
+import { themes } from 'prism-react-renderer'
+import { config } from 'dotenv'
 
-// @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
+config()
+
+const { dracula: darkTheme, github: theme } = themes
 
 // Errors that are actually in plugins may be hidden if stacktrace only shows 10 lines.
 Error.stackTraceLimit = 20
 
-require('dotenv').config()
-
-const { github: theme, dracula: darkTheme } = require('prism-react-renderer').themes
-
-const config: Config = {
+export default {
   title: 'Takken.io',
   tagline: `Webber's personal website`,
   url: 'https://takken.io',
@@ -395,6 +394,4 @@ const config: Config = {
       //... other Algolia params
     },
   } satisfies Preset.ThemeConfig,
-}
-
-module.exports = config
+} satisfies Config

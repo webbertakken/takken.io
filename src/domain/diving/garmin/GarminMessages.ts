@@ -49,7 +49,7 @@ export interface GarminDiveSettings {
   heartRateLocalDeviceType: string // 'whr'
 }
 
-export interface GarminDiveGas {}
+export type GarminDiveGas = unknown
 
 export interface GarminSession {
   timestamp: Date // "2023-09-15T18:32:52.000Z",

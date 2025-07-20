@@ -11,13 +11,16 @@ export const columns = [
     render: (choices) => {
       const render = []
       for (const choice of choices) {
-        choice.url
-          ? render.push(
-              <a target="_blank" href={choice.url}>
-                {choice.name}
-              </a>,
-            )
-          : render.push(choice.name)
+        if (choice.url) {
+          render.push(
+            <a target="_blank" href={choice.url}>
+              {choice.name}
+            </a>,
+          )
+        } else {
+          render.push(choice.name)
+        }
+
         render.push(', ')
       }
       render.pop()

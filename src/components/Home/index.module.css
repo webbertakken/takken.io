@@ -13,7 +13,7 @@
 }
 
 .heading {
-  color: var(#989586);
+  color: #989586;
   font-size: 1.6rem;
   animation: pulse 4s infinite;
 }
