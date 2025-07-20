@@ -1,6 +1,6 @@
-@import 'tailwindcss/base.css';
-@import 'tailwindcss/components.css';
-@import 'tailwindcss/utilities.css';
+@import url('tailwindcss/base.css');
+@import url('tailwindcss/components.css');
+@import url('tailwindcss/utilities.css');
 
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
 
@@ -20,15 +20,15 @@
   --ifm-color-primary-lighter: #ff0a7c;
   --ifm-color-primary-lightest: #ff2c8e;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-background-color: rgba(255, 255, 255, 1);
-  --ifm-background-surface-color: rgba(255, 255, 255, 1);
-  --code-block-background: rgba(246 248 250, 1);
-  --ifm-color-content: rgba(28, 30, 33, 1);
+  --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
+  --ifm-background-color: rgb(255 255 255 / 100%);
+  --ifm-background-surface-color: rgb(255 255 255 / 100%);
+  --code-block-background: rgba(246 248 250, 100%);
+  --ifm-color-content: rgb(28 30 33 / 100%);
 
   /* Must be in sync with tailwind.config.js */
   --ifm-font-family-base:
-    'Fira Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New',
     monospace;
   --ifm-heading-font-family: var(--ifm-font-family-base);
   --ifm-font-family-monospace: var(--ifm-font-family-base);
@@ -43,11 +43,11 @@
   --ifm-color-primary-light: #ff559a;
   --ifm-color-primary-lighter: #ff64a3;
   --ifm-color-primary-lightest: #ff93bf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-background-color: rgba(27, 27, 29, 1);
-  --ifm-background-surface-color: rgba(36, 37, 38, 1);
-  --code-block-background: rgba(40, 42, 54, 1);
-  --ifm-color-content: rgba(227, 227, 227, 1);
+  --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 30%);
+  --ifm-background-color: rgb(27 27 29 / 100%);
+  --ifm-background-surface-color: rgb(36 37 38 / 100%);
+  --code-block-background: rgb(40 42 54 / 100%);
+  --ifm-color-content: rgb(227 227 227 / 100%);
 }
 
 /* Skeleton loading animation */
@@ -55,9 +55,11 @@
   0% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.4;
   }
+
   100% {
     opacity: 1;
   }
@@ -67,6 +69,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -76,6 +79,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -98,7 +102,7 @@
   /* --docsearch-primary-color: var(--ifm-color-primary); */
   /* --docsearch-text-color: var(--ifm-font-color-base); */
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
-  --docsearch-container-background: rgba(94, 100, 112, 0.7);
+  --docsearch-container-background: rgb(94 100 112 / 70%);
   /* Modal */
   --docsearch-modal-background: var(--ifm-color-secondary-lighter);
   /* Search box */
@@ -115,7 +119,7 @@
 [data-theme='dark'] .DocSearch {
   --docsearch-text-color: var(--ifm-font-color-base);
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
-  --docsearch-container-background: rgba(47, 55, 69, 0.7);
+  --docsearch-container-background: rgb(47 55 69 / 70%);
   /* Modal */
   --docsearch-modal-background: var(--ifm-background-color);
   /* Search box */
@@ -135,19 +139,19 @@
 }
 
 body {
-  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
 }
 
 /* fix layout shift when navigating */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .main-wrapper:not(.docsWrapper*) {
     padding-left: calc(100vw - 100%);
   }
 
-  #docContainerPadding {
+  #doc-container-padding {
     padding-left: calc(100vw - 100%);
   }
 }

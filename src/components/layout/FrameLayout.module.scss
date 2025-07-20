@@ -1,39 +1,34 @@
-// Styles for <FrameLayout> which is showing a border around the content.
-// Depends on bootstrap4.
-//
-// Author: WebberTakken <webber@takken.io>
+/* Styles for <FrameLayout> which is showing a border around the content.
+   Depends on bootstrap4.
+   Author: webbertakken <webber@takken.io> */
 
-// Defaults
-$frame-animation-time: 13.37s !default;
-$frame-background-color: #182c3b !default;
-$frame-border-color-bright: #cf6adb !default;
-$frame-border-color-dark: #5585c8 !default;
-$frame-border-size: 2.5vw !default;
-$layout-transition-speed: 0.25s !default;
+/* defaults */
+$frame-animation-time: 13.37s;
+$frame-background-color: #182c3b;
+$frame-border-color-bright: #cf6adb;
+$frame-border-color-dark: #5585c8;
+$frame-border-size: 2.5vw;
+$layout-transition-speed: 0.25s;
 
-// Core-ui specific defaults
-$navbar-height: 55px !default;
-$aside-menu-nav-padding-y: 0.75rem !default;
-$font-size-base: 0.875rem !default;
+/* Core-ui specific defaults */
+$navbar-height: 55px;
+$aside-menu-nav-padding-y: 0.75rem;
+$font-size-base: 0.875rem;
 
-// Placeholders
-%frame-border {
-  transition: border $layout-transition-speed ease-in-out;
-  border: $frame-border-size solid transparent;
-}
-
-// Styles
+/* Styles */
 .layout {
   display: flex;
 
-  // Animation
+  /* Animation */
   @keyframes fadeInFadeOut {
     0% {
       opacity: 0;
     }
+
     50% {
       opacity: 1;
     }
+
     100% {
       opacity: 0;
     }
@@ -50,7 +45,8 @@ $font-size-base: 0.875rem !default;
   }
 
   .frame {
-    @extend %frame-border;
+    transition: border $layout-transition-speed ease-in-out;
+    border: $frame-border-size solid transparent;
     position: fixed;
     width: 100%;
     height: 100vh;
@@ -68,16 +64,12 @@ $font-size-base: 0.875rem !default;
     }
 
     &::before {
-      @extend %frame-border;
+      border: $frame-border-size solid transparent;
       box-sizing: content-box;
       border-image: linear-gradient(135deg, $frame-border-color-bright, $frame-border-color-dark) 1;
-
-      // Animation
-      opacity: 0;
       will-change: opacity;
       animation: fadeInFadeOut $frame-animation-time ease-in-out infinite;
-
-      // Adapt margin to all screen sizes, keep border easing
+      /* Adapt margin to all screen sizes, keep border easing */
       transition:
         border $layout-transition-speed ease-in-out,
         margin $layout-transition-speed ease-in-out;
@@ -86,10 +78,9 @@ $font-size-base: 0.875rem !default;
 
     &::after {
       box-sizing: border-box;
-
-      // Adapt shadow size to the size of the border
+      /* Adapt shadow size to the size of the border */
       transition: box-shadow $layout-transition-speed ease-in-out;
-      box-shadow: 0 0 $frame-border-size darken($frame-border-color-dark, 33.33%);
+      box-shadow: 0 0 $frame-border-size rgb(28 65 102);
     }
   }
 
@@ -98,34 +89,34 @@ $font-size-base: 0.875rem !default;
     width: 100%;
     min-height: 100vh;
 
-    // Adapt padding to #frame's border, by screen size
+    /* Adapt padding to #frame's border, by screen size */
     transition: padding $layout-transition-speed ease-in-out;
     padding: $frame-border-size;
   }
 }
 
-// Symfony toolbar compatibility
-// Display toolbar over border and respect FrameLayout scrolling behaviour.
+/* Symfony toolbar compatibility
+   Display toolbar over border and respect FrameLayout scrolling behaviour. */
 .sf-toolbar {
   position: absolute;
 }
 
-// Core UI Layout compatibility patch for FrameLayout
-// Combines Bootstrap4, CoreUI and FrameLayout
-//
-// Positions and dimensions of fixed elements are calculated according to the
-// settings for the width of the borders of FrameLayout as defined in variables.
-//
-// Note: Fixed elements by default unlike absolute elements do not stay in their
-// nearest parent with position relative. Instead they only respect the viewport
-// size.
+/* Core UI Layout compatibility patch for FrameLayout
+   Combines Bootstrap4, CoreUI and FrameLayout
+
+   Positions and dimensions of fixed elements are calculated according to the
+   settings for the width of the borders of FrameLayout as defined in variables.
+
+   Note: Fixed elements by default unlike absolute elements do not stay in their
+   nearest parent with position relative. Instead they only respect the viewport
+   size. */
 .app:not(body),
 .app-dashboard:not(body),
 .app-root:not(body) {
   min-height: calc(100vh - #{2 * $frame-border-size});
 }
 
-// Header
+/* Header */
 .header-fixed {
   #layout.frame {
     .app-header {
@@ -138,7 +129,7 @@ $font-size-base: 0.875rem !default;
   }
 }
 
-// Sidebar
+/* Sidebar */
 .sidebar-fixed,
 .sidebar-off-canvas {
   #layout.frame {
@@ -153,7 +144,7 @@ $font-size-base: 0.875rem !default;
   }
 }
 
-// Aside Menu
+/* Aside Menu */
 .aside-menu-fixed {
   #layout.frame .aside-menu {
     will-change: height, right, margin-right;
@@ -163,7 +154,7 @@ $font-size-base: 0.875rem !default;
       margin-right $layout-transition-speed;
     height: calc(100vh - #{2 * $frame-border-size} - #{$navbar-height} + 0.5px);
 
-    // Tab content within Aside menu
+    /* Tab content within Aside menu */
     .tab-content {
       will-change: height;
       transition: height $layout-transition-speed;
@@ -175,7 +166,7 @@ $font-size-base: 0.875rem !default;
   }
 }
 
-// Aside menu
+/* Aside menu */
 html {
   &:not([dir='rtl']) {
     .aside-menu-fixed #layout.frame .aside-menu,
@@ -190,7 +181,7 @@ html {
   }
 
   &[dir='rtl'] {
-    // Aside Menu in reversed direction
+    /* Aside Menu in reversed direction */
     .aside-menu-fixed #layout.frame .aside-menu,
     .aside-menu-off-canvas #layout.frame .aside-menu {
       will-change: height, left, margin-left;
@@ -201,7 +192,7 @@ html {
       left: $frame-border-size;
     }
 
-    // Sidebar in reversed direction
+    /* Sidebar in reversed direction */
     .sidebar-fixed #layout.frame .sidebar {
       will-change: height, right, margin-right;
       transition:
@@ -213,7 +204,7 @@ html {
   }
 }
 
-// Breadcrumb
+/* Breadcrumb */
 .breadcrumb-fixed {
   #layout.frame {
     .breadcrumb {
@@ -232,7 +223,7 @@ html {
   }
 }
 
-// Footer
+/* Footer */
 .footer-fixed {
   #layout.frame {
     .app-footer {

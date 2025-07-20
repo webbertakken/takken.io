@@ -1,20 +1,19 @@
 {
-  "extends": [
-    "stylelint-config-standard"
-  ],
-  "plugins": [
-    "stylelint-scss"
-  ],
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-scss"],
   "rules": {
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
     "scss/at-rule-no-unknown": true,
     "scss/at-import-partial-extension": null,
     "property-no-unknown": [
       true,
       {
-        "ignoreProperties": [
-          "/^--/",
-          "composes"
-        ]
+        "ignoreProperties": ["/^--/", "composes"]
       }
     ],
     "selector-class-pattern": null,
@@ -40,10 +39,5 @@
       }
     ]
   },
-  "ignoreFiles": [
-    "dist/**/*",
-    "build/**/*",
-    "coverage/**/*",
-    "node_modules/**/*"
-  ]
+  "ignoreFiles": ["dist/**/*", "build/**/*", "coverage/**/*", "node_modules/**/*"]
 }

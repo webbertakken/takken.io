@@ -1,8 +1,11 @@
 .blockquote {
   font-style: italic;
-  border-left-color: rgba(0, 0, 0, 0.3) !important;
+  border-left-color: rgb(0 0 0 / 30%) !important;
 }
 
-.blockquote :global(.ant-typography) {
-  color: rgba(0, 0, 0, 0.6);
+/* Global styles for ant-typography within blockquote */
+:global {
+  .blockquote .ant-typography {
+    color: rgb(0 0 0 / 60%);
+  }
 }

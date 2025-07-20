@@ -7,12 +7,12 @@
   line-height: 0.9em;
   padding-top: 0.55em;
   padding-bottom: 0.55em;
-  color: rgba(28, 30, 33, 0.9);
+  color: rgb(28 30 33 / 90%);
 }
 
 [data-theme='dark'] .poem p {
   line-height: 0.9em;
   padding-top: 0.55em;
   padding-bottom: 0.55em;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgb(255 255 255 / 90%);
 }
