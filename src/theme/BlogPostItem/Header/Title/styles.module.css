@@ -3,7 +3,7 @@
   line-height: 2.5rem !important;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .title {
     font-size: 1.75rem !important;
     line-height: 2.25rem !important;

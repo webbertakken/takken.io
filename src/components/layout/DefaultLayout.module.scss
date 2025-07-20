@@ -13,22 +13,22 @@
   backdrop-filter: blur(8px);
   padding-left: calc(100vw - 100%);
 
-  %section {
+  .header {
     width: 100%;
     margin-right: auto;
     margin-left: auto;
     position: relative;
     max-width: 940px;
-  }
-
-  .header {
-    @extend %section;
     background: none;
     box-shadow: none;
   }
 
   .content {
-    @extend %section;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    max-width: 940px;
     display: flex;
     flex-direction: column;
     padding: 2.5rem 2.5vw;
@@ -39,13 +39,17 @@
   }
 
   .footer {
-    @extend %section;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    max-width: 940px;
     display: flex;
     padding-left: 2.5vw;
     padding-right: 2.5vw;
     justify-content: space-between;
     font-size: 0.875em;
-    border-top: 1px solid rgba(255, 54, 136, 0.66);
+    border-top: 1px solid rgb(255 54 136 / 66%);
     background: initial;
     user-select: none;
   }

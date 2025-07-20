@@ -1,0 +1,43 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "scss/at-rule-no-unknown": true,
+    "scss/at-import-partial-extension": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": ["/^--/", "composes"]
+      }
+    ],
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "keyframes-name-pattern": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "shorthand-property-no-redundant-values": null,
+    "comment-empty-line-before": null,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested", "blockless-after-blockless"],
+        "ignore": ["after-comment"],
+        "ignoreAtRules": ["import"]
+      }
+    ]
+  },
+  "ignoreFiles": ["dist/**/*", "build/**/*", "coverage/**/*", "node_modules/**/*"]
+}

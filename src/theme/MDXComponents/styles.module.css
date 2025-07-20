@@ -3,7 +3,7 @@
   line-height: 2.25rem !important;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .blogH2 {
     font-size: 1.5rem !important;
     line-height: 2rem !important;
