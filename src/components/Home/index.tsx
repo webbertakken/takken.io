@@ -10,7 +10,7 @@ const Index = (): JSX.Element => {
   return (
     <Layout title="About me" description="About me">
       <div className="flex flex-col md:flex-row gap-8 p-8 lg:gap-12 lg:p-12">
-        <div className="flex flex-col w-auto md:w-[22rem] shrink-0 grow-0 self-center md:self-start ">
+        <div className="flex flex-col w-auto md:w-88 shrink-0 grow-0 self-center md:self-start ">
           <h1 className="text-2xl">Hey, I'm Webber! 👋🏻</h1>
 
           <p>
@@ -47,7 +47,7 @@ const Index = (): JSX.Element => {
           </div>
         </div>
 
-        <div className="flex flex-grow flex-row flex-wrap gap-8">
+        <div className="flex grow flex-row flex-wrap gap-8">
           <Card title="Projects">
             <Card.Item>
               🌍{' '}

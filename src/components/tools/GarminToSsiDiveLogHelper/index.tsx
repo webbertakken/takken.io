@@ -84,7 +84,7 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="cursor-pointer px-4 py-2 bg-[var(--ifm-color-primary)] rounded border-solid border-[var(--ifm-color-primary-light)] border-[1px] w-40 text-white"
+              className="cursor-pointer px-4 py-2 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border w-40 text-white"
             >
               Select {ssiDive ? 'another ' : ''}file
             </button>
