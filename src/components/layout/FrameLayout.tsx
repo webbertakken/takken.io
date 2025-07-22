@@ -1,10 +1,16 @@
-import styles from './FrameLayout.module.scss'
+import styles from './FrameLayout.module.css'
 
 const FrameLayout = ({ children }) => (
-  <div className={styles.layout}>
-    <div className={styles.frame} />
+  <>
+    {/* Content */}
     <div className={styles.frameBody}>{children}</div>
-  </div>
+
+    {/* Animations */}
+    <div className={styles.frameAnimated1}>
+      <div className={styles.frameAnimated2} />
+      <div className={styles.frameShadow} />
+    </div>
+  </>
 )
 
 export default FrameLayout

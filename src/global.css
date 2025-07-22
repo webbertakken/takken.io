@@ -182,13 +182,13 @@ body {
   }
 }
 
+/* Frame layout corrections */
 @media (width <= 768px) {
   .DocSearch-Modal {
     padding: var(--frame-border-size);
   }
 }
 
-/* Frame layout corrections */
 .navbar--fixed-top {
   top: var(--frame-border-size);
 }
@@ -201,5 +201,4 @@ body {
 .navbar-sidebar {
   padding: 1rem 0 1rem 1rem
 }
-
-
+/* End Frame layout corrections */

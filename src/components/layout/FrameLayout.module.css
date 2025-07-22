@@ -1,0 +1,42 @@
+@keyframes fadeInFadeOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.frameBody {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  padding: var(--frame-border-size);
+}
+
+.frameAnimated1 {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  border: var(--frame-border-size) solid transparent;
+  border-image: linear-gradient(135deg, var(--frame-border-color-dark), var(--frame-border-color-bright)) 1;
+  will-change: opacity;
+}
+
+.frameAnimated2 {
+  position: absolute;
+  inset: 0;
+  margin: calc(-1 * var(--frame-border-size));
+  border: var(--frame-border-size) solid transparent;
+  border-image: linear-gradient(135deg, var(--frame-border-color-bright), var(--frame-border-color-dark)) 1;
+  animation: fadeInFadeOut var(--frame-animation-time) ease-in-out infinite;
+  will-change: opacity;
+}
+
+.frameShadow {
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 var(--frame-border-size) rgb(28 65 102);
+}
+
+
