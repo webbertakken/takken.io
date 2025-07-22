@@ -1,16 +1,15 @@
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
-@custom-variant dark (&:is([data-theme="dark"] *));
 
+/* Base theme */
 @theme {
-  --font-*: initial;
-  --font-sans:
+  --font-base:
     'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono',
     'Courier New', monospace;
-  --font-mono:
-    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono',
-    'Courier New', monospace;
+  --font-sans: var(--font-base);
+  --font-mono: var(--font-base);
+  --color-content: rgb(28 30 33 / 100%);
   --color-pink: #e6006b;
   --color-pink-dark: #cf0060;
   --color-pink-darker: #c4005b;
@@ -18,6 +17,47 @@
   --color-pink-light: #fd0076;
   --color-pink-lighter: #ff0a7c;
   --color-pink-lightest: #ff2c8e;
+  --code-block-background: rgb(246 248 250, 100%);
+  --code-block-highlighted-line-bg: rgb(0 0 0 / 10%);
+  --background-color: rgb(255 255 255 / 100%);
+  --background-surface-color: rgb(255 255 255 / 100%);
+}
+
+/* Dark theme */
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+[data-theme='dark'] {
+  --color-content: rgb(227 227 227 / 100%);
+  --color-pink: #ff3882;
+  --color-pink-dark: #ff1776;
+  --color-pink-darker: #ff086d;
+  --color-pink-darkest: #d80058;
+  --color-pink-light: #ff559a;
+  --color-pink-lighter: #ff64a3;
+  --color-pink-lightest: #ff93bf;
+  --code-block-background: rgb(40 42 54 / 100%);
+  --code-block-highlighted-line-bg: rgb(0 0 0 / 30%);
+  --background-color: rgb(27 27 29 / 100%);
+  --background-surface-color: rgb(36 37 38 / 100%);
+}
+
+/* Legacy theme */
+:root {
+  --docusaurus-highlighted-code-line-bg: var(--code-block-highlighted-line-bg);
+  --ifm-color-content: var(--color-content);
+  --ifm-color-primary: var(--color-pink);
+  --ifm-color-primary-dark: var(--color-pink-dark);
+  --ifm-color-primary-darker: var(--color-pink-darker);
+  --ifm-color-primary-darkest: var(--color-pink-darkest);
+  --ifm-color-primary-light: var(--color-pink-light);
+  --ifm-color-primary-lighter: var(--color-pink-lighter);
+  --ifm-color-primary-lightest: var(--color-pink-lightest);
+  --ifm-code-font-size: 95%;
+  --ifm-background-color: var(--background-color);
+  --ifm-background-surface-color: var(--background-surface-color);
+  --ifm-font-family-base: var(--font-base);
+  --ifm-heading-font-family: var(--font-sans);
+  --ifm-font-family-monospace: var(--font-mono);
 }
 
 /*
@@ -36,52 +76,6 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
-}
-
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
-
-/* You can override the default Infima variables here. */
-:root {
-  --ifm-color-primary: #e6006b;
-  --ifm-color-primary-dark: #cf0060;
-  --ifm-color-primary-darker: #c4005b;
-  --ifm-color-primary-darkest: #a1004b;
-  --ifm-color-primary-light: #fd0076;
-  --ifm-color-primary-lighter: #ff0a7c;
-  --ifm-color-primary-lightest: #ff2c8e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
-  --ifm-background-color: rgb(255 255 255 / 100%);
-  --ifm-background-surface-color: rgb(255 255 255 / 100%);
-  --code-block-background: rgb(246 248 250, 100%);
-  --ifm-color-content: rgb(28 30 33 / 100%);
-
-  /* Must be in sync with tailwind.config.js */
-  --ifm-font-family-base:
-    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New',
-    monospace;
-  --ifm-heading-font-family: var(--ifm-font-family-base);
-  --ifm-font-family-monospace: var(--ifm-font-family-base);
-}
-
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #ff3688;
-  --ifm-color-primary-dark: #ff1776;
-  --ifm-color-primary-darker: #ff086d;
-  --ifm-color-primary-darkest: #d80058;
-  --ifm-color-primary-light: #ff559a;
-  --ifm-color-primary-lighter: #ff64a3;
-  --ifm-color-primary-lightest: #ff93bf;
-  --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 30%);
-  --ifm-background-color: rgb(27 27 29 / 100%);
-  --ifm-background-surface-color: rgb(36 37 38 / 100%);
-  --code-block-background: rgb(40 42 54 / 100%);
-  --ifm-color-content: rgb(227 227 227 / 100%);
 }
 
 /* Skeleton loading animation */

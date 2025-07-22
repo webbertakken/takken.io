@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function MindsetSkeleton() {
+export default function ConceptsSkeleton() {
   return (
     <>
       {/* Image skeleton - matches exact structure */}

@@ -1,4 +1,3 @@
-import styles from './index.module.css'
 import React from 'react'
 import Layout from '@theme/Layout'
 import Image from '@theme/IdealImage'
@@ -19,12 +18,15 @@ const Index = (): JSX.Element => {
           </p>
 
           <div style={{ marginBottom: '1em' }}>
-            <Image className={styles.image} img={require('@site/src/assets/webber.jpg')} />
+            <Image
+              className="[&:not(dialog_&)_img]:rounded-lg"
+              img={require('@site/src/assets/webber.jpg')}
+            />
           </div>
 
-          <p className="text-center mb-4">Dick "Webber" Webbink</p>
+          <p className="text-center mb-4">Webber Webbink</p>
 
-          <div className={styles.socialLinks}>
+          <div className="flex justify-center items-center mt-4 gap-4 [&_a]:text-[#989586] [&_a:hover]:text-pink-dark [&_a:hover]:animate-pulse">
             <a target="_blank" rel="noreferrer" href="mailto:webber@takken.io">
               <FaAt size={32} />
             </a>

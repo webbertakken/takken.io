@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './index.module.css'
 
 interface Props {
   src: string
@@ -12,8 +11,8 @@ interface Props {
 const PoemAudio = (props: Props): JSX.Element => {
   const { performer, isSong, ...audioProps } = props
   return (
-    <div className={styles.main}>
-      <audio controls className={styles.audio} {...audioProps} />
+    <div className="flex flex-col items-center py-8 px-4">
+      <audio controls className="min-w-80 w-full max-w-2xl" {...audioProps} />
       {isSong ? (
         <em>Lied. {performer ? `Gezongen door ${performer.name}.` : ''}</em>
       ) : (

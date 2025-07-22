@@ -6,7 +6,7 @@ import Image from '@theme/IdealImage'
 import EditThisPage from '@theme/EditThisPage'
 import { useHistory } from '@docusaurus/router'
 import Link from '@docusaurus/Link'
-import MindsetSkeleton from '@site/src/components/MindsetSkeleton'
+import ConceptsSkeleton from '@site/src/components/ConceptsSkeleton'
 
 const ChevronLeft = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -20,7 +20,7 @@ const ChevronRight = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export default function MindsetBlogPostPage(props: Props): JSX.Element {
+export default function ConceptsBlogPostPage(props: Props): JSX.Element {
   const { content: BlogPostContent } = props
   const { metadata, frontMatter } = BlogPostContent
   const { title, nextItem, prevItem, editUrl } = metadata
@@ -30,7 +30,7 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
 
   useEffect(() => {
     // Use image from frontmatter, fallback to placeholder
-    const extractedImage = frontMatter.image || '/images/mindset-placeholder.svg'
+    const extractedImage = frontMatter.image || '/images/concepts-placeholder.svg'
     setImageUrl(extractedImage)
 
     // Hide skeleton when new page loads
@@ -134,7 +134,7 @@ export default function MindsetBlogPostPage(props: Props): JSX.Element {
           {/* Show skeleton only when transitioning */}
           {showSkeleton && (
             <div className="skeleton-fade-in">
-              <MindsetSkeleton />
+              <ConceptsSkeleton />
             </div>
           )}
 
