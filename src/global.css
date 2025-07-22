@@ -169,13 +169,19 @@ body {
   text-rendering: optimizelegibility;
 }
 
-/* fix layout shift when navigating */
+/* fix layout shift when navigating (scrollbar appearing / disappearing */
 @media (width > 768px) {
   .main-wrapper:not(.docsWrapper*) {
     padding-left: calc(100vw - 100%);
   }
 
   #doc-container-padding {
+    padding-left: calc(100vw - 100%);
+  }
+}
+
+@media (width > 1900px) {
+  main[class^="docMainContainer_"] {
     padding-left: calc(100vw - 100%);
   }
 }
@@ -199,3 +205,5 @@ body {
 .navbar-sidebar {
   padding: 1rem 0 1rem 1rem
 }
+
+

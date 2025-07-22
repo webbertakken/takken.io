@@ -63,5 +63,9 @@
     /* Adapt padding to #frame's border, by screen size */
     transition: padding var(--animation-speed) ease-in-out;
     padding: var(--frame-border-size);
+
+    /* Allow content to fill the frame */
+    display: flex;
+    flex-direction: column;
   }
 }

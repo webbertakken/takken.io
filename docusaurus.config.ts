@@ -169,7 +169,7 @@ export default {
         },
         blog: false, // Disabled because we're using separate blog plugins
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve('./src/global.css'),
         },
         sitemap: {
           lastmod: 'date',
