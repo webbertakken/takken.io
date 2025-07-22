@@ -1,7 +1,5 @@
 import React from 'react'
 
-import styles from './index.module.css'
-
 interface Props {
   children: string
 }
@@ -9,7 +7,7 @@ interface Props {
 const PoemText = ({ children }: Props): JSX.Element => {
   return (
     <div>
-      <div className={styles.poem}>{children}</div>
+      <div className="text-2xl whitespace-pre [&_p]:leading-5 [&_p]:py-3">{children}</div>
     </div>
   )
 }

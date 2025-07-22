@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import cx from 'classnames'
 import Layout from '@theme/Layout'
-import styles from './ToolPageLayout.module.css'
 
 interface Props {
   children: ReactNode
@@ -11,7 +10,11 @@ interface Props {
 
 const ToolPageLayout = ({ children, title = '', wide = false }: Props): JSX.Element => {
   return (
-    <Layout wrapperClassName={cx(styles.layout, { [styles.wide]: wide })}>
+    <Layout
+      wrapperClassName={cx('w-full max-w-7xl mx-auto py-8 px-4', {
+        'max-w-full w-full': wide,
+      })}
+    >
       {title && <h1>{title}</h1>}
       {children}
     </Layout>

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import ErrorBoundary from '@docusaurus/ErrorBoundary'
 import cx from 'classnames'
-import styles from './Modal.module.css'
 
 type ClickOrTouchEvent = React.MouseEvent<HTMLDialogElement> | React.TouchEvent<HTMLDialogElement>
 
@@ -70,7 +69,9 @@ const Modal: React.FC<ModalProps> = ({ hasCloseButton, title, children, onCloseR
       <dialog
         ref={modal}
         onClose={onCloseRequested}
-        className={cx(styles.dialog, 'p-0')}
+        className={cx(
+          'p-0 backdrop:backdrop-blur-lg backdrop:bg-gradient-to-br backdrop:from-rose-950/70 backdrop:to-black/50',
+        )}
         onMouseDown={startClick}
         onMouseUp={endClick}
         onTouchStart={startClick}

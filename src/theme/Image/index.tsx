@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './index.module.css'
 
 interface Props {
   src: string
@@ -9,10 +8,10 @@ interface Props {
 
 const Image = ({ src, alt, year, ...props }: Props): JSX.Element => {
   return (
-    <div className={styles.wrapper}>
-      <img className={styles.image} {...props} src={src} alt={alt} />
+    <div className="flex flex-col items-center py-4">
+      <img className="max-h-96 lg:max-h-[32rem] xl:max-h-[40rem]" {...props} src={src} alt={alt} />
       {alt && (
-        <em className={styles.title}>
+        <em className="text-base">
           {alt}
           {year && ` (${year})`}.
         </em>

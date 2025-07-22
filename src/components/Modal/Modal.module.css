@@ -1,5 +1,0 @@
-/* Use original styles from the HTMLDialogElement spec, only modify backdrop */
-.dialog::backdrop {
-  backdrop-filter: blur(8px);
-  background: linear-gradient(338deg, rgb(45 0 22 / 70%), rgb(0 0 0 / 50%));
-}
