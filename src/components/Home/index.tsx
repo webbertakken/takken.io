@@ -22,7 +22,7 @@ const Index = (): JSX.Element => {
             <Image className={styles.image} img={require('@site/src/assets/webber.jpg')} />
           </div>
 
-          <p className="text-center mb-4">Dick "Webber" Webbink</p>
+          <p className="text-center mb-4">Webber Webbink</p>
 
           <div className={styles.socialLinks}>
             <a target="_blank" rel="noreferrer" href="mailto:webber@takken.io">

@@ -14,11 +14,14 @@ export default function PageTransition({ children, direction = 'none' }: PageTra
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Detect if this is a mindset navigation
-    const isMindsetPage = location.pathname.startsWith('/mindset/')
-    const wasMindsetPage = previousLocation.current.startsWith('/mindset/')
+    // Detect if this is a concepts-based navigation (mindset or approach)
+    const isConceptsPage =
+      location.pathname.startsWith('/mindset/') || location.pathname.startsWith('/approach/')
+    const wasConceptsPage =
+      previousLocation.current.startsWith('/mindset/') ||
+      previousLocation.current.startsWith('/approach/')
 
-    if (isMindsetPage && wasMindsetPage && location.pathname !== previousLocation.current) {
+    if (isConceptsPage && wasConceptsPage && location.pathname !== previousLocation.current) {
       // Trigger slide transition
       setIsTransitioning(true)
       setCurrentDirection(direction)

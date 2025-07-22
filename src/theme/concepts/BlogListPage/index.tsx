@@ -4,7 +4,7 @@ import type { Props } from '@theme/BlogListPage'
 import Link from '@docusaurus/Link'
 import OptimizedThumbnail from '../components/OptimizedThumbnail'
 
-export default function MindsetBlogListPage(props: Props): JSX.Element {
+export default function ConceptsBlogListPage(props: Props): JSX.Element {
   const { items, metadata } = props
   const { blogTitle, blogDescription } = metadata
 
@@ -20,7 +20,7 @@ export default function MindsetBlogListPage(props: Props): JSX.Element {
             const { permalink, title } = postMetadata
 
             // Use image from frontmatter, fallback to placeholder
-            const imageUrl = frontMatter.image || '/images/mindset-placeholder.svg'
+            const imageUrl = frontMatter.image || '/images/concepts-placeholder.svg'
 
             return (
               <Link key={permalink} to={permalink} className="group block h-full">
