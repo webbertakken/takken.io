@@ -174,10 +174,6 @@ body {
   .main-wrapper:not(.docsWrapper*) {
     padding-left: calc(100vw - 100%);
   }
-
-  #doc-container-padding {
-    padding-left: calc(100vw - 100%);
-  }
 }
 
 @media (width > 1900px) {
