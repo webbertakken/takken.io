@@ -20,7 +20,6 @@
   pointer-events: none;
 }
 
-/* Main border */
 .frame::before {
   content: '';
   position: absolute;
@@ -29,14 +28,15 @@
   border-image: linear-gradient(135deg, var(--frame-border-color-dark), var(--frame-border-color-bright)) 1;
 }
 
-/* Animated border */
-.frame::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  margin: calc(-1 * var(--frame-border-size));
-  border: var(--frame-border-size) solid transparent;
-  border-image: linear-gradient(135deg, var(--frame-border-color-bright), var(--frame-border-color-dark)) 1;
-  animation: fadeInFadeOut var(--frame-animation-time) ease-in-out infinite;
-  will-change: opacity;
+@media not all and (prefers-reduced-motion) {
+  .frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: var(--frame-border-size) solid transparent;
+    border-image: linear-gradient(135deg, var(--frame-border-color-bright), var(--frame-border-color-dark)) 1;
+    opacity: 0;
+    will-change: opacity;
+    animation: fadeInFadeOut var(--frame-animation-time) ease-in-out infinite;
+  }
 }
