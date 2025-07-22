@@ -1,9 +1,9 @@
-import styles from '../Tools.module.scss'
 import cx from 'classnames'
 import Heading from '@site/src/components/common/heading'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import { dedent } from 'ts-dedent'
 import React, { useEffect, useState } from 'react'
+import { toolStyles } from '../toolStyles'
 
 const CalibrateWithEnergyMeter = (): JSX.Element => {
   const [power, setPower] = useState<string>('63')
@@ -16,12 +16,12 @@ const CalibrateWithEnergyMeter = (): JSX.Element => {
   )
 
   return (
-    <div className={cx(styles.flexRow, styles.section)}>
-      <div className={styles.flexPanel}>
+    <div className={cx(toolStyles.flexRow, toolStyles.section)}>
+      <div className={toolStyles.flexPanel}>
         <p>Calibrate power socket and energy meter</p>
 
         <Heading level={3}>Using Energy meter</Heading>
-        <div className={styles.formRow}>
+        <div className={toolStyles.formRow}>
           <input
             style={{ width: '65px' }}
             type="number"
@@ -32,7 +32,7 @@ const CalibrateWithEnergyMeter = (): JSX.Element => {
           />
           <span>W</span>
         </div>
-        <div className={styles.formRow}>
+        <div className={toolStyles.formRow}>
           <input
             style={{ width: '80px' }}
             type="number"
@@ -49,9 +49,9 @@ const CalibrateWithEnergyMeter = (): JSX.Element => {
 
         <Heading level={3}>Tasmota commands</Heading>
 
-        <div className={styles.formRow}>
+        <div className={toolStyles.formRow}>
           <CodeBlock
-            className={styles.codePanel}
+            className={toolStyles.codePanel}
             value={dedent`
                 PowerSet ${power}
                 VoltageSet ${voltage}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@site/src/components/common/heading'
-import styles from '../Tools.module.scss'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
 import ToolPage from '@theme/ToolPage/ToolPage'
@@ -51,20 +50,20 @@ const PullRequestsToReleaseText = () => {
     <ToolPage title="Comma Separator">
       <p>Copy a collection of things here, then split it using your rules!</p>
 
-      <div className={cx(styles.flexRow, styles.grow)}>
-        <div className={styles.flexPanel}>
+      <div className="flex flex-row flex-1 gap-4">
+        <div className="flex flex-col flex-1 overflow-x-auto">
           <Heading level={3}>Paste here</Heading>
-          <CodeEditor className={styles.codePanel} onChange={setInput} code={input} />
+          <CodeEditor className="flex-grow" onChange={setInput} code={input} />
         </div>
 
-        <div className={styles.flexPanel}>
+        <div className="flex flex-col flex-1 overflow-x-auto">
           <Heading level={3}>Configuration</Heading>
           <Heading level={4}>Input</Heading>
           <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
             <li>
               Split regex {isRegexValid ? '✅' : '❌'} ({matchCount} matches)
               <CodeEditor
-                className={cx(styles.codePanel, { [styles.borderRed]: !isRegexValid })}
+                className={cx('flex-grow', { 'border border-red-500': !isRegexValid })}
                 onChange={setSplitRegex}
                 code={splitRegex}
               />
@@ -101,11 +100,11 @@ const PullRequestsToReleaseText = () => {
           <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
             <li>
               Separator ✅
-              <CodeEditor className={styles.codePanel} onChange={setSeparator} code={separator} />
+              <CodeEditor className="flex-grow" onChange={setSeparator} code={separator} />
             </li>
           </ul>
           <Heading level={3}>Results</Heading>
-          <CodeBlock className={styles.codePanel} value={result} />
+          <CodeBlock className="flex-grow" value={result} />
         </div>
       </div>
     </ToolPage>

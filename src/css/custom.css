@@ -9,6 +9,7 @@
     'Courier New', monospace;
   --font-sans: var(--font-base);
   --font-mono: var(--font-base);
+  --font-title: var(--font-base);
   --color-content: rgb(28 30 33 / 100%);
   --color-pink: #e6006b;
   --color-pink-dark: #cf0060;
@@ -41,8 +42,15 @@
   --background-surface-color: rgb(36 37 38 / 100%);
 }
 
-/* Legacy theme */
 :root {
+  /* Frame layout */
+  --frame-border-size: 1rem;
+  --animation-speed: 0.25s;
+  --frame-animation-time: 13.37s;
+  --frame-border-color-bright: #cf6adb;
+  --frame-border-color-dark: #5585c8;
+
+  /* Legacy Docusaurus theme */
   --docusaurus-highlighted-code-line-bg: var(--code-block-highlighted-line-bg);
   --ifm-color-content: var(--color-content);
   --ifm-color-primary: var(--color-pink);
@@ -79,7 +87,7 @@
 }
 
 /* Skeleton loading animation */
-@keyframes skeleton-pulse {
+@keyframes pulse {
   0% {
     opacity: 1;
   }
@@ -93,17 +101,7 @@
   }
 }
 
-@keyframes skeleton-fade-in {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes content-fade-in {
+@keyframes fadeIn {
   0% {
     opacity: 0;
   }
@@ -114,21 +112,19 @@
 }
 
 .skeleton-animate {
-  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .skeleton-fade-in {
-  animation: skeleton-fade-in 0.3s ease-out forwards;
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 .content-fade-in {
-  animation: content-fade-in 0.4s ease-out forwards;
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 /* Search */
 [data-theme='light'] .DocSearch {
-  /* --docsearch-primary-color: var(--ifm-color-primary); */
-  /* --docsearch-text-color: var(--ifm-font-color-base); */
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
   --docsearch-container-background: rgb(94 100 112 / 70%);
   /* Modal */
@@ -174,7 +170,7 @@ body {
 }
 
 /* fix layout shift when navigating */
-@media (width >= 768px) {
+@media (width > 768px) {
   .main-wrapper:not(.docsWrapper*) {
     padding-left: calc(100vw - 100%);
   }
@@ -182,4 +178,24 @@ body {
   #doc-container-padding {
     padding-left: calc(100vw - 100%);
   }
+}
+
+@media (width <= 768px) {
+  .DocSearch-Modal {
+    padding: var(--frame-border-size);
+  }
+}
+
+/* Frame layout corrections */
+.navbar--fixed-top {
+  top: var(--frame-border-size);
+}
+
+.navbar__logo {
+  height: 2rem;
+  width: 2rem;
+}
+
+.navbar-sidebar {
+  padding: 1rem 0 1rem 1rem
 }

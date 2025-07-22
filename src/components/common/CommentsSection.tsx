@@ -29,7 +29,7 @@ const CommentsSection = ({ category, categoryId }: Props): JSX.Element => {
         category={category}
         categoryId={categoryId}
         mapping="title"
-        term="Welcome to @giscus/react component!"
+        term="Comments"
         reactionsEnabled="1"
         emitMetadata="1"
         inputPosition="top"

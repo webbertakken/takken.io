@@ -1,9 +1,0 @@
-.link {
-  &:not(:last-child)::after {
-    display: inline-block;
-    content: '|';
-    padding: 0 0.5em;
-    /* Todo - get off-pink color from var */
-    color: rgb(255 169 205 / 85%);
-  }
-}

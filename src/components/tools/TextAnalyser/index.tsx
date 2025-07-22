@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import Heading from '@site/src/components/common/heading'
 import CodeEditor from '@site/src/components/common/CodeEditor'
-import styles from '../Tools.module.scss'
 import { Base64 } from '@site/src/core/utils/base64'
 import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import cx from 'classnames'
 import ToolPage from '@theme/ToolPage/ToolPage'
+import { toolStyles } from '../toolStyles'
 
 const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!
 
@@ -60,13 +60,13 @@ const TextAnalyser = (): JSX.Element => {
     <ToolPage title="Text analyser">
       <p>Paste any text and lets see what we can find out about it. text here.</p>
 
-      <div className={cx(styles.flexRow, styles.grow)}>
-        <div className={styles.flexPanel}>
+      <div className={cx(toolStyles.flexRow, toolStyles.grow)}>
+        <div className={toolStyles.flexPanel}>
           <Heading level={3}>Paste here</Heading>
-          <CodeEditor className={styles.codePanel} onChange={analyse} code={exampleCopy} />
+          <CodeEditor className={toolStyles.codePanel} onChange={analyse} code={exampleCopy} />
         </div>
 
-        <div className={styles.flexPanel}>
+        <div className={toolStyles.flexPanel}>
           <Heading level={3}>Results</Heading>
           <ul>
             <li>Words: {wordCount}</li>
@@ -79,20 +79,20 @@ const TextAnalyser = (): JSX.Element => {
           <ul>
             <li>
               Base64 encoded:
-              <CodeBlock className={styles.codePanel} value={base64Encoded} />
+              <CodeBlock className={toolStyles.codePanel} value={base64Encoded} />
             </li>
             <li>
-              Base64 decoded: <CodeBlock className={styles.codePanel} value={base64Decoded} />
+              Base64 decoded: <CodeBlock className={toolStyles.codePanel} value={base64Decoded} />
             </li>
           </ul>
 
           <Heading level={4}>Hashed</Heading>
           <ul>
             <li>
-              md5: <CodeBlock className={styles.codePanel} value={md5Hash} />
+              md5: <CodeBlock className={toolStyles.codePanel} value={md5Hash} />
             </li>
             <li>
-              sha: <CodeBlock className={styles.codePanel} value={sha256Hash} />
+              sha: <CodeBlock className={toolStyles.codePanel} value={sha256Hash} />
             </li>
           </ul>
         </div>
