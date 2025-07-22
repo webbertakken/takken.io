@@ -38,4 +38,5 @@
   border: var(--frame-border-size) solid transparent;
   border-image: linear-gradient(135deg, var(--frame-border-color-bright), var(--frame-border-color-dark)) 1;
   animation: fadeInFadeOut var(--frame-animation-time) ease-in-out infinite;
+  will-change: opacity;
 }
