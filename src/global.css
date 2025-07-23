@@ -187,6 +187,10 @@ body {
   text-rendering: optimizelegibility;
 }
 
+.main-wrapper {
+  min-height: calc(100vh - 60px - var(--frame-border-size) * 2);
+}
+
 /* fix layout shift when navigating (scrollbar appearing / disappearing */
 @media (width > 768px) {
   .main-wrapper:not(.docsWrapper*) {
@@ -201,6 +205,10 @@ body {
 }
 
 /* Frame layout corrections */
+.DocSearch-Modal {
+  margin: calc(60px + var(--frame-border-size)) auto auto !important;
+}
+
 @media (width <= 768px) {
   .DocSearch-Modal {
     padding: var(--frame-border-size);

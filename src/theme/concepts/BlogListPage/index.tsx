@@ -10,7 +10,7 @@ export default function ConceptsBlogListPage(props: Props): JSX.Element {
 
   return (
     <Layout title={blogTitle} description={blogDescription}>
-      <div className="mx-auto w-full max-w-7xl px-4 py-8 min-h-[calc(100vh-60px)]">
+      <main className="main-wrapper mx-auto w-full max-w-7xl px-4 py-8">
         <h1>{blogTitle}</h1>
         <p>{blogDescription}</p>
 
@@ -38,7 +38,7 @@ export default function ConceptsBlogListPage(props: Props): JSX.Element {
             )
           })}
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }
