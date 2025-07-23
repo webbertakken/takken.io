@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@site/src/components/common/heading'
 import { useCookie } from '@site/src/core/hooks/useCookie'
-import styles from '../Tools.module.scss'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
 import ToolPage from '@theme/ToolPage/ToolPage'
 import cx from 'classnames'
+import { toolStyles } from '../toolStyles'
 
 const exampleCopy = `Run license activation in an empty directory
 #109 by txema-martinez-scopely was merged 3 hours ago 3 of 3
@@ -91,15 +91,15 @@ const PullRequestsToReleaseText = () => {
     <ToolPage title="Release text generator">
       <p>Select and copy the text of all pull requests that have not been released yet.</p>
 
-      <div className={cx(styles.flexRow, styles.grow)}>
-        <div className={styles.flexPanel}>
+      <div className={cx(toolStyles.flexRow, toolStyles.grow)}>
+        <div className={toolStyles.flexPanel}>
           <Heading level={3}>Paste here</Heading>
-          <CodeEditor className={styles.codePanel} onChange={convert} code={exampleCopy} />
+          <CodeEditor className={toolStyles.codePanel} onChange={convert} code={exampleCopy} />
         </div>
 
-        <div className={styles.flexPanel}>
+        <div className={toolStyles.flexPanel}>
           <Heading level={3}>Results</Heading>
-          <CodeBlock className={styles.codePanel} value={result} />
+          <CodeBlock className={toolStyles.codePanel} value={result} />
         </div>
       </div>
     </ToolPage>

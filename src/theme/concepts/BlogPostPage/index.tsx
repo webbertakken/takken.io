@@ -105,7 +105,7 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
 
   return (
     <Layout title={title} description={frontMatter.description}>
-      <div className="mx-auto max-w-4xl relative py-8 min-h-[calc(100vh-60px)]">
+      <main className="main-wrapper mx-auto max-w-4xl relative py-8">
         {/* Navigation arrows positioned at 50% viewport height - hide during skeleton */}
         {!showSkeleton && prevItem && (
           <Link
@@ -167,7 +167,7 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
             </div>
           )}
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }

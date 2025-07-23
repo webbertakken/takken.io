@@ -1,4 +1,4 @@
-import styles from '../Tools.module.scss'
+import { toolStyles } from '../toolStyles'
 import cx from 'classnames'
 import Heading from '@site/src/components/common/heading'
 import CodeBlock from '@site/src/components/common/CodeBlock'
@@ -16,12 +16,12 @@ const CalibrateWithMultiMeter = (): JSX.Element => {
   )
 
   return (
-    <div className={cx(styles.flexRow, styles.section)}>
-      <div className={styles.flexPanel}>
+    <div className={cx(toolStyles.flexRow, toolStyles.section)}>
+      <div className={toolStyles.flexPanel}>
         <p>Calibrate power socket and energy meter</p>
 
         <Heading level={3}>Using multi meter</Heading>
-        <div className={styles.formRow}>
+        <div className={toolStyles.formRow}>
           <input
             style={{ width: '80px' }}
             type="number"
@@ -32,7 +32,7 @@ const CalibrateWithMultiMeter = (): JSX.Element => {
           />
           <span>V</span>
         </div>
-        <div className={styles.formRow}>
+        <div className={toolStyles.formRow}>
           <input
             style={{ width: '100px' }}
             type="number"
@@ -48,9 +48,9 @@ const CalibrateWithMultiMeter = (): JSX.Element => {
 
         <Heading level={3}>Tasmota commands</Heading>
 
-        <div className={styles.formRow}>
+        <div className={toolStyles.formRow}>
           <CodeBlock
-            className={styles.codePanel}
+            className={toolStyles.codePanel}
             value={dedent`
                 PowerSet ${wattage}
                 VoltageSet ${voltage}
