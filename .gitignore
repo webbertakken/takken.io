@@ -33,6 +33,8 @@ tools/image-generator/example-images/
 
 # testing
 /coverage
+**/*.spec.ts
+**/*.test.ts
 
 # Production
 /build
