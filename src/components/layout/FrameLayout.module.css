@@ -6,7 +6,9 @@
 
 .body {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: calc(var(--vh, 1vh) * 100);
+  position: absolute;
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
@@ -16,7 +18,12 @@
 
 .frame {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
+  box-sizing: border-box;
   z-index: 2000;
   pointer-events: none;
 }
@@ -24,7 +31,12 @@
 .frame::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
+  box-sizing: border-box;
   border: var(--frame-border-size) solid transparent;
   transition: border-width var(--animation-speed);
   border-image: linear-gradient(135deg, var(--frame-border-color-dark), var(--frame-border-color-bright)) 1;
@@ -34,7 +46,12 @@
   .frame::after {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100dvh;
+    height: calc(var(--vh, 1vh) * 100);
+    box-sizing: border-box;
     border: var(--frame-border-size) solid transparent;
     transition: border-width var(--animation-speed);
     border-image: linear-gradient(135deg, var(--frame-border-color-bright), var(--frame-border-color-dark)) 1;
