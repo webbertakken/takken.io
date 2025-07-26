@@ -22,8 +22,7 @@ export function useViewportHeight() {
       window.visualViewport.addEventListener('scroll', setViewportHeight)
     }
 
-    // Touch events for iOS
-
+    // Touch events for Mobile
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let touchStartY: number
     const handleTouchStart = (e: TouchEvent) => {
