@@ -25,7 +25,7 @@ export default function ConceptsBlogListPage(props: Props): JSX.Element {
             return (
               <Link key={permalink} to={permalink} className="group block h-full">
                 <div className="h-full border-2 border-solid border-gray-300 dark:border-gray-500 rounded-sm hover:border-gray-400 dark:hover:border-gray-400 transition-colors overflow-hidden flex flex-col">
-                  <div className="aspect-square overflow-hidden shrink-0">
+                  <div className="aspect-[2/1] overflow-hidden shrink-0">
                     <OptimizedThumbnail imageUrl={imageUrl} title={title} />
                   </div>
                   <div className="p-2 lg:p-3 flex items-center justify-center h-16 sm:h-16 md:h-20 lg:h-16">
