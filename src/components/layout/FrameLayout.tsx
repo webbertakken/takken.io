@@ -1,7 +1,8 @@
+import { type PropsWithChildren } from 'react'
 import styles from './FrameLayout.module.css'
 import { useViewportHeight } from '../../hooks/useViewportHeight'
 
-const FrameLayout = ({ children }) => {
+const FrameLayout = ({ children }: PropsWithChildren) => {
   useViewportHeight()
 
   return (

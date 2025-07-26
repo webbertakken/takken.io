@@ -1,7 +1,10 @@
-import('vitest/config')
+import { defineConfig } from 'vitest/config'
 
-export default {
+export default defineConfig({
   test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test/setup.ts'],
     // Exclude post-build tests from regular test runs
     exclude: ['**/node_modules/**', '**/tests/post-build/**'],
     coverage: {
@@ -9,4 +12,4 @@ export default {
       reporter: ['html', 'lcov', 'clover'],
     },
   },
-}
+})

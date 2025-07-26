@@ -1,10 +1,26 @@
 import { useEffect } from 'react'
 
-export function useViewportHeight() {
+/**
+ * Custom hook that dynamically updates a CSS custom property with the viewport height.
+ * This is useful for handling mobile browsers where the viewport height changes
+ * when the address bar shows/hides.
+ *
+ * Sets the `--vh` CSS custom property on the document root element.
+ *
+ * @example
+ * // In your component
+ * useViewportHeight()
+ *
+ * // In your CSS
+ * .full-height {
+ *   height: calc(var(--vh, 1vh) * 100);
+ * }
+ */
+export function useViewportHeight(): void {
   useEffect(() => {
-    const setViewportHeight = () => {
-      const height = window.visualViewport?.height ?? window.innerHeight
-      const vh = height * 0.01
+    const setViewportHeight = (): void => {
+      const height: number = window.visualViewport?.height ?? window.innerHeight
+      const vh: number = height * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
     }
 
@@ -19,7 +35,7 @@ export function useViewportHeight() {
       window.addEventListener('resize', setViewportHeight)
     }
 
-    return () => {
+    return (): void => {
       if (window.visualViewport) {
         window.visualViewport.removeEventListener('resize', setViewportHeight)
       } else {
