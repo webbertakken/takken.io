@@ -43,6 +43,9 @@
 }
 
 :root {
+  /* Viewport height custom property for mobile */
+  --vh: 1vh;
+  
   /* Frame layout */
   --frame-border-size: 2rem;
   --animation-speed: 0.25s;
