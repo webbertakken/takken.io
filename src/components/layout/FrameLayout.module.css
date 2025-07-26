@@ -6,7 +6,7 @@
 
 .body {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
@@ -17,6 +17,7 @@
 .frame {
   position: fixed;
   inset: 0;
+  min-height: 100dvh;
   z-index: 2000;
   pointer-events: none;
 }
