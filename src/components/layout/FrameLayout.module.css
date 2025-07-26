@@ -17,7 +17,9 @@
 
 .frame {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100dvh;
   box-sizing: border-box;
   z-index: 2000;
@@ -27,7 +29,9 @@
 .frame::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100dvh;
   box-sizing: border-box;
   border: var(--frame-border-size) solid transparent;
@@ -39,7 +43,9 @@
   .frame::after {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 100dvh;
     box-sizing: border-box;
     border: var(--frame-border-size) solid transparent;
