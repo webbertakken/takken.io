@@ -126,33 +126,33 @@ export default {
       },
     ],
     // Approach blog plugin
-    [
-      '@docusaurus/plugin-content-blog',
-      {
-        id: 'approach',
-        routeBasePath: '/approach/',
-        path: 'approach',
-        showReadingTime: false,
-        editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
-        // Customisations
-        blogTitle: 'Approach',
-        blogDescription:
-          'A collection of methodologies and approaches for tackling various challenges.',
-        postsPerPage: 'ALL', // Show all posts on one page
-        blogSidebarCount: 0,
-        sortPosts: 'ascending', // Show oldest concepts first
-        feedOptions: {
-          type: 'all',
-          title: 'Takken.io - Approach',
-          description: 'Approach concepts feed',
-          limit: false, // Include all posts in feed
-        },
-        // Custom theme components for approach
-        blogListComponent: '@site/src/theme/concepts/BlogListPage',
-        blogPostComponent: '@site/src/theme/concepts/BlogPostPage',
-        exclude: ['**/*.prompt.md'],
-      },
-    ],
+    // [
+    //   '@docusaurus/plugin-content-blog',
+    //   {
+    //     id: 'approach',
+    //     routeBasePath: '/approach/',
+    //     path: 'approach',
+    //     showReadingTime: false,
+    //     editUrl: 'https://github.com/webbertakken/takken.io/tree/main/',
+    //     // Customisations
+    //     blogTitle: 'Approach',
+    //     blogDescription:
+    //       'A collection of methodologies and approaches for tackling various challenges.',
+    //     postsPerPage: 'ALL', // Show all posts on one page
+    //     blogSidebarCount: 0,
+    //     sortPosts: 'ascending', // Show oldest concepts first
+    //     feedOptions: {
+    //       type: 'all',
+    //       title: 'Takken.io - Approach',
+    //       description: 'Approach concepts feed',
+    //       limit: false, // Include all posts in feed
+    //     },
+    //     // Custom theme components for approach
+    //     blogListComponent: '@site/src/theme/concepts/BlogListPage',
+    //     blogPostComponent: '@site/src/theme/concepts/BlogPostPage',
+    //     exclude: ['**/*.prompt.md'],
+    //   },
+    // ],
   ],
 
   presets: [
@@ -206,7 +206,7 @@ export default {
         { to: '/gists', label: 'Gists', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { to: '/mindset', label: 'Mindset', position: 'left' },
-        { to: '/approach', label: 'Approach', position: 'left' },
+        // { to: '/approach', label: 'Approach', position: 'left' },
         {
           href: 'https://github.com/webbertakken/takken.io',
           label: 'GitHub',
@@ -249,10 +249,10 @@ export default {
               label: 'Mindset',
               to: '/mindset',
             },
-            {
-              label: 'Approach',
-              to: '/approach',
-            },
+            // {
+            //   label: 'Approach',
+            //   to: '/approach',
+            // },
           ],
         },
         {
