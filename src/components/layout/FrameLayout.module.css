@@ -7,6 +7,7 @@
 .body {
   width: 100%;
   min-height: 100dvh;
+  position: absolute;
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
@@ -17,8 +18,8 @@
 .frame {
   position: fixed;
   inset: 0;
-  min-height: 100dvh;
-  max-height: 100dvh;
+  height: 100dvh;
+  box-sizing: border-box;
   z-index: 2000;
   pointer-events: none;
 }
@@ -26,9 +27,9 @@
 .frame::before {
   content: '';
   position: absolute;
-  min-height: 100dvh;
-  max-height: 100dvh;
   inset: 0;
+  height: 100dvh;
+  box-sizing: border-box;
   border: var(--frame-border-size) solid transparent;
   transition: border-width var(--animation-speed);
   border-image: linear-gradient(135deg, var(--frame-border-color-dark), var(--frame-border-color-bright)) 1;
@@ -38,9 +39,9 @@
   .frame::after {
     content: '';
     position: absolute;
-    min-height: 100dvh;
-    max-height: 100dvh;
     inset: 0;
+    height: 100dvh;
+    box-sizing: border-box;
     border: var(--frame-border-size) solid transparent;
     transition: border-width var(--animation-speed);
     border-image: linear-gradient(135deg, var(--frame-border-color-bright), var(--frame-border-color-dark)) 1;
