@@ -4,6 +4,7 @@ import MDXContent from '@theme/MDXContent'
 import type { Props } from '@theme/BlogPostPage'
 import Image from '@theme/IdealImage'
 import EditThisPage from '@theme/EditThisPage'
+import TagsListInline from '@theme/TagsListInline'
 import { useHistory } from '@docusaurus/router'
 import Link from '@docusaurus/Link'
 import ConceptsSkeleton from '@site/src/components/ConceptsSkeleton'
@@ -23,7 +24,7 @@ const ChevronRight = ({ className }: { className?: string }) => (
 export default function ConceptsBlogPostPage(props: Props): JSX.Element {
   const { content: BlogPostContent } = props
   const { metadata, frontMatter } = BlogPostContent
-  const { title, nextItem, prevItem, editUrl } = metadata
+  const { title, nextItem, prevItem, editUrl, tags } = metadata
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [showSkeleton, setShowSkeleton] = useState(false)
   const history = useHistory()
@@ -163,7 +164,17 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
                 </MDXContent>
               </div>
 
-              {editUrl && <EditThisPage editUrl={editUrl} />}
+              {tags && tags.length > 0 && (
+                <div className="mt-4 mb-4">
+                  <TagsListInline tags={tags} />
+                </div>
+              )}
+
+              {editUrl && (
+                <div className="mt-4 mb-4">
+                  <EditThisPage editUrl={editUrl} />
+                </div>
+              )}
             </div>
           )}
         </div>
