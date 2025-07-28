@@ -1,10 +1,11 @@
 ---
 slug: authenticity-control
+title: Authenticity, individuality, control
 tags: [growth]
-image: /assets/mindset/webber-authenticity.png
+image: /assets/mindset/webber-authenticity.webp
 ---
 
-# Authenticity, Individuality, Control
+# Authenticity, individuality, control
 
 <!-- truncate -->
 

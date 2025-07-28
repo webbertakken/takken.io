@@ -1,11 +1,11 @@
 ---
 slug: life-is-the-journey
-title: Life is the Journey
+title: Life is the journey
 tags: [perception]
 image: /assets/mindset/life-is-the-journey.webp
 ---
 
-# Life is the Journey
+# Life is the journey
 
 <!-- truncate -->
 

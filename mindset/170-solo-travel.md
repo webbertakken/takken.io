@@ -1,11 +1,11 @@
 ---
 slug: solo-travel
-title: Solo Travel
+title: Solo travel
 tags: [growth]
 image: /assets/mindset/solo-travel.webp
 ---
 
-# Solo Travel
+# Solo travel
 
 <!-- truncate -->
 

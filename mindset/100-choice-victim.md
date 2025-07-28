@@ -1,11 +1,11 @@
 ---
 slug: choice-victim
-title: Choice to Be a Victim or Not
+title: Choice to be a victim or not
 tags: [growth, perception]
 image: /assets/mindset/choice-victim.webp
 ---
 
-# Choice to Be a Victim or Not
+# Choice to be a victim or not
 
 <!-- truncate -->
 

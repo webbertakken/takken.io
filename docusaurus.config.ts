@@ -113,6 +113,14 @@ export default {
         postsPerPage: 'ALL', // Show all posts on one page
         blogSidebarCount: 0,
         sortPosts: 'ascending', // Show oldest concepts first
+        processBlogPosts: async ({ blogPosts }) => {
+          // Sort by filename (which includes the numeric prefix)
+          return blogPosts.sort((a, b) => {
+            const filenameA = a.metadata.source.split('/').pop() || ''
+            const filenameB = b.metadata.source.split('/').pop() || ''
+            return filenameA.localeCompare(filenameB)
+          })
+        },
         feedOptions: {
           type: 'all',
           title: 'Takken.io - Mindset',
@@ -141,6 +149,14 @@ export default {
     //     postsPerPage: 'ALL', // Show all posts on one page
     //     blogSidebarCount: 0,
     //     sortPosts: 'ascending', // Show oldest concepts first
+    //     processBlogPosts: async ({ blogPosts }) => {
+    //       // Sort by filename (which includes the numeric prefix)
+    //       return blogPosts.sort((a, b) => {
+    //         const filenameA = a.metadata.source.split('/').pop() || ''
+    //         const filenameB = b.metadata.source.split('/').pop() || ''
+    //         return filenameA.localeCompare(filenameB)
+    //       })
+    //     },
     //     feedOptions: {
     //       type: 'all',
     //       title: 'Takken.io - Approach',

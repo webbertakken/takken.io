@@ -1,11 +1,11 @@
 ---
 slug: growth-mindset
-title: Growth Mindset
+title: Growth mindset
 tags: [growth]
 image: /assets/mindset/growth-mindset.webp
 ---
 
-# Growth Mindset
+# Growth mindset
 
 <!-- truncate -->
 
