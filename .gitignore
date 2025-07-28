@@ -58,3 +58,4 @@ yarn-error.log*
 generated-images
 test-output
 __pycache__
+static/assets/processed

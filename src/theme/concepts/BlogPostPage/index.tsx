@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Layout from '@theme/Layout'
 import MDXContent from '@theme/MDXContent'
 import type { Props } from '@theme/BlogPostPage'
-import Image from '@theme/IdealImage'
 import EditThisPage from '@theme/EditThisPage'
 import TagsListInline from '@theme/TagsListInline'
 import { useHistory } from '@docusaurus/router'
 import Link from '@docusaurus/Link'
 import ConceptsSkeleton from '@site/src/components/ConceptsSkeleton'
+import ProcessedImage from '../components/ProcessedImage'
+import { useProcessedImage } from '../hooks/useProcessedImage'
 
 const ChevronLeft = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -24,16 +25,18 @@ const ChevronRight = ({ className }: { className?: string }) => (
 export default function ConceptsBlogPostPage(props: Props): JSX.Element {
   const { content: BlogPostContent } = props
   const { metadata, frontMatter } = BlogPostContent
-  const { title, nextItem, prevItem, editUrl, tags } = metadata
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const { title, nextItem, prevItem, editUrl, tags, source } = metadata
   const [showSkeleton, setShowSkeleton] = useState(false)
   const history = useHistory()
 
-  useEffect(() => {
-    // Use image from frontmatter, fallback to placeholder
-    const extractedImage = frontMatter.image || '/images/concepts-placeholder.svg'
-    setImageUrl(extractedImage)
+  // Extract slug from source path
+  const slug = source.replace('@site/mindset/', '').replace(/^\d+-/, '').replace(/\.md$/, '')
 
+  // Use image from frontmatter, fallback to placeholder
+  const imageUrl = frontMatter.image || '/images/concepts-placeholder.svg'
+  const processedImage = useProcessedImage(imageUrl, slug)
+
+  useEffect(() => {
     // Hide skeleton when new page loads
     setShowSkeleton(false)
   }, [frontMatter.image])
@@ -143,10 +146,16 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
           {!showSkeleton && (
             <div className="content-fade-in">
               {/* Image always at the top */}
-              {imageUrl && (
+              {processedImage && (
                 <div className="pb-4">
                   <div className="w-full aspect-2/1 overflow-hidden rounded-lg">
-                    <Image img={imageUrl} alt={title} className="w-full h-full object-cover" />
+                    <ProcessedImage
+                      processedData={processedImage}
+                      size="medium"
+                      alt={title}
+                      className="w-full h-full object-cover"
+                      enableModal={true}
+                    />
                   </div>
                 </div>
               )}

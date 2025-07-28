@@ -25,7 +25,8 @@
       "Bash(cp:*)",
       "Bash(true)",
       "WebFetch(domain:docusaurus.io)",
-      "Bash(fd:*)"
+      "Bash(fd:*)",
+      "Bash(npx vitest run:*)"
     ],
     "deny": ["Bash(cd:*)"]
   }

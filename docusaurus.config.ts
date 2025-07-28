@@ -2,6 +2,7 @@ import 'dotenv/config'
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
 import tailwindPlugin from './src/plugins/tailwind-config.cjs'
+import frontmatterImageProcessorPlugin from './src/plugins/frontmatter-image-processor'
 import { themes } from 'prism-react-renderer'
 
 // Errors that are actually in plugins may be hidden if stacktrace only shows 10 lines.
@@ -37,6 +38,7 @@ export default {
 
   plugins: [
     tailwindPlugin,
+    frontmatterImageProcessorPlugin,
     ['docusaurus-plugin-sass', {}],
     [
       'docusaurus-plugin-content-gists',
