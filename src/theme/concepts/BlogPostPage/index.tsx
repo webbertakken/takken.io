@@ -4,6 +4,7 @@ import MDXContent from '@theme/MDXContent'
 import type { Props } from '@theme/BlogPostPage'
 import Image from '@theme/IdealImage'
 import EditThisPage from '@theme/EditThisPage'
+import TagsListInline from '@theme/TagsListInline'
 import { useHistory } from '@docusaurus/router'
 import Link from '@docusaurus/Link'
 import ConceptsSkeleton from '@site/src/components/ConceptsSkeleton'
@@ -23,7 +24,7 @@ const ChevronRight = ({ className }: { className?: string }) => (
 export default function ConceptsBlogPostPage(props: Props): JSX.Element {
   const { content: BlogPostContent } = props
   const { metadata, frontMatter } = BlogPostContent
-  const { title, nextItem, prevItem, editUrl } = metadata
+  const { title, nextItem, prevItem, editUrl, tags } = metadata
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [showSkeleton, setShowSkeleton] = useState(false)
   const history = useHistory()
@@ -111,10 +112,10 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
           <Link
             to={prevItem.permalink}
             onClick={navigateWithTransition}
-            className="fixed -left-3 xl:left-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
+            className="fixed -left-[calc(0.75rem-var(--frame-border-size))] xl:left-[calc(50vw-3rem-512px)] top-[50vh] z-50 p-2 lg:p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Previous: ${prevItem.title}`}
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-6 h-6 lg:w-8 lg:h-8" />
           </Link>
         )}
 
@@ -122,15 +123,15 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
           <Link
             to={nextItem.permalink}
             onClick={navigateWithTransition}
-            className="fixed -right-3 xl:right-[calc(50vw-1rem-512px)] top-[50vh] z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
+            className="fixed -right-[calc(0.75rem-var(--frame-border-size))] xl:right-[calc(50vw-3rem-512px)] top-[50vh] z-50 p-2 lg:p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border border-gray-300 dark:border-gray-600 flex items-center justify-center"
             aria-label={`Next: ${nextItem.title}`}
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-6 h-6 lg:w-8 lg:h-8" />
           </Link>
         )}
 
         {/* Content - show skeleton only during transitions */}
-        <div className="relative  w-full">
+        <div className="relative w-full px-8 lg:px-0">
           {/* Show skeleton only when transitioning */}
           {showSkeleton && (
             <div className="skeleton-fade-in">
@@ -156,14 +157,24 @@ export default function ConceptsBlogPostPage(props: Props): JSX.Element {
               {/* Text content after title */}
               <div
                 className="prose prose-lg dark:prose-invert max-w-none"
-                style={{ height: '280px', overflow: 'hidden' }}
+                style={{ minHeight: '280px' }}
               >
                 <MDXContent>
                   <BlogPostContent />
                 </MDXContent>
               </div>
 
-              {editUrl && <EditThisPage editUrl={editUrl} />}
+              {tags && tags.length > 0 && (
+                <div className="mt-4 mb-4">
+                  <TagsListInline tags={tags} />
+                </div>
+              )}
+
+              {editUrl && (
+                <div className="mt-4 mb-4">
+                  <EditThisPage editUrl={editUrl} />
+                </div>
+              )}
             </div>
           )}
         </div>
