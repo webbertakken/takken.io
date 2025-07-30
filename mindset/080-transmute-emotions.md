@@ -2,7 +2,7 @@
 slug: transmute-emotions
 title: Transmute anger, fear and sorrow into action
 tags: [growth, perception]
-image: https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&h=400
+image: /assets/mindset/transmute-emotions.webp
 ---
 
 # Transmute anger, fear and sorrow into action
