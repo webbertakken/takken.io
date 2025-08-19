@@ -19,6 +19,7 @@ import {
   SsiWeather,
 } from '@site/src/domain/diving/ssi/SsiParameters'
 import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
+import { CsvDive } from '@site/src/domain/diving/csv/CsvDive'
 
 export class SsiDive {
   dive: null
@@ -70,6 +71,22 @@ export class SsiDive {
       // airtemp_c: AirTempCelcius
       // vis_m: VisibilityInMeters
       // deco: 0, // Note: Even when set to 0 it will open the deco settings in the SSI app, no deco should be property not present
+    }
+  }
+
+  // Convert CSV dive data to SSI format following same pattern as Garmin
+  static fromCsv = (csv: CsvDive): Partial<SsiDive> => {
+    return {
+      dive: null,
+      noid: null,
+      dive_type: SsiDive.diveTypeFromSport(csv.sport),
+      divetime: csv.diveTime,
+      datetime: csv.startTime ? SsiDive.formatDate(csv.startTime) : undefined,
+      depth_m: csv.maxDepth,
+      user_firstname: csv.firstName || '',
+      user_lastname: csv.lastName || '',
+      watertemp_c: csv.minTemperature,
+      watertemp_max_c: csv.maxTemperature,
     }
   }
 
