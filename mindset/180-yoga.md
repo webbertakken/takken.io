@@ -9,8 +9,8 @@ image: /assets/mindset/yoga.webp
 
 <!-- truncate -->
 
-Yoga is a discipline to bring body, mind and soul together. Its purpose is to reduce suffering and
-was invented in Ancient India
+Yoga is a discipline that brings body, mind, and soul together. Its purpose is to reduce suffering,
+and it was developed in ancient India
 [thousands](https://en.wikipedia.org/wiki/Yoga#:~:text=first%20attested%20in%20the%20early%20first%20millennium%20BCE)
 of years ago. [Practices](<https://en.wikipedia.org/wiki/Ashtanga_(eight_limbs_of_yoga)>) include:
 
