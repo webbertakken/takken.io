@@ -10,7 +10,9 @@ image: /assets/mindset/yoga.webp
 <!-- truncate -->
 
 Yoga is a discipline to bring body, mind and soul together. Its purpose is to reduce suffering and
-was invented in Ancient India thousands of years ago. Practices include:
+was invented in Ancient India
+[thousands](https://en.wikipedia.org/wiki/Yoga#:~:text=first%20attested%20in%20the%20early%20first%20millennium%20BCE)
+of years ago. [Practices](<https://en.wikipedia.org/wiki/Ashtanga_(eight_limbs_of_yoga)>) include:
 
 - Yama - Ethics reduce anxiety, self-deception, greed, anger and jealousy.
 - Niyama - Personal observances create discipline, self-control and serenity.
@@ -21,4 +23,7 @@ was invented in Ancient India thousands of years ago. Practices include:
 - Dhyāna - Meditation creates a continuous flow of concentration.
 - Samādhi - A state of blissful peace and being one with the universe.
 
-It is also a natural way to heal body and mind.
+It is also a natural way to heal body and mind
+([1](https://www.who.int/southeastasia/news/opinion-editorials/detail/yoga-for-humanity),
+[2](https://www.bmj.com/content/384/bmj-2023-075847),
+[3](https://pmc.ncbi.nlm.nih.gov/articles/PMC11919030/)).
