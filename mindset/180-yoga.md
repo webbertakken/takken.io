@@ -9,8 +9,8 @@ image: /assets/mindset/yoga.webp
 
 <!-- truncate -->
 
-Yoga is a discipline to bring body, mind and soul together. Its purpose is to reduce suffering. It
-is also a natural way to heal body and mind. Practices include:
+Yoga is a discipline to bring body, mind and soul together. Its purpose is to reduce suffering and
+was invented in Ancient India thousands of years ago. Practices include:
 
 - Yama - Ethics reduce anxiety, self-deception, greed, anger and jealousy.
 - Niyama - Personal observances create discipline, self-control and serenity.
@@ -21,4 +21,4 @@ is also a natural way to heal body and mind. Practices include:
 - Dhyāna - Meditation creates a continuous flow of concentration.
 - Samādhi - A state of blissful peace and being one with the universe.
 
-It was invented in Ancient India a thousand years before CE.
+It is also a natural way to heal body and mind.
