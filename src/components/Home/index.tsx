@@ -27,26 +27,47 @@ const Index = (): JSX.Element => {
           <p className="text-center mb-4">Webber Webbink</p>
 
           <div className="flex justify-center items-center mt-4 gap-4 [&_a]:text-[#989586] [&_a:hover]:text-pink-dark [&_a:hover]:animate-pulse">
-            <a target="_blank" rel="noreferrer" href="mailto:webber@takken.io">
+            <a target="_blank" rel="noreferrer" href="mailto:webber@takken.io" aria-label="Email">
               <FaAt size={32} />
             </a>
-            <a target="_blank" rel="noreferrer" href="https://twitter.com/webbertakken">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://twitter.com/webbertakken"
+              aria-label="Twitter"
+            >
               <FaTwitter size={32} />
             </a>
-            <a target="_blank" rel="noreferrer" href="https://github.com/webbertakken">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/webbertakken"
+              aria-label="GitHub"
+            >
               <FaGithub size={32} />
             </a>
-            <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/webbertakken/">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://www.linkedin.com/in/webbertakken/"
+              aria-label="LinkedIn"
+            >
               <FaLinkedinIn size={32} />
             </a>
             <a
               target="_blank"
               rel="noreferrer"
               href="https://stackoverflow.com/users/3593896/webber"
+              aria-label="Stack Overflow"
             >
               <FaStackOverflow size={32} />
             </a>
-            <a target="_blank" rel="noreferrer" href="https://twitch.tv/webbertakken">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://twitch.tv/webbertakken"
+              aria-label="Twitch"
+            >
               <FaTwitch size={32} />
             </a>
           </div>
