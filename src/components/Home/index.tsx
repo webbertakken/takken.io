@@ -63,7 +63,7 @@ const Index = (): JSX.Element => {
               <a href="https://github.com/webbertakken/streamer" target="_blank" rel="noreferrer">
                 Streamer
               </a>{' '}
-              (software)
+              (free streamer software)
             </Card.Item>
             <Card.Item>
               🌍{' '}
