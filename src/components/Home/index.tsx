@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '@theme/Layout'
 import Image from '@theme/IdealImage'
-import { FaGithub, FaLinkedinIn, FaStackOverflow, FaTwitter, FaAt } from 'react-icons/fa6'
+import { FaGithub, FaLinkedinIn, FaStackOverflow, FaTwitch, FaTwitter, FaAt } from 'react-icons/fa6'
 // import HomepageFeatures from '@site/src/components/HomepageFeatures'
 import Card from '@site/src/components/Home/Card/Card'
 
@@ -45,6 +45,9 @@ const Index = (): JSX.Element => {
               href="https://stackoverflow.com/users/3593896/webber"
             >
               <FaStackOverflow size={32} />
+            </a>
+            <a target="_blank" rel="noreferrer" href="https://twitch.tv/webbertakken">
+              <FaTwitch size={32} />
             </a>
           </div>
         </div>
