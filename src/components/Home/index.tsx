@@ -1,15 +1,23 @@
 import React from 'react'
 import Layout from '@theme/Layout'
 import Image from '@theme/IdealImage'
-import { FaGithub, FaLinkedinIn, FaStackOverflow, FaTwitch, FaTwitter, FaAt } from 'react-icons/fa6'
+import {
+  FaGithub,
+  FaLinkedinIn,
+  FaStackOverflow,
+  FaTwitch,
+  FaXTwitter,
+  FaAt,
+} from 'react-icons/fa6'
+// Keep — HomepageFeatures may be re-enabled later
 // import HomepageFeatures from '@site/src/components/HomepageFeatures'
 import Card from '@site/src/components/Home/Card/Card'
 
-const Index = (): JSX.Element => {
+const Index = (): React.ReactElement => {
   return (
     <Layout title="About me" description="About me">
       <div className="flex flex-col md:flex-row gap-8 p-8 lg:gap-12 lg:p-12">
-        <div className="flex flex-col w-auto md:w-88 shrink-0 grow-0 self-center md:self-start ">
+        <div className="flex flex-col w-auto md:w-88 shrink-0 grow-0 self-center md:self-start">
           <h1 className="text-2xl">Hey, I'm Webber! 👋🏻</h1>
 
           <p>
@@ -17,7 +25,7 @@ const Index = (): JSX.Element => {
             my notes, thoughts, ideas, and projects.
           </p>
 
-          <div style={{ marginBottom: '1em' }}>
+          <div className="mb-4">
             <Image
               className="[&:not(dialog_&)_img]:rounded-lg"
               img={require('@site/src/assets/webber.jpg')}
@@ -33,10 +41,10 @@ const Index = (): JSX.Element => {
             <a
               target="_blank"
               rel="noreferrer"
-              href="https://twitter.com/webbertakken"
-              aria-label="Twitter"
+              href="https://x.com/webbertakken"
+              aria-label="X (formerly Twitter)"
             >
-              <FaTwitter size={32} />
+              <FaXTwitter size={32} />
             </a>
             <a
               target="_blank"
@@ -201,7 +209,7 @@ const Index = (): JSX.Element => {
             <Card.Item>🎬 Shawshank Redemption</Card.Item>
           </Card>
 
-          {/* Make sure amount of boxes is even */}
+          {/* Keep commented-out cards — they're toggled to maintain an even card count */}
           {/*<Card title="Series">*/}
           {/*  <Card.Item>📺 Mr. Robot</Card.Item>*/}
           {/*  <Card.Item>📺 The Witcher</Card.Item>*/}
@@ -222,6 +230,7 @@ const Index = (): JSX.Element => {
         </div>
       </div>
 
+      {/* Keep — HomepageFeatures may be re-enabled later */}
       {/*<HomepageFeatures />*/}
     </Layout>
   )
