@@ -67,7 +67,8 @@ const Index = (): JSX.Element => {
               📺{' '}
               <a href="https://github.com/webbertakken/streamer" target="_blank">
                 Streamer
-              </a>
+              </a>{' '}
+              (software)
             </Card.Item>
           </Card>
 
