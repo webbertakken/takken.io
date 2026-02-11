@@ -52,23 +52,25 @@ const Index = (): JSX.Element => {
         <div className="flex grow flex-row flex-wrap gap-8">
           <Card title="Projects">
             <Card.Item>
-              🌍{' '}
-              <a href="https://game.ci" target="_blank">
-                GameCI
-              </a>
-            </Card.Item>
-            <Card.Item>
               🎮{' '}
-              <a href="https://minis.gg" target="_blank">
+              <a href="https://minis.gg" target="_blank" rel="noreferrer">
                 Minis.gg
-              </a>
+              </a>{' '}
+              (free gaming platform)
             </Card.Item>
             <Card.Item>
               📺{' '}
-              <a href="https://github.com/webbertakken/streamer" target="_blank">
+              <a href="https://github.com/webbertakken/streamer" target="_blank" rel="noreferrer">
                 Streamer
               </a>{' '}
               (software)
+            </Card.Item>
+            <Card.Item>
+              🌍{' '}
+              <a href="https://game.ci" target="_blank" rel="noreferrer">
+                GameCI
+              </a>{' '}
+              (open source community)
             </Card.Item>
           </Card>
 
