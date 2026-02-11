@@ -57,6 +57,18 @@ const Index = (): JSX.Element => {
                 GameCI
               </a>
             </Card.Item>
+            <Card.Item>
+              🎮{' '}
+              <a href="https://minis.gg" target="_blank">
+                Minis.gg
+              </a>
+            </Card.Item>
+            <Card.Item>
+              📺{' '}
+              <a href="https://github.com/webbertakken/streamer" target="_blank">
+                Streamer
+              </a>
+            </Card.Item>
           </Card>
 
           <Card title="Latest posts">

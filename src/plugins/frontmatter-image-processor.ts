@@ -148,7 +148,6 @@ async function saveManifest(manifestPath: string, manifest: ImageManifest): Prom
 export default function frontmatterImageProcessorPlugin(context: LoadContext): Plugin {
   const manifestPath = path.join(context.siteDir, IMAGE_MANIFEST_PATH)
   const mindsetDir = path.join(context.siteDir, 'mindset')
-  const mindsetAssetsDir = path.join(context.siteDir, 'static/assets/mindset')
 
   return {
     name: 'frontmatter-image-processor',
@@ -217,7 +216,7 @@ export default function frontmatterImageProcessorPlugin(context: LoadContext): P
     // Add getPathsToWatch to enable hot-reload for mindset articles
     getPathsToWatch() {
       // Watch all markdown files in the mindset directory
-      return [`${mindsetDir}/**/*.md`, `${mindsetAssetsDir}/*.webp`]
+      return [`${mindsetDir}/**/*.md`]
     },
   }
 }
