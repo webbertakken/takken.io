@@ -1,0 +1,16 @@
+---
+sidebar_position: 1
+title: Notes
+slug: introduction
+---
+
+import { useDocsSidebar } from '@docusaurus/plugin-content-docs/client'
+import DocCardList from '@theme/DocCardList'
+
+export const NotesCardList = () => {
+  const sidebar = useDocsSidebar()
+  const items = sidebar.items.filter((item) => item.type !== 'link' || item.docId !== 'index')
+  return <DocCardList items={items} />
+}
+
+<NotesCardList />
