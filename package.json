@@ -39,13 +39,13 @@
     "*.@(css|scss|sass)": "stylelint --fix"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.8.1",
-    "@docusaurus/module-type-aliases": "^3.8.1",
-    "@docusaurus/plugin-ideal-image": "^3.8.1",
-    "@docusaurus/plugin-pwa": "^3.8.1",
-    "@docusaurus/preset-classic": "^3.8.1",
-    "@docusaurus/theme-mermaid": "^3.8.1",
-    "@docusaurus/utils-validation": "^3.8.1",
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/module-type-aliases": "^3.9.2",
+    "@docusaurus/plugin-ideal-image": "^3.9.2",
+    "@docusaurus/plugin-pwa": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/theme-mermaid": "^3.9.2",
+    "@docusaurus/utils-validation": "^3.9.2",
     "@garmin-fit/sdk": "^21.115.0",
     "@giscus/react": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
@@ -74,9 +74,9 @@
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.8.1",
-    "@docusaurus/tsconfig": "^3.8.1",
-    "@docusaurus/types": "^3.8.1",
+    "@docusaurus/module-type-aliases": "^3.9.2",
+    "@docusaurus/tsconfig": "^3.9.2",
+    "@docusaurus/types": "^3.9.2",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -113,6 +113,9 @@
     "typescript": "^5.8.3",
     "vitest": "^3.2.4",
     "yarn-upgrade-all": "^0.7.5"
+  },
+  "resolutions": {
+    "sharp": "^0.34.4"
   },
   "browserslist": {
     "production": [
