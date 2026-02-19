@@ -26,8 +26,27 @@
       "Bash(true)",
       "WebFetch(domain:docusaurus.io)",
       "Bash(fd:*)",
-      "Bash(npx vitest run:*)"
+      "Bash(npx vitest run:*)",
+      "Bash(git checkout:*)",
+      "Bash(curl.exe:*)",
+      "Bash(netstat:*)",
+      "Bash(ss -tlnp:*)",
+      "Bash(netstat.exe:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nchore\\(deps\\): upgrade docusaurus to 3.9.2 and fix sharp conflict\n\nUpgrade all @docusaurus/* packages from 3.8.1 to 3.9.2.\nAdd sharp resolution to prevent dual libvips native binaries\n\\(0.32.6 from @docusaurus/lqip-loader + 0.34.4 top-level\\) from\nloading in the same process, which caused segfaults on Windows.\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(git config:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git commit:*)",
+      "Bash(gh pr diff:*)",
+      "WebFetch(domain:registry.npmjs.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:dwf.dev)",
+      "Bash(openspec --version:*)"
     ],
-    "deny": ["Bash(cd:*)"]
-  }
+    "deny": []
+  },
+  "disabledMcpjsonServers": ["github"]
 }
