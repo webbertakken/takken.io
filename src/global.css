@@ -1,6 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
-@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
 
 /* Base theme */
 @theme {
@@ -196,7 +196,7 @@ body {
 
 /* fix layout shift when navigating (scrollbar appearing / disappearing */
 @media (width > 768px) {
-  .main-wrapper:not(.docsWrapper*) {
+  .main-wrapper:not([class*="docsWrapper"]) {
     padding-left: calc(100vw - 100%);
   }
 }
