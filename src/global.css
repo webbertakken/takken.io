@@ -2,6 +2,12 @@
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
 
+/* Exclude root-level markdown files from Tailwind content scanning.
+   Files like ALL_PROMPTS.md contain UUIDs with hex-like substrings (e.g. 2e33f8)
+   that Tailwind v4's Oxide scanner misinterprets as colour values, causing
+   "RangeError: Invalid code point" crashes. */
+@source not "../../*.md";
+
 /* Base theme */
 @theme {
   --font-base:

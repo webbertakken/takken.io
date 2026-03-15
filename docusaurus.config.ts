@@ -14,7 +14,6 @@ export default {
   url: 'https://takken.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   favicon: 'images/icons/favicon.ico',
 
   // GitHub pages deployment config.
@@ -32,6 +31,9 @@ export default {
 
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
