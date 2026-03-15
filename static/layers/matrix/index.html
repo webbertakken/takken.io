@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matrix rain</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100vw; height: 100vh; overflow: hidden; background: #000; }
+    canvas { display: block; }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .modal-panel {
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.92);
+      border-radius: 8px;
+      padding: 28px 32px;
+      min-width: 320px;
+      max-width: 400px;
+      font-family: "Courier New", Courier, monospace;
+      color: #ccc;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .field .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .field input[type="color"] {
+      width: 48px; height: 32px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .field input[type="range"] {
+      flex: 1;
+    }
+
+    .field .value {
+      min-width: 36px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .apply-btn {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      padding: 10px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ccc;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <div class="modal-overlay" id="modal" style="display:none;">
+    <div class="modal-panel" id="modal-panel">
+      <h2 class="modal-title" id="modal-title">Configuration</h2>
+
+      <div class="field">
+        <label>Symbol colour</label>
+        <div class="row">
+          <input type="color" id="cfg-color" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Background colour</label>
+        <div class="row">
+          <input type="color" id="cfg-bg" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Speed</label>
+        <div class="row">
+          <input type="range" id="cfg-speed" min="0.1" max="5.0" step="0.1" />
+          <span class="value" id="cfg-speed-value"></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Scale</label>
+        <div class="row">
+          <input type="range" id="cfg-scale" min="0.5" max="3.0" step="0.1" />
+          <span class="value" id="cfg-scale-value"></span>
+        </div>
+      </div>
+
+      <button class="apply-btn" id="apply-btn">Apply</button>
+    </div>
+  </div>
+
+  <script>
+    /* ── Symbols ── */
+    const SYMBOLS = (() => {
+      const chars = [];
+      for (let i = 0x30A0; i <= 0x30FF; i++) chars.push(String.fromCharCode(i));
+      for (const ch of "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") chars.push(ch);
+      return chars;
+    })();
+    function randomSymbol() {
+      return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    }
+
+    /* ── Colour helpers ── */
+    function hexToRgb(hex) {
+      const v = parseInt(hex, 16);
+      return { r: (v >> 16) & 0xFF, g: (v >> 8) & 0xFF, b: v & 0xFF };
+    }
+    function rgbToHex(c) {
+      return ((1 << 24) | (c.r << 16) | (c.g << 8) | c.b).toString(16).slice(1).toUpperCase();
+    }
+    function clamp(val, lo, hi) {
+      return Math.max(lo, Math.min(hi, val));
+    }
+
+    /* ── Defaults ── */
+    const DEFAULTS = { color: "FF1776", bg: "000000", speed: 0.1, scale: 2.5 };
+    const BASE_FONT_SIZE = 16;
+    const TRAIL_BASE = 25;
+
+    /* ── Config ── */
+    const config = {
+      color: hexToRgb(DEFAULTS.color),
+      bg: hexToRgb(DEFAULTS.bg),
+      speed: DEFAULTS.speed,
+      scale: DEFAULTS.scale,
+    };
+
+    function getFontSize() {
+      return Math.round(config.scale * 1.5 * BASE_FONT_SIZE);
+    }
+    function getInternalSpeed() {
+      return config.speed * 0.15;
+    }
+
+    /* ── Hash parsing ── */
+    function parseHash() {
+      const hash = window.location.hash.replace(/^#/, "");
+      if (!hash) return null;
+      const params = {};
+      hash.split(",").forEach(function (pair) {
+        const parts = pair.split("=");
+        if (parts.length === 2) params[parts[0].trim()] = parts[1].trim();
+      });
+      return params;
+    }
+
+    function configFromHash() {
+      const params = parseHash();
+      if (!params) return null;
+      return {
+        color: params.color ? hexToRgb(params.color) : hexToRgb(DEFAULTS.color),
+        bg: params.bg ? hexToRgb(params.bg) : hexToRgb(DEFAULTS.bg),
+        speed: params.speed !== undefined ? clamp(parseFloat(params.speed) || 1.0, 0.1, 5.0) : DEFAULTS.speed,
+        scale: params.scale !== undefined ? clamp(parseFloat(params.scale) || 1.0, 0.5, 3.0) : DEFAULTS.scale,
+      };
+    }
+
+    /* ── Columns ── */
+    let columns = [];
+    let columnCount = 0;
+
+    function createColumn(x, fontSize, scatter, viewHeight) {
+      const trailLength = TRAIL_BASE + Math.floor(Math.random() * 10);
+      const chars = [];
+      for (let i = 0; i < trailLength; i++) chars.push(randomSymbol());
+      let head;
+      if (scatter) {
+        const maxRow = Math.ceil(viewHeight / fontSize) + trailLength;
+        head = Math.floor(Math.random() * (maxRow + trailLength)) - trailLength;
+      } else {
+        head = -(Math.random() * 80 + 5);
+      }
+      return { x: x, head: head, speed: 0.6 + Math.random() * 0.8, trailLength: trailLength, chars: chars, flickerTimer: 0 };
+    }
+
+    function initColumns(forceReinit) {
+      const fontSize = getFontSize();
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const newCount = Math.ceil(w / fontSize);
+      if (!forceReinit && newCount === columnCount && columns.length > 0) return;
+      const oldColumns = columns;
+      const newColumns = [];
+      for (let i = 0; i < newCount; i++) {
+        if (!forceReinit && i < oldColumns.length) {
+          oldColumns[i].x = i * fontSize;
+          newColumns.push(oldColumns[i]);
+        } else {
+          newColumns.push(createColumn(i * fontSize, fontSize, true, h));
+        }
+      }
+      columns = newColumns;
+      columnCount = newCount;
+    }
+
+    /* ── Canvas ── */
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      initColumns(false);
+    }
+
+    /* ── Drawing ── */
+    function draw(dt) {
+      const fontSize = getFontSize();
+      const internalSpeed = getInternalSpeed();
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const maxRow = Math.ceil(h / fontSize) + 2;
+      const c = config.color;
+      const bg = config.bg;
+
+      ctx.fillStyle = "rgb(" + bg.r + "," + bg.g + "," + bg.b + ")";
+      ctx.fillRect(0, 0, w, h);
+      ctx.font = fontSize + "px monospace";
+      ctx.textBaseline = "top";
+
+      for (let i = 0; i < columns.length; i++) {
+        const col = columns[i];
+        col.head += col.speed * internalSpeed * dt;
+        col.flickerTimer += dt;
+        if (col.flickerTimer > 80) {
+          col.flickerTimer = 0;
+          const idx = Math.floor(Math.random() * col.trailLength);
+          col.chars[idx] = randomSymbol();
+        }
+        const headRow = Math.floor(col.head);
+        for (let j = 0; j < col.trailLength; j++) {
+          const row = headRow - j;
+          if (row < 0 || row > maxRow) continue;
+          const y = row * fontSize;
+          const charIndex = ((row % col.trailLength) + col.trailLength) % col.trailLength;
+          const ch = col.chars[charIndex];
+          if (j === 0) {
+            const hr = Math.min(255, c.r + Math.floor((255 - c.r) * 0.85));
+            const hg = Math.min(255, c.g + Math.floor((255 - c.g) * 0.85));
+            const hb = Math.min(255, c.b + Math.floor((255 - c.b) * 0.85));
+            ctx.fillStyle = "rgb(" + hr + "," + hg + "," + hb + ")";
+            ctx.fillText(ch, col.x, y);
+          } else {
+            var alpha;
+            if (j <= 3) {
+              alpha = 1.0;
+            } else {
+              alpha = 1.0 - ((j - 3) / (col.trailLength - 3));
+              alpha = alpha * alpha;
+              alpha = Math.max(alpha, 0.03);
+            }
+            ctx.fillStyle = "rgba(" + c.r + "," + c.g + "," + c.b + "," + alpha.toFixed(3) + ")";
+            ctx.fillText(ch, col.x, y);
+          }
+        }
+        if ((headRow - col.trailLength) * fontSize > h) {
+          columns[i] = createColumn(col.x, fontSize, false, h);
+        }
+      }
+    }
+
+    /* ── Animation loop ── */
+    let lastTime = 0;
+    function animate(now) {
+      if (!lastTime) lastTime = now;
+      const dt = Math.min(now - lastTime, 50);
+      lastTime = now;
+      draw(dt);
+      requestAnimationFrame(animate);
+    }
+
+    /* ── Modal ── */
+    const modal = document.getElementById("modal");
+    const modalPanel = document.getElementById("modal-panel");
+    const modalTitle = document.getElementById("modal-title");
+    const cfgColor = document.getElementById("cfg-color");
+    const cfgBg = document.getElementById("cfg-bg");
+    const cfgSpeed = document.getElementById("cfg-speed");
+    const cfgSpeedValue = document.getElementById("cfg-speed-value");
+    const cfgScale = document.getElementById("cfg-scale");
+    const cfgScaleValue = document.getElementById("cfg-scale-value");
+    const applyBtn = document.getElementById("apply-btn");
+
+    function updateGlow() {
+      const glowColor = "#" + rgbToHex(config.color);
+      modalPanel.style.border = "1px solid " + glowColor;
+      modalPanel.style.boxShadow = "0 0 20px " + glowColor + ", 0 0 60px " + glowColor;
+      modalTitle.style.color = glowColor;
+      applyBtn.style.borderColor = glowColor;
+      cfgSpeed.style.accentColor = glowColor;
+      cfgScale.style.accentColor = glowColor;
+    }
+
+    function showModal() {
+      cfgColor.value = "#" + rgbToHex(config.color);
+      cfgBg.value = "#" + rgbToHex(config.bg);
+      cfgSpeed.value = config.speed;
+      cfgSpeedValue.textContent = config.speed.toFixed(1);
+      cfgScale.value = config.scale;
+      cfgScaleValue.textContent = config.scale.toFixed(1);
+      updateGlow();
+      modal.style.display = "flex";
+    }
+
+    cfgColor.addEventListener("input", function () {
+      config.color = hexToRgb(this.value.replace("#", ""));
+      updateGlow();
+    });
+
+    cfgBg.addEventListener("input", function () {
+      config.bg = hexToRgb(this.value.replace("#", ""));
+    });
+
+    cfgSpeed.addEventListener("input", function () {
+      const val = clamp(parseFloat(this.value), 0.1, 5.0);
+      config.speed = val;
+      cfgSpeedValue.textContent = val.toFixed(1);
+    });
+
+    cfgScale.addEventListener("input", function () {
+      const val = clamp(parseFloat(this.value), 0.5, 3.0);
+      config.scale = val;
+      cfgScaleValue.textContent = val.toFixed(1);
+      columns = [];
+      columnCount = 0;
+      resizeCanvas();
+    });
+
+    applyBtn.addEventListener("click", function () {
+      var hash = "color=" + rgbToHex(config.color)
+        + ",bg=" + rgbToHex(config.bg)
+        + ",speed=" + config.speed.toFixed(1)
+        + ",scale=" + config.scale.toFixed(1);
+      window.location.hash = hash;
+      modal.style.display = "none";
+    });
+
+    /* ── Init ── */
+    (function init() {
+      const hashCfg = configFromHash();
+      if (hashCfg) {
+        config.color = hashCfg.color;
+        config.bg = hashCfg.bg;
+        config.speed = hashCfg.speed;
+        config.scale = hashCfg.scale;
+      } else if (!window.location.hash || window.location.hash === "#") {
+        showModal();
+      }
+      resizeCanvas();
+      lastTime = 0;
+      requestAnimationFrame(animate);
+
+      window.addEventListener("resize", resizeCanvas);
+
+      window.addEventListener("hashchange", function () {
+        const prevScale = config.scale;
+        const hashCfg = configFromHash();
+        if (hashCfg) {
+          config.color = hashCfg.color;
+          config.bg = hashCfg.bg;
+          config.speed = hashCfg.speed;
+          config.scale = hashCfg.scale;
+          if (hashCfg.scale !== prevScale) {
+            columns = [];
+            columnCount = 0;
+            resizeCanvas();
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

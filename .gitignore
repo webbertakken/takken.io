@@ -51,6 +51,10 @@ yarn-error.log*
 # local env files
 .env
 
+# Crosslink (multi-agent collaboration)
+.crosslink/
+ALL_PROMPTS.md
+
 # vercel
 .vercel
 
