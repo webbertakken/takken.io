@@ -1,7 +1,7 @@
 import React, { CSSProperties, Fragment, useMemo, useState } from 'react'
 import Editor from 'react-simple-code-editor'
 import { Highlight, themes, Language } from 'prism-react-renderer'
-import cx from 'classnames'
+import cx from 'clsx'
 import classes from './CodeBlockAndEditor.module.scss'
 import { isLanguageSupported } from './supportedLanguages'
 
@@ -32,12 +32,12 @@ const CodeEditor = ({
     return defaultLanguage
   }, [language])
 
-  const onChangeHandler = (value) => {
+  const onChangeHandler = (value: string) => {
     setValue(value)
     onChange?.(value)
   }
 
-  const highlight = (code) => (
+  const highlight = (code: string) => (
     <Highlight theme={themes.dracula} code={code} language={usedLanguage}>
       {({ tokens, getLineProps, getTokenProps }) => (
         <Fragment>

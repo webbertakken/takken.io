@@ -3,7 +3,7 @@ import Heading from '@site/src/components/common/heading'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
 import ToolPage from '@theme/ToolPage/ToolPage'
-import cx from 'classnames'
+import cx from 'clsx'
 
 const exampleCopy = `\n\nWinter\n\nWarm tones\n\nTop\n\nSunset\n\nPôr-do-sol\n\n`
 
@@ -30,7 +30,7 @@ const PullRequestsToReleaseText = () => {
         : new RegExp(splitRegex, 'g')
 
       setIsRegexValid(true)
-      setMatchCount(input.match(regex).length)
+      setMatchCount(input.match(regex)?.length ?? 0)
 
       let newResult = input.replace(regex, separator)
       if (trimLeading) {

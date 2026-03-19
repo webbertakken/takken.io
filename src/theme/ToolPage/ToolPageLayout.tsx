@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import cx from 'classnames'
+import cx from 'clsx'
 import Layout from '@theme/Layout'
 
 interface Props {

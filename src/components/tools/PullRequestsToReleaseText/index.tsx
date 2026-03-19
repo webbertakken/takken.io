@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Heading from '@site/src/components/common/heading'
-import { useCookie } from '@site/src/core/hooks/useCookie'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
 import ToolPage from '@theme/ToolPage/ToolPage'
-import cx from 'classnames'
+import cx from 'clsx'
 import { toolStyles } from '../toolStyles'
 
 const exampleCopy = `Run license activation in an empty directory
@@ -29,11 +28,10 @@ Create versioning.yml
 `
 
 const PullRequestsToReleaseText = () => {
-  const cookie = useCookie('release-text-generator-excluded-contributors', { expires: 10 * 365 })
   const [result, setResult] = useState<string>('')
-  const [excludedContributors] = useState<string[]>(cookie.getValue() || [])
+  const [excludedContributors] = useState<string[]>([])
 
-  const convert = (rawPullRequestsString) => {
+  const convert = (rawPullRequestsString: string) => {
     const matcher =
       /(?<title>.+)\n(?<number>#\d+) by (?<contributor>[\w-]+)(?:\sbot)? was (?<action>closed|merged) (?<when>yesterday|(?:.* ago)|(?:on\s\w+\s\d+))/g
     const grouper =
@@ -41,12 +39,14 @@ const PullRequestsToReleaseText = () => {
     const matches = rawPullRequestsString.match(matcher)
     if (!matches) return setResult('')
 
-    const changes = []
-    const fixes = []
-    const updates = []
-    const credits = []
+    const changes: string[] = []
+    const fixes: string[] = []
+    const updates: string[] = []
+    const credits: string[] = []
     for (const pullRequest of matches) {
-      const { title, number, contributor, action } = pullRequest.match(grouper).groups
+      const groups = pullRequest.match(grouper)?.groups
+      if (!groups) continue
+      const { title, number, contributor, action } = groups
 
       if (!title || action === 'closed') continue
 
