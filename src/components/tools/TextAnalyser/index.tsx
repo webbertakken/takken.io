@@ -5,7 +5,7 @@ import { Base64 } from '@site/src/core/utils/base64'
 import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
 import CodeBlock from '@site/src/components/common/CodeBlock'
-import cx from 'classnames'
+import cx from 'clsx'
 import ToolPage from '@theme/ToolPage/ToolPage'
 import { toolStyles } from '../toolStyles'
 
@@ -33,7 +33,7 @@ const TextAnalyser = (): JSX.Element => {
   const analyse = (subject: string) => {
     // Lines
     const lineMatches = subject.match(/\n/g)
-    setLineCount(lineMatches?.length + 1 || 1)
+    setLineCount((lineMatches?.length ?? 0) + 1)
 
     // Characters
     setCharacterCount(subject.length)

@@ -21,29 +21,29 @@ import {
 import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
 
 export class SsiDive {
-  dive: null
-  noid: null
-  dive_type: SsiDiveType
-  divetime: DiveTimeInMinutes
-  datetime: number // 202310071315
-  depth_m: DepthInMeters
-  site: SsiDiveSite
-  var_weather_id: SsiWeather
-  var_entry_id: SsiEntry
-  var_water_body_id: SsiBodyOfWater
-  var_watertype_id: SsiWaterType
-  var_current_id: SsiCurrent
-  var_surface_id: SsiSurface
-  var_divetype_id: SsiDiveSubType // FunDive
+  dive: null = null
+  noid: null = null
+  dive_type!: SsiDiveType
+  divetime!: DiveTimeInMinutes
+  datetime!: number // 202310071315
+  depth_m!: DepthInMeters
+  site!: SsiDiveSite
+  var_weather_id!: SsiWeather
+  var_entry_id!: SsiEntry
+  var_water_body_id!: SsiBodyOfWater
+  var_watertype_id!: SsiWaterType
+  var_current_id!: SsiCurrent
+  var_surface_id!: SsiSurface
+  var_divetype_id!: SsiDiveSubType // FunDive
   user_master_id?: number // 3554831
   user_firstname?: string
   user_lastname?: string
-  user_leader_id: number // Todo - confirm
-  watertemp_c: MinWaterTempCelcius
-  airtemp_c: AirTempCelcius
-  vis_m: VisibilityInMeters
-  watertemp_max_c: MaxWaterTempCelcius
-  deco: SsiDecompression
+  user_leader_id!: number // Todo - confirm
+  watertemp_c!: MinWaterTempCelcius
+  airtemp_c!: AirTempCelcius
+  vis_m!: VisibilityInMeters
+  watertemp_max_c!: MaxWaterTempCelcius
+  deco!: SsiDecompression
 
   static fromGarmin = (garmin: GarminDive): Partial<SsiDive> => {
     return {

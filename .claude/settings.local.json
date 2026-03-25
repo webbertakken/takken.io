@@ -44,9 +44,15 @@
       "WebFetch(domain:registry.npmjs.org)",
       "WebFetch(domain:www.npmjs.com)",
       "WebFetch(domain:dwf.dev)",
-      "Bash(openspec --version:*)"
+      "Bash(openspec --version:*)",
+      "Bash(yarn install:*)",
+      "Bash(git add:*)",
+      "Bash(git rebase:*)",
+      "Bash(GIT_EDITOR=true git rebase --continue)"
     ],
     "deny": []
   },
-  "disabledMcpjsonServers": ["github"]
+  "disabledMcpjsonServers": [
+    "github"
+  ]
 }

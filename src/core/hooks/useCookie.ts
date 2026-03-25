@@ -1,16 +1,17 @@
-import api from 'js-cookie'
+import api, { CookieAttributes } from 'js-cookie'
 
-const defaultOptions = {
+const defaultOptions: CookieAttributes = {
   path: '/',
   secure: true,
 }
 
-export function useCookie(name, options = {}) {
+export function useCookie(name: string, options: CookieAttributes = {}) {
   const defaults = { ...defaultOptions, ...options }
 
   return {
     getValue: () => api.get(name),
-    setValue: (value, optionOverrides) => api.set(name, value, { ...defaults, ...optionOverrides }),
+    setValue: (value: string, optionOverrides?: CookieAttributes) =>
+      api.set(name, value, { ...defaults, ...optionOverrides }),
     remove: () => api.remove(name),
   }
 }

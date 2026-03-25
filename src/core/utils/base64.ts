@@ -7,7 +7,7 @@ export const Base64 = {
   _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
   // public method for encoding
-  encode: function (input) {
+  encode: function (input: string): string {
     let output = ''
     let chr1, chr2, chr3, enc1, enc2, enc3, enc4
     let i = 0
@@ -41,7 +41,7 @@ export const Base64 = {
   },
 
   // public method for decoding
-  decode: function (input) {
+  decode: function (input: string): string {
     let output = ''
     let chr1, chr2, chr3
     let enc1, enc2, enc3, enc4
@@ -61,10 +61,10 @@ export const Base64 = {
 
       output = output + String.fromCharCode(chr1)
 
-      if (enc3 != 64) {
+      if (enc3 !== 64) {
         output = output + String.fromCharCode(chr2)
       }
-      if (enc4 != 64) {
+      if (enc4 !== 64) {
         output = output + String.fromCharCode(chr3)
       }
     }
@@ -75,7 +75,7 @@ export const Base64 = {
   },
 
   // private method for UTF-8 encoding
-  _utf8_encode: function (string) {
+  _utf8_encode: function (string: string): string {
     let utfText = ''
 
     for (let n = 0; n < string.length; n++) {
@@ -96,7 +96,7 @@ export const Base64 = {
   },
 
   // private method for UTF-8 decoding
-  _utf8_decode: function (utfText) {
+  _utf8_decode: function (utfText: string): string {
     let string = ''
     let i = 0
     let c = 0
