@@ -6,8 +6,8 @@
     "baseUrl": ".",
     "jsx": "react-jsx",
     "target": "ES2020",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "cypress", "dist", "build", ".yarn"]

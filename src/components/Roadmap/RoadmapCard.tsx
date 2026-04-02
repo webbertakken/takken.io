@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 import type { TrackColour, Video } from './types'
 
@@ -19,16 +19,22 @@ const gradientClasses: Record<TrackColour, string> = {
 interface RoadmapCardProps {
   video: Video
   colour: TrackColour
+  isWatched: boolean
+  onToggleWatched: () => void
 }
 
-const RoadmapCard = ({ video, colour }: RoadmapCardProps): React.ReactElement => {
-  const { title, label, thumbnailUrl, youtubeUrl, watched: initialWatched } = video
-  const [isWatched, setIsWatched] = useState(initialWatched)
+const RoadmapCard = ({
+  video,
+  colour,
+  isWatched,
+  onToggleWatched,
+}: RoadmapCardProps): React.ReactElement => {
+  const { title, label, thumbnailUrl, youtubeUrl } = video
 
   const handleToggleWatched = (e: React.MouseEvent): void => {
     e.stopPropagation()
     e.preventDefault()
-    setIsWatched((prev) => !prev)
+    onToggleWatched()
   }
 
   const card = (

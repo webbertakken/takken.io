@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '@theme/Layout'
+import clsx from 'clsx'
+import toast from 'react-hot-toast'
 import RoadmapTrack from '@site/src/components/Roadmap/RoadmapTrack'
 import RoadmapConnections from '@site/src/components/Roadmap/RoadmapConnections'
+import { useWatchedVideos } from '@site/src/hooks/useWatchedVideos'
+import { useAuth } from '@site/src/contexts/AuthContext'
 import type { Track } from '@site/src/components/Roadmap/types'
 
 const tracks: Track[] = [
@@ -52,7 +56,126 @@ const tracks: Track[] = [
   },
 ]
 
+type Topic = 'human' | 'developer'
+
+const SubscribeBar = (): React.ReactElement => {
+  const { user } = useAuth()
+  const [email, setEmail] = useState(user?.email ?? '')
+  const [topics, setTopics] = useState<Set<Topic>>(new Set(['human', 'developer']))
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  // Sync email when user signs in
+  React.useEffect(() => {
+    if (user?.email) {
+      setEmail(user.email)
+    }
+  }, [user?.email])
+
+  const toggleTopic = (topic: Topic): void => {
+    setTopics((prev) => {
+      const next = new Set(prev)
+      if (next.has(topic)) {
+        next.delete(topic)
+      } else {
+        next.add(topic)
+      }
+      return next
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault()
+    if (!email.trim() || topics.size === 0) return
+
+    setSubmitting(true)
+    try {
+      const { getFirebaseFirestore } = await import('../../core/firebase')
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
+
+      const db = getFirebaseFirestore()
+      await addDoc(collection(db, 'subscribers'), {
+        email: email.trim(),
+        topics: [...topics],
+        subscribedAt: serverTimestamp(),
+      })
+      setSubmitted(true)
+      toast.success('Subscribed successfully!')
+    } catch (error) {
+      console.error('Failed to subscribe:', error)
+      toast.error('Failed to subscribe. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div className="mb-12 rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
+        You are subscribed! We will keep you posted.
+      </div>
+    )
+  }
+
+  return (
+    <form
+      onSubmit={(e) => void handleSubmit(e)}
+      className="mb-12 flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900 sm:flex-row"
+    >
+      <span className="shrink-0 text-sm font-medium text-gray-700 dark:text-gray-300">
+        Subscribe for updates
+      </span>
+
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => toggleTopic('human')}
+          className={clsx(
+            'rounded-full px-3 py-1 text-xs font-semibold transition-colors',
+            topics.has('human')
+              ? 'bg-track-human text-white'
+              : 'border border-track-human text-track-human',
+          )}
+        >
+          Human
+        </button>
+        <button
+          type="button"
+          onClick={() => toggleTopic('developer')}
+          className={clsx(
+            'rounded-full px-3 py-1 text-xs font-semibold transition-colors',
+            topics.has('developer')
+              ? 'bg-track-developer text-white'
+              : 'border border-track-developer text-track-developer',
+          )}
+        >
+          Developer
+        </button>
+      </div>
+
+      <input
+        type="email"
+        required
+        placeholder="your@email.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 placeholder-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+      />
+
+      <button
+        type="submit"
+        disabled={submitting || topics.size === 0}
+        className="shrink-0 rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-gray-700 disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
+      >
+        {submitting ? 'Subscribing...' : 'Subscribe'}
+      </button>
+    </form>
+  )
+}
+
 const Courses = (): React.ReactElement => {
+  const { watchedIds, toggleWatched } = useWatchedVideos()
+
   return (
     <Layout title="Courses" description="AI courses with guided learning tracks">
       <div className="min-h-screen p-8 md:p-16">
@@ -64,12 +187,19 @@ const Courses = (): React.ReactElement => {
             </p>
           </header>
 
+          <SubscribeBar />
+
           <div className="relative">
             <RoadmapConnections />
 
             <div className="grid grid-cols-1 gap-12 md:grid-cols-3 lg:gap-24">
               {tracks.map((track) => (
-                <RoadmapTrack key={track.id} track={track} />
+                <RoadmapTrack
+                  key={track.id}
+                  track={track}
+                  watchedIds={watchedIds}
+                  onToggleWatched={toggleWatched}
+                />
               ))}
             </div>
           </div>

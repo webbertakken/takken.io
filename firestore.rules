@@ -1,0 +1,19 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Subscribers: anyone can subscribe with a valid email
+    match /subscribers/{doc} {
+      allow create: if request.resource.data.email is string
+                    && request.resource.data.topics is list
+                    && request.resource.data.topics.size() > 0;
+    }
+
+    // User progress: authenticated users can only access their own data
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+  }
+}

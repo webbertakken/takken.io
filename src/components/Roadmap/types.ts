@@ -4,7 +4,6 @@ export interface Video {
   label: string
   thumbnailUrl?: string
   youtubeUrl?: string
-  watched?: boolean
 }
 
 export type TrackColour = 'human' | 'developer' | 'deep-dive'

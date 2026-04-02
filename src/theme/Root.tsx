@@ -1,6 +1,7 @@
 import React, { StrictMode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import FrameLayout from '@site/src/components/layout/FrameLayout'
+import { AuthProvider } from '@site/src/contexts/AuthContext'
 
 interface RootProps {
   children: React.ReactNode
@@ -9,8 +10,10 @@ interface RootProps {
 const Root: React.FC<RootProps> = ({ children }) => {
   return (
     <StrictMode>
-      <Toaster />
-      <FrameLayout>{children}</FrameLayout>
+      <AuthProvider>
+        <Toaster />
+        <FrameLayout>{children}</FrameLayout>
+      </AuthProvider>
     </StrictMode>
   )
 }

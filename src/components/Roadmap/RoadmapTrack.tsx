@@ -23,9 +23,15 @@ const textColourClasses: Record<string, string> = {
 
 interface RoadmapTrackProps {
   track: Track
+  watchedIds: Set<string>
+  onToggleWatched: (videoId: string) => void
 }
 
-const RoadmapTrack = ({ track }: RoadmapTrackProps): React.ReactElement => {
+const RoadmapTrack = ({
+  track,
+  watchedIds,
+  onToggleWatched,
+}: RoadmapTrackProps): React.ReactElement => {
   const { title, colour, videos } = track
 
   return (
@@ -42,7 +48,13 @@ const RoadmapTrack = ({ track }: RoadmapTrackProps): React.ReactElement => {
 
       <div className="flex flex-col gap-4">
         {videos.map((video) => (
-          <RoadmapCard key={video.id} video={video} colour={colour} />
+          <RoadmapCard
+            key={video.id}
+            video={video}
+            colour={colour}
+            isWatched={watchedIds.has(video.id)}
+            onToggleWatched={() => onToggleWatched(video.id)}
+          />
         ))}
       </div>
     </div>

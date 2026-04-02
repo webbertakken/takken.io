@@ -1,4 +1,6 @@
-import api, { CookieAttributes } from 'js-cookie'
+import Cookies from 'js-cookie'
+
+type CookieAttributes = Parameters<typeof Cookies.set>[2]
 
 const defaultOptions: CookieAttributes = {
   path: '/',
@@ -9,9 +11,9 @@ export function useCookie(name: string, options: CookieAttributes = {}) {
   const defaults = { ...defaultOptions, ...options }
 
   return {
-    getValue: () => api.get(name),
+    getValue: () => Cookies.get(name),
     setValue: (value: string, optionOverrides?: CookieAttributes) =>
-      api.set(name, value, { ...defaults, ...optionOverrides }),
-    remove: () => api.remove(name),
+      Cookies.set(name, value, { ...defaults, ...optionOverrides }),
+    remove: () => Cookies.remove(name),
   }
 }
