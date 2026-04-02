@@ -194,6 +194,10 @@
   );
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;

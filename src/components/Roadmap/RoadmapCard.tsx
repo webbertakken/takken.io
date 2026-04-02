@@ -238,6 +238,7 @@ const RoadmapCard = ({
         <VideoViewer
           videoId={viewer.videoId}
           sourceRect={viewer.sourceRect}
+          getSourceRect={() => cardRef.current?.getBoundingClientRect() ?? null}
           onClose={() => setViewer(null)}
           onVideoEnd={() => {
             if (!isWatched) onToggleWatched()

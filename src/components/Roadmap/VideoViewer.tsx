@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 interface VideoViewerProps {
   videoId: string
   sourceRect: DOMRect
+  getSourceRect?: () => DOMRect | null
   onClose: () => void
   onVideoEnd?: () => void
 }
@@ -58,20 +59,25 @@ const loadYTApi = (): Promise<void> => {
 }
 
 const computeFinalRect = (): { width: number; height: number; top: number; left: number } => {
-  const vw = window.innerWidth
-  const vh = window.innerHeight
-  const maxWidth = vw * 0.9
-  const maxHeight = vh * 0.9
+  const vp = window.visualViewport
+  const vw = vp?.width ?? window.innerWidth
+  const vh = vp?.height ?? window.innerHeight
+  const offsetTop = vp?.offsetTop ?? 0
+  const offsetLeft = vp?.offsetLeft ?? 0
+  const padding = 16
+  const maxWidth = vw - padding * 2
+  const maxHeight = vh - padding * 2
   const width = Math.min(maxWidth, maxHeight * (16 / 9))
   const height = width * (9 / 16)
-  const top = (vh - height) / 2
-  const left = (vw - width) / 2
+  const top = offsetTop + (vh - height) / 2
+  const left = offsetLeft + (vw - width) / 2
   return { width, height, top, left }
 }
 
 const VideoViewer = ({
   videoId,
   sourceRect,
+  getSourceRect,
   onClose,
   onVideoEnd,
 }: VideoViewerProps): React.ReactElement => {
@@ -149,20 +155,22 @@ const VideoViewer = ({
     const playerEl = document.getElementById('yt-player')
     if (playerEl) playerEl.style.display = 'none'
 
+    const currentRect = getSourceRect?.() ?? sourceRect
+
     backdropApi.start({ to: { opacity: 0 } })
     api.start({
       to: {
-        top: sourceRect.top,
-        left: sourceRect.left,
-        width: sourceRect.width,
-        height: sourceRect.height,
+        top: currentRect.top,
+        left: currentRect.left,
+        width: currentRect.width,
+        height: currentRect.height,
         borderRadius: 12,
       },
       onRest: () => {
         onClose()
       },
     })
-  }, [api, backdropApi, sourceRect, onClose])
+  }, [api, backdropApi, sourceRect, getSourceRect, onClose])
   handleCloseRef.current = handleClose
 
   useEffect(() => {
@@ -174,6 +182,31 @@ const VideoViewer = ({
     window.addEventListener('keydown', handleKeyDown, true)
     return () => window.removeEventListener('keydown', handleKeyDown, true)
   }, [handleClose])
+
+  // Rescale on window resize
+  useEffect(() => {
+    const handleResize = (): void => {
+      if (closingRef.current) return
+      const newRect = computeFinalRect()
+      api.start({
+        to: {
+          top: newRect.top,
+          left: newRect.left,
+          width: newRect.width,
+          height: newRect.height,
+        },
+        config: { tension: 300, friction: 26 },
+      })
+    }
+    window.addEventListener('resize', handleResize)
+    window.visualViewport?.addEventListener('resize', handleResize)
+    window.addEventListener('orientationchange', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.visualViewport?.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
+    }
+  }, [api])
 
   // Periodically steal focus from iframe so Escape works
   useEffect(() => {
