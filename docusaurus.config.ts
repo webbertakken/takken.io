@@ -50,13 +50,14 @@ export default {
         verbose: true,
       },
     ],
-    [
-      'docusaurus-gtm-plugin',
-      {
-        id: 'GTM-T4M9CW8',
-        enabled: true,
-      },
-    ],
+    // GTM is loaded conditionally via CookieConsent component for GDPR compliance
+    // [
+    //   'docusaurus-gtm-plugin',
+    //   {
+    //     id: 'GTM-T4M9CW8',
+    //     enabled: true,
+    //   },
+    // ],
     [
       '@docusaurus/plugin-ideal-image',
       {
@@ -271,14 +272,19 @@ export default {
               label: 'Mindset',
               to: '/mindset',
             },
-            {
-              label: 'Privacy',
-              to: '/privacy',
-            },
             // {
             //   label: 'Approach',
             //   to: '/approach',
             // },
+          ],
+        },
+        {
+          title: 'Legal',
+          items: [
+            {
+              label: 'Privacy',
+              to: '/privacy',
+            },
           ],
         },
         {

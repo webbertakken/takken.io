@@ -39,7 +39,8 @@ const Privacy = (): React.ReactElement => {
                 <li>
                   <strong>Analytics</strong> &mdash; We use Google Tag Manager and Firebase
                   Analytics to understand how the site is used. This includes pages visited, time on
-                  site, and general device/browser info.
+                  site, and general device/browser info. We do not track any personally identifiable
+                  information (PII) through analytics. Analytics only load after you accept cookies.
                 </li>
                 <li>
                   <strong>Search</strong> &mdash; We use Algolia for site search. Search queries are
