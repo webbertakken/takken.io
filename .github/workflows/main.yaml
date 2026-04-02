@@ -55,16 +55,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install package manager (from package.json)
+        run: |
+          corepack enable
+          corepack install
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version-file: package.json
+          cache: 'yarn'
 
       - name: Install function dependencies
-        run: npm ci --prefix functions
+        run: yarn --cwd functions install --frozen-lockfile --immutable
 
       - name: Build functions
-        run: npm run build --prefix functions
+        run: yarn --cwd functions build
 
       - name: Deploy Firestore rules and functions
         uses: w9jds/firebase-action@v14.3.0
