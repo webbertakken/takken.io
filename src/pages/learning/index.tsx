@@ -278,6 +278,7 @@ const Learning = (): React.ReactElement => {
                   watchedIds={user ? watchedIds : new Set<string>()}
                   onToggleWatched={user ? toggleWatched : () => {}}
                   onVideoEnd={handleVideoEnd}
+                  trackingEnabled={!!user}
                   beforePlanned={undefined}
                 />
               ))}

@@ -27,6 +27,7 @@ interface RoadmapTrackProps {
   watchedIds: Set<string>
   onToggleWatched: (videoId: string) => void
   onVideoEnd: () => void
+  trackingEnabled: boolean
   beforePlanned?: React.ReactNode
 }
 
@@ -93,6 +94,7 @@ const RoadmapTrack = ({
   watchedIds,
   onToggleWatched,
   onVideoEnd,
+  trackingEnabled,
   beforePlanned,
 }: RoadmapTrackProps): React.ReactElement => {
   const { title, colour, videos } = track
@@ -119,6 +121,7 @@ const RoadmapTrack = ({
               colour={colour}
               isWatched={watchedIds.has(video.id)}
               onToggleWatched={() => onToggleWatched(video.id)}
+              trackingEnabled={trackingEnabled}
               onVideoEnd={onVideoEnd}
             />
           </React.Fragment>

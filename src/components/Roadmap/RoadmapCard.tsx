@@ -23,6 +23,7 @@ interface RoadmapCardProps {
   isWatched: boolean
   onToggleWatched: () => void
   onVideoEnd: () => void
+  trackingEnabled: boolean
 }
 
 const extractVideoId = (url: string): string | null => {
@@ -36,6 +37,7 @@ const RoadmapCard = ({
   isWatched,
   onToggleWatched,
   onVideoEnd,
+  trackingEnabled,
 }: RoadmapCardProps): React.ReactElement => {
   const { title, label, thumbnailUrl, youtubeUrl } = video
   const cardRef = useRef<HTMLDivElement>(null)
@@ -101,7 +103,7 @@ const RoadmapCard = ({
       )}
 
       {/* Unwatched: simple checkbox on hover */}
-      {!isWatched && (
+      {trackingEnabled && !isWatched && (
         <button
           type="button"
           onClick={handleToggleWatched}
@@ -110,7 +112,7 @@ const RoadmapCard = ({
         />
       )}
 
-      {isWatched && (
+      {trackingEnabled && isWatched && (
         <div
           className={clsx(
             'absolute inset-0 flex flex-col items-center justify-center',
