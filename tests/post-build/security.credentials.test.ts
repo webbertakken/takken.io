@@ -172,7 +172,8 @@ describe('Security Tests', () => {
               (
                 match.includes('process.env.NODE_ENV') || // Common safe usage
                 match.includes('process.env.PUBLIC_') || // Public env vars
-                match.includes('process.env.REACT_APP_')
+                match.includes('process.env.REACT_APP_') || // Create React App public vars
+                match.includes('process.env.__FIREBASE_DEFAULTS__')
               ) // Create React App public vars
             )
           })
