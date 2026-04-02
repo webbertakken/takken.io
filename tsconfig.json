@@ -10,5 +10,5 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["node_modules", "cypress", "dist", "build", ".yarn"]
+  "exclude": ["node_modules", "cypress", "dist", "build", ".yarn", "functions"]
 }
