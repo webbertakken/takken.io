@@ -24,6 +24,10 @@
   --color-pink-light: #fd0076;
   --color-pink-lighter: #ff0a7c;
   --color-pink-lightest: #ff2c8e;
+  --color-track-human: #3b82f6;
+  --color-track-developer: #a855f7;
+  --color-track-deep-dive: #f97316;
+  --color-track-success: #22c55e;
   --code-block-background: rgb(246 248 250, 100%);
   --code-block-highlighted-line-bg: rgb(0 0 0 / 10%);
   --background-color: rgb(255 255 255 / 100%);

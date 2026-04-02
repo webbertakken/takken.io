@@ -227,6 +227,7 @@ export default {
         { to: '/gists', label: 'Gists', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { to: '/mindset', label: 'Mindset', position: 'left' },
+        { to: '/courses', label: 'Courses', position: 'left' },
         // { to: '/approach', label: 'Approach', position: 'left' },
         {
           href: 'https://github.com/webbertakken/takken.io',
