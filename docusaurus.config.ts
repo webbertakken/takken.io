@@ -271,6 +271,10 @@ export default {
               label: 'Mindset',
               to: '/mindset',
             },
+            {
+              label: 'Privacy',
+              to: '/privacy',
+            },
             // {
             //   label: 'Approach',
             //   to: '/approach',

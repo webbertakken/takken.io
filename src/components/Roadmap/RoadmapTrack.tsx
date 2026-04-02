@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
+import toast from 'react-hot-toast'
 import type { Track } from './types'
 import RoadmapCard from './RoadmapCard'
 
@@ -27,6 +28,64 @@ interface RoadmapTrackProps {
   onToggleWatched: (videoId: string) => void
   onVideoEnd: () => void
   beforePlanned?: React.ReactNode
+}
+
+const bgClasses: Record<string, string> = {
+  human: 'bg-track-human',
+  developer: 'bg-track-developer',
+  'deep-dive': 'bg-track-deep-dive',
+}
+
+const SuggestTopic = ({ trackId }: { trackId: string }): React.ReactElement => {
+  const [value, setValue] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault()
+    if (!value.trim()) return
+
+    setSubmitting(true)
+    try {
+      const { getFirebaseFirestore } = await import('../../core/firebase')
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
+
+      const db = getFirebaseFirestore()
+      await addDoc(collection(db, 'suggestions'), {
+        track: trackId,
+        topic: value.trim(),
+        createdAt: serverTimestamp(),
+      })
+      setValue('')
+      toast.success('Thanks for the suggestion!')
+    } catch (error) {
+      console.error('Failed to submit suggestion:', error)
+      toast.error('Failed to submit. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <form onSubmit={(e) => void handleSubmit(e)} className="flex gap-2">
+      <input
+        type="text"
+        placeholder="Suggest a topic..."
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 placeholder-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+      />
+      <button
+        type="submit"
+        disabled={submitting || !value.trim()}
+        className={clsx(
+          'w-16 shrink-0 rounded-lg py-1.5 text-center text-sm font-medium text-white transition-colors disabled:opacity-50',
+          bgClasses[trackId],
+        )}
+      >
+        {submitting ? '...' : 'Send'}
+      </button>
+    </form>
+  )
 }
 
 const RoadmapTrack = ({
@@ -65,6 +124,8 @@ const RoadmapTrack = ({
           </React.Fragment>
         ))}
       </div>
+
+      <SuggestTopic trackId={colour} />
     </div>
   )
 }

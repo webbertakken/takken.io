@@ -63,3 +63,6 @@ generated-images
 test-output
 __pycache__
 static/assets/processed
+
+# Firebase Cloud Functions compiled output
+functions/lib/

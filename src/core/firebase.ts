@@ -11,7 +11,8 @@ let app: FirebaseApp | undefined
 let auth: Auth | undefined
 let db: Firestore | undefined
 
-function getApp(): FirebaseApp {
+/** Returns the Firebase app instance. Only call in the browser. */
+export function getFirebaseApp(): FirebaseApp {
   if (!app) {
     app = initializeApp(config.firebase)
   }
@@ -21,7 +22,7 @@ function getApp(): FirebaseApp {
 /** Returns the Firebase Auth instance. Only call in the browser. */
 export function getFirebaseAuth(): Auth {
   if (!auth) {
-    auth = getAuth(getApp())
+    auth = getAuth(getFirebaseApp())
   }
   return auth
 }
@@ -29,7 +30,7 @@ export function getFirebaseAuth(): Auth {
 /** Returns the Firestore instance. Only call in the browser. */
 export function getFirebaseFirestore(): Firestore {
   if (!db) {
-    db = getFirestore(getApp())
+    db = getFirestore(getFirebaseApp())
   }
   return db
 }

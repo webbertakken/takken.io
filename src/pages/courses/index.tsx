@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '@theme/Layout'
 import clsx from 'clsx'
 import toast from 'react-hot-toast'
@@ -99,14 +99,16 @@ const SubscribeBar = (): React.ReactElement => {
       const { getFirebaseFirestore } = await import('../../core/firebase')
       const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
 
+      const token = crypto.randomUUID()
       const db = getFirebaseFirestore()
-      await addDoc(collection(db, 'subscribers'), {
+      await addDoc(collection(db, 'pending_subscribers'), {
         email: email.trim(),
         topics: [...topics],
-        subscribedAt: serverTimestamp(),
+        token,
+        createdAt: serverTimestamp(),
       })
       setSubmitted(true)
-      toast.success('Subscribed successfully!')
+      toast.success('Check your inbox to confirm your subscription!')
     } catch (error) {
       console.error('Failed to subscribe:', error)
       toast.error('Failed to subscribe. Please try again.')
@@ -117,8 +119,8 @@ const SubscribeBar = (): React.ReactElement => {
 
   if (submitted) {
     return (
-      <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
-        You are subscribed! We will keep you posted.
+      <div className="mt-16 flex scroll-mt-24 items-center justify-center rounded-xl border border-green-200 bg-green-50 p-4 text-sm font-medium text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
+        Check your inbox and click the confirmation link to complete your subscription.
       </div>
     )
   }
@@ -184,17 +186,48 @@ const SubscribeBar = (): React.ReactElement => {
       <button
         type="submit"
         disabled={submitting || topics.size === 0}
-        className="shrink-0 rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-gray-700 disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
+        className="w-28 shrink-0 rounded-lg bg-gray-900 py-1.5 text-center text-sm font-medium text-white transition-colors hover:bg-gray-700 disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
       >
-        {submitting ? 'Subscribing...' : 'Subscribe'}
+        {submitting ? 'Sending...' : 'Subscribe'}
       </button>
     </form>
   )
 }
 
+/** Checks for a ?verify= token on page load and calls the verifySubscription Cloud Function. */
+const useVerifySubscription = (): void => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const token = params.get('verify')
+    if (!token) return
+
+    // Remove the param from URL immediately
+    const url = new URL(window.location.href)
+    url.searchParams.delete('verify')
+    window.history.replaceState({}, '', url.toString())
+
+    const verify = async (): Promise<void> => {
+      try {
+        const { getFunctions, httpsCallable } = await import('firebase/functions')
+        const { getFirebaseApp } = await import('../../core/firebase')
+        const functions = getFunctions(getFirebaseApp(), 'europe-west1')
+        const verifyFn = httpsCallable(functions, 'verifySubscription')
+        await verifyFn({ token })
+        toast.success('Subscription confirmed! Welcome aboard.')
+      } catch (error) {
+        console.error('Verification failed:', error)
+        toast.error('Verification failed. The link may have expired or already been used.')
+      }
+    }
+
+    void verify()
+  }, [])
+}
+
 const Courses = (): React.ReactElement => {
   const { watchedIds, toggleWatched } = useWatchedVideos()
   const { user, signInWithGoogle } = useAuth()
+  useVerifySubscription()
 
   const handleVideoEnd = useCallback((): void => {
     // Video ended — watched state is toggled by the card
