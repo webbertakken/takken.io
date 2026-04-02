@@ -9,6 +9,18 @@ const glowClasses: Record<TrackColour, string> = {
   'deep-dive': 'hover:shadow-[0_0_24px_rgba(249,115,22,0.4)]',
 }
 
+const trackTextMutedClasses: Record<TrackColour, string> = {
+  human: 'text-track-human/60',
+  developer: 'text-track-developer/60',
+  'deep-dive': 'text-track-deep-dive/60',
+}
+
+const trackTextFaintClasses: Record<TrackColour, string> = {
+  human: 'text-track-human/40',
+  developer: 'text-track-developer/40',
+  'deep-dive': 'text-track-deep-dive/40',
+}
+
 const gradientClasses: Record<TrackColour, string> = {
   human: 'from-track-human/40 to-track-human/15 dark:from-track-human/20 dark:to-track-human/5',
   developer:
@@ -42,6 +54,50 @@ const RoadmapCard = ({
   const { title, label, thumbnailUrl, youtubeUrl } = video
   const cardRef = useRef<HTMLDivElement>(null)
   const [viewer, setViewer] = useState<{ videoId: string; sourceRect: DOMRect } | null>(null)
+
+  const isPlanned = label === 'Planned'
+  const isComingSoon = !youtubeUrl && !isPlanned
+
+  // Planned and coming soon cards use a distinct layout
+  if (isPlanned || isComingSoon) {
+    return (
+      <div
+        className={clsx(
+          'flex aspect-video items-center justify-center rounded-xl border border-dashed overflow-hidden',
+          isPlanned
+            ? 'border-gray-300 bg-gray-50/50 dark:border-gray-800 dark:bg-gray-900/30'
+            : 'border-gray-300 bg-gray-50/80 dark:border-gray-700 dark:bg-gray-900/50',
+        )}
+      >
+        <div className="p-4 text-center">
+          <span
+            className={clsx(
+              'mb-2 block text-xs font-bold uppercase tracking-widest',
+              isPlanned ? trackTextFaintClasses[colour] : trackTextMutedClasses[colour],
+            )}
+          >
+            {isPlanned ? 'Future' : 'Next phase'}
+          </span>
+          <h3
+            className={clsx(
+              'text-lg font-semibold',
+              isPlanned ? 'text-gray-400 dark:text-gray-600' : 'text-gray-500 dark:text-gray-500',
+            )}
+          >
+            {isPlanned ? 'Planned' : 'Coming soon'}
+          </h3>
+          <p
+            className={clsx(
+              'mt-1 text-xs',
+              isPlanned ? 'text-gray-400 dark:text-gray-700' : 'text-gray-500 dark:text-gray-600',
+            )}
+          >
+            {title}
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   const handleToggleWatched = (e: React.MouseEvent): void => {
     e.stopPropagation()
@@ -89,15 +145,6 @@ const RoadmapCard = ({
         />
       ) : (
         <div className={clsx('absolute inset-0 bg-gradient-to-br', gradientClasses[colour])} />
-      )}
-
-      {/* Diagonal status text for unavailable videos */}
-      {(label === 'Planned' || !youtubeUrl) && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
-          <span className="rotate-[-25deg] select-none text-2xl font-bold uppercase tracking-[0.2em] text-white/15">
-            {label === 'Planned' ? 'Planned' : 'Coming soon'}
-          </span>
-        </div>
       )}
 
       {/* Play button on hover for videos */}
