@@ -18,12 +18,24 @@ const tracks: Track[] = [
         id: 'a01',
         title: 'Introduction',
         label: 'A01',
-        youtubeUrl: 'https://www.youtube.com/watch?v=Pxxwo8VLQSM',
-        thumbnailUrl: 'https://img.youtube.com/vi/Pxxwo8VLQSM/maxresdefault.jpg',
+        youtubeUrl: 'https://www.youtube.com/watch?v=uqfr0dDzPns',
+        thumbnailUrl: 'https://img.youtube.com/vi/uqfr0dDzPns/maxresdefault.jpg',
       },
-      { id: 'a02', title: 'Getting started', label: 'A02' },
+      {
+        id: 'a02',
+        title: 'Getting started',
+        label: 'A02',
+        youtubeUrl: 'https://www.youtube.com/watch?v=i87LjlNq3cE',
+        thumbnailUrl: 'https://img.youtube.com/vi/i87LjlNq3cE/maxresdefault.jpg',
+      },
       { id: 'a03', title: 'Conversational AI', label: 'A03' },
-      { id: 'a04', title: 'Agentic AI', label: 'A04' },
+      {
+        id: 'a04',
+        title: 'Agentic AI - Claude Cowork',
+        label: 'A04',
+        youtubeUrl: 'https://www.youtube.com/watch?v=uISkeDoqut4',
+        thumbnailUrl: 'https://img.youtube.com/vi/uISkeDoqut4/maxresdefault.jpg',
+      },
       { id: 'a05', title: 'Voice interface', label: 'A05' },
     ],
   },
@@ -275,10 +287,9 @@ const Learning = (): React.ReactElement => {
                 <RoadmapTrack
                   key={track.id}
                   track={track}
-                  watchedIds={user ? watchedIds : new Set<string>()}
-                  onToggleWatched={user ? toggleWatched : () => {}}
+                  watchedIds={watchedIds}
+                  onToggleWatched={toggleWatched}
                   onVideoEnd={handleVideoEnd}
-                  trackingEnabled={!!user}
                   beforePlanned={undefined}
                 />
               ))}

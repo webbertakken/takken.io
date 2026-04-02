@@ -35,7 +35,6 @@ interface RoadmapCardProps {
   isWatched: boolean
   onToggleWatched: () => void
   onVideoEnd: () => void
-  trackingEnabled: boolean
 }
 
 const extractVideoId = (url: string): string | null => {
@@ -49,7 +48,6 @@ const RoadmapCard = ({
   isWatched,
   onToggleWatched,
   onVideoEnd,
-  trackingEnabled,
 }: RoadmapCardProps): React.ReactElement => {
   const { title, label, thumbnailUrl, youtubeUrl } = video
   const cardRef = useRef<HTMLDivElement>(null)
@@ -159,22 +157,23 @@ const RoadmapCard = ({
       )}
 
       {/* Unwatched: simple checkbox on hover */}
-      {trackingEnabled && !isWatched && (
+      {!isWatched && (
         <button
           type="button"
           onClick={handleToggleWatched}
-          className="absolute top-2 right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white/50 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+          className="absolute top-2 right-2 z-10 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 border-white/50 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
           aria-label="Mark as watched"
         />
       )}
 
-      {trackingEnabled && isWatched && (
+      {isWatched && (
         <div
           className={clsx(
             'absolute inset-0 flex flex-col items-center justify-center',
             'bg-track-success/30 dark:bg-black/60',
-            'backdrop-blur-sm group-hover:backdrop-blur-0',
+            '[backdrop-filter:blur(4px)] group-hover:[backdrop-filter:blur(0px)]',
             'transition-all duration-300 ease-out',
+            'group-hover:bg-transparent',
           )}
         >
           {/* Animated checkmark: centred at rest, flies to top-right on hover */}
@@ -182,7 +181,7 @@ const RoadmapCard = ({
             type="button"
             onClick={handleToggleWatched}
             className={clsx(
-              'absolute z-10 flex items-center justify-center rounded-full',
+              'absolute z-10 flex cursor-pointer items-center justify-center rounded-full',
               'border-2 border-track-success bg-track-success/20',
               'group-hover:border-transparent group-hover:bg-track-success',
               'transition-all duration-300 ease-out',
