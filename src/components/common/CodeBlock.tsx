@@ -1,13 +1,20 @@
+import React from 'react'
 import { Highlight, themes, Language } from 'prism-react-renderer'
-import cx from 'classnames'
+import cx from 'clsx'
 import styles from './CodeBlockAndEditor.module.scss'
 
-const Container = ({ className, ...props }) => (
+const Container = ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
   <pre {...props} className={cx(className, styles.container)} />
 )
-const Line = ({ className, ...props }) => <div {...props} className={cx(className, styles.line)} />
-const LineNumber = (props) => <span {...props} className={styles.number} />
-const LineContent = (props) => <span {...props} className={styles.content} />
+const Line = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div {...props} className={cx(className, styles.line)} />
+)
+const LineNumber = (props: React.HTMLAttributes<HTMLSpanElement>) => (
+  <span {...props} className={styles.number} />
+)
+const LineContent = (props: React.HTMLAttributes<HTMLSpanElement>) => (
+  <span {...props} className={styles.content} />
+)
 
 /**
  * Takes 3 and 5 and returns [3,4,5]

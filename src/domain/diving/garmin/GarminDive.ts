@@ -36,14 +36,15 @@ export class GarminDive {
   }
 
   get sport() {
+    if (!this.session) throw new Error('No session data available')
     return this.session.sport
   }
 
   get minTemperature() {
-    return this.session.minTemperature
+    return this.session ? this.session.minTemperature : undefined
   }
 
   get maxTemperature() {
-    return this.session.maxTemperature
+    return this.session ? this.session.maxTemperature : undefined
   }
 }

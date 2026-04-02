@@ -1,5 +1,5 @@
 import { toolStyles } from '../toolStyles'
-import cx from 'classnames'
+import cx from 'clsx'
 import Heading from '@site/src/components/common/heading'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import { dedent } from 'ts-dedent'

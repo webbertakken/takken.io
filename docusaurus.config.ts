@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import type { Config } from '@docusaurus/types'
 import type * as Preset from '@docusaurus/preset-classic'
+import type { BlogPost } from '@docusaurus/plugin-content-blog'
 import tailwindPlugin from './src/plugins/tailwind-config.cjs'
 import frontmatterImageProcessorPlugin from './src/plugins/frontmatter-image-processor'
 import { themes } from 'prism-react-renderer'
@@ -49,13 +50,14 @@ export default {
         verbose: true,
       },
     ],
-    [
-      'docusaurus-gtm-plugin',
-      {
-        id: 'GTM-T4M9CW8',
-        enabled: true,
-      },
-    ],
+    // GTM is loaded conditionally via CookieConsent component for GDPR compliance
+    // [
+    //   'docusaurus-gtm-plugin',
+    //   {
+    //     id: 'GTM-T4M9CW8',
+    //     enabled: true,
+    //   },
+    // ],
     [
       '@docusaurus/plugin-ideal-image',
       {
@@ -117,9 +119,9 @@ export default {
         postsPerPage: 'ALL', // Show all posts on one page
         blogSidebarCount: 0,
         sortPosts: 'ascending', // Show oldest concepts first
-        processBlogPosts: async ({ blogPosts }) => {
+        processBlogPosts: async ({ blogPosts }: { blogPosts: BlogPost[] }) => {
           // Sort by filename (which includes the numeric prefix)
-          return blogPosts.sort((a, b) => {
+          return blogPosts.sort((a: BlogPost, b: BlogPost) => {
             const filenameA = a.metadata.source.split('/').pop() || ''
             const filenameB = b.metadata.source.split('/').pop() || ''
             return filenameA.localeCompare(filenameB)
@@ -226,6 +228,7 @@ export default {
         { to: '/gists', label: 'Gists', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { to: '/mindset', label: 'Mindset', position: 'left' },
+        { to: '/learning', label: 'Learning', position: 'left' },
         // { to: '/approach', label: 'Approach', position: 'left' },
         {
           href: 'https://github.com/webbertakken/takken.io',
@@ -273,6 +276,15 @@ export default {
             //   label: 'Approach',
             //   to: '/approach',
             // },
+          ],
+        },
+        {
+          title: 'Legal',
+          items: [
+            {
+              label: 'Privacy',
+              to: '/privacy',
+            },
           ],
         },
         {

@@ -44,7 +44,14 @@
       "WebFetch(domain:registry.npmjs.org)",
       "WebFetch(domain:www.npmjs.com)",
       "WebFetch(domain:dwf.dev)",
-      "Bash(openspec --version:*)"
+      "Bash(openspec --version:*)",
+      "Bash(yarn install:*)",
+      "Bash(git add:*)",
+      "Bash(git rebase:*)",
+      "Bash(GIT_EDITOR=true git rebase --continue)",
+      "Bash(yarn typecheck:*)",
+      "Bash(xargs grep:*)",
+      "Bash(MSYS2_ARG_CONV_EXCL=\"*\" gh run view 23277548903 --log-failed)"
     ],
     "deny": []
   },

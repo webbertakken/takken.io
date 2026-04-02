@@ -1,0 +1,10 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22",
+    "predeploy": "yarn --cwd functions build"
+  }
+}

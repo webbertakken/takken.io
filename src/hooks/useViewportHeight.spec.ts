@@ -41,7 +41,11 @@ describe('useViewportHeight', () => {
 
   it('sets initial viewport height using window.innerHeight when visualViewport is not available', () => {
     // Ensure visualViewport doesn't exist
-    delete (window as Window & { visualViewport?: VisualViewport }).visualViewport
+    Object.defineProperty(window, 'visualViewport', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    })
 
     renderHook(() => useViewportHeight())
 
@@ -66,7 +70,11 @@ describe('useViewportHeight', () => {
   })
 
   it('adds resize event listener to window when visualViewport is not available', () => {
-    delete (window as Window & { visualViewport?: VisualViewport }).visualViewport
+    Object.defineProperty(window, 'visualViewport', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    })
 
     renderHook(() => useViewportHeight())
 
@@ -103,7 +111,11 @@ describe('useViewportHeight', () => {
   })
 
   it('updates viewport height when window resize event fires (no visualViewport)', () => {
-    delete (window as Window & { visualViewport?: VisualViewport }).visualViewport
+    Object.defineProperty(window, 'visualViewport', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    })
 
     renderHook(() => useViewportHeight())
 
@@ -129,7 +141,11 @@ describe('useViewportHeight', () => {
   })
 
   it('removes event listeners on unmount when visualViewport is not available', () => {
-    delete (window as Window & { visualViewport?: VisualViewport }).visualViewport
+    Object.defineProperty(window, 'visualViewport', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    })
 
     const { unmount } = renderHook(() => useViewportHeight())
 
@@ -147,7 +163,11 @@ describe('useViewportHeight', () => {
       { height: 1366, expectedVh: 13.66 },
     ]
 
-    delete (window as Window & { visualViewport?: VisualViewport }).visualViewport
+    Object.defineProperty(window, 'visualViewport', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    })
 
     testCases.forEach(({ height, expectedVh }) => {
       vi.clearAllMocks()

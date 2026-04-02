@@ -63,3 +63,11 @@ generated-images
 test-output
 __pycache__
 static/assets/processed
+
+# Firebase Cloud Functions
+functions/lib/
+functions/node_modules/
+
+# npm (we use yarn)
+package-lock.json
+**/package-lock.json

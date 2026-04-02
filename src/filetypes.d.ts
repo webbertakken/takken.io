@@ -1,3 +1,22 @@
+declare module 'node-fetch' {
+  function fetch(
+    url: string,
+    init?: Record<string, unknown>,
+  ): Promise<{
+    ok: boolean
+    statusText: string
+    arrayBuffer(): Promise<ArrayBuffer>
+  }>
+  export default fetch
+}
+
+declare module '@garmin-fit/sdk' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export const Decoder: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export const Stream: any
+}
+
 declare module '*.module.scss' {
   const classes: { readonly [key: string]: string }
   export default classes

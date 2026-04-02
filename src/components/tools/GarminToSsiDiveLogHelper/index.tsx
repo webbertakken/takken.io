@@ -109,7 +109,7 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
             <h2>Importing your dive</h2>
 
             <div className="flex gap-4 flex-col md:flex-row items-center">
-              <QrCode value={diveQR} />
+              <QrCode value={diveQR ?? ''} />
               <div className="flex flex-col-reverse md:flex-col">
                 <p>
                   First click the QR code icon in the app
@@ -149,7 +149,7 @@ const GarminToSsiDiveLogHelper = (): JSX.Element => {
                   {key}
                 </summary>
                 <code>
-                  <pre>{JSON.stringify(messages[key], null, 2)}</pre>
+                  <pre>{JSON.stringify(messages[key as keyof GarminMessages], null, 2)}</pre>
                 </code>
               </details>
             ))}

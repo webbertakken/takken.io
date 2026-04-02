@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
-const Card = ({ title, children }) => {
+interface CardProps {
+  title: string
+  children: ReactNode
+}
+
+interface CardItemProps {
+  children: ReactNode
+}
+
+const Card = ({ title, children }: CardProps) => {
   return (
     <div className="basis-72 lg:basis-96 grow p-4 border-2 border-solid border-gray-300 dark:border-gray-500 rounded-sm">
       <h2 className="text-xl">{title}</h2>
@@ -9,7 +18,7 @@ const Card = ({ title, children }) => {
   )
 }
 
-Card.Item = ({ children }) => {
+Card.Item = ({ children }: CardItemProps) => {
   return <li>{children}</li>
 }
 
