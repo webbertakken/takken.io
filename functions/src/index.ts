@@ -35,7 +35,7 @@ export const onPendingSubscriber = onDocumentCreated(
 
     const resend = new Resend(resendApiKey.value())
     const from = senderEmail.value() || 'noreply@takken.io'
-    const verifyUrl = `https://takken.io/courses?verify=${encodeURIComponent(token)}`
+    const verifyUrl = `https://takken.io/learning?verify=${encodeURIComponent(token)}`
 
     logger.info('Sending verification email', { email, verifyUrl })
 

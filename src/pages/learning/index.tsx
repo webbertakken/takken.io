@@ -224,7 +224,7 @@ const useVerifySubscription = (): void => {
   }, [])
 }
 
-const Courses = (): React.ReactElement => {
+const Learning = (): React.ReactElement => {
   const { watchedIds, toggleWatched } = useWatchedVideos()
   const { user, signInWithGoogle } = useAuth()
   useVerifySubscription()
@@ -234,11 +234,11 @@ const Courses = (): React.ReactElement => {
   }, [])
 
   return (
-    <Layout title="Courses" description="AI courses with guided learning tracks">
+    <Layout title="Learning" description="AI learning path with guided tracks">
       <div className="min-h-screen p-8 md:p-16">
         <div className="mx-auto max-w-7xl">
           <header className="mb-16 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">AI how to</h1>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">AI learning path</h1>
             <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
               Watch the introduction, pick the track you like, skip videos as you prefer.
             </p>
@@ -291,4 +291,4 @@ const Courses = (): React.ReactElement => {
   )
 }
 
-export default Courses
+export default Learning
