@@ -25,14 +25,19 @@ interface RoadmapTrackProps {
   track: Track
   watchedIds: Set<string>
   onToggleWatched: (videoId: string) => void
+  onVideoEnd: () => void
+  beforePlanned?: React.ReactNode
 }
 
 const RoadmapTrack = ({
   track,
   watchedIds,
   onToggleWatched,
+  onVideoEnd,
+  beforePlanned,
 }: RoadmapTrackProps): React.ReactElement => {
   const { title, colour, videos } = track
+  const firstPlannedIndex = videos.findIndex((v) => v.label === 'Planned')
 
   return (
     <div className={clsx('flex flex-col gap-6', offsetClasses[colour])}>
@@ -47,14 +52,17 @@ const RoadmapTrack = ({
       </h2>
 
       <div className="flex flex-col gap-4">
-        {videos.map((video) => (
-          <RoadmapCard
-            key={video.id}
-            video={video}
-            colour={colour}
-            isWatched={watchedIds.has(video.id)}
-            onToggleWatched={() => onToggleWatched(video.id)}
-          />
+        {videos.map((video, index) => (
+          <React.Fragment key={video.id}>
+            {beforePlanned && index === firstPlannedIndex && beforePlanned}
+            <RoadmapCard
+              video={video}
+              colour={colour}
+              isWatched={watchedIds.has(video.id)}
+              onToggleWatched={() => onToggleWatched(video.id)}
+              onVideoEnd={onVideoEnd}
+            />
+          </React.Fragment>
         ))}
       </div>
     </div>

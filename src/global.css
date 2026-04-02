@@ -154,6 +154,7 @@
   animation: fadeIn 0.4s ease-out forwards;
 }
 
+
 /* Search */
 [data-theme='light'] .DocSearch {
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import clsx from 'clsx'
 import type { TrackColour, Video } from './types'
+import VideoViewer from './VideoViewer'
 
 const glowClasses: Record<TrackColour, string> = {
   human: 'hover:shadow-[0_0_24px_rgba(59,130,246,0.4)]',
@@ -21,6 +22,12 @@ interface RoadmapCardProps {
   colour: TrackColour
   isWatched: boolean
   onToggleWatched: () => void
+  onVideoEnd: () => void
+}
+
+const extractVideoId = (url: string): string | null => {
+  const match = /v=([^&]+)/.exec(url)
+  return match?.[1] ?? null
 }
 
 const RoadmapCard = ({
@@ -28,8 +35,11 @@ const RoadmapCard = ({
   colour,
   isWatched,
   onToggleWatched,
+  onVideoEnd,
 }: RoadmapCardProps): React.ReactElement => {
   const { title, label, thumbnailUrl, youtubeUrl } = video
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [viewer, setViewer] = useState<{ videoId: string; sourceRect: DOMRect } | null>(null)
 
   const handleToggleWatched = (e: React.MouseEvent): void => {
     e.stopPropagation()
@@ -37,13 +47,36 @@ const RoadmapCard = ({
     onToggleWatched()
   }
 
+  const handleCardClick = useCallback((): void => {
+    if (!youtubeUrl || !cardRef.current) return
+    const videoId = extractVideoId(youtubeUrl)
+    if (!videoId) return
+    const rect = cardRef.current.getBoundingClientRect()
+    setViewer({ videoId, sourceRect: rect })
+  }, [youtubeUrl])
+
   const card = (
     <div
+      ref={cardRef}
+      role={youtubeUrl ? 'button' : undefined}
+      tabIndex={youtubeUrl ? 0 : undefined}
+      onClick={youtubeUrl ? handleCardClick : undefined}
+      onKeyDown={
+        youtubeUrl
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleCardClick()
+              }
+            }
+          : undefined
+      }
       className={clsx(
         'group relative aspect-video rounded-xl border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900 overflow-hidden',
         'transition-all duration-200 ease-out',
         'hover:scale-[1.03]',
         glowClasses[colour],
+        youtubeUrl && 'cursor-pointer',
       )}
     >
       {thumbnailUrl ? (
@@ -54,6 +87,17 @@ const RoadmapCard = ({
         />
       ) : (
         <div className={clsx('absolute inset-0 bg-gradient-to-br', gradientClasses[colour])} />
+      )}
+
+      {/* Play button on hover for videos */}
+      {youtubeUrl && !isWatched && (
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm">
+            <svg className="ml-1 h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
       )}
 
       {/* Unwatched: simple checkbox on hover */}
@@ -107,33 +151,45 @@ const RoadmapCard = ({
 
       <div
         className={clsx(
-          'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/70 dark:from-black/60 to-transparent p-4 transition-opacity duration-300',
+          'absolute bottom-0 left-0 right-0 flex flex-col items-start bg-gradient-to-t from-white/70 dark:from-black/60 to-transparent p-4 transition-opacity duration-300',
           isWatched && 'opacity-50 group-hover:opacity-100',
         )}
       >
         <span
-          className={clsx('text-xs font-semibold uppercase tracking-wider', {
-            'text-track-human': colour === 'human',
-            'text-track-developer': colour === 'developer',
-            'text-track-deep-dive': colour === 'deep-dive',
-          })}
+          className={clsx(
+            'inline-block rounded-md bg-black/50 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm',
+            {
+              'text-track-human': colour === 'human',
+              'text-track-developer': colour === 'developer',
+              'text-track-deep-dive': colour === 'deep-dive',
+            },
+          )}
         >
           {label}
         </span>
-        <h3 className="mt-1 text-sm font-medium text-gray-900 dark:text-white">{title}</h3>
+        <h3 className="mt-1 inline-block rounded-md bg-black/50 px-2 py-0.5 text-sm font-medium text-white backdrop-blur-sm">
+          {title}
+        </h3>
       </div>
     </div>
   )
 
-  if (youtubeUrl) {
-    return (
-      <a href={youtubeUrl} target="_blank" rel="noreferrer" className="block no-underline">
-        {card}
-      </a>
-    )
-  }
-
-  return card
+  return (
+    <>
+      {card}
+      {viewer && (
+        <VideoViewer
+          videoId={viewer.videoId}
+          sourceRect={viewer.sourceRect}
+          onClose={() => setViewer(null)}
+          onVideoEnd={() => {
+            if (!isWatched) onToggleWatched()
+            onVideoEnd()
+          }}
+        />
+      )}
+    </>
+  )
 }
 
 export default RoadmapCard

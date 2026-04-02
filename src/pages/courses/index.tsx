@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Layout from '@theme/Layout'
 import clsx from 'clsx'
 import toast from 'react-hot-toast'
@@ -14,7 +14,13 @@ const tracks: Track[] = [
     title: 'Human track',
     colour: 'human',
     videos: [
-      { id: 'a01', title: 'Introduction', label: 'A01' },
+      {
+        id: 'a01',
+        title: 'Introduction',
+        label: 'A01',
+        youtubeUrl: 'https://www.youtube.com/watch?v=Pxxwo8VLQSM',
+        thumbnailUrl: 'https://img.youtube.com/vi/Pxxwo8VLQSM/maxresdefault.jpg',
+      },
       { id: 'a02', title: 'Getting started', label: 'A02' },
       { id: 'a03', title: 'Conversational AI', label: 'A03' },
       { id: 'a04', title: 'Agentic AI', label: 'A04' },
@@ -56,12 +62,12 @@ const tracks: Track[] = [
   },
 ]
 
-type Topic = 'human' | 'developer'
+type Topic = 'human' | 'developer' | 'deep-dive'
 
 const SubscribeBar = (): React.ReactElement => {
   const { user } = useAuth()
   const [email, setEmail] = useState(user?.email ?? '')
-  const [topics, setTopics] = useState<Set<Topic>>(new Set(['human', 'developer']))
+  const [topics, setTopics] = useState<Set<Topic>>(new Set(['human', 'developer', 'deep-dive']))
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
@@ -111,7 +117,7 @@ const SubscribeBar = (): React.ReactElement => {
 
   if (submitted) {
     return (
-      <div className="mb-12 rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
+      <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
         You are subscribed! We will keep you posted.
       </div>
     )
@@ -119,8 +125,9 @@ const SubscribeBar = (): React.ReactElement => {
 
   return (
     <form
+      id="subscribe"
       onSubmit={(e) => void handleSubmit(e)}
-      className="mb-12 flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900 sm:flex-row"
+      className="mt-16 flex scroll-mt-24 flex-col items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900 sm:flex-row"
     >
       <span className="shrink-0 text-sm font-medium text-gray-700 dark:text-gray-300">
         Subscribe for updates
@@ -131,10 +138,10 @@ const SubscribeBar = (): React.ReactElement => {
           type="button"
           onClick={() => toggleTopic('human')}
           className={clsx(
-            'rounded-full px-3 py-1 text-xs font-semibold transition-colors',
+            'rounded-full border px-3 py-1 text-xs font-semibold transition-colors',
             topics.has('human')
-              ? 'bg-track-human text-white'
-              : 'border border-track-human text-track-human',
+              ? 'border-track-human bg-track-human text-white'
+              : 'border-gray-300 bg-transparent text-gray-500 dark:border-gray-600 dark:text-gray-400',
           )}
         >
           Human
@@ -143,13 +150,25 @@ const SubscribeBar = (): React.ReactElement => {
           type="button"
           onClick={() => toggleTopic('developer')}
           className={clsx(
-            'rounded-full px-3 py-1 text-xs font-semibold transition-colors',
+            'rounded-full border px-3 py-1 text-xs font-semibold transition-colors',
             topics.has('developer')
-              ? 'bg-track-developer text-white'
-              : 'border border-track-developer text-track-developer',
+              ? 'border-track-developer bg-track-developer text-white'
+              : 'border-gray-300 bg-transparent text-gray-500 dark:border-gray-600 dark:text-gray-400',
           )}
         >
           Developer
+        </button>
+        <button
+          type="button"
+          onClick={() => toggleTopic('deep-dive')}
+          className={clsx(
+            'rounded-full border px-3 py-1 text-xs font-semibold transition-colors',
+            topics.has('deep-dive')
+              ? 'border-track-deep-dive bg-track-deep-dive text-white'
+              : 'border-gray-300 bg-transparent text-gray-500 dark:border-gray-600 dark:text-gray-400',
+          )}
+        >
+          Deep dives
         </button>
       </div>
 
@@ -175,6 +194,11 @@ const SubscribeBar = (): React.ReactElement => {
 
 const Courses = (): React.ReactElement => {
   const { watchedIds, toggleWatched } = useWatchedVideos()
+  const { user, signInWithGoogle } = useAuth()
+
+  const handleVideoEnd = useCallback((): void => {
+    // Video ended — watched state is toggled by the card
+  }, [])
 
   return (
     <Layout title="Courses" description="AI courses with guided learning tracks">
@@ -183,11 +207,32 @@ const Courses = (): React.ReactElement => {
           <header className="mb-16 text-center">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">AI how to</h1>
             <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
-              Watch the introduction, pick the track you like, skip videos as you like.
+              Watch the introduction, pick the track you like, skip videos as you prefer.
+            </p>
+            <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
+              {user ? (
+                <>Your progress is being saved. </>
+              ) : (
+                <>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      void signInWithGoogle()
+                    }}
+                    className="font-medium text-pink underline hover:text-pink-dark"
+                  >
+                    Sign in
+                  </a>{' '}
+                  to track your progress.{' '}
+                </>
+              )}
+              <a href="#subscribe" className="font-medium text-pink underline hover:text-pink-dark">
+                Subscribe
+              </a>{' '}
+              to stay up-to-date.
             </p>
           </header>
-
-          <SubscribeBar />
 
           <div className="relative">
             <RoadmapConnections />
@@ -197,12 +242,16 @@ const Courses = (): React.ReactElement => {
                 <RoadmapTrack
                   key={track.id}
                   track={track}
-                  watchedIds={watchedIds}
-                  onToggleWatched={toggleWatched}
+                  watchedIds={user ? watchedIds : new Set<string>()}
+                  onToggleWatched={user ? toggleWatched : () => {}}
+                  onVideoEnd={handleVideoEnd}
+                  beforePlanned={undefined}
                 />
               ))}
             </div>
           </div>
+
+          <SubscribeBar />
         </div>
       </div>
     </Layout>
