@@ -75,6 +75,8 @@ export function useWatchedVideos(): UseWatchedVideosResult {
             ? new Set((snapshot.data().watchedVideoIds as string[]) ?? [])
             : new Set<string>()
           const merged = new Set([...existing, ...combined])
+          // Update UI immediately, don't wait for onSnapshot round-trip
+          if (!cancelled) setWatchedIds(merged)
           await setDoc(docRef, { watchedVideoIds: [...merged] }, { merge: true })
           if (canUseStorage) localStorage.removeItem(LOCAL_STORAGE_KEY)
           sessionIdsRef.current = new Set()

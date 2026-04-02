@@ -44,7 +44,13 @@ const tracks: Track[] = [
     title: 'Developer track',
     colour: 'developer',
     videos: [
-      { id: 'b01', title: 'Online prototype', label: 'B01' },
+      {
+        id: 'b01',
+        title: 'Online prototype',
+        label: 'B01',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dR-WKEBEo4s',
+        thumbnailUrl: 'https://img.youtube.com/vi/dR-WKEBEo4s/maxresdefault.jpg',
+      },
       { id: 'b02', title: 'Using tools', label: 'B02' },
       { id: 'b03', title: 'Ask to learn', label: 'B03' },
       { id: 'b04', title: 'Instruct to succeed', label: 'B04' },
@@ -67,7 +73,7 @@ const tracks: Track[] = [
     title: 'Deep dives',
     colour: 'deep-dive',
     videos: [
-      { id: 'c01', title: 'Local models for coding', label: 'Planned' },
+      { id: 'c01', title: 'Local models for coding', label: 'C01' },
       { id: 'c02', title: 'Software factory', label: 'Planned' },
       { id: 'c03', title: 'Assistant orchestration', label: 'Planned' },
     ],
@@ -254,29 +260,39 @@ const Learning = (): React.ReactElement => {
             <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
               Watch the introduction, pick the track you like, skip videos as you prefer.
             </p>
-            <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
-              {user ? (
-                <>Your progress is being saved. </>
-              ) : (
-                <>
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      void signInWithGoogle()
-                    }}
-                    className="font-medium text-pink underline hover:text-pink-dark"
-                  >
-                    Sign in
-                  </a>{' '}
-                  to track your progress.{' '}
-                </>
-              )}
-              <a href="#subscribe" className="font-medium text-pink underline hover:text-pink-dark">
-                Subscribe
-              </a>{' '}
-              to stay up-to-date.
-            </p>
+            <div className="mt-2 flex flex-col items-center gap-1 text-sm text-gray-400 sm:flex-row sm:justify-center sm:gap-0 dark:text-gray-500">
+              <span className="min-w-0 text-center sm:flex-1 sm:text-right">
+                {user ? (
+                  <>Your progress is being saved.</>
+                ) : (
+                  <>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        void signInWithGoogle()
+                      }}
+                      className="font-medium text-pink underline hover:text-pink-dark"
+                    >
+                      Sign in
+                    </a>{' '}
+                    (popup) to track your progress.
+                  </>
+                )}
+              </span>
+              <span className="mx-3 hidden shrink-0 text-gray-300 dark:text-gray-600 sm:inline">
+                |
+              </span>
+              <span className="min-w-0 text-center sm:flex-1 sm:text-left">
+                <a
+                  href="#subscribe"
+                  className="font-medium text-pink underline hover:text-pink-dark"
+                >
+                  Subscribe
+                </a>{' '}
+                to be notified of new videos.
+              </span>
+            </div>
           </header>
 
           <div className="relative">

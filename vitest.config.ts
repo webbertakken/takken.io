@@ -6,6 +6,7 @@ export default defineConfig({
     alias: {
       '@site': path.resolve(__dirname),
       '@docusaurus/useGlobalData': path.resolve(__dirname, './src/test/mocks/docusaurus.ts'),
+      '@docusaurus/Link': path.resolve(__dirname, './src/test/mocks/docusaurus-link.tsx'),
     },
   },
   test: {
