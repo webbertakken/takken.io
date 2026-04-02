@@ -91,6 +91,15 @@ const RoadmapCard = ({
         <div className={clsx('absolute inset-0 bg-gradient-to-br', gradientClasses[colour])} />
       )}
 
+      {/* Diagonal status text for unavailable videos */}
+      {(label === 'Planned' || !youtubeUrl) && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+          <span className="rotate-[-25deg] select-none text-2xl font-bold uppercase tracking-[0.2em] text-white/15">
+            {label === 'Planned' ? 'Planned' : 'Coming soon'}
+          </span>
+        </div>
+      )}
+
       {/* Play button on hover for videos */}
       {youtubeUrl && !isWatched && (
         <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-150 group-hover:opacity-100">
