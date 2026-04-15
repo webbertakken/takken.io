@@ -115,9 +115,7 @@ const Index = (): React.ReactElement => {
             </Card.Item>
             <Card.Item>
               📖{' '}
-              <a href="/blog/incremental-contextual-pipelines">
-                Incremental Contextual Pipelines
-              </a>
+              <a href="/blog/incremental-contextual-pipelines">Incremental Contextual Pipelines</a>
             </Card.Item>
             <Card.Item>
               📖{' '}
