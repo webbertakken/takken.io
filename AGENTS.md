@@ -21,6 +21,7 @@
   "coding agents". Only use "AI" when it adds meaningful distinction or clarity.
 - Follow the writing style in ~/WRITING_STYLE.md
 - When adding a new blog post, update AGENTS.md to reflect any new conventions or rules learned
+- When adding a new blog post, update the "Latest posts" card in src/components/Home/index.tsx
 
 ## Testing
 
