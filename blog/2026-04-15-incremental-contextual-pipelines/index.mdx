@@ -1,0 +1,108 @@
+---
+slug: incremental-contextual-pipelines
+title: Incremental Contextual Pipelines
+description:
+  Specialise documents and agents to create a design and an exhaustive specification, so that you
+  can build products in a conversational way. And the spec becomes the source of truth.
+authors: [webber]
+tags:
+  - Context
+  - Agents
+  - Software Engineering
+  - Automation
+  - Productivity
+keywords:
+  - Incremental context pipeline
+  - Agentic pipeline
+  - Multi-agent workflow
+  - Agent specialisation
+  - Agentic software development
+  - AI coding workflow
+  - Workflow optimisation
+  - Blueprint generation
+  - Agent pipeline phases
+  - Reducing ambiguity
+  - Domain Driven Design
+---
+
+import Image from '@theme/IdealImage'
+
+# Incremental Contextual Pipelines
+
+A common approach to working with coding agents is to hand them a prompt and hope for the best.
+Another is to first make a plan or specification. In both cases, unresolved ambiguities and
+assumptions often remain hidden until the code appears, and by then it is harder to change.
+
+What if the spec becomes the source of truth, and we can incrementally improve it using specialised
+agents?
+
+<!-- truncate -->
+
+## The idea
+
+I've been running an experiment I call the **Incremental Contextual Pipeline**. It is a combination
+of documents and agents, that gradually increase in quality and detail, while continuously reducing
+ambiguities.
+
+<Image
+  img={require('./assets/incremental-contextual-pipeline.png')}
+  alt="Whiteboard diagram showing the Incremental Contextual Pipeline: four phases from Userland (idea) through Interface (interviewer agent produces design docs), Specification (specifier agent produces blueprint), to Production (implementer agent produces code with live preview)"
+/>
+
+It consists of four phases:
+
+1. **Userland** - The user has an idea. They interact with an agent and can see a live preview of
+   what's being built.
+2. **Interface** - An _Interviewer_ agent takes configuration about components to specify, interview
+   approach, design spec and tone of voice. It produces structured design documents (markdown,
+   JSONL, JSON, YAML).
+3. **Specification** - A _Specifier_ agent takes that design, along with architecture, guardrails,
+   constraints and specification rules. It produces a detailed blueprint containing markdown,
+   assets, generators and whatever is necessary to reliably generate code in the next step.
+4. **Production** - An _Implementer_ agent takes the blueprint, architecture and platform
+   constraints, and produces the actual code - with a live preview for the user to validate.
+
+Output of each phase is stored under version control.
+
+## A second pipeline to improve the first
+
+I've also built a **second pipeline** that analyses all instances of produced code and continually
+improves the first pipeline. For example, if your software has some components that are not
+considered in the first pipeline, the second pipeline can update the first one.
+
+It analyses the patterns in surfaced assumptions, recurring ambiguities and resolution outcomes,
+then feeds those learnings back to refine the oversight prompts and detection heuristics.
+
+This creates a feedback loop: the more the system runs, the better it gets at catching the things
+that matter. I believe this is a direction where a portion of software development tooling will be
+heading. And I believe in 4–6 months we'll start seeing real frameworks for this.
+
+## Benefits
+
+✨ The process is **more conversational**. You can build your ideas the way you wanted to into the
+details, without having to explain partial context every time.
+
+✨ Changes are always **incremental** and **non-destructive**. Diffs become smaller over time,
+making changes increasingly easy to review and understand.
+
+✨ The specification becomes the **source of truth**. You can have future agents implement the same
+thing in a better way, using any language or framework.
+
+✨ Context **increases incrementally**, with each iteration in any of the phases. Agents receive
+increasingly specific and structured input, and produce increasingly detailed output, with reduced
+ambiguity space. It plays well with Domain Driven Design.
+
+✨ Allows you to specialise at creating many instances of software components in a way that scales
+your cognitive bandwidth while reducing the overwhelming amount of information you need to process
+at once.
+
+## Conclusion
+
+The Incremental Contextual Pipeline is not just a workflow. It is a shift in how you relate to the
+tools you build with. Instead of handing off a vague idea or trying to have your agent reason about
+the combination of multiple specs and hoping for coherent output, you stay in the loop at every
+phase, shaping the spec as the source of truth.
+
+The ambiguities get resolved, the diffs become increasingly smaller, and the context compounds. The
+more you use it, the better it gets at catching the things that matter. And you can build your
+software in a way that feels more like a conversation and less like a handoff.

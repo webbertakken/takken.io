@@ -1,0 +1,130 @@
+---
+slug: making-ai-agents-do-what-you-actually-mean
+title: Making agents do what you actually mean
+description: Surface hidden assumptions and catch silent misinterpretation by coding agents.
+authors: [webber]
+tags:
+  - Context
+  - Agents
+  - Software Engineering
+  - Automation
+  - Productivity
+keywords:
+  - Coding agents
+  - Workflow optimisation
+  - Assumptions
+  - Ambiguity detection
+  - Unattended agents
+  - Agent harness
+  - LLM reasoning
+  - Agentic coding workflow
+  - Agentic software development
+  - AI oversight
+  - Multi-agent system
+---
+
+import Image from '@theme/IdealImage'
+
+# Making AI agents do what you actually mean
+
+If you've spent any real time with AI coding agents, you've probably noticed: one-shotting a
+greenfield project is the easy part. The hard part is getting the agent to implement exactly what
+you had in mind. This is my latest attempt at solving that problem.
+
+<!-- truncate -->
+
+## The problem
+
+Anyone who's been optimising their AI workflows has most likely seen countless examples of missing
+details or misimplemented features. It raises the need for more specificity in the instructions, and
+sometimes even for what I'd call
+[Iterative Context Pipelines](/blog/incremental-contextual-pipelines); a pipeline of agents and
+documents with increasing detail over time, depending on the use case.
+
+Models inherently think they're right. At least predictive models do. Unlike models used in
+[AlphaGo](https://deepmind.google/technologies/alphago/), which are "inventing" new moves, coding
+agents are confidently predicting the next token. They don't hesitate, they don't flag uncertainty,
+and they don't tell you when they've made an assumption that diverges from your intent.
+
+This means that plenty of interesting decisions happen silently inside the reasoning of the agent.
+And it also means that there is a bit of challenge to getting control over the exact implementation
+details without getting overwhelmed.
+
+## Surfacing what the agent won't tell you
+
+One thing I've started doing is running a **separate process outside of the coding harness**. Its
+only job is to digest harness logs and use its semantic capability to surface:
+
+- 🤔 **Assumptions**: things the agent treated as fact without confirmation
+- 🔍 **Implicit decisions**: choices the agent made without being asked
+- ⚠️ **Ambiguities**: places where the instruction could be interpreted multiple ways
+- 🔄 **Intention overrides**: moments where the agent quietly deviated from what was asked
+- 💡 **Scope drift**: when the agent expanded or contracted the scope without flagging it
+
+The idea is simple: the agent can run unattended and make assumptions, but those assumptions get
+surfaced and become **actionable follow-ups**. So effectively, your agent with appropriate
+instructions can run 24/7 to improve things without it creating infinite slop.
+
+Perhaps also a model like [Gemma 4](https://deepmind.google/models/gemma/gemma-4/) 27B running
+locally.
+
+I've attempted three approaches for this at home. The most useful and functioning one so far is a
+tool I call **Spyder**.
+
+<Image
+  img={require('./assets/spyder-oversight-dashboard.png')}
+  alt="Screenshot of the Spyder oversight dashboard showing surfaced agent decisions with severity levels, evidence trails, and actionable approve/reject flows"
+/>
+
+Spyder digests agent logs on a per-project basis, splits findings by projects and harness and
+categorises them by type `silent-decision`, `user-intent-override`, `unsurfaced-ambiguity`,
+`rule-violation`, `scope-drift`, `assumption`, `contradiction`.
+
+For every finding, it provides context about what happened, evidence from the agent's turns, the
+impact of the decision, and a suggested action.
+
+Each finding is **actionable**. You can approve or reject it, provide context for why, and those
+resolutions feed back into future runs. Over time, the system learns which types of assumptions are
+acceptable and which ones need to be flagged.
+
+It learns based on semantic evaluation of logs and resolutions.
+
+## Why you need a second agent
+
+Since predictive models always think they're right, you need a second agent - and for now usually a
+human in the loop - to check the first agent's rationale and output.
+
+The checks can happen in real time. The selected actions could be fed back into the first agent's
+context for future turns. Or they could be used as a follow-up to the first agent's running session.
+
+Feeding back into the running first agent isn't hard in principle; if the agent between each turn
+checks the latest entries in some `.jsonl` file, or whatever mechanism you come up with, you could
+have a continuous feedback channel. At the time of writing I haven't gotten to that point yet.
+
+## Where this is heading
+
+For now, I've built this as a tool directly in a personal project which isn't open. But if there's
+enough interest I could publish it as a standalone. For now I wanted to at least share the lessons
+learned, because not many people share how to actually solve the hard problems in agentic workflows.
+
+Here's what I believe we'll see in the near future:
+
+- ✅ **Assumption surfacing** as a first-class feature in agent harnesses
+- ✅ **Multi-agent oversight** where a secondary agent validates the primary agent's reasoning
+- ✅ **Real-time feedback loops** between oversight and execution agents
+- ⚠️ **Self-improving pipelines** that refine their own detection heuristics over time
+
+The tooling for this doesn't quite exist yet. But I'd be surprised if we don't see real frameworks
+emerge within the next 4 to 6 months.
+
+## Conclusion
+
+The easy part of working with AI agents is getting them to produce code. The hard part is getting
+them to produce _your_ code - with _your_ intentions, _your_ trade-offs and _your_ assumptions.
+
+By running a separate oversight process that digests agent logs and surfaces hidden decisions, you
+can let agents work unattended without losing control. And by layering a self-improving pipeline on
+top of that, the system gets better at catching what matters over time.
+
+If you're building something similar, or have found different approaches to the same problem, I'd
+love to hear about it in the comments!
