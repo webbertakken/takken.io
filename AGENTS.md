@@ -5,6 +5,7 @@
 - Use volta for node/yarn versions
 - Yarn for packages, bun for standalone TS
 - Plan → Execute → Verify (lint, typecheck, test)
+- Always run `npx prettier --write` on changed files before committing
 - Fix all issues immediately, no suppressions
 
 ## Code Style
