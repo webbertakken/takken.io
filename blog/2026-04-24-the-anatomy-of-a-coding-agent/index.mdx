@@ -1,0 +1,131 @@
+---
+slug: the-anatomy-of-a-coding-agent
+title: The anatomy of a coding agent
+description:
+  A plain-language tour of how coding agents work, from training data on the provider side to tool
+  calls and AGENTS.md on the client side.
+authors: [webber]
+tags:
+  - Agents
+  - Development Tools
+  - LLMs
+  - Software Engineering
+keywords:
+  - Coding agents
+  - How coding agents work
+  - Agent harness
+  - Claude Code
+  - Gemini CLI
+  - Codex CLI
+  - Qwen Code
+  - OpenCode
+  - Pi coding agent
+  - AGENTS.md
+  - CLAUDE.md
+  - Progressive disclosure
+  - Skills frontmatter
+  - Agent tools
+  - Model provider
+  - Pre-training
+  - Post-training
+  - Tokenisation
+  - Embedding matrix
+  - Inference
+  - System prompt
+  - Agentic coding workflow
+draft: true
+---
+
+import Image from '@theme/IdealImage'
+
+## The client side
+
+This is the half that runs on your computer, and the half you can actually change.
+
+<Image
+  img={require('./assets/client-side-concepts.png')}
+  alt="Diagram of the client side: provider API with cache, scheduler, model inventory and network plus OAuth, the request and skill flow, the harness, tools, global AGENTS.md, project AGENTS.md and progressive disclosure"
+/>
+
+### Provider API
+
+The front door to the model. Four small pieces matter:
+
+- **Network + OAuth** - proves it's really you sending the request.
+- **Model inventory** - the list of models the provider lets you pick from.
+- **Scheduler** - puts your request in line for a free GPU.
+- **Cache** - remembers the big repetitive parts of your request so you're not charged for them
+  every single time.
+
+### The request
+
+Every time the agent takes a turn, it bundles up a bunch of stuff and sends it to the provider:
+
+- **Auth header** - your credentials.
+- **System prompt** - the agent's personality and rules.
+- **Tools** - the list of things the model is allowed to do.
+- **This agent / other agents** - who is in charge, and who it can hand work off to.
+- **Memory** - long-lived notes from previous sessions.
+- **Skills (frontmatter)** - a short menu of special abilities.
+- **Previous prompts and responses** - the full history of the conversation so far.
+- **Prompt** - the thing you just typed.
+
+All of that goes in every turn. The cache is what stops it from costing a fortune.
+
+### Request for a skill flow
+
+A small variation on the request. When you ask for something that matches a **skill**, the agent
+pulls in the full description of that skill and starts working through its steps one by one. Think
+of it as a recipe the agent follows instead of improvising.
+
+### Harness
+
+The harness is the program running on your machine that drives the whole thing. Popular ones include
+**Claude Code, Gemini CLI, Codex CLI, Qwen Code, OpenCode, and Pi**. It handles:
+
+- Which **backend** to talk to (`/login`).
+- Which **model** to use (`/model`).
+- Which **system prompt** and **tools** to send.
+
+Two harnesses pointed at the same model can feel completely different. The harness is a big part of
+what you are actually using.
+
+### Tools
+
+The agent's hands. Almost every coding harness gives the model the same basic set:
+
+- 📖 **Read file**
+- ✏️ **Write file**
+- 🪚 **Edit file**
+- 💻 **bash** (run commands)
+
+When the model wants to do something, it doesn't do it directly - it asks the harness to run one of
+these tools and then reads the result.
+
+### Global AGENTS.md
+
+A file in your home folder where you write down things you want **every** agent on your machine to
+know. Your shell, your editor, the stuff you do or don't want done automatically.
+
+Most harnesses have their own file (`~/.claude/CLAUDE.md`, `~/.pi/AGENTS.md`, ...) that simply
+points at a shared `~/AGENTS.md`. One file, many harnesses.
+
+### Project AGENTS.md
+
+The same idea, but per project. Each project folder - and even each sub-folder inside it - can have
+its own `AGENTS.md` with rules that only apply there. Code style, test commands, domain vocabulary.
+
+### Progressive disclosure
+
+If the agent loaded _every_ `AGENTS.md` file at once, it would run out of memory for the actual
+task. So instead it asks _"which folder am I working in right now?"_ and only pulls in the rules
+that matter for that part of the project.
+
+It's the same trick you use when you only open the drawer you need, instead of emptying the whole
+kitchen onto the counter.
+
+## Wrapping up
+
+That's the whole picture. A frozen model trained at enormous cost on one side, and a small program
+on your laptop shaping every request on the other. If you work with coding agents and found this
+useful - or want me to go deeper on any box - let me know in the comments!

@@ -1,0 +1,193 @@
+---
+slug: the-making-of-a-model-in-simple-words
+title: The making of a model, in simple words
+description:
+  A plain-language tour of how coding agents work, from training data on the provider side to tool
+  calls and AGENTS.md on the client side.
+authors: [webber]
+tags:
+  - Agents
+  - Development Tools
+  - LLMs
+  - Software Engineering
+keywords:
+  - Coding agents
+  - How coding agents work
+  - Agent harness
+  - Claude Code
+  - Gemini CLI
+  - Codex CLI
+  - Qwen Code
+  - OpenCode
+  - Pi coding agent
+  - AGENTS.md
+  - CLAUDE.md
+  - Progressive disclosure
+  - Skills frontmatter
+  - Agent tools
+  - Model provider
+  - Pre-training
+  - Post-training
+  - Tokenisation
+  - Embedding matrix
+  - Inference
+  - System prompt
+  - Agentic coding workflow
+---
+
+import Image from '@theme/IdealImage'
+
+# The making of a model, in simple words
+
+Today, harnesses like Claude Code, Codex CLI and Pi have become an essential tool in product
+development. It has only been about six months since we've started calling them that. A year ago,
+barely anyone had ever used a harness.
+
+Since it became mainstream rapidly, many haven't found the time to explore what these tools are made
+out of. Here's two diagrams and a quick description of each component.
+
+<!-- truncate -->
+
+## Making a model, explained in simple words
+
+Before you can send a prompt, you need access to a model to process that prompt.
+
+There are a few steps required to create and serve a Large Language Model (LLM).
+
+<Image
+  img={require('./assets/model-provider-side.png')}
+  alt="Diagram of the model provider side: data preparation, pre-training, post-training and provider infrastructure, with a zoomed-in view of tokenisation, neural network, vectorisation, weight tuning and inference"
+/>
+
+## Data preparation
+
+Huge amounts of information are scraped from the internet.
+
+This data is then sanitised. Duplicates, spam and unusable data is filtered out. What's left is the
+**prepared data**. Think data lake, ETL, data engineering etc.
+
+### Tokenisation
+
+Text gets chopped into small pieces called tokens.
+
+> `"doomscroller"` might become `doom`, `scroll`, `er`.
+
+Each token is represented with an integer (e.g. `462` or `83079`) called the Token Identifier.
+
+This is done for a few reasons:
+
+1. All text can fit in a finite dictionary of 50K~100K tokens, including all languages.
+2. Helps the model understand concepts it has never seen explicitly before.
+3. Numerical representations can be used in embeddings, used to do vector math.
+
+Tokenised data is what gets fed into the model during pre-training and inference.
+
+## Pre-training
+
+Pretraining is kind of a brute force task.
+
+The model reads through all that text and learns the patterns of how language works: grammar,
+general knowledge, how code is written.
+
+### Neural network
+
+A gigantic web of connections is engineered first.
+
+During pre-training it gets calibrated a little every time it guesses the next token wrong.
+
+### Weights
+
+Those connections are adjusted over and over until the model gets good at predicting what comes
+next.
+
+We refer to this as **tuning the weights**.
+
+Wikipedia pages, curated code repositories and books may be fed to the model multiple times to
+reinforce facts, good quality code and improve structure and attention span.
+
+### Vectorisation
+
+Each token gets turned into a list of numbers. Similar words end up with similar numbers.
+
+"Cleaner" and "vacuum" sit close together.
+
+:::info Example
+
+When you take the coordinate for **\[King\]**, subtract **\[Man\]**, and add **\[Woman\]**, the
+resulting coordinate will land almost exactly on the embedding for **\[Queen\]**.
+
+:::
+
+### Embedding matrix
+
+A big lookup table of "token -> numbers" called the embedding matrix.
+
+It is baked directly into the model and sits in front of the neural network.
+
+## Post-training
+
+A lot can be inferred from the weights of the model after pre-training, but it doesn't know how to
+behave.
+
+In Post-training we "teach" the model:
+
+- Answer in a way that is helpful to us as humans,
+- Guard against helping with bad intentions or toxic narratives
+- Be ethically responsible.
+
+Post training has a huge influence on how the model "feels".
+
+### Fine-tuning
+
+The model is given specific examples of how to respond to certain prompts, and it adjusts its
+weights accordingly.
+
+For example we might teach it to value _"equal pay for equal competence"_ instead of sexist bias it
+might have picked up from the internet.
+
+### Reinforcement learning with human feedback (RLHF)
+
+Human feedback is used to further refine the model's responses, ensuring it aligns better with human
+expectations and values.
+
+Post training has a huge influence on how the model "feels".
+
+## Distribution
+
+A checkpoint is then created and distributed.
+
+If the resulting model is shared publicly, it becomes an "open weights" model. When the code for the
+transformers and the neural network are shared as well we call it "open source".
+
+## Inference
+
+The finished model gets loaded onto high performance hardware inside the datacenter and exposed to
+people that have a subscription with the model provider.
+
+When you send a prompt, a model running on GPUs or TPUs does the actual thinking and sends tokens
+back. This is called **inference**.
+
+### Provider infra
+
+High performance machines typically have 8GPUs on board and cost anywhere between €200,000 and
+€500,000 each. Hence, they are usually rented from cloud platforms like GCP, Azure, AWS or Alibaba.
+
+Google specifically uses TPUs instead of GPUs. And instead of treating a host as a single server,
+they are hardwired to their neighbours via ultra-fast optical links. Together they form a "Pod".
+
+A full v5p Pod acts as one continuous supercomputer containing up to 8,960 chips.
+
+:::info
+
+Renting an entire pod would cost you somewhere around a million euros a day.
+
+:::
+
+### Provider API
+
+An API sits in front of the GPUs/TPUs for authentication and authorisation, context window caching,
+and scheduling your requests across the available hardware.
+
+## Conclusion
+
+To be continued.

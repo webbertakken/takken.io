@@ -109,8 +109,14 @@ const Index = (): React.ReactElement => {
           <Card title="Latest posts">
             <Card.Item>
               📖{' '}
+              <a href="/blog/the-making-of-a-model-in-simple-words">
+                The making of a model, in simple words
+              </a>
+            </Card.Item>
+            <Card.Item>
+              📖{' '}
               <a href="/blog/surfacing-ambiguities-and-hidden-assumptions">
-                Surfacing ambiguities and hidden assumptions
+                Surfacing ambiguities and assumptions
               </a>
             </Card.Item>
             <Card.Item>
@@ -125,12 +131,6 @@ const Index = (): React.ReactElement => {
             </Card.Item>
             <Card.Item>
               📖 <a href="/blog/a-modern-terminal-for-windows">A modern terminal for Windows</a>
-            </Card.Item>
-            <Card.Item>
-              📖{' '}
-              <a href="/blog/building-an-energy-efficient-server">
-                Building an energy efficient server
-              </a>
             </Card.Item>
           </Card>
 
