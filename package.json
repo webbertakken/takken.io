@@ -36,7 +36,8 @@
       "vitest related --run"
     ],
     "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write",
-    "*.@(css|scss|sass)": "stylelint --fix"
+    "*.@(css|scss|sass)": "stylelint --fix",
+    "{blog,notes}/**/*.@(md|mdx)": "node tools/validate-frontmatter.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",

@@ -1,0 +1,27 @@
+# Codecov configuration.
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+# Scripts under `tools/` are one-off utilities and ops helpers, not
+# runtime app code. They are exercised by lint-staged and CI wiring,
+# not unit tests, so we exclude them from coverage.
+ignore:
+  - 'tools/'
+  - '**/*.config.ts'
+  - '**/*.config.js'
+  - '**/*.config.mjs'
+
+comment:
+  layout: 'reach, diff, flags, files'
+  behavior: default
+  require_changes: false
