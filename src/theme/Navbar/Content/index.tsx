@@ -121,16 +121,14 @@ const NavbarContent = (): React.ReactElement => {
   const { pathname } = useLocation()
   const isLearningPage = pathname === '/learning' || pathname.startsWith('/learning/')
 
-  if (!isLearningPage) {
-    return <OriginalNavbarContent />
-  }
-
+  // Reserve the profile-menu slot on every page so the navbar layout is
+  // identical across routes. Only mount the actual menu on /learning.
   return (
     <div className="flex w-full items-center">
       <div className="flex-1">
         <OriginalNavbarContent />
       </div>
-      <ProfileMenu />
+      {isLearningPage ? <ProfileMenu /> : <div aria-hidden="true" className="ml-2 h-8 w-8" />}
     </div>
   )
 }
