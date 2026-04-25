@@ -46,7 +46,7 @@ const card = `<?xml version="1.0" encoding="UTF-8"?>
 </svg>
 `
 
-const outDir = path.join(repoRoot, 'static/img')
+const outDir = path.join(repoRoot, 'static/images')
 const outSvg = path.join(outDir, 'og.svg')
 const outPng = path.join(outDir, 'og.png')
 writeFileSync(outSvg, card)
