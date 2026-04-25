@@ -139,7 +139,7 @@ describe('useWatchedVideos', () => {
       expect(result.current.watchedIds.has('vid-1')).toBe(true)
       // Should not write to courses-watched key
       const coursesWatchedCalls = setItemSpy.mock.calls.filter(
-        (call) => call[0] === 'courses-watched',
+        (call: Parameters<Storage['setItem']>) => call[0] === 'courses-watched',
       )
       expect(coursesWatchedCalls).toHaveLength(0)
     })

@@ -88,7 +88,7 @@ describe('VideoViewer', () => {
 
     // Default YT mock
     window.YT = {
-      Player: vi.fn().mockImplementation((_id, config) => {
+      Player: vi.fn(function (_id, config) {
         // Store onStateChange for later invocation
         ;(window as unknown as Record<string, unknown>).__ytOnStateChange =
           config.events?.onStateChange
@@ -489,13 +489,13 @@ describe('VideoViewer', () => {
     })
 
     it('destroys YT player on unmount', async () => {
-      let destroyFn: ReturnType<typeof vi.fn>
+      let destroyFn: ReturnType<typeof vi.fn<() => void>>
 
       window.YT = {
-        Player: vi.fn().mockImplementation((_id, config) => {
+        Player: vi.fn(function (_id, config) {
           ;(window as unknown as Record<string, unknown>).__ytOnStateChange =
             config.events?.onStateChange
-          destroyFn = vi.fn()
+          destroyFn = vi.fn<() => void>()
           return {
             pauseVideo: vi.fn(),
             destroy: destroyFn,
