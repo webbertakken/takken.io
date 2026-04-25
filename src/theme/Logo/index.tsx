@@ -9,7 +9,7 @@ interface Props extends WrapperProps<typeof LogoType> {
   titleClassName?: string
 }
 
-export default function LogoWrapper(props: Props): JSX.Element {
+export default function LogoWrapper(props: Props): React.JSX.Element {
   const location = useLocation()
 
   const titleClassName = clsx(props.titleClassName, {

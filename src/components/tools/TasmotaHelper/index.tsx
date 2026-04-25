@@ -3,7 +3,7 @@ import ToolPage from '@theme/ToolPage/ToolPage'
 import CalibrateWithEnergyMeter from './calibrateWithEnergyMeter'
 import CalibrateWithMultiMeter from './calibrateWithMultiMeter'
 
-const TasmotaHelper = (): JSX.Element => {
+const TasmotaHelper = (): React.JSX.Element => {
   return (
     <ToolPage title="Tasmota helper">
       <CalibrateWithEnergyMeter />

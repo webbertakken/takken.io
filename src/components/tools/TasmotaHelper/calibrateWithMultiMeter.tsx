@@ -5,7 +5,7 @@ import CodeBlock from '@site/src/components/common/CodeBlock'
 import { dedent } from 'ts-dedent'
 import React, { useEffect, useState } from 'react'
 
-const CalibrateWithMultiMeter = (): JSX.Element => {
+const CalibrateWithMultiMeter = (): React.JSX.Element => {
   const [wattage, setWattage] = useState<string>('0')
   const [voltage, setVoltage] = useState<string>('234.5')
   const [amperage, setAmperage] = useState<string>('0.27')

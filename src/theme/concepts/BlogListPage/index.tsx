@@ -5,7 +5,7 @@ import Link from '@docusaurus/Link'
 import ProcessedImage from '../components/ProcessedImage'
 import { useProcessedImage } from '../hooks/useProcessedImage'
 
-export default function ConceptsBlogListPage(props: Props): JSX.Element {
+export default function ConceptsBlogListPage(props: Props): React.JSX.Element {
   const { items, metadata } = props
   const { blogTitle, blogDescription } = metadata
 

@@ -22,7 +22,7 @@ export default function OptimizedThumbnail({
   imageUrl,
   title,
   className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-200',
-}: OptimizedThumbnailProps): JSX.Element {
+}: OptimizedThumbnailProps): React.JSX.Element {
   const optimizedUrl = optimizeImageUrl(imageUrl)
 
   return <img src={optimizedUrl} alt={title} className={className} loading="lazy" />

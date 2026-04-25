@@ -16,7 +16,7 @@ export default function ProcessedImage({
   alt,
   className = '',
   enableModal = false,
-}: ProcessedImageProps): JSX.Element {
+}: ProcessedImageProps): React.JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Get the appropriate image URL based on size

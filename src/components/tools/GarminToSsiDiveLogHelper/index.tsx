@@ -19,7 +19,7 @@ const interestingMessages = [
   'tankSummaryMesgs',
 ]
 
-const GarminToSsiDiveLogHelper = (): JSX.Element => {
+const GarminToSsiDiveLogHelper = (): React.JSX.Element => {
   const fileInputRef = createRef<HTMLInputElement>()
   const [messages, setMessages] = useState<GarminMessages | null>(null)
   const [ssiDive, setSsiDive] = useState<Partial<SsiDive> | null>(null)
