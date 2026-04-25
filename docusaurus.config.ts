@@ -203,6 +203,10 @@ export default {
   ],
 
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      respectPrefersColorScheme: true,
+    },
     metadata: [
       {
         name: 'darkreader-lock',
