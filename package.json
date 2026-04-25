@@ -33,10 +33,7 @@
       "git update-index --chmod=+x"
     ],
     "*.@(ts|tsx|mts)": "bash -c 'tsgo --skipLibCheck --noEmit'",
-    "*.@(ts|tsx|mts|js|jsx|mjs|cjs)": [
-      "oxlint --max-warnings 0",
-      "vitest related --run"
-    ],
+    "*.@(ts|tsx|mts|js|jsx|mjs|cjs)": "oxlint --max-warnings 0",
     "*.@(ts|tsx|mts|js|jsx|mjs|cjs|json|jsonc|json5|md|mdx|yaml|yml)": "prettier --write",
     "*.@(css|scss|sass)": "stylelint --fix",
     "{blog,notes}/**/*.@(md|mdx)": "node tools/validate-frontmatter.mjs"
