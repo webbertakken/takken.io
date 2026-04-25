@@ -21,7 +21,7 @@
     "lint:css": "stylelint **/*.{css,scss,sass} --fix",
     "format": "prettier --write .",
     "fix": "yarn format && yarn lint:css && yarn lint --fix",
-    "typecheck": "tsc --skipLibCheck --noEmit",
+    "typecheck": "tsgo --skipLibCheck --noEmit",
     "prepare": "husky install",
     "image": "ts-node tools/image-generator/index.ts"
   },
@@ -30,7 +30,7 @@
       "shellcheck",
       "git update-index --chmod=+x"
     ],
-    "*.@(ts|tsx|mts)": "bash -c 'tsc --skipLibCheck --noEmit'",
+    "*.@(ts|tsx|mts)": "bash -c 'tsgo --skipLibCheck --noEmit'",
     "*.@(ts|tsx|mts|js|jsx|mjs|cjs)": [
       "eslint --max-warnings 0",
       "vitest related --run"
@@ -77,7 +77,6 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.9.2",
-    "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.9.2",
     "@tailwindcss/webpack": "^4.2.0",
     "@testing-library/dom": "^10.4.0",
@@ -91,6 +90,7 @@
     "@types/react": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
+    "@typescript/native-preview": "7.0.0-dev.20260425.1",
     "@vitest/coverage-v8": "^3.2.4",
     "cross-env": "^7.0.3",
     "dotenv": "^17.2.0",

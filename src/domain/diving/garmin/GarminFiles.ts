@@ -55,7 +55,10 @@ export class GarminFiles {
     })
 
     return Object.entries(decompressedFiles).map(
-      ([filename, bytes]) => new File([bytes] as Uint8Array[], filename),
+      // fflate's `unzipSync` always allocates a regular ArrayBuffer (never
+      // SharedArrayBuffer), so narrowing the buffer type is safe and required
+      // by the stricter DOM `BlobPart` typings.
+      ([filename, bytes]) => new File([bytes as Uint8Array<ArrayBuffer>], filename),
     )
   }
 }
