@@ -1,14 +1,23 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
+  // We previously extended `@docusaurus/tsconfig` but it sets `baseUrl`, which
+  // tsgo (TypeScript 7 native preview) has removed. Settings are inlined here
+  // so we control them directly.
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": ".",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "jsx": "react-jsx",
-    "target": "ES2020",
+    "lib": ["ES2022", "DOM"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    "noEmit": true,
+    "paths": {
+      "@site/*": ["./*"]
+    },
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2020"
   },
   "exclude": ["node_modules", "cypress", "dist", "build", ".yarn", "functions"]
 }
