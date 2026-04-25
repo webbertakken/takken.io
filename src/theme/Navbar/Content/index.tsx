@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import OriginalNavbarContent from '@theme-original/Navbar/Content'
+import { useLocation } from '@docusaurus/router'
 import clsx from 'clsx'
 import { useAuth } from '@site/src/contexts/AuthContext'
 
@@ -117,6 +118,13 @@ const ProfileMenu = (): React.ReactElement => {
 }
 
 const NavbarContent = (): React.ReactElement => {
+  const { pathname } = useLocation()
+  const isLearningPage = pathname === '/learning' || pathname.startsWith('/learning/')
+
+  if (!isLearningPage) {
+    return <OriginalNavbarContent />
+  }
+
   return (
     <div className="flex w-full items-center">
       <div className="flex-1">
