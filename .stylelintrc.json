@@ -8,7 +8,6 @@
         "ignorePseudoClasses": ["global"]
       }
     ],
-    "scss/at-import-partial-extension": null,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
     "keyframes-name-pattern": null,
