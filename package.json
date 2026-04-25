@@ -106,8 +106,7 @@
     "tailwindcss": "^4.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "vitest": "^4",
-    "yarn-upgrade-all": "^0.8.1"
+    "vitest": "^4"
   },
   "resolutions": {
     "sharp": "^0.34.4",
