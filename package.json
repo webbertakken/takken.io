@@ -112,7 +112,20 @@
   "resolutions": {
     "sharp": "^0.34.4",
     "@types/react": "^19",
-    "@types/react-dom": "^19"
+    "@types/react-dom": "^19",
+    "protobufjs": "^7.5.5",
+    "lodash": "^4.17.23",
+    "lodash-es": "^4.17.23",
+    "node-forge": "^1.3.2",
+    "picomatch": "^2.3.2",
+    "dompurify": "^3.2.7",
+    "path-to-regexp@~0.1.12": "^0.1.13",
+    "path-to-regexp@^1.7.0": "^1.9.0",
+    "on-headers": "^1.1.0",
+    "micromatch": "^4.0.8",
+    "qs": "^6.14.1",
+    "mdast-util-to-hast": "^13.2.1",
+    "webpack": "~5.97.1"
   },
   "browserslist": {
     "production": [
