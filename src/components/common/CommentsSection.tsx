@@ -1,6 +1,7 @@
 import React from 'react'
 import Giscus from '@giscus/react'
 import { useColorMode } from '@docusaurus/theme-common'
+import { useLocation } from '@docusaurus/router'
 
 interface Props {
   category: string
@@ -9,6 +10,7 @@ interface Props {
 
 const CommentsSection = ({ category, categoryId }: Props): JSX.Element => {
   const { colorMode: theme } = useColorMode()
+  const { pathname } = useLocation()
 
   return (
     <div role="region" aria-label="Comments section">
@@ -22,7 +24,15 @@ const CommentsSection = ({ category, categoryId }: Props): JSX.Element => {
         />
       </h2>
 
+      {/*
+       * The `key` forces a fresh `<giscus-widget>` (and its iframe) to mount on
+       * every route change. Without it, Docusaurus' SPA navigation reuses the
+       * same widget instance and — because all props below are static — the
+       * giscus lit element never triggers `updateConfig`, leaving the previous
+       * post's discussion visible.
+       */}
       <Giscus
+        key={pathname}
         id="comments"
         repo="webbertakken/takken.io"
         repoId="MDEwOlJlcG9zaXRvcnkzNDk3MTQyOTA="
