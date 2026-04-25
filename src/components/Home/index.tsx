@@ -29,6 +29,7 @@ const Index = (): React.ReactElement => {
             <Image
               className="[&:not(dialog_&)_img]:rounded-lg"
               img={require('@site/src/assets/webber.jpg')}
+              alt="Portrait of Webber Takken"
             />
           </div>
 
@@ -85,21 +86,26 @@ const Index = (): React.ReactElement => {
           <Card title="Projects">
             <Card.Item>
               🎮{' '}
-              <a href="https://minis.gg" target="_blank" rel="noreferrer">
+              <a href="https://minis.gg" target="_blank" rel="noreferrer" className="underline">
                 Minis.gg
               </a>{' '}
               (free gaming platform)
             </Card.Item>
             <Card.Item>
               📺{' '}
-              <a href="https://github.com/webbertakken/streamer" target="_blank" rel="noreferrer">
+              <a
+                href="https://github.com/webbertakken/streamer"
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              >
                 Streamer
               </a>{' '}
               (free streamer software)
             </Card.Item>
             <Card.Item>
               🌍{' '}
-              <a href="https://game.ci" target="_blank" rel="noreferrer">
+              <a href="https://game.ci" target="_blank" rel="noreferrer" className="underline">
                 GameCI
               </a>{' '}
               (open source community)
