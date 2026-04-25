@@ -213,6 +213,11 @@ export default {
         name: 'darkreader-lock',
         content: 'this site supported dark mode and uses QR codes with white backgrounds',
       },
+      { property: 'og:image:type', content: 'image/png' },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { property: 'og:image:alt', content: 'Takken.io — notes, thoughts, projects' },
+      { name: 'twitter:image:alt', content: 'Takken.io — notes, thoughts, projects' },
     ],
     navbar: {
       title: 'Takken.io',
