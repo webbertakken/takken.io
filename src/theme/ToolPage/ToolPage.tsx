@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode
 }
 
-const ToolPage = ({ title = '', children }: Props): JSX.Element => {
+const ToolPage = ({ title = '', children }: Props): React.JSX.Element => {
   return <ToolPageLayout title={title}>{children}</ToolPageLayout>
 }
 

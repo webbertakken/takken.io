@@ -8,7 +8,7 @@ interface Props {
   wide?: boolean
 }
 
-const ToolPageLayout = ({ children, title = '', wide = false }: Props): JSX.Element => {
+const ToolPageLayout = ({ children, title = '', wide = false }: Props): React.JSX.Element => {
   return (
     <Layout
       wrapperClassName={cx('w-full max-w-7xl mx-auto py-8 px-4', {

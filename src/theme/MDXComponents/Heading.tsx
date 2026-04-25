@@ -6,7 +6,7 @@ import { useLocation } from '@docusaurus/router'
 
 type Props = WrapperProps<typeof HeadingType>
 
-export default function HeadingWrapper(props: Props): JSX.Element {
+export default function HeadingWrapper(props: Props): React.JSX.Element {
   const location = useLocation()
   const isBlogPost = location.pathname.startsWith('/blog/')
 

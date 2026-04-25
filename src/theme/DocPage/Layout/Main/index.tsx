@@ -5,7 +5,7 @@ import type { WrapperProps } from '@docusaurus/types'
 
 type Props = WrapperProps<typeof MainType>
 
-export default function MainWrapper(props: Props): JSX.Element {
+export default function MainWrapper(props: Props): React.JSX.Element {
   return (
     <>
       <div id="docContainerPadding" />

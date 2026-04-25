@@ -8,7 +8,7 @@ const tools = [
   { name: 'Comma separator', slug: 'comma-separator' },
 ]
 
-const Tools = (): JSX.Element => {
+const Tools = (): React.JSX.Element => {
   return (
     <ToolPageLayout title="Tools">
       <ul>

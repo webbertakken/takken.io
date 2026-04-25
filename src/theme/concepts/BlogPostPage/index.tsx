@@ -22,7 +22,7 @@ const ChevronRight = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export default function ConceptsBlogPostPage(props: Props): JSX.Element {
+export default function ConceptsBlogPostPage(props: Props): React.JSX.Element {
   const { content: BlogPostContent } = props
   const { metadata, frontMatter } = BlogPostContent
   const { title, nextItem, prevItem, editUrl, tags, source } = metadata

@@ -123,7 +123,7 @@ describe('ProcessedImage', () => {
     render(<ProcessedImage processedData={null} size="medium" alt="Test image" />)
 
     const img = screen.getByAltText('Test image')
-    expect(img).toHaveAttribute('src', '')
+    expect(img).not.toHaveAttribute('src')
   })
 
   it('falls back to src when processed size not available', () => {

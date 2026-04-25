@@ -8,7 +8,7 @@ interface Props {
   isSong?: boolean
 }
 
-const PoemAudio = (props: Props): JSX.Element => {
+const PoemAudio = (props: Props): React.JSX.Element => {
   const { performer, isSong, ...audioProps } = props
   return (
     <div className="flex flex-col items-center py-8 px-4">

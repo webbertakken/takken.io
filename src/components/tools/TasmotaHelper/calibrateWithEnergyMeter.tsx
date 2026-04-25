@@ -5,7 +5,7 @@ import { dedent } from 'ts-dedent'
 import React, { useEffect, useState } from 'react'
 import { toolStyles } from '../toolStyles'
 
-const CalibrateWithEnergyMeter = (): JSX.Element => {
+const CalibrateWithEnergyMeter = (): React.JSX.Element => {
   const [power, setPower] = useState<string>('63')
   const [voltage, setVoltage] = useState<string>('234.5')
   const [current, setCurrent] = useState<string>('0')

@@ -6,7 +6,7 @@ import CommentsSection from '@site/src/components/common/CommentsSection'
 
 type Props = WrapperProps<typeof ContentType>
 
-export default function ContentWrapper(props: Props): JSX.Element {
+export default function ContentWrapper(props: Props): React.JSX.Element {
   return (
     <>
       <Content {...props} />

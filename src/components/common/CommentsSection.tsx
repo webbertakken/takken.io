@@ -8,7 +8,7 @@ interface Props {
   categoryId: string
 }
 
-const CommentsSection = ({ category, categoryId }: Props): JSX.Element => {
+const CommentsSection = ({ category, categoryId }: Props): React.JSX.Element => {
   const { colorMode: theme } = useColorMode()
   const { pathname } = useLocation()
 
