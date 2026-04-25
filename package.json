@@ -22,7 +22,7 @@
     "format": "prettier --write .",
     "fix": "yarn format && yarn lint:css && yarn lint --fix",
     "typecheck": "tsgo --skipLibCheck --noEmit",
-    "prepare": "husky install",
+    "prepare": "husky",
     "image": "ts-node tools/image-generator/index.ts"
   },
   "lint-staged": {
@@ -93,7 +93,7 @@
     "cross-env": "^10",
     "dotenv": "^17.4.2",
     "glob": "^13.0.6",
-    "husky": "8.0.3",
+    "husky": "^9",
     "jsdom": "^29",
     "lint-staged": "^16",
     "oxlint": "^1.61.0",
