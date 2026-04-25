@@ -203,7 +203,7 @@ export default {
   ],
 
   themeConfig: {
-    image: 'img/og.png',
+    image: 'images/og.png',
     colorMode: {
       defaultMode: 'light',
       respectPrefersColorScheme: true,
