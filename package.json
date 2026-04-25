@@ -22,6 +22,8 @@
     "format": "prettier --write .",
     "fix": "yarn format && yarn lint:css && yarn lint --fix",
     "typecheck": "tsgo --skipLibCheck --noEmit",
+    "check:ci": "yarn coverage --run && yarn lint && yarn prettier --check . && yarn typecheck",
+    "check": "yarn test --run && yarn lint && yarn prettier --check . && yarn typecheck",
     "prepare": "husky",
     "image": "ts-node tools/image-generator/index.ts"
   },
