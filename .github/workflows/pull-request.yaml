@@ -11,16 +11,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node from mise.toml
-        uses: jdx/mise-action@v2
-        with:
-          install: true
-          cache: true
+      - name: Read Node version from mise.toml
+        id: node
+        run:
+          echo "version=$(grep -E '^node\s*=' mise.toml | sed -E 's/.*"([^"]+)".*/\1/')" >>
+          "$GITHUB_OUTPUT"
 
-      - name: Enable corepack
+      - name: Install package manager (from package.json)
         run: |
           corepack enable
           corepack install
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.node.outputs.version }}
 
       - name: Restore yarn install cache (node_modules + .yarn/cache + install-state)
         id: yarn-cache
@@ -30,9 +35,11 @@ jobs:
             node_modules
             .yarn/cache
             .yarn/install-state.gz
-          key: yarn-${{ runner.os }}-${{ hashFiles('mise.toml') }}-${{ hashFiles('yarn.lock') }}
+          key:
+            yarn-${{ runner.os }}-node${{ steps.node.outputs.version }}-${{ hashFiles('yarn.lock')
+            }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ hashFiles('mise.toml') }}-
+            yarn-${{ runner.os }}-node${{ steps.node.outputs.version }}-
 
       - name: Install deps
         run: yarn install --immutable
