@@ -5,6 +5,6 @@
   "functions": {
     "source": "functions",
     "runtime": "nodejs22",
-    "predeploy": "yarn --cwd functions build"
+    "predeploy": "corepack enable && yarn --cwd functions build"
   }
 }
