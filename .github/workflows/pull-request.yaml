@@ -42,7 +42,6 @@ jobs:
             yarn-${{ runner.os }}-node${{ steps.node.outputs.version }}-
 
       - name: Install deps
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
       - name: Tests
