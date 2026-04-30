@@ -27,13 +27,17 @@ jobs:
         with:
           node-version: ${{ steps.node.outputs.version }}
 
-      - name: Restore yarn install cache (node_modules + .yarn/cache + install-state)
+      - name: Resolve yarn cache folder
+        id: yarn-config
+        run: echo "cacheFolder=$(yarn config get cacheFolder)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore yarn install cache (node_modules + cacheFolder + install-state)
         id: yarn-cache
         uses: actions/cache@v4
         with:
           path: |
             node_modules
-            .yarn/cache
+            ${{ steps.yarn-config.outputs.cacheFolder }}
             .yarn/install-state.gz
           key:
             yarn-${{ runner.os }}-node${{ steps.node.outputs.version }}-${{ hashFiles('yarn.lock')
