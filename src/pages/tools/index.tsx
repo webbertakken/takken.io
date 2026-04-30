@@ -1,7 +1,9 @@
 import type { ComponentType } from 'react'
 import {
   FaArrowRight,
+  FaArrowUpRightFromSquare,
   FaCodePullRequest,
+  FaDocker,
   FaListUl,
   FaMagnifyingGlass,
   FaPersonSwimming,
@@ -14,6 +16,7 @@ interface Tool {
   slug: string
   description: string
   Icon: ComponentType<{ className?: string; 'aria-hidden'?: boolean }>
+  external?: boolean
 }
 
 const tools: Tool[] = [
@@ -47,6 +50,14 @@ const tools: Tool[] = [
     description: 'Split or join a collection of items with custom delimiters and quote characters.',
     Icon: FaListUl,
   },
+  {
+    name: 'Migrating node image from Bitnami',
+    slug: 'migrating-node-image-from-bitnami.html',
+    description:
+      'Interactive guide for choosing a Node.js base image strategy in the post-Bitnami era.',
+    Icon: FaDocker,
+    external: true,
+  },
 ]
 
 const Tools = (): React.JSX.Element => {
@@ -56,7 +67,7 @@ const Tools = (): React.JSX.Element => {
         Small in-browser utilities I built to scratch my own itches.
       </p>
       <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2 lg:grid-cols-3">
-        {tools.map(({ name, slug, description, Icon }) => (
+        {tools.map(({ name, slug, description, Icon, external }) => (
           <li key={slug} className="m-0">
             <a
               href={`/tools/${slug}`}
@@ -64,10 +75,17 @@ const Tools = (): React.JSX.Element => {
             >
               <div className="mb-3 flex items-center justify-between">
                 <Icon aria-hidden className="h-8 w-8 text-pink dark:text-pink-light" />
-                <FaArrowRight
-                  aria-hidden
-                  className="h-4 w-4 -translate-x-1 text-gray-300 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-500"
-                />
+                {external ? (
+                  <FaArrowUpRightFromSquare
+                    aria-hidden
+                    className="h-4 w-4 text-gray-300 opacity-0 transition-all group-hover:opacity-100 dark:text-gray-500"
+                  />
+                ) : (
+                  <FaArrowRight
+                    aria-hidden
+                    className="h-4 w-4 -translate-x-1 text-gray-300 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 dark:text-gray-500"
+                  />
+                )}
               </div>
               <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{name}</h2>
               <p className="m-0 text-sm text-gray-500 dark:text-gray-400">{description}</p>
