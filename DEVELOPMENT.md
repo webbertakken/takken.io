@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- Volta (a lightweight zero-config tool manager,
-  [installation](https://docs.volta.sh/guide/getting-started#installation))
+- [mise](https://mise.jdx.dev/) (Node version is pinned in `mise.toml`; Yarn is activated via
+  Corepack from `package.json` `packageManager`)
 
 ## Setup
 
@@ -44,12 +44,12 @@ Merge a PR for it to be deployed to production
 Upgrade Node
 
 ```shell
-volta pin node@lts
+mise use node@lts
 ```
 
 Upgrade Yarn
 
 ```shell
 yarn set version stable
-volta pin yarn
+# `packageManager` in package.json is updated automatically by `yarn set version`.
 ```

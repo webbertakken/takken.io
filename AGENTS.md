@@ -2,7 +2,7 @@
 
 ## Workflow
 
-- Use volta for node/yarn versions
+- Use mise for node version (mise.toml); yarn is pinned via packageManager (corepack)
 - Yarn for packages, bun for standalone TS
 - Plan → Execute → Verify (lint, typecheck, test)
 - Always run `npx prettier --write` on changed files before committing
