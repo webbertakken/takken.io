@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Migrating node image from Bitnami</title>
-    
+
     <!-- Chosen Palette: Warm Neutrals & Sage (Calm Harmony) -->
     <!-- Application Structure Plan: A tabbed dashboard interface. Chosen because migrating infrastructure is a multi-faceted decision. Users need high-level context (Overview), comparative data (Analysis), actionable advice (Decision Engine), and implementation details (Migration). This prevents cognitive overload and allows users to explore linearly or jump straight to recommendations based on their role (e.g., DevOps vs. Security). -->
     <!-- Visualization & Content Choices: 
@@ -16,351 +16,517 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        background: '#F9F8F6', // Warm off-white
-                        surface: '#FFFFFF',
-                        primary: '#2D3748', // Dark slate for text
-                        secondary: '#718096', // Muted slate
-                        accent: '#D4A373', // Warm ochre/tan
-                        accentLight: '#E9C46A',
-                        sage: '#CCD5AE', // Muted sage green
-                        sageDark: '#A3B18A',
-                        alert: '#E76F51'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: '#F9F8F6', // Warm off-white
+              surface: '#FFFFFF',
+              primary: '#2D3748', // Dark slate for text
+              secondary: '#718096', // Muted slate
+              accent: '#D4A373', // Warm ochre/tan
+              accentLight: '#E9C46A',
+              sage: '#CCD5AE', // Muted sage green
+              sageDark: '#A3B18A',
+              alert: '#E76F51',
+            },
+            fontFamily: {
+              sans: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+            },
+          },
+        },
+      }
     </script>
 
     <style>
-        body {
-            background-color: #F9F8F6;
-            color: #2D3748;
-        }
-        
-        /* STRICT CHART CONTAINER STYLING */
+      body {
+        background-color: #f9f8f6;
+        color: #2d3748;
+      }
+
+      /* STRICT CHART CONTAINER STYLING */
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+        background-color: #ffffff;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      }
+
+      @media (max-width: 640px) {
         .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 400px;
-            background-color: #FFFFFF;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+          height: 250px;
+          max-height: 300px;
+          padding: 0.5rem;
         }
+      }
 
-        @media (max-width: 640px) {
-            .chart-container {
-                height: 250px;
-                max-height: 300px;
-                padding: 0.5rem;
-            }
-        }
+      .tab-btn {
+        transition: all 0.2s ease-in-out;
+      }
 
-        .tab-btn {
-            transition: all 0.2s ease-in-out;
-        }
-        
-        .tab-btn.active {
-            border-bottom: 3px solid #D4A373;
-            color: #D4A373;
-            font-weight: 600;
-        }
+      .tab-btn.active {
+        border-bottom: 3px solid #d4a373;
+        color: #d4a373;
+        font-weight: 600;
+      }
 
-        .code-block {
-            background-color: #2D3748;
-            color: #F9F8F6;
-            font-family: monospace;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-        }
+      .code-block {
+        background-color: #2d3748;
+        color: #f9f8f6;
+        font-family: monospace;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+      }
 
-        /* Custom Radio Buttons */
-        input[type="radio"] {
-            accent-color: #D4A373;
-        }
+      /* Custom Radio Buttons */
+      input[type='radio'] {
+        accent-color: #d4a373;
+      }
     </style>
-</head>
-<body class="min-h-screen flex flex-col font-sans">
-
+  </head>
+  <body class="min-h-screen flex flex-col font-sans">
     <!-- Header -->
     <header class="bg-surface shadow-sm sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-2">
-                    <span class="text-2xl text-accent">&#128230;</span>
-                    <h1 class="text-xl font-bold text-primary">Node.js Image Strategy 2026</h1>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <button class="tab-btn active text-secondary hover:text-accent pb-1" data-target="overview">Overview</button>
-                    <button class="tab-btn text-secondary hover:text-accent pb-1" data-target="analysis">Comparative Analysis</button>
-                    <button class="tab-btn text-secondary hover:text-accent pb-1" data-target="decision">Decision Engine</button>
-                    <button class="tab-btn text-secondary hover:text-accent pb-1" data-target="migration">Migration Paths</button>
-                </div>
-                <!-- Mobile menu toggle (simplified for this SPA using native select) -->
-                <div class="md:hidden">
-                    <select id="mobile-nav" class="bg-background border border-gray-300 text-primary rounded-md px-3 py-1 focus:outline-none focus:ring-accent focus:border-accent">
-                        <option value="overview">Overview</option>
-                        <option value="analysis">Comparative Analysis</option>
-                        <option value="decision">Decision Engine</option>
-                        <option value="migration">Migration Paths</option>
-                    </select>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl text-accent">&#128230;</span>
+            <h1 class="text-xl font-bold text-primary">Node.js Image Strategy 2026</h1>
+          </div>
+          <div class="hidden md:flex space-x-8">
+            <button
+              class="tab-btn active text-secondary hover:text-accent pb-1"
+              data-target="overview"
+            >
+              Overview
+            </button>
+            <button class="tab-btn text-secondary hover:text-accent pb-1" data-target="analysis">
+              Comparative Analysis
+            </button>
+            <button class="tab-btn text-secondary hover:text-accent pb-1" data-target="decision">
+              Decision Engine
+            </button>
+            <button class="tab-btn text-secondary hover:text-accent pb-1" data-target="migration">
+              Migration Paths
+            </button>
+          </div>
+          <!-- Mobile menu toggle (simplified for this SPA using native select) -->
+          <div class="md:hidden">
+            <select
+              id="mobile-nav"
+              class="bg-background border border-gray-300 text-primary rounded-md px-3 py-1 focus:outline-none focus:ring-accent focus:border-accent"
+            >
+              <option value="overview">Overview</option>
+              <option value="analysis">Comparative Analysis</option>
+              <option value="decision">Decision Engine</option>
+              <option value="migration">Migration Paths</option>
+            </select>
+          </div>
         </div>
+      </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      <!-- SECTION: OVERVIEW -->
+      <section id="overview" class="tab-content block animate-fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-primary">The Post-Bitnami Landscape</h2>
+          <p class="text-lg text-secondary leading-relaxed max-w-4xl">
+            This section provides the essential context surrounding the transition away from
+            Bitnami's traditional Node.js Docker images. For years, Bitnami provided a "gold
+            standard" for non-root, secure-by-default images. With shifts in their support lifecycle
+            and the rise of zero-CVE initiatives, engineering teams must now select new base images.
+            Here, you'll explore the current industry migration trends and understand the critical
+            factors driving these architectural decisions.
+          </p>
+        </div>
 
-        <!-- SECTION: OVERVIEW -->
-        <section id="overview" class="tab-content block animate-fade-in">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold mb-4 text-primary">The Post-Bitnami Landscape</h2>
-                <p class="text-lg text-secondary leading-relaxed max-w-4xl">
-                    This section provides the essential context surrounding the transition away from Bitnami's traditional Node.js Docker images. For years, Bitnami provided a "gold standard" for non-root, secure-by-default images. With shifts in their support lifecycle and the rise of zero-CVE initiatives, engineering teams must now select new base images. Here, you'll explore the current industry migration trends and understand the critical factors driving these architectural decisions.
-                </p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div class="bg-surface rounded-xl p-6 shadow-sm border border-gray-100">
+            <h3 class="text-xl font-semibold mb-3 flex items-center">
+              <span class="mr-2 text-accent">&#9888;</span> The Catalyst for Change
+            </h3>
+            <ul class="space-y-3 text-secondary">
+              <li class="flex items-start">
+                <span class="text-sageDark mr-2">&#10003;</span>
+                <span
+                  ><strong>Bitnami Focus Shift:</strong> Transition towards VMware Tanzu application
+                  catalog and different packaging models.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <span class="text-sageDark mr-2">&#10003;</span>
+                <span
+                  ><strong>Rise of Software Supply Chain Security:</strong> Increased scrutiny on
+                  base image vulnerabilities (CVEs) and minimal attack surfaces.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <span class="text-sageDark mr-2">&#10003;</span>
+                <span
+                  ><strong>The "Non-Root" Standard:</strong> What was once a unique Bitnami feature
+                  is now expected across all official and modern alternatives.</span
+                >
+              </li>
+            </ul>
+
+            <div
+              class="mt-6 p-4 bg-sage bg-opacity-20 rounded-lg border-l-4 border-sageDark text-sm text-primary"
+            >
+              <strong>Key Takeaway:</strong> The goal is no longer just finding a drop-in
+              replacement, but upgrading to an image that aligns with 2026 security compliance and
+              performance standards.
+            </div>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <h3 class="text-lg font-semibold mb-4 text-center">
+              Industry Migration Trends (Estimated)
+            </h3>
+            <!-- CHART CONTAINER -->
+            <div class="chart-container">
+              <canvas id="adoptionChart"></canvas>
+            </div>
+            <p class="text-xs text-secondary mt-2 text-center max-w-md">
+              Data represents surveyed engineering teams migrating off legacy Bitnami Node.js images
+              over the last 12 months.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: COMPARATIVE ANALYSIS -->
+      <section id="analysis" class="tab-content hidden animate-fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-primary">Evaluating the Alternatives</h2>
+          <p class="text-lg text-secondary leading-relaxed max-w-4xl">
+            In this section, we analyze the four primary contenders vying to replace your Bitnami
+            images. You will find a detailed comparison of the Official Alpine, Official Slim,
+            Distroless, and Chainguard (Wolfi-based) images. We focus on the most critical
+            operational metrics: Image Size (which impacts pull times and storage) versus Historical
+            Vulnerability Count (which impacts security and compliance overhead).
+          </p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div
+            class="bg-surface p-5 rounded-xl border-t-4 border-gray-400 shadow-sm hover:shadow-md transition cursor-default"
+          >
+            <h4 class="font-bold text-lg mb-1">node:alpine</h4>
+            <p class="text-sm text-secondary mb-3">The Lightweight Standard</p>
+            <div class="flex justify-between items-end">
+              <span class="text-2xl font-bold">~115 MB</span>
+              <span class="text-xs font-semibold px-2 py-1 bg-gray-100 rounded text-gray-600"
+                >musl libc</span
+              >
+            </div>
+          </div>
+          <div
+            class="bg-surface p-5 rounded-xl border-t-4 border-accent shadow-sm hover:shadow-md transition cursor-default"
+          >
+            <h4 class="font-bold text-lg mb-1">node:slim</h4>
+            <p class="text-sm text-secondary mb-3">The Compatible Middle-Ground</p>
+            <div class="flex justify-between items-end">
+              <span class="text-2xl font-bold">~210 MB</span>
+              <span
+                class="text-xs font-semibold px-2 py-1 bg-accent bg-opacity-20 rounded text-accent"
+                >glibc (Debian)</span
+              >
+            </div>
+          </div>
+          <div
+            class="bg-surface p-5 rounded-xl border-t-4 border-sageDark shadow-sm hover:shadow-md transition cursor-default"
+          >
+            <h4 class="font-bold text-lg mb-1">gcr.io/distroless/nodejs</h4>
+            <p class="text-sm text-secondary mb-3">Google's Hardened Choice</p>
+            <div class="flex justify-between items-end">
+              <span class="text-2xl font-bold">~135 MB</span>
+              <span
+                class="text-xs font-semibold px-2 py-1 bg-sage bg-opacity-40 rounded text-sageDark"
+                >No Shell</span
+              >
+            </div>
+          </div>
+          <div
+            class="bg-surface p-5 rounded-xl border-t-4 border-alert shadow-sm hover:shadow-md transition cursor-default"
+          >
+            <h4 class="font-bold text-lg mb-1">chainguard/node</h4>
+            <p class="text-sm text-secondary mb-3">Zero-CVE Focus (Wolfi)</p>
+            <div class="flex justify-between items-end">
+              <span class="text-2xl font-bold">~145 MB</span>
+              <span
+                class="text-xs font-semibold px-2 py-1 bg-alert bg-opacity-20 rounded text-alert"
+                >High Security</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Visualization -->
+        <div class="bg-surface rounded-xl shadow-sm border border-gray-100 p-6">
+          <h3 class="text-xl font-semibold mb-4 text-center">
+            Trade-off Matrix: Size vs. Average CVEs
+          </h3>
+          <div class="flex flex-col items-center">
+            <!-- CHART CONTAINER -->
+            <div class="chart-container" style="max-width: 900px; height: 400px">
+              <canvas id="metricsChart"></canvas>
+            </div>
+          </div>
+          <div class="mt-4 flex justify-center space-x-6 text-sm text-secondary">
+            <span class="flex items-center"
+              ><span class="w-3 h-3 bg-accent inline-block mr-2 rounded-full"></span> Image Size
+              (MB) - Lower is better</span
+            >
+            <span class="flex items-center"
+              ><span class="w-3 h-3 bg-alert inline-block mr-2 rounded-full"></span> Avg CVEs
+              (Scanner Baseline) - Lower is better</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: DECISION ENGINE -->
+      <section id="decision" class="tab-content hidden animate-fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-primary">Architectural Decision Engine</h2>
+          <p class="text-lg text-secondary leading-relaxed max-w-4xl">
+            There is no single "best" image to replace Bitnami. The correct choice depends entirely
+            on your project's specific constraints regarding security compliance, application
+            dependencies (e.g., C++ addons), and debugging requirements. Use this interactive tool
+            to input your primary constraints, and the engine will recommend the most appropriate
+            base image strategy for your architecture.
+          </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+          <!-- Interactive Form -->
+          <div class="bg-surface p-6 rounded-xl shadow-sm border border-gray-100 lg:w-1/2">
+            <h3 class="text-xl font-semibold mb-6 border-b pb-2">Assess Your Requirements</h3>
+
+            <div class="space-y-6">
+              <!-- Q1 -->
+              <div>
+                <label class="block font-medium text-primary mb-2"
+                  >1. What is your strictest compliance requirement?</label
+                >
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="security"
+                      value="zero"
+                      class="form-radio h-4 w-4 text-accent"
+                    />
+                    <span class="text-secondary"
+                      >Strict Zero-CVE policy (FedRAMP, SOC2 strict)</span
+                    >
+                  </label>
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="security"
+                      value="moderate"
+                      class="form-radio h-4 w-4 text-accent"
+                      checked
+                    />
+                    <span class="text-secondary"
+                      >Standard scanning, patching criticals within SLAs</span
+                    >
+                  </label>
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="security"
+                      value="low"
+                      class="form-radio h-4 w-4 text-accent"
+                    />
+                    <span class="text-secondary"
+                      >Development/Internal tool (Size/Speed matters most)</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <!-- Q2 -->
+              <div>
+                <label class="block font-medium text-primary mb-2"
+                  >2. Does your application rely on native C++ addons (e.g., node-sass, bcrypt,
+                  canvas)?</label
+                >
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="native"
+                      value="yes"
+                      class="form-radio h-4 w-4 text-accent"
+                    />
+                    <span class="text-secondary">Yes, heavily (requires glibc compatibility)</span>
+                  </label>
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="native"
+                      value="no"
+                      class="form-radio h-4 w-4 text-accent"
+                      checked
+                    />
+                    <span class="text-secondary">No, pure JavaScript/TypeScript dependencies</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Q3 -->
+              <div>
+                <label class="block font-medium text-primary mb-2"
+                  >3. Do you require shell access inside the container for production
+                  debugging?</label
+                >
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="shell"
+                      value="yes"
+                      class="form-radio h-4 w-4 text-accent"
+                      checked
+                    />
+                    <span class="text-secondary"
+                      >Yes, `docker exec -it ... /bin/sh` is essential</span
+                    >
+                  </label>
+                  <label class="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="shell"
+                      value="no"
+                      class="form-radio h-4 w-4 text-accent"
+                    />
+                    <span class="text-secondary"
+                      >No, we use ephemeral debugging/observability tools</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <button
+                id="calculate-btn"
+                class="w-full bg-accent hover:bg-accentLight text-white font-bold py-3 px-4 rounded-lg transition shadow-sm"
+              >
+                Generate Recommendation
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Panel -->
+          <div class="lg:w-1/2 flex flex-col">
+            <div
+              id="result-placeholder"
+              class="flex-grow flex flex-col items-center justify-center bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center h-full"
+            >
+              <span class="text-4xl text-gray-300 mb-4">&#128269;</span>
+              <p class="text-secondary">
+                Complete the assessment to view your tailored architectural recommendation.
+              </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="bg-surface rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-semibold mb-3 flex items-center"><span class="mr-2 text-accent">&#9888;</span> The Catalyst for Change</h3>
-                    <ul class="space-y-3 text-secondary">
-                        <li class="flex items-start">
-                            <span class="text-sageDark mr-2">&#10003;</span>
-                            <span><strong>Bitnami Focus Shift:</strong> Transition towards VMware Tanzu application catalog and different packaging models.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-sageDark mr-2">&#10003;</span>
-                            <span><strong>Rise of Software Supply Chain Security:</strong> Increased scrutiny on base image vulnerabilities (CVEs) and minimal attack surfaces.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-sageDark mr-2">&#10003;</span>
-                            <span><strong>The "Non-Root" Standard:</strong> What was once a unique Bitnami feature is now expected across all official and modern alternatives.</span>
-                        </li>
-                    </ul>
-                    
-                    <div class="mt-6 p-4 bg-sage bg-opacity-20 rounded-lg border-l-4 border-sageDark text-sm text-primary">
-                        <strong>Key Takeaway:</strong> The goal is no longer just finding a drop-in replacement, but upgrading to an image that aligns with 2026 security compliance and performance standards.
-                    </div>
-                </div>
+            <div
+              id="result-card"
+              class="hidden flex-grow bg-surface p-8 rounded-xl shadow-md border-t-8 border-accent h-full flex flex-col"
+            >
+              <span class="text-xs uppercase tracking-wider text-secondary font-bold mb-1"
+                >Recommended Strategy</span
+              >
+              <h3 id="rec-title" class="text-3xl font-bold text-primary mb-2">Official Slim</h3>
+              <p id="rec-desc" class="text-secondary mb-6 flex-grow">
+                Based on your need for standard security and shell access, the official Debian-slim
+                image is your best path.
+              </p>
 
-                <div class="flex flex-col items-center">
-                    <h3 class="text-lg font-semibold mb-4 text-center">Industry Migration Trends (Estimated)</h3>
-                    <!-- CHART CONTAINER -->
-                    <div class="chart-container">
-                        <canvas id="adoptionChart"></canvas>
-                    </div>
-                    <p class="text-xs text-secondary mt-2 text-center max-w-md">Data represents surveyed engineering teams migrating off legacy Bitnami Node.js images over the last 12 months.</p>
-                </div>
+              <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                <h4 class="font-semibold text-sm mb-2 text-primary">Why this matches:</h4>
+                <ul id="rec-reasons" class="text-sm text-secondary space-y-1 list-disc pl-5">
+                  <!-- Populated by JS -->
+                </ul>
+              </div>
+
+              <button
+                class="text-accent font-semibold hover:underline self-start"
+                onclick="document.querySelector('[data-target=\'migration\']').click();"
+              >
+                View Migration Path &rarr;
+              </button>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- SECTION: COMPARATIVE ANALYSIS -->
-        <section id="analysis" class="tab-content hidden animate-fade-in">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold mb-4 text-primary">Evaluating the Alternatives</h2>
-                <p class="text-lg text-secondary leading-relaxed max-w-4xl">
-                    In this section, we analyze the four primary contenders vying to replace your Bitnami images. You will find a detailed comparison of the Official Alpine, Official Slim, Distroless, and Chainguard (Wolfi-based) images. We focus on the most critical operational metrics: Image Size (which impacts pull times and storage) versus Historical Vulnerability Count (which impacts security and compliance overhead).
-                </p>
-            </div>
+      <!-- SECTION: MIGRATION PATHS -->
+      <section id="migration" class="tab-content hidden animate-fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-primary">Implementation & Migration Guide</h2>
+          <p class="text-lg text-secondary leading-relaxed max-w-4xl">
+            Once you have selected your target base image, the migration process involves updating
+            your Dockerfiles to replicate the security and user-permission structures that Bitnami
+            previously provided out-of-the-box. This section offers interactive, practical code
+            snippets illustrating how to achieve a secure, non-root environment with the most
+            popular alternative images.
+          </p>
+        </div>
 
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div class="bg-surface p-5 rounded-xl border-t-4 border-gray-400 shadow-sm hover:shadow-md transition cursor-default">
-                    <h4 class="font-bold text-lg mb-1">node:alpine</h4>
-                    <p class="text-sm text-secondary mb-3">The Lightweight Standard</p>
-                    <div class="flex justify-between items-end">
-                        <span class="text-2xl font-bold">~115 MB</span>
-                        <span class="text-xs font-semibold px-2 py-1 bg-gray-100 rounded text-gray-600">musl libc</span>
-                    </div>
-                </div>
-                <div class="bg-surface p-5 rounded-xl border-t-4 border-accent shadow-sm hover:shadow-md transition cursor-default">
-                    <h4 class="font-bold text-lg mb-1">node:slim</h4>
-                    <p class="text-sm text-secondary mb-3">The Compatible Middle-Ground</p>
-                    <div class="flex justify-between items-end">
-                        <span class="text-2xl font-bold">~210 MB</span>
-                        <span class="text-xs font-semibold px-2 py-1 bg-accent bg-opacity-20 rounded text-accent">glibc (Debian)</span>
-                    </div>
-                </div>
-                <div class="bg-surface p-5 rounded-xl border-t-4 border-sageDark shadow-sm hover:shadow-md transition cursor-default">
-                    <h4 class="font-bold text-lg mb-1">gcr.io/distroless/nodejs</h4>
-                    <p class="text-sm text-secondary mb-3">Google's Hardened Choice</p>
-                    <div class="flex justify-between items-end">
-                        <span class="text-2xl font-bold">~135 MB</span>
-                        <span class="text-xs font-semibold px-2 py-1 bg-sage bg-opacity-40 rounded text-sageDark">No Shell</span>
-                    </div>
-                </div>
-                <div class="bg-surface p-5 rounded-xl border-t-4 border-alert shadow-sm hover:shadow-md transition cursor-default">
-                    <h4 class="font-bold text-lg mb-1">chainguard/node</h4>
-                    <p class="text-sm text-secondary mb-3">Zero-CVE Focus (Wolfi)</p>
-                    <div class="flex justify-between items-end">
-                        <span class="text-2xl font-bold">~145 MB</span>
-                        <span class="text-xs font-semibold px-2 py-1 bg-alert bg-opacity-20 rounded text-alert">High Security</span>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <!-- Path Selectors -->
+          <div class="md:col-span-1 space-y-2">
+            <button
+              class="path-btn w-full text-left px-4 py-3 rounded-lg bg-accent text-white font-medium shadow-sm transition"
+              data-code="slim"
+            >
+              Official Node Slim
+            </button>
+            <button
+              class="path-btn w-full text-left px-4 py-3 rounded-lg bg-surface text-secondary hover:bg-gray-50 font-medium border border-gray-200 transition"
+              data-code="alpine"
+            >
+              Official Node Alpine
+            </button>
+            <button
+              class="path-btn w-full text-left px-4 py-3 rounded-lg bg-surface text-secondary hover:bg-gray-50 font-medium border border-gray-200 transition"
+              data-code="distroless"
+            >
+              Distroless
+            </button>
+          </div>
 
-            <!-- Visualization -->
-            <div class="bg-surface rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 class="text-xl font-semibold mb-4 text-center">Trade-off Matrix: Size vs. Average CVEs</h3>
-                <div class="flex flex-col items-center">
-                    <!-- CHART CONTAINER -->
-                    <div class="chart-container" style="max-width: 900px; height: 400px;">
-                        <canvas id="metricsChart"></canvas>
-                    </div>
-                </div>
-                <div class="mt-4 flex justify-center space-x-6 text-sm text-secondary">
-                    <span class="flex items-center"><span class="w-3 h-3 bg-accent inline-block mr-2 rounded-full"></span> Image Size (MB) - Lower is better</span>
-                    <span class="flex items-center"><span class="w-3 h-3 bg-alert inline-block mr-2 rounded-full"></span> Avg CVEs (Scanner Baseline) - Lower is better</span>
-                </div>
-            </div>
-        </section>
+          <!-- Code Viewer -->
+          <div class="md:col-span-3">
+            <div class="bg-surface rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div
+                class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center"
+              >
+                <span class="text-sm font-mono text-secondary">Dockerfile</span>
+                <span class="text-xs text-sageDark font-semibold flex items-center"
+                  ><span class="mr-1">&#128274;</span> Non-Root Configured</span
+                >
+              </div>
 
-        <!-- SECTION: DECISION ENGINE -->
-        <section id="decision" class="tab-content hidden animate-fade-in">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold mb-4 text-primary">Architectural Decision Engine</h2>
-                <p class="text-lg text-secondary leading-relaxed max-w-4xl">
-                    There is no single "best" image to replace Bitnami. The correct choice depends entirely on your project's specific constraints regarding security compliance, application dependencies (e.g., C++ addons), and debugging requirements. Use this interactive tool to input your primary constraints, and the engine will recommend the most appropriate base image strategy for your architecture.
-                </p>
-            </div>
-
-            <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Interactive Form -->
-                <div class="bg-surface p-6 rounded-xl shadow-sm border border-gray-100 lg:w-1/2">
-                    <h3 class="text-xl font-semibold mb-6 border-b pb-2">Assess Your Requirements</h3>
-                    
-                    <div class="space-y-6">
-                        <!-- Q1 -->
-                        <div>
-                            <label class="block font-medium text-primary mb-2">1. What is your strictest compliance requirement?</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="security" value="zero" class="form-radio h-4 w-4 text-accent">
-                                    <span class="text-secondary">Strict Zero-CVE policy (FedRAMP, SOC2 strict)</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="security" value="moderate" class="form-radio h-4 w-4 text-accent" checked>
-                                    <span class="text-secondary">Standard scanning, patching criticals within SLAs</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="security" value="low" class="form-radio h-4 w-4 text-accent">
-                                    <span class="text-secondary">Development/Internal tool (Size/Speed matters most)</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Q2 -->
-                        <div>
-                            <label class="block font-medium text-primary mb-2">2. Does your application rely on native C++ addons (e.g., node-sass, bcrypt, canvas)?</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="native" value="yes" class="form-radio h-4 w-4 text-accent">
-                                    <span class="text-secondary">Yes, heavily (requires glibc compatibility)</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="native" value="no" class="form-radio h-4 w-4 text-accent" checked>
-                                    <span class="text-secondary">No, pure JavaScript/TypeScript dependencies</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Q3 -->
-                        <div>
-                            <label class="block font-medium text-primary mb-2">3. Do you require shell access inside the container for production debugging?</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="shell" value="yes" class="form-radio h-4 w-4 text-accent" checked>
-                                    <span class="text-secondary">Yes, `docker exec -it ... /bin/sh` is essential</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="shell" value="no" class="form-radio h-4 w-4 text-accent">
-                                    <span class="text-secondary">No, we use ephemeral debugging/observability tools</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <button id="calculate-btn" class="w-full bg-accent hover:bg-accentLight text-white font-bold py-3 px-4 rounded-lg transition shadow-sm">
-                            Generate Recommendation
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Results Panel -->
-                <div class="lg:w-1/2 flex flex-col">
-                    <div id="result-placeholder" class="flex-grow flex flex-col items-center justify-center bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center h-full">
-                        <span class="text-4xl text-gray-300 mb-4">&#128269;</span>
-                        <p class="text-secondary">Complete the assessment to view your tailored architectural recommendation.</p>
-                    </div>
-
-                    <div id="result-card" class="hidden flex-grow bg-surface p-8 rounded-xl shadow-md border-t-8 border-accent h-full flex flex-col">
-                        <span class="text-xs uppercase tracking-wider text-secondary font-bold mb-1">Recommended Strategy</span>
-                        <h3 id="rec-title" class="text-3xl font-bold text-primary mb-2">Official Slim</h3>
-                        <p id="rec-desc" class="text-secondary mb-6 flex-grow">Based on your need for standard security and shell access, the official Debian-slim image is your best path.</p>
-                        
-                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                            <h4 class="font-semibold text-sm mb-2 text-primary">Why this matches:</h4>
-                            <ul id="rec-reasons" class="text-sm text-secondary space-y-1 list-disc pl-5">
-                                <!-- Populated by JS -->
-                            </ul>
-                        </div>
-                        
-                        <button class="text-accent font-semibold hover:underline self-start" onclick="document.querySelector('[data-target=\'migration\']').click();">
-                            View Migration Path &rarr;
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION: MIGRATION PATHS -->
-        <section id="migration" class="tab-content hidden animate-fade-in">
-             <div class="mb-8">
-                <h2 class="text-3xl font-bold mb-4 text-primary">Implementation & Migration Guide</h2>
-                <p class="text-lg text-secondary leading-relaxed max-w-4xl">
-                    Once you have selected your target base image, the migration process involves updating your Dockerfiles to replicate the security and user-permission structures that Bitnami previously provided out-of-the-box. This section offers interactive, practical code snippets illustrating how to achieve a secure, non-root environment with the most popular alternative images.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <!-- Path Selectors -->
-                <div class="md:col-span-1 space-y-2">
-                    <button class="path-btn w-full text-left px-4 py-3 rounded-lg bg-accent text-white font-medium shadow-sm transition" data-code="slim">
-                        Official Node Slim
-                    </button>
-                    <button class="path-btn w-full text-left px-4 py-3 rounded-lg bg-surface text-secondary hover:bg-gray-50 font-medium border border-gray-200 transition" data-code="alpine">
-                        Official Node Alpine
-                    </button>
-                    <button class="path-btn w-full text-left px-4 py-3 rounded-lg bg-surface text-secondary hover:bg-gray-50 font-medium border border-gray-200 transition" data-code="distroless">
-                        Distroless
-                    </button>
-                </div>
-
-                <!-- Code Viewer -->
-                <div class="md:col-span-3">
-                    <div class="bg-surface rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
-                            <span class="text-sm font-mono text-secondary">Dockerfile</span>
-                            <span class="text-xs text-sageDark font-semibold flex items-center"><span class="mr-1">&#128274;</span> Non-Root Configured</span>
-                        </div>
-                        
-                        <!-- Snippet: Slim -->
-                        <div id="code-slim" class="code-snippet block">
-<pre class="code-block m-0 rounded-none text-sm leading-relaxed">
+              <!-- Snippet: Slim -->
+              <div id="code-slim" class="code-snippet block">
+                <pre class="code-block m-0 rounded-none text-sm leading-relaxed">
 <span class="text-secondary"># Phase 1: Build</span>
 FROM node:22-slim AS builder
 WORKDIR /app
@@ -385,11 +551,11 @@ COPY --chown=node:node --from=builder /app/dist ./dist
 EXPOSE 3000
 CMD ["node", "dist/main.js"]
 </pre>
-                        </div>
+              </div>
 
-                        <!-- Snippet: Alpine -->
-                        <div id="code-alpine" class="code-snippet hidden">
-<pre class="code-block m-0 rounded-none text-sm leading-relaxed">
+              <!-- Snippet: Alpine -->
+              <div id="code-alpine" class="code-snippet hidden">
+                <pre class="code-block m-0 rounded-none text-sm leading-relaxed">
 <span class="text-secondary"># Phase 1: Build</span>
 FROM node:22-alpine AS builder
 <span class="text-accentLight"># Alpine often needs build tools for native addons</span>
@@ -414,11 +580,11 @@ COPY --chown=node:node --from=builder /app/dist ./dist
 EXPOSE 3000
 CMD ["node", "dist/main.js"]
 </pre>
-                        </div>
+              </div>
 
-                        <!-- Snippet: Distroless -->
-                        <div id="code-distroless" class="code-snippet hidden">
-<pre class="code-block m-0 rounded-none text-sm leading-relaxed">
+              <!-- Snippet: Distroless -->
+              <div id="code-distroless" class="code-snippet hidden">
+                <pre class="code-block m-0 rounded-none text-sm leading-relaxed">
 <span class="text-secondary"># Phase 1: Build (Using standard image)</span>
 FROM node:22 AS builder
 WORKDIR /app
@@ -440,271 +606,290 @@ EXPOSE 3000
 <span class="text-accentLight"># Distroless entrypoint is already 'node'</span>
 CMD ["dist/main.js"]
 </pre>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4 p-4 bg-white border border-gray-200 rounded-lg text-sm text-secondary">
-                        <p><strong>Note on Ports:</strong> Because we are strictly enforcing non-root users (`USER node` or Distroless `nonroot`), your Node.js application <strong>cannot bind to privileged ports (80 or 443)</strong>. Ensure your application listens on a port > 1024 (like 3000 or 8080) and map it via Docker or your load balancer.</p>
-                    </div>
-                </div>
+              </div>
             </div>
-        </section>
 
+            <div class="mt-4 p-4 bg-white border border-gray-200 rounded-lg text-sm text-secondary">
+              <p>
+                <strong>Note on Ports:</strong> Because we are strictly enforcing non-root users
+                (`USER node` or Distroless `nonroot`), your Node.js application
+                <strong>cannot bind to privileged ports (80 or 443)</strong>. Ensure your
+                application listens on a port > 1024 (like 3000 or 8080) and map it via Docker or
+                your load balancer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-surface border-t border-gray-200 mt-12 py-6">
-        <div class="max-w-7xl mx-auto px-4 text-center text-secondary text-sm">
-            Interactive Report Architecture &copy; 2026. Designed for infrastructure migration planning.
-        </div>
+      <div class="max-w-7xl mx-auto px-4 text-center text-secondary text-sm">
+        Interactive Report Architecture &copy; 2026. Designed for infrastructure migration planning.
+      </div>
     </footer>
 
     <!-- JavaScript Application Logic -->
     <script>
-        // --- 1. Tab Navigation Logic ---
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const mobileNav = document.getElementById('mobile-nav');
+      // --- 1. Tab Navigation Logic ---
+      const tabBtns = document.querySelectorAll('.tab-btn')
+      const tabContents = document.querySelectorAll('.tab-content')
+      const mobileNav = document.getElementById('mobile-nav')
 
-        function activateTab(targetId) {
-            // Update buttons
-            tabBtns.forEach(btn => {
-                if(btn.dataset.target === targetId) {
-                    btn.classList.add('active', 'border-accent', 'text-accent', 'font-semibold');
-                    btn.classList.remove('text-secondary');
-                } else {
-                    btn.classList.remove('active', 'border-accent', 'text-accent', 'font-semibold');
-                    btn.classList.add('text-secondary');
-                }
-            });
+      function activateTab(targetId) {
+        // Update buttons
+        tabBtns.forEach((btn) => {
+          if (btn.dataset.target === targetId) {
+            btn.classList.add('active', 'border-accent', 'text-accent', 'font-semibold')
+            btn.classList.remove('text-secondary')
+          } else {
+            btn.classList.remove('active', 'border-accent', 'text-accent', 'font-semibold')
+            btn.classList.add('text-secondary')
+          }
+        })
 
-            // Update mobile select
-            mobileNav.value = targetId;
+        // Update mobile select
+        mobileNav.value = targetId
 
-            // Update content visibility
-            tabContents.forEach(content => {
-                if(content.id === targetId) {
-                    content.classList.remove('hidden');
-                    content.classList.add('block');
-                } else {
-                    content.classList.remove('block');
-                    content.classList.add('hidden');
-                }
-            });
+        // Update content visibility
+        tabContents.forEach((content) => {
+          if (content.id === targetId) {
+            content.classList.remove('hidden')
+            content.classList.add('block')
+          } else {
+            content.classList.remove('block')
+            content.classList.add('hidden')
+          }
+        })
+      }
+
+      tabBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          activateTab(e.target.dataset.target)
+        })
+      })
+
+      mobileNav.addEventListener('change', (e) => {
+        activateTab(e.target.value)
+      })
+
+      // --- 2. Chart.js Implementations ---
+      // Global defaults
+      Chart.defaults.font.family = "'Inter', sans-serif"
+      Chart.defaults.color = '#718096'
+
+      // Chart 1: Adoption Doughnut
+      const ctxAdoption = document.getElementById('adoptionChart').getContext('2d')
+      new Chart(ctxAdoption, {
+        type: 'doughnut',
+        data: {
+          labels: [
+            'Official node:slim',
+            'Official node:alpine',
+            'Chainguard/Wolfi',
+            'Distroless',
+            'Other/Custom',
+          ],
+          datasets: [
+            {
+              data: [38, 30, 18, 10, 4],
+              backgroundColor: [
+                '#D4A373', // Accent (Slim)
+                '#CCD5AE', // Sage (Alpine)
+                '#E76F51', // Alert/Orange (Chainguard)
+                '#A3B18A', // Sage Dark (Distroless)
+                '#E2E8F0', // Gray (Other)
+              ],
+              borderWidth: 0,
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { boxWidth: 12, padding: 15 },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return ` ${context.label}: ${context.raw}%`
+                },
+              },
+            },
+          },
+          cutout: '65%',
+        },
+      })
+
+      // Chart 2: Metrics Grouped Bar
+      const ctxMetrics = document.getElementById('metricsChart').getContext('2d')
+      new Chart(ctxMetrics, {
+        type: 'bar',
+        data: {
+          labels: ['node:alpine', 'node:slim', 'distroless', 'chainguard'],
+          datasets: [
+            {
+              label: 'Image Size (MB)',
+              data: [115, 210, 135, 145],
+              backgroundColor: '#D4A373',
+              borderRadius: 4,
+              barPercentage: 0.6,
+              categoryPercentage: 0.8,
+            },
+            {
+              label: 'Avg Vulnerabilities (High/Crit)',
+              data: [2, 12, 0, 0], // Representative data for illustrative purposes
+              backgroundColor: '#E76F51',
+              borderRadius: 4,
+              barPercentage: 0.6,
+              categoryPercentage: 0.8,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: '#EDF2F7' },
+            },
+            x: {
+              grid: { display: false },
+            },
+          },
+          plugins: {
+            legend: { display: false }, // Custom legend handled in HTML
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+            },
+          },
+        },
+      })
+
+      // --- 3. Decision Engine Logic ---
+      document.getElementById('calculate-btn').addEventListener('click', () => {
+        const sec = document.querySelector('input[name="security"]:checked').value
+        const nat = document.querySelector('input[name="native"]:checked').value
+        const shell = document.querySelector('input[name="shell"]:checked').value
+
+        let resultTitle = ''
+        let resultDesc = ''
+        let reasons = []
+        let colorClass = ''
+
+        // Logic Engine
+        if (sec === 'zero') {
+          if (shell === 'yes') {
+            resultTitle = 'Chainguard Developer Image'
+            resultDesc =
+              'You require strict zero-CVE compliance but also need a shell for debugging.'
+            reasons = [
+              'Chainguard Dev tiers include package managers and shells.',
+              'Maintains zero-CVE SLAs.',
+              'Requires adjustment to apk (Wolfi) instead of apt/debian.',
+            ]
+            colorClass = 'border-alert'
+          } else {
+            resultTitle = 'Google Distroless / Chainguard Prod'
+            resultDesc = 'Maximum security posture. Minimal attack surface with no shell.'
+            reasons = [
+              'Removes all unnecessary OS utilities.',
+              'Drastically reduces scanner noise and actual risk.',
+              'Demands mature observability (no direct shell access).',
+            ]
+            colorClass = 'border-sageDark'
+          }
+        } else if (nat === 'yes') {
+          resultTitle = 'Official node:slim'
+          resultDesc =
+            'Your reliance on native C++ addons makes Alpine (musl libc) too risky due to compilation overhead and compatibility bugs.'
+          reasons = [
+            'Debian-based (glibc) ensures maximum package compatibility.',
+            "Significantly smaller than the full 'node' image.",
+            'Easy to install build-essential if needed during multi-stage builds.',
+          ]
+          colorClass = 'border-accent'
+        } else if (sec === 'low' && nat === 'no') {
+          resultTitle = 'Official node:alpine'
+          resultDesc =
+            'You have pure JS dependencies and prioritize speed/size over strict enterprise CVE compliance.'
+          reasons = [
+            'Smallest official footprint.',
+            'Fastest pull times for CI/CD.',
+            'Sufficiently secure for non-critical/internal applications.',
+          ]
+          colorClass = 'border-sage'
+        } else {
+          // Default fallback
+          resultTitle = 'Official node:slim'
+          resultDesc =
+            'The safest middle-ground choice balancing compatibility, size, and security.'
+          reasons = [
+            'Debian ecosystem is familiar.',
+            'Provides shell access.',
+            'Acceptable baseline vulnerability count when regularly updated.',
+          ]
+          colorClass = 'border-accent'
         }
 
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                activateTab(e.target.dataset.target);
-            });
-        });
+        // Update UI
+        document.getElementById('result-placeholder').classList.add('hidden')
+        const card = document.getElementById('result-card')
+        card.classList.remove(
+          'hidden',
+          'border-accent',
+          'border-sage',
+          'border-sageDark',
+          'border-alert',
+        )
+        card.classList.add('block', colorClass)
 
-        mobileNav.addEventListener('change', (e) => {
-            activateTab(e.target.value);
-        });
+        document.getElementById('rec-title').innerText = resultTitle
+        document.getElementById('rec-desc').innerText = resultDesc
 
+        const ul = document.getElementById('rec-reasons')
+        ul.innerHTML = ''
+        reasons.forEach((r) => {
+          const li = document.createElement('li')
+          li.innerText = r
+          ul.appendChild(li)
+        })
+      })
 
-        // --- 2. Chart.js Implementations ---
-        // Global defaults
-        Chart.defaults.font.family = "'Inter', sans-serif";
-        Chart.defaults.color = '#718096';
+      // --- 4. Migration Path Code Toggles ---
+      const pathBtns = document.querySelectorAll('.path-btn')
+      const codeSnippets = document.querySelectorAll('.code-snippet')
 
-        // Chart 1: Adoption Doughnut
-        const ctxAdoption = document.getElementById('adoptionChart').getContext('2d');
-        new Chart(ctxAdoption, {
-            type: 'doughnut',
-            data: {
-                labels: ['Official node:slim', 'Official node:alpine', 'Chainguard/Wolfi', 'Distroless', 'Other/Custom'],
-                datasets: [{
-                    data: [38, 30, 18, 10, 4],
-                    backgroundColor: [
-                        '#D4A373', // Accent (Slim)
-                        '#CCD5AE', // Sage (Alpine)
-                        '#E76F51', // Alert/Orange (Chainguard)
-                        '#A3B18A', // Sage Dark (Distroless)
-                        '#E2E8F0'  // Gray (Other)
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { boxWidth: 12, padding: 15 }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return ` ${context.label}: ${context.raw}%`;
-                            }
-                        }
-                    }
-                },
-                cutout: '65%'
-            }
-        });
+      pathBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const targetCode = e.currentTarget.dataset.code
 
-        // Chart 2: Metrics Grouped Bar
-        const ctxMetrics = document.getElementById('metricsChart').getContext('2d');
-        new Chart(ctxMetrics, {
-            type: 'bar',
-            data: {
-                labels: ['node:alpine', 'node:slim', 'distroless', 'chainguard'],
-                datasets: [
-                    {
-                        label: 'Image Size (MB)',
-                        data: [115, 210, 135, 145],
-                        backgroundColor: '#D4A373',
-                        borderRadius: 4,
-                        barPercentage: 0.6,
-                        categoryPercentage: 0.8
-                    },
-                    {
-                        label: 'Avg Vulnerabilities (High/Crit)',
-                        data: [2, 12, 0, 0], // Representative data for illustrative purposes
-                        backgroundColor: '#E76F51',
-                        borderRadius: 4,
-                        barPercentage: 0.6,
-                        categoryPercentage: 0.8
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#EDF2F7' }
-                    },
-                    x: {
-                        grid: { display: false }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }, // Custom legend handled in HTML
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                    }
-                }
-            }
-        });
+          // Update buttons styling
+          pathBtns.forEach((b) => {
+            b.classList.remove('bg-accent', 'text-white')
+            b.classList.add('bg-surface', 'text-secondary')
+          })
+          e.currentTarget.classList.remove('bg-surface', 'text-secondary')
+          e.currentTarget.classList.add('bg-accent', 'text-white')
 
-
-        // --- 3. Decision Engine Logic ---
-        document.getElementById('calculate-btn').addEventListener('click', () => {
-            const sec = document.querySelector('input[name="security"]:checked').value;
-            const nat = document.querySelector('input[name="native"]:checked').value;
-            const shell = document.querySelector('input[name="shell"]:checked').value;
-
-            let resultTitle = "";
-            let resultDesc = "";
-            let reasons = [];
-            let colorClass = "";
-
-            // Logic Engine
-            if (sec === 'zero') {
-                if (shell === 'yes') {
-                    resultTitle = "Chainguard Developer Image";
-                    resultDesc = "You require strict zero-CVE compliance but also need a shell for debugging.";
-                    reasons = [
-                        "Chainguard Dev tiers include package managers and shells.",
-                        "Maintains zero-CVE SLAs.",
-                        "Requires adjustment to apk (Wolfi) instead of apt/debian."
-                    ];
-                    colorClass = "border-alert";
-                } else {
-                    resultTitle = "Google Distroless / Chainguard Prod";
-                    resultDesc = "Maximum security posture. Minimal attack surface with no shell.";
-                    reasons = [
-                        "Removes all unnecessary OS utilities.",
-                        "Drastically reduces scanner noise and actual risk.",
-                        "Demands mature observability (no direct shell access)."
-                    ];
-                    colorClass = "border-sageDark";
-                }
-            } else if (nat === 'yes') {
-                resultTitle = "Official node:slim";
-                resultDesc = "Your reliance on native C++ addons makes Alpine (musl libc) too risky due to compilation overhead and compatibility bugs.";
-                reasons = [
-                    "Debian-based (glibc) ensures maximum package compatibility.",
-                    "Significantly smaller than the full 'node' image.",
-                    "Easy to install build-essential if needed during multi-stage builds."
-                ];
-                colorClass = "border-accent";
-            } else if (sec === 'low' && nat === 'no') {
-                resultTitle = "Official node:alpine";
-                resultDesc = "You have pure JS dependencies and prioritize speed/size over strict enterprise CVE compliance.";
-                reasons = [
-                    "Smallest official footprint.",
-                    "Fastest pull times for CI/CD.",
-                    "Sufficiently secure for non-critical/internal applications."
-                ];
-                colorClass = "border-sage";
+          // Show target code, hide others
+          codeSnippets.forEach((snippet) => {
+            if (snippet.id === `code-${targetCode}`) {
+              snippet.classList.remove('hidden')
+              snippet.classList.add('block')
             } else {
-                // Default fallback
-                resultTitle = "Official node:slim";
-                resultDesc = "The safest middle-ground choice balancing compatibility, size, and security.";
-                reasons = [
-                    "Debian ecosystem is familiar.",
-                    "Provides shell access.",
-                    "Acceptable baseline vulnerability count when regularly updated."
-                ];
-                colorClass = "border-accent";
+              snippet.classList.remove('block')
+              snippet.classList.add('hidden')
             }
-
-            // Update UI
-            document.getElementById('result-placeholder').classList.add('hidden');
-            const card = document.getElementById('result-card');
-            card.classList.remove('hidden', 'border-accent', 'border-sage', 'border-sageDark', 'border-alert');
-            card.classList.add('block', colorClass);
-            
-            document.getElementById('rec-title').innerText = resultTitle;
-            document.getElementById('rec-desc').innerText = resultDesc;
-            
-            const ul = document.getElementById('rec-reasons');
-            ul.innerHTML = '';
-            reasons.forEach(r => {
-                const li = document.createElement('li');
-                li.innerText = r;
-                ul.appendChild(li);
-            });
-        });
-
-
-        // --- 4. Migration Path Code Toggles ---
-        const pathBtns = document.querySelectorAll('.path-btn');
-        const codeSnippets = document.querySelectorAll('.code-snippet');
-
-        pathBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const targetCode = e.currentTarget.dataset.code;
-
-                // Update buttons styling
-                pathBtns.forEach(b => {
-                    b.classList.remove('bg-accent', 'text-white');
-                    b.classList.add('bg-surface', 'text-secondary');
-                });
-                e.currentTarget.classList.remove('bg-surface', 'text-secondary');
-                e.currentTarget.classList.add('bg-accent', 'text-white');
-
-                // Show target code, hide others
-                codeSnippets.forEach(snippet => {
-                    if (snippet.id === `code-${targetCode}`) {
-                        snippet.classList.remove('hidden');
-                        snippet.classList.add('block');
-                    } else {
-                        snippet.classList.remove('block');
-                        snippet.classList.add('hidden');
-                    }
-                });
-            });
-        });
-
+          })
+        })
+      })
     </script>
-</body>
+  </body>
 </html>
