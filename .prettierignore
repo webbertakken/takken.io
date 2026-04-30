@@ -2,6 +2,7 @@ dist/
 coverage/
 node_modules/
 .yarn/
+static/
 
 # CSS files are handled by stylelint
 *.css
