@@ -11,19 +11,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install package manager (from package.json)
+      - name: Setup Node from mise.toml
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - name: Enable corepack
         run: |
           corepack enable
           corepack install
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Restore yarn install cache (node_modules + .yarn/cache + install-state)
+        id: yarn-cache
+        uses: actions/cache@v4
         with:
-          node-version-file: package.json
-          cache: 'yarn'
+          path: |
+            node_modules
+            .yarn/cache
+            .yarn/install-state.gz
+          key: yarn-${{ runner.os }}-${{ hashFiles('mise.toml') }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('mise.toml') }}-
 
       - name: Install deps
-        run: yarn install --frozen-lockfile --immutable
+        run: yarn install --immutable
 
       - name: Tests
         run: yarn coverage

@@ -136,9 +136,5 @@
       "last 1 safari version"
     ]
   },
-  "volta": {
-    "node": "22.13.1",
-    "yarn": "4.9.2"
-  },
   "packageManager": "yarn@4.9.2"
 }
