@@ -1,5 +1,5 @@
-import { vi, describe, expect, it, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
+import { vi, describe, expect, it, beforeEach } from 'vitest'
 import { useCookieConsent } from './useCookieConsent'
 
 describe('useCookieConsent', () => {

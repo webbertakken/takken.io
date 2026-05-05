@@ -1,6 +1,6 @@
-import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest'
-import React from 'react'
 import { render, screen, fireEvent, act } from '@testing-library/react'
+import React from 'react'
+import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest'
 
 // Track spring API calls
 const mockSpringStart = vi.fn()

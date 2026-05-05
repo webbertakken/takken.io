@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react'
 import clsx from 'clsx'
+import React, { useCallback, useRef, useState } from 'react'
 import type { TrackColour, Video } from './types'
 import VideoViewer from './VideoViewer'
 

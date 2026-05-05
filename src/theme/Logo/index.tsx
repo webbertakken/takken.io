@@ -1,9 +1,9 @@
-import React from 'react'
+import { useLocation } from '@docusaurus/router'
+import type { WrapperProps } from '@docusaurus/types'
 import Logo from '@theme-original/Logo'
 import type LogoType from '@theme/Logo'
-import type { WrapperProps } from '@docusaurus/types'
 import clsx from 'clsx'
-import { useLocation } from '@docusaurus/router'
+import React from 'react'
 
 interface Props extends WrapperProps<typeof LogoType> {
   titleClassName?: string

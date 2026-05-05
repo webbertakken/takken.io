@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import OriginalNavbarContent from '@theme-original/Navbar/Content'
 import { useLocation } from '@docusaurus/router'
-import clsx from 'clsx'
 import { useAuth } from '@site/src/contexts/AuthContext'
+import OriginalNavbarContent from '@theme-original/Navbar/Content'
+import clsx from 'clsx'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 const UserIcon = (): React.ReactElement => (
   <svg className="h-8 w-8 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor">

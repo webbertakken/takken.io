@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import Translate, { translate } from '@docusaurus/Translate'
+import React, { useState } from 'react'
 
 interface Props {
   readonly onReload: () => void

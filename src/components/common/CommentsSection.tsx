@@ -1,7 +1,7 @@
-import React from 'react'
-import Giscus from '@giscus/react'
-import { useColorMode } from '@docusaurus/theme-common'
 import { useLocation } from '@docusaurus/router'
+import { useColorMode } from '@docusaurus/theme-common'
+import Giscus from '@giscus/react'
+import React from 'react'
 
 interface Props {
   category: string

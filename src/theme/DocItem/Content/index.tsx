@@ -1,8 +1,8 @@
-import React from 'react'
-import Content from '@theme-original/DocItem/Content'
-import type ContentType from '@theme/DocItem/Content'
 import type { WrapperProps } from '@docusaurus/types'
 import CommentsSection from '@site/src/components/common/CommentsSection'
+import Content from '@theme-original/DocItem/Content'
+import type ContentType from '@theme/DocItem/Content'
+import React from 'react'
 
 type Props = WrapperProps<typeof ContentType>
 

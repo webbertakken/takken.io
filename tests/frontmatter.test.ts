@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { globSync } from 'glob'
+import matter from 'gray-matter'
 import { readFileSync } from 'node:fs'
 import { relative } from 'node:path'
-import matter from 'gray-matter'
-import { globSync } from 'glob'
+import { describe, it, expect } from 'vitest'
 
 /**
  * Validates frontmatter for every `.md` / `.mdx` file under `blog/` and

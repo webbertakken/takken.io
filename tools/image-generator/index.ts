@@ -5,10 +5,10 @@
  */
 
 import { createCanvas, registerFont, CanvasRenderingContext2D, Canvas } from 'canvas'
-import { writeFileSync, readFileSync, existsSync, mkdtempSync } from 'fs'
-import { join } from 'path'
 import { execSync } from 'child_process'
+import { writeFileSync, readFileSync, existsSync, mkdtempSync } from 'fs'
 import { tmpdir } from 'os'
+import { join } from 'path'
 import * as path from 'path'
 
 // Dracula colour scheme

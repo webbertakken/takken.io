@@ -1,9 +1,9 @@
-import React from 'react'
+import { useBlogPost } from '@docusaurus/plugin-content-blog/client'
+import type { WrapperProps } from '@docusaurus/types'
+import CommentsSection from '@site/src/components/common/CommentsSection'
 import BlogPostItem from '@theme-original/BlogPostItem'
 import type BlogPostItemType from '@theme/BlogPostItem'
-import type { WrapperProps } from '@docusaurus/types'
-import { useBlogPost } from '@docusaurus/plugin-content-blog/client'
-import CommentsSection from '@site/src/components/common/CommentsSection'
+import React from 'react'
 
 type Props = WrapperProps<typeof BlogPostItemType>
 

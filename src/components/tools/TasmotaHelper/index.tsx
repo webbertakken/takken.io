@@ -1,5 +1,5 @@
-import React from 'react'
 import ToolPage from '@theme/ToolPage/ToolPage'
+import React from 'react'
 import CalibrateWithEnergyMeter from './calibrateWithEnergyMeter'
 import CalibrateWithMultiMeter from './calibrateWithMultiMeter'
 

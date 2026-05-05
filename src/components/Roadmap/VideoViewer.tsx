@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef } from 'react'
 import { animated, useSpring } from '@react-spring/web'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 interface VideoViewerProps {

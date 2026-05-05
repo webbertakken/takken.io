@@ -1,6 +1,6 @@
+import jsCookie from 'js-cookie'
 import { vi, describe, expect, it } from 'vitest'
 import { useCookie } from './useCookie'
-import jsCookie from 'js-cookie'
 
 vi.mock('js-cookie', () => ({
   default: {

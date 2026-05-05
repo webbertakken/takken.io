@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import ErrorBoundary from '@docusaurus/ErrorBoundary'
 import cx from 'clsx'
+import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 type ClickOrTouchEvent = React.MouseEvent<HTMLDialogElement> | React.TouchEvent<HTMLDialogElement>
 

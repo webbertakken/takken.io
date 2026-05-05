@@ -1,3 +1,4 @@
+import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
 import {
   AirTempCelcius,
   DepthInMeters,
@@ -18,7 +19,6 @@ import {
   SsiWaterType,
   SsiWeather,
 } from '@site/src/domain/diving/ssi/SsiParameters'
-import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
 
 export class SsiDive {
   dive: null = null

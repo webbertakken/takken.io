@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
-import type { Unzipped } from 'fflate'
-import { unzipSync } from 'fflate'
 import { Decoder, Stream } from '@garmin-fit/sdk'
 import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
+import type { Unzipped } from 'fflate'
+import { unzipSync } from 'fflate'
+import { useMemo } from 'react'
 
 export class GarminFiles {
   private files: Map<string, Uint8Array> = new Map<string, Uint8Array>();

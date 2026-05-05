@@ -1,6 +1,6 @@
-import { vi, describe, expect, it, beforeEach } from 'vitest'
-import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import React from 'react'
+import { vi, describe, expect, it, beforeEach } from 'vitest'
 import type { Track } from './types'
 
 const mockAddDoc = vi.fn()
@@ -33,8 +33,8 @@ vi.mock('react-hot-toast', () => ({
   },
 }))
 
-import RoadmapTrack from './RoadmapTrack'
 import toast from 'react-hot-toast'
+import RoadmapTrack from './RoadmapTrack'
 
 const track: Track = {
   id: 'human-track',

@@ -1,8 +1,8 @@
-import cx from 'clsx'
-import Heading from '@site/src/components/common/heading'
 import CodeBlock from '@site/src/components/common/CodeBlock'
-import { dedent } from 'ts-dedent'
+import Heading from '@site/src/components/common/heading'
+import cx from 'clsx'
 import React, { useEffect, useState } from 'react'
+import { dedent } from 'ts-dedent'
 import { toolStyles } from '../toolStyles'
 
 const CalibrateWithEnergyMeter = (): React.JSX.Element => {

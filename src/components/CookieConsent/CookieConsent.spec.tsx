@@ -1,6 +1,6 @@
-import { vi, describe, expect, it, beforeEach } from 'vitest'
-import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import React from 'react'
+import { vi, describe, expect, it, beforeEach } from 'vitest'
 
 const mockAccept = vi.fn()
 const mockDecline = vi.fn()

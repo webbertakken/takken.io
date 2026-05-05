@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from '@docusaurus/router'
+import React, { useEffect, useState, useRef } from 'react'
 
 interface PageTransitionProps {
   children: React.ReactNode

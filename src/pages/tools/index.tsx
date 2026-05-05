@@ -1,3 +1,4 @@
+import ToolPageLayout from '@theme/ToolPage/ToolPageLayout'
 import type { ComponentType } from 'react'
 import {
   FaArrowRight,
@@ -9,7 +10,6 @@ import {
   FaPersonSwimming,
   FaPlug,
 } from 'react-icons/fa6'
-import ToolPageLayout from '@theme/ToolPage/ToolPageLayout'
 
 interface Tool {
   name: string

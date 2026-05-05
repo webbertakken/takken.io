@@ -1,8 +1,8 @@
-import { vi, describe, expect, it, beforeEach } from 'vitest'
 import React from 'react'
+import { vi, describe, expect, it, beforeEach } from 'vitest'
+import * as useViewportHeightModule from '../../hooks/useViewportHeight'
 import { renderWithProviders, screen } from '../../test/test-utils'
 import FrameLayout from './FrameLayout'
-import * as useViewportHeightModule from '../../hooks/useViewportHeight'
 
 // Mock the useViewportHeight hook
 vi.mock('../../hooks/useViewportHeight', () => ({

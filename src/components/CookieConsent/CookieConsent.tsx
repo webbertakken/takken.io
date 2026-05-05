@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import Link from '@docusaurus/Link'
 import { useCookieConsent } from '@site/src/hooks/useCookieConsent'
 import { loadGtm } from '@site/src/utils/loadGtm'
+import React, { useEffect, useState } from 'react'
 
 const GTM_ID = 'GTM-T4M9CW8'
 
