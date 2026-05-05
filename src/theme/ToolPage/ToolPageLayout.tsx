@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react'
-import cx from 'clsx'
 import Layout from '@theme/Layout'
+import cx from 'clsx'
+import React, { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode

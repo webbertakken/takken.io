@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
 import clsx from 'clsx'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import type { Track } from './types'
 import RoadmapCard from './RoadmapCard'
+import type { Track } from './types'
 
 const offsetClasses: Record<string, string> = {
   human: '',

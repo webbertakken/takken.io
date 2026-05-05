@@ -56,7 +56,7 @@ jobs:
         run: yarn coverage
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -64,7 +64,7 @@ jobs:
         run: yarn lint
 
       - name: Formatting
-        run: yarn prettier --check .
+        run: yarn format:check
 
       - name: Typecheck
         run: yarn typecheck

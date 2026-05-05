@@ -1,5 +1,5 @@
-import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
+import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest'
 import {
   createMockVisualViewport,
   setupVisualViewportMock,

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
 import type { User } from 'firebase/auth'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface AuthContextValue {
   user: User | null

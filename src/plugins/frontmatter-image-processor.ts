@@ -1,9 +1,9 @@
 import type { LoadContext, Plugin } from '@docusaurus/types'
+import crypto from 'crypto'
+import fetch from 'node-fetch'
 import { promises as fs } from 'node:fs'
 import path from 'path'
 import sharp from 'sharp'
-import crypto from 'crypto'
-import fetch from 'node-fetch'
 
 export interface ProcessedImageData {
   src: string

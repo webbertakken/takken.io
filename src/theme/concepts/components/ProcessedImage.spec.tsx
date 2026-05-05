@@ -1,8 +1,8 @@
-import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import ProcessedImage from './ProcessedImage'
-import type { ProcessedImageData } from '../../../plugins/frontmatter-image-processor'
+import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
+import type { ProcessedImageData } from '../../../plugins/frontmatter-image-processor'
+import ProcessedImage from './ProcessedImage'
 
 // Mock the Modal component
 vi.mock('../../../components/Modal/Modal', () => ({

@@ -1,7 +1,7 @@
-import React from 'react'
+import type { WrapperProps } from '@docusaurus/types'
 import Main from '@theme-original/DocPage/Layout/Main'
 import type MainType from '@theme-original/DocPage/Layout/Main'
-import type { WrapperProps } from '@docusaurus/types'
+import React from 'react'
 
 type Props = WrapperProps<typeof MainType>
 

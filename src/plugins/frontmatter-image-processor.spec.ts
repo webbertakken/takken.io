@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest'
 import type { LoadContext } from '@docusaurus/types'
 import type { PluginContentLoadedActions } from '@docusaurus/types'
+import { describe, it, expect, vi } from 'vitest'
 import frontmatterImageProcessorPlugin from './frontmatter-image-processor'
 
 describe('frontmatterImageProcessorPlugin', () => {

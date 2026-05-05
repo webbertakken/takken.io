@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { globSync } from 'glob'
+import matter from 'gray-matter'
 /**
  * Validates frontmatter for `.md` / `.mdx` files.
  *
@@ -15,8 +17,6 @@
  */
 import { readFileSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
-import matter from 'gray-matter'
-import { globSync } from 'glob'
 
 const repoRoot = process.cwd()
 const args = process.argv.slice(2)

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-import Heading from '@site/src/components/common/heading'
+import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
+import Heading from '@site/src/components/common/heading'
 import { Base64 } from '@site/src/core/utils/base64'
 import { md5 } from '@site/src/core/utils/md5'
 import { sha256 } from '@site/src/core/utils/sha256'
-import CodeBlock from '@site/src/components/common/CodeBlock'
-import cx from 'clsx'
 import ToolPage from '@theme/ToolPage/ToolPage'
+import cx from 'clsx'
+import { useEffect, useState } from 'react'
 import { toolStyles } from '../toolStyles'
 
 const exampleCopy = `Cat ipsum dolor € sit amet, do not try to mix old food with new one to fool me!

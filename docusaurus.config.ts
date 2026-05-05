@@ -1,10 +1,10 @@
 import 'dotenv/config'
-import type { Config } from '@docusaurus/types'
-import type * as Preset from '@docusaurus/preset-classic'
 import type { BlogPost } from '@docusaurus/plugin-content-blog'
-import tailwindPlugin from './src/plugins/tailwind-config.cjs'
-import frontmatterImageProcessorPlugin from './src/plugins/frontmatter-image-processor'
+import type * as Preset from '@docusaurus/preset-classic'
+import type { Config } from '@docusaurus/types'
 import { themes } from 'prism-react-renderer'
+import frontmatterImageProcessorPlugin from './src/plugins/frontmatter-image-processor'
+import tailwindPlugin from './src/plugins/tailwind-config.cjs'
 
 // Errors that are actually in plugins may be hidden if stacktrace only shows 10 lines.
 Error.stackTraceLimit = 20

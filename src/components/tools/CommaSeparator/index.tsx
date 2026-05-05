@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Heading from '@site/src/components/common/heading'
 import CodeBlock from '@site/src/components/common/CodeBlock'
 import CodeEditor from '@site/src/components/common/CodeEditor'
+import Heading from '@site/src/components/common/heading'
 import ToolPage from '@theme/ToolPage/ToolPage'
 import cx from 'clsx'
+import React, { useEffect, useState } from 'react'
 
 const exampleCopy = `\n\nWinter\n\nWarm tones\n\nTop\n\nSunset\n\nPôr-do-sol\n\n`
 

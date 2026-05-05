@@ -1,5 +1,5 @@
-import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
+import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest'
 
 let mockUser: { uid: string } | null = null
 let mockConsent: string | null = null

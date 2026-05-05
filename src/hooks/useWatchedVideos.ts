@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAuth } from '@site/src/contexts/AuthContext'
 import { useCookieConsent } from '@site/src/hooks/useCookieConsent'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const LOCAL_STORAGE_KEY = 'courses-watched'
 

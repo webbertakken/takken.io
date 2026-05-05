@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react'
-import { useProcessedImage } from './useProcessedImage'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { usePluginData } from '@docusaurus/useGlobalData'
+import { renderHook } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { useProcessedImage } from './useProcessedImage'
 
 vi.mock('@docusaurus/useGlobalData')
 

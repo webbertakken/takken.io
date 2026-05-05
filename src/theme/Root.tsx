@@ -1,8 +1,8 @@
-import React, { StrictMode } from 'react'
-import { Toaster } from 'react-hot-toast'
+import CookieConsent from '@site/src/components/CookieConsent/CookieConsent'
 import FrameLayout from '@site/src/components/layout/FrameLayout'
 import { AuthProvider } from '@site/src/contexts/AuthContext'
-import CookieConsent from '@site/src/components/CookieConsent/CookieConsent'
+import React, { StrictMode } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 interface RootProps {
   children: React.ReactNode

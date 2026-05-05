@@ -1,6 +1,6 @@
-import { vi, describe, expect, it, beforeEach } from 'vitest'
-import React from 'react'
 import { render, screen, act, waitFor } from '@testing-library/react'
+import React from 'react'
+import { vi, describe, expect, it, beforeEach } from 'vitest'
 
 const mockAuth = { name: 'mock-auth' }
 let authStateCallback: ((user: unknown) => void) | null = null

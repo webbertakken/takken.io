@@ -1,8 +1,8 @@
-import React from 'react'
+import { useLocation } from '@docusaurus/router'
+import type { WrapperProps } from '@docusaurus/types'
 import Heading from '@theme-original/MDXComponents/Heading'
 import type HeadingType from '@theme/MDXComponents/Heading'
-import type { WrapperProps } from '@docusaurus/types'
-import { useLocation } from '@docusaurus/router'
+import React from 'react'
 
 type Props = WrapperProps<typeof HeadingType>
 

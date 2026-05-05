@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
-@import "tailwindcss/theme.css";
-@import "tailwindcss/utilities.css";
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/utilities.css';
 
 /* Exclude root-level markdown files from Tailwind content scanning.
    Files like ALL_PROMPTS.md contain UUIDs with hex-like substrings (e.g. 2e33f8)
@@ -11,8 +11,8 @@
 /* Base theme */
 @theme {
   --font-base:
-    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono',
-    'Courier New', monospace;
+    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New',
+    monospace;
   --font-sans: var(--font-base);
   --font-mono: var(--font-base);
   --font-title: var(--font-base);
@@ -154,7 +154,6 @@
   animation: fadeIn 0.4s ease-out forwards;
 }
 
-
 /* Search */
 [data-theme='light'] .DocSearch {
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
@@ -211,13 +210,13 @@ body {
 
 /* fix layout shift when navigating (scrollbar appearing / disappearing */
 @media (width > 768px) {
-  .main-wrapper:not([class*="docsWrapper"]) {
+  .main-wrapper:not([class*='docsWrapper']) {
     padding-left: calc(100vw - 100%);
   }
 }
 
 @media (width > 1900px) {
-  main[class^="docMainContainer_"] {
+  main[class^='docMainContainer_'] {
     padding-left: calc(100vw - 100%);
   }
 }

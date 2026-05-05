@@ -1,6 +1,9 @@
-import React from 'react'
-import Layout from '@theme/Layout'
+// Keep — HomepageFeatures may be re-enabled later
+// import HomepageFeatures from '@site/src/components/HomepageFeatures'
+import Card from '@site/src/components/Home/Card/Card'
 import Image from '@theme/IdealImage'
+import Layout from '@theme/Layout'
+import React from 'react'
 import {
   FaGithub,
   FaLinkedinIn,
@@ -9,9 +12,6 @@ import {
   FaXTwitter,
   FaAt,
 } from 'react-icons/fa6'
-// Keep — HomepageFeatures may be re-enabled later
-// import HomepageFeatures from '@site/src/components/HomepageFeatures'
-import Card from '@site/src/components/Home/Card/Card'
 
 const Index = (): React.ReactElement => {
   return (

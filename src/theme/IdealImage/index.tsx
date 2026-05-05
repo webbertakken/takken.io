@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import IdealImage from '@theme-original/IdealImage'
 import Modal from '@site/src/components/Modal/Modal'
+import IdealImage from '@theme-original/IdealImage'
 import cx from 'clsx'
+import React, { useState, useEffect } from 'react'
 
 interface IdealImageWrapperProps extends React.ComponentProps<typeof IdealImage> {
   source?: React.JSX.Element

@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import RoadmapConnections from '@site/src/components/Roadmap/RoadmapConnections'
+import RoadmapTrack from '@site/src/components/Roadmap/RoadmapTrack'
+import type { Track } from '@site/src/components/Roadmap/types'
+import { useAuth } from '@site/src/contexts/AuthContext'
+import { useWatchedVideos } from '@site/src/hooks/useWatchedVideos'
 import Layout from '@theme/Layout'
 import clsx from 'clsx'
+import React, { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import RoadmapTrack from '@site/src/components/Roadmap/RoadmapTrack'
-import RoadmapConnections from '@site/src/components/Roadmap/RoadmapConnections'
-import { useWatchedVideos } from '@site/src/hooks/useWatchedVideos'
-import { useAuth } from '@site/src/contexts/AuthContext'
-import type { Track } from '@site/src/components/Roadmap/types'
 
 const tracks: Track[] = [
   {

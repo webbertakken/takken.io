@@ -1,7 +1,7 @@
+import cx from 'clsx'
+import { Highlight, themes, Language } from 'prism-react-renderer'
 import React, { CSSProperties, Fragment, useMemo, useState } from 'react'
 import Editor from 'react-simple-code-editor'
-import { Highlight, themes, Language } from 'prism-react-renderer'
-import cx from 'clsx'
 import classes from './CodeBlockAndEditor.module.scss'
 import { isLanguageSupported } from './supportedLanguages'
 

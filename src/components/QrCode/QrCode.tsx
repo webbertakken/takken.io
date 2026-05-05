@@ -1,5 +1,5 @@
-import React from 'react'
 import { QRCodeSVG } from 'qrcode.react'
+import React from 'react'
 
 interface QrCodeProps extends React.SVGProps<SVGSVGElement> {
   value: string
