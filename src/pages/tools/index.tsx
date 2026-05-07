@@ -9,6 +9,7 @@ import {
   FaMagnifyingGlass,
   FaPersonSwimming,
   FaPlug,
+  FaShieldHalved,
 } from 'react-icons/fa6'
 
 interface Tool {
@@ -56,6 +57,14 @@ const tools: Tool[] = [
     description:
       'Interactive guide for choosing a Node.js base image strategy in the post-Bitnami era.',
     Icon: FaDocker,
+    external: true,
+  },
+  {
+    name: 'Nginx image security & hardening',
+    slug: 'nginx-image-security.html',
+    description:
+      'Interactive guide to the 2026 Nginx image landscape with a production hardening checklist.',
+    Icon: FaShieldHalved,
     external: true,
   },
 ]
