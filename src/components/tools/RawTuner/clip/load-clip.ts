@@ -49,21 +49,39 @@ export interface LoadClipOptions {
 
 /* v8 ignore start -- transformers.js can't be loaded under jsdom; the integration
    path runs against the real lib in Phase 9 manual smoke. */
-const defaultPipelineFactory: PipelineFactory = async (modelId, options) => {
-  const { pipeline } = (await import('@huggingface/transformers')) as {
+
+// Load transformers.js from a CDN at runtime instead of bundling. This
+// keeps Docusaurus's webpack from trying to handle the lib's Node-only
+// transitive deps (`onnxruntime-node`, `sharp`, etc). The `webpackIgnore`
+// comment tells webpack to leave the import expression untouched.
+const CDN_URL =
+  'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0/dist/transformers.min.js'
+
+const loadTransformers = async (): Promise<{
+  pipeline: (
+    task: string,
+    modelId: string,
+    options: PipelineFactoryOptions,
+  ) => Promise<FeatureExtractor>
+  RawImage: RawImageCtor
+}> => {
+  return (await import(/* webpackIgnore: true */ /* @vite-ignore */ CDN_URL)) as unknown as {
     pipeline: (
       task: string,
       modelId: string,
       options: PipelineFactoryOptions,
     ) => Promise<FeatureExtractor>
+    RawImage: RawImageCtor
   }
+}
+
+const defaultPipelineFactory: PipelineFactory = async (modelId, options) => {
+  const { pipeline } = await loadTransformers()
   return pipeline('image-feature-extraction', modelId, options)
 }
 
 const defaultRawImageCtor = async (): Promise<RawImageCtor> => {
-  const { RawImage } = (await import('@huggingface/transformers')) as {
-    RawImage: RawImageCtor
-  }
+  const { RawImage } = await loadTransformers()
   return RawImage
 }
 /* v8 ignore stop */
