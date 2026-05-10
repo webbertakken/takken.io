@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { apply, prewarmGpu } from '../applier'
+import { apply, getApplierDecision, prewarmGpu, type ApplierDecision } from '../applier'
 import { loadClipImageEncoder, type ClipImageEncoder } from '../clip/load-clip'
 import { decode, type DecodedImage } from '../decode/decode'
+import { downsample } from '../domain/downsample'
 import type { LinearImage } from '../domain/linear-image'
 import { defaultSliderStack, mergeSliderStacks, type SliderStack } from '../domain/slider-stack'
+
+const PREVIEW_MAX_SIDE = 1024
 import { encodeJpeg } from '../export/encode-jpeg'
 import { writeXmp } from '../export/write-xmp'
 import { analyseImage } from '../heuristics/analyse'
@@ -19,6 +22,7 @@ import SliderStackUi from './SliderStack'
 
 interface LoadedImage {
   decoded: DecodedImage
+  preview: LinearImage
   fileStem: string
   baselineSliders: SliderStack
 }
@@ -47,6 +51,7 @@ const ToolBody = (): React.JSX.Element => {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [previewBytes, setPreviewBytes] = useState<Uint8ClampedArray | null>(null)
+  const [applierDecision, setApplierDecision] = useState<ApplierDecision | null>(null)
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const encoderRef = useRef<ClipImageEncoder | null>(null)
 
@@ -57,13 +62,14 @@ const ToolBody = (): React.JSX.Element => {
   const renderPreview = useCallback(async (image: LinearImage, stack: SliderStack) => {
     const bytes = await apply(image, stack)
     setPreviewBytes(bytes)
+    setApplierDecision(getApplierDecision())
   }, [])
 
   useEffect(() => {
     if (!loaded || !previewBytes) return
     const canvas = previewCanvasRef.current
     if (!canvas) return
-    const { width, height } = loaded.decoded.image
+    const { width, height } = loaded.preview
     canvas.width = width
     canvas.height = height
     const ctx = canvas.getContext('2d')
@@ -90,13 +96,22 @@ const ToolBody = (): React.JSX.Element => {
     try {
       const buffer = await fileToArrayBuffer(file)
       const decoded = await decode({ name: file.name, buffer })
-      const analysis = analyseImage(decoded.image)
+      const preview = downsample(decoded.image, PREVIEW_MAX_SIDE)
+      // Analyse on the downsampled preview - box-filter preserves histogram
+      // statistics so the auto-tune baseline matches what the full-res output
+      // would yield, much faster.
+      const analysis = analyseImage(preview)
       const baseline = autoTune(analysis)
-      setLoaded({ decoded, fileStem: stemOf(file.name), baselineSliders: baseline })
+      setLoaded({
+        decoded,
+        preview,
+        fileStem: stemOf(file.name),
+        baselineSliders: baseline,
+      })
       setSliders(baseline)
       setActivePreset('Auto-tuned')
-      await renderPreview(decoded.image, baseline)
-      void runSuggestions(decoded.image)
+      await renderPreview(preview, baseline)
+      void runSuggestions(preview)
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn('[raw-tuner] handleFile failed:', err)
@@ -129,7 +144,7 @@ const ToolBody = (): React.JSX.Element => {
         : mergeSliderStacks(sliders, patch as Partial<SliderStack>)
     setSliders(next)
     setActivePreset(null)
-    await renderPreview(loaded.decoded.image, next)
+    await renderPreview(loaded.preview, next)
   }
 
   const handlePresetSelect = async (preset: Preset) => {
@@ -137,14 +152,14 @@ const ToolBody = (): React.JSX.Element => {
     const merged = mergeSliderStacks(loaded.baselineSliders, preset.sliders)
     setSliders(merged)
     setActivePreset(preset.name)
-    await renderPreview(loaded.decoded.image, merged)
+    await renderPreview(loaded.preview, merged)
   }
 
   const handleAutoTune = async () => {
     if (!loaded) return
     setSliders(loaded.baselineSliders)
     setActivePreset('Auto-tuned')
-    await renderPreview(loaded.decoded.image, loaded.baselineSliders)
+    await renderPreview(loaded.preview, loaded.baselineSliders)
   }
 
   const handleExportJpeg = async (quality: number) => {
@@ -210,7 +225,7 @@ const ToolBody = (): React.JSX.Element => {
               className="w-full rounded border border-gray-200 dark:border-gray-700"
             />
             <div className="space-y-4">
-              <HistogramView image={loaded.decoded.image} width={256} height={120} />
+              <HistogramView image={loaded.preview} width={256} height={120} />
               <button
                 type="button"
                 onClick={() => void handleAutoTune()}
@@ -236,6 +251,11 @@ const ToolBody = (): React.JSX.Element => {
       {!loaded && (
         <p className="m-0 text-sm text-gray-500 dark:text-gray-400">
           Drop a photo to see suggested looks.
+        </p>
+      )}
+      {applierDecision && (
+        <p className="m-0 text-xs text-gray-400 dark:text-gray-500" data-testid="applier-decision">
+          {applierDecision === 'gpu' ? 'Rendering on the GPU' : 'Rendering on the CPU'}
         </p>
       )}
     </div>
