@@ -64,6 +64,7 @@
     "fflate": "^0.8.2",
     "firebase": "^12.12.1",
     "js-cookie": "^3.0.5",
+    "libraw-wasm": "^1.1.2",
     "node-fetch": "2",
     "prism-react-renderer": "^2.4.1",
     "qrcode.react": "^4.2.0",

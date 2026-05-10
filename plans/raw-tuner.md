@@ -113,17 +113,23 @@ TDD-first. Every function gets a `.spec.ts` next to it.
 
 ### Phase 2 — RAW decode
 
-- [ ] 2.1 Add `libraw-wasm` to deps. Lazy `await import('libraw-wasm')` only inside
-      `decode/decode-raw.ts`. Verify via build inspection that it doesn't appear in the main chunk.
-- [ ] 2.2 `decode/decode-raw.ts` — accepts `ArrayBuffer`, returns
-      `{ linear: Float16Array, width, height, cameraMake, cameraModel, exif }`. Spec uses fixture
-      buffers from `tests/fixtures/raw/` (small CR2 + DNG samples — committed if license allows;
-      otherwise generated synthetically with libraw's test utilities and gitignored).
-- [ ] 2.3 `decode/decode-jpeg.ts` — uses `ImageDecoder` Web API, falls back to `<img>` +
-      `OffscreenCanvas` when not available. Returns same shape as RAW decode (linear values are
-      gamma-decoded sRGB). Spec uses a tiny test JPEG.
-- [ ] 2.4 `decode/decode.ts` — dispatcher by file extension + magic bytes. Spec covers each branch
-      and an "unknown format" error path.
+- [x] 2.1 Add `libraw-wasm` to deps. Lazy `await import('libraw-wasm')` only inside
+      `decode/decode-raw.ts`. Verified via build inspection that it doesn't appear in the main chunk
+      (currently not in any chunk — nothing references `decode/` from the UI yet; Phase 7 hookup
+      will surface it as its own chunk and the isolation post-build test will catch leaks).
+- [x] 2.2 `decode/decode-raw.ts` — accepts `ArrayBuffer`, returns
+      `{ image: LinearImage, metadata: { cameraMake, cameraModel, iso, shutter, aperture, raw } }`.
+      libraw set to `outputColor: 1` (sRGB primaries), `outputBps: 16`, `gamm: [1, 1]` (linear
+      gamma), `useCameraWb: true`. Spec uses a `vi.mock`'d `libraw-wasm` to drive the conversion +
+      validation paths in jsdom; real-format smoke is reserved for Phase 9.
+- [x] 2.3 `decode/decode-jpeg.ts` — `decodeJpeg(buffer, { bytesDecoder })` injects the browser-side
+      bytes decoder (default = `ImageDecoder` with an `<img>` + `OffscreenCanvas` fallback) so the
+      conversion logic is unit-testable in jsdom. `decodeSrgbByte` + LUT-backed `srgbBytesToLinear`
+      exposed for direct testing; round-trip with `encodeSrgb` covered.
+- [x] 2.4 `decode/decode.ts` — `sniffFormat(name, buffer)` checks extension first then magic bytes
+      (JPEG / PNG / WebP / TIFF-LE / TIFF-BE / ISOBMFF ftyp). `decode({ name, buffer })` dispatches.
+      Unknown formats throw with the file name in the message.
+- [x] **100% line coverage** on every Phase 2 file.
 
 ### Phase 3 — WebGPU applier
 

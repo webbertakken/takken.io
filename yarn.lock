@@ -13256,6 +13256,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"libraw-wasm@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "libraw-wasm@npm:1.1.2"
+  checksum: 10/418d52775a70007dc35953de8fc4a268048130225e044106febc9adfd15f964e9d60da1aebbe79d1ff85ad7ffa1690438933578bbf0812a1520639261d90f50d
+  languageName: node
+  linkType: hard
+
 "lightningcss-android-arm64@npm:1.32.0":
   version: 1.32.0
   resolution: "lightningcss-android-arm64@npm:1.32.0"
@@ -19047,6 +19054,7 @@ __metadata:
     husky: "npm:^9"
     js-cookie: "npm:^3.0.5"
     jsdom: "npm:^26"
+    libraw-wasm: "npm:^1.1.2"
     lint-staged: "npm:^16"
     node-fetch: "npm:2"
     oxfmt: "npm:^0.48.0"
