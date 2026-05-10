@@ -15,6 +15,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "test": "node scripts/ensure-husky.mjs && vitest run",
+    "raw-tuner:embed-presets": "tsx src/components/tools/RawTuner/presets/build/embed-presets.ts",
+    "raw-tuner:check-presets": "tsx src/components/tools/RawTuner/presets/build/check-presets.ts",
     "coverage": "vitest --coverage",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "git ls-files -z ':!functions' '*.ts' '*.tsx' '*.js' '*.jsx' '*.mts' '*.mjs' '*.cjs' | xargs -0 oxlint --max-warnings 0",
@@ -108,6 +110,7 @@
     "stylelint-scss": "^7",
     "tailwindcss": "^4.2.4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4",
     "webpack": "~5.97.1"

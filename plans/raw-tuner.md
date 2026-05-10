@@ -183,18 +183,27 @@ TDD-first. Every function gets a `.spec.ts` next to it.
 
 ### Phase 5 — preset bank
 
-- [ ] 5.1 `presets/presets.source.yaml` — define ~30 starter presets across diverse moods (editorial
-      portrait, airy pastel, moody film, cinematic teal-orange, natural daylight, high-key b&w,
-      vintage, golden-hour landscape, etc.). Each entry: `name`, `description` (rich,
-      CLIP-friendly), `sliders`. No images.
-- [ ] 5.2 `presets/build/embed-presets.ts` — Node script: reads YAML, runs CLIP text encoder via
-      transformers.js, writes `presets.json` with `{ ...preset, embedding: number[512] }`. Add
-      `yarn build:presets` script. Spec covers YAML parse + a tiny mock encoder.
-- [ ] 5.3 Run the build locally, commit `presets.json`. Document in tool README that `presets.json`
-      is generated; CI doesn't regenerate.
-- [ ] 5.4 `presets/retrieve.ts` — `topN(imageEmbedding, presets, n=5)` with cosine similarity + MMR
-      diversity penalty. Spec covers: identical-image returns identical-mood preset first; diversity
-      penalty surfaces visually different picks.
+- [x] 5.1 `presets/presets.source.ts` — 30 starter presets across the mood spectrum (editorial, airy
+      pastel, film noir, cinematic teal-orange, natural daylight, golden hour, blue hour,
+      high/low-key b&w, vintage film, faded matte, romantic wedding, documentary, travel,
+      Scandinavian, desert, foggy, urban, velvia, Polaroid, cyberpunk, matte black metal, soft skin
+      beauty, crunchy street, pastel anime, misty mountain, coffee shop, sunset, forest). YAML
+      dropped in favour of TS for type safety + zero parser dep.
+- [x] 5.2 `presets/build/embed-presets.ts` — Node script. Drives transformers.js
+      `CLIPTextModelWithProjection` directly (NOT the `feature-extraction` pipeline, which expects
+      an image), L2-normalises so cosine reduces to dot product. `loadEncoder` injectable for tests.
+      `tsx` added as devDep; build invoked via `pm2 start "yarn raw-tuner:embed-presets"` because
+      the first run downloads ~150 MB of CLIP weights.
+- [x] 5.3 Ran the build locally, committed `presets.json` (≈15 KB; 30 × 512 floats). Documented in
+      the script header that CI does NOT regenerate.
+- [x] 5.4 `presets/retrieve.ts` — `cosineSimilarity(a, b)` +
+      `topN(query, presets, n,     { mmrLambda })` with greedy MMR (default λ = 0.7). Spec covers
+      identity, scale invariance, dimension-mismatch errors, MMR diversity, n=0 / empty-list edges.
+- [x] 5.5 `presets/index.ts` re-exports the JSON as a typed `readonly Preset[]`. Smoke-tested
+      against `PRESET_SOURCES` to catch out-of-sync regenerations + verify embeddings are
+      L2-normalised.
+- [x] **100% line coverage** on every Phase 5 file (the real-CLIP encoder loader v8-ignored;
+      exercised only by the build script invocation, not unit tests).
 
 ### Phase 6 — export
 
