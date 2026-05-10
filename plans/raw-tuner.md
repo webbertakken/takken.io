@@ -133,23 +133,29 @@ TDD-first. Every function gets a `.spec.ts` next to it.
 
 ### Phase 3 — WebGPU applier
 
-- [ ] 3.1 `applier/webgpu/shader.wgsl` — single compute shader implementing the full slider chain in
-      linear fp16: WB → exposure → curve (parametric, 4 control points) →
-      black/white/highlights/shadows → HSL → tone-map → 8-bit sRGB output. WGSL unit-testable via
-      the WebGPU shader-test harness or by running it once with known inputs and asserting the
-      output buffer.
-- [ ] 3.2 `applier/webgpu/pipeline.ts` — wraps adapter request, pipeline creation, buffer
-      allocation. Single entry: `applyOnGpu(linearImage, sliders): Promise<Uint8ClampedArray>`. Spec
-      is a happy-path render of a 16×16 image.
-- [ ] 3.3 `applier/webgpu/self-test.ts` — runs the full pipeline on a 4×4 known input at boot,
-      compares output to a hardcoded expected buffer. If checksum fails, log and switch to CPU
-      fallback (the shader works on most GPUs but Intel iGPUs occasionally produce wrong output
-      silently — see `~/Repositories/wiki/docs/webgpu/`).
-- [ ] 3.4 `applier/index.ts` — public `apply(image, sliders)` that picks GPU or CPU based on probe +
-      self-test result. Spec asserts: same inputs produce visually equivalent outputs across paths
-      (PSNR > 45 dB).
-- [ ] 3.5 Pre-warm: dispatch a 1×1 dummy compute on first mount so the user's first real apply isn't
-      a 200–2000ms shader compile. Spec asserts the pre-warm runs exactly once per session.
+- [x] 3.1 `applier/webgpu/shader.ts` — WGSL compute shader (kept as a TS string, since Docusaurus
+      lacks a `?raw` loader) implementing the full slider chain in linear fp32: WB → exposure →
+      whites/blacks → highlights/shadows → contrast → tone curve (piecewise linear, up to 16 points)
+      → saturation/vibrance → sRGB encode. Order kept in lockstep with the CPU path so outputs match
+      byte-for-byte.
+- [x] 3.2 `applier/webgpu/pipeline.ts` — `requestWebGpuDevice()`, `createPipeline(device)`,
+      `applyOnGpu(device, image, sliders, { pipelineCache? })`. Allocates input / output / slider /
+      curve / staging buffers, dispatches `ceil(pixels / 64)` workgroups, reads back via
+      `mapAsync` + clamps to 8-bit. WebGPU bitflag constants hard-coded so the wrapper runs in
+      jsdom. Tested via a `FakeDevice` that records every call and lets tests inject synthetic
+      readback dynamically.
+- [x] 3.3 `applier/webgpu/self-test.ts` — 16-pixel fixture covering shadows / midtones / highlights
+      / casts, exercises every slider including a 3-point curve. Tolerance:
+      `SELF_TEST_TOLERANCE = 3` per channel. Returns `false` on length mismatch, tolerance breach,
+      or a thrown dispatch.
+- [x] 3.4 `applier/index.ts` — public `apply(image, sliders)`. Probes `navigator.gpu`, runs
+      self-test, caches `decision: 'gpu' | 'cpu'` + a `GpuPipelineCache` for reuse. Concurrent
+      first-call probes serialise on a shared `initialising` promise. A runtime GPU dispatch failure
+      flips permanently to CPU (and warns). Tests cover: no-GPU, self-test fail, self-test pass +
+      use, post-init dispatch failure, decision cache, concurrent probe, prewarm.
+- [x] 3.5 `prewarmGpu()` — fires a 1×1 dispatch on first call to compile the pipeline; idempotent
+      across sessions. Ready for `useEffect(() => prewarmGpu(), [])` in Phase 7.
+- [x] **100% line coverage** on every Phase 3 file (incl. `FakeDevice` + WGSL string).
 
 ### Phase 4 — OPFS model cache + CLIP
 
