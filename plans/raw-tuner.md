@@ -91,23 +91,25 @@ clean. Lint and typecheck are gates, not afterthoughts.
 
 TDD-first. Every function gets a `.spec.ts` next to it.
 
-- [ ] 1.1 `domain/slider-stack.ts` — `SliderStack` interface, `defaultSliderStack()`,
+- [x] 1.1 `domain/slider-stack.ts` — `SliderStack` interface, `defaultSliderStack()`,
       `mergeSliderStacks(base, patch)`. Spec covers neutral defaults, patch composition,
       immutability.
-- [ ] 1.2 `domain/histogram.ts` — `histogram(linearFp16, channel)`, `percentile(hist, p)`,
-      `clipMask(linearFp16, threshold)`. Spec uses synthetic constant + ramp images.
-- [ ] 1.3 `heuristics/analyse.ts` — pure analysis: returns
+- [x] 1.2 `domain/histogram.ts` + `domain/linear-image.ts` — `histogram(image, channel)`,
+      `percentile(hist, p)`, `clipFractions(image)`, `meanLuma(image)`, `createLinearImage`. Spec
+      uses synthetic constant + ramp images.
+- [x] 1.3 `heuristics/analyse.ts` — pure analysis: returns
       `{ blackPoint, whitePoint, midGrey, wbTemp, wbTint, clippedHighlightsPct, clippedShadowsPct }`.
       Spec uses fixtures: underexposed, overexposed, neutral, colour-cast.
-- [ ] 1.4 `heuristics/auto-tune.ts` — `analysis → SliderStack`. Encodes the rules (e.g.
-      `exposure = log2(0.18 / midGrey)`, blacks/whites stretch to clip exactly 0.25%, grey-world WB
-      delta). Spec uses the same fixtures, asserts plausible slider ranges.
-- [ ] 1.5 `applier/cpu-fallback.ts` — `apply(linearImage, sliders): Uint8ClampedArray` for sRGB
-      output. Pure TS, no GPU. Used by Phase 1 tests AND as runtime fallback. Spec asserts: identity
-      slider stack returns input unchanged; `+1 EV` doubles linear values; black point shifts
-      shadows; etc.
-- [ ] 1.6 Round-trip spec: synthetic ramp → analyse → auto-tune → apply produces histogram with no
-      clipping and midpoint near 0.18.
+- [x] 1.4 `heuristics/auto-tune.ts` — `analysis → SliderStack`. Encodes the rules
+      (`exposure = log2(0.18 / midGrey)` clamped to ±3 EV, highlight-clip backoff, blacks/whites
+      stretch toward sensor extremes, grey-world WB delta). Spec asserts plausible slider ranges.
+- [x] 1.5 `applier/cpu-fallback.ts` — `applyOnCpu(image, sliders): Uint8ClampedArray` for sRGB
+      output, plus `applyLinear` (Float32 linear-light intermediate) and `encodeSrgb`. Pure TS, no
+      GPU. Spec covers identity, exposure scaling, white-balance, blacks crush, whites lift,
+      contrast spread, tone curve, saturation, alpha pass-through, sRGB clamp.
+- [x] 1.6 Round-trip spec: synthetic ramp → analyse → auto-tune → apply produces histogram with no
+      clipping and midpoint near 0.18; warm cast is reduced; auto-tune is near-idempotent.
+- [x] **100% line coverage** on every Phase 1 file (verified via `coverage/lcov.info`).
 
 ### Phase 2 — RAW decode
 
