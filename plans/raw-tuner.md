@@ -207,15 +207,18 @@ TDD-first. Every function gets a `.spec.ts` next to it.
 
 ### Phase 6 — export
 
-- [ ] 6.1 `export/encode-jpeg.ts` — `Uint8ClampedArray + dimensions → Blob` via
-      `OffscreenCanvas.convertToBlob({ type: 'image/jpeg', quality })`. Spec asserts non-zero blob,
-      correct mime, decodable round-trip.
-- [ ] 6.2 `export/write-xmp.ts` — `SliderStack → string` producing Lightroom-compatible XMP.
-      Reference: Adobe's XMP namespace for `crs:Exposure2012`, `crs:Contrast2012`,
-      `crs:ToneCurvePV2012`, etc. Spec includes a golden XMP fixture and a round-trip parse to
-      assert valid XML.
+- [x] 6.1 `export/encode-jpeg.ts` — `encodeJpeg(width, height, bytes, { quality, canvasFactory })`.
+      Default factory uses `OffscreenCanvas` (browser-only, v8-ignored); tests inject a fake canvas
+      to drive the path under jsdom. Validates buffer length matches `w×h×4`.
+- [x] 6.2 `export/write-xmp.ts` — `writeXmp(sliders): string` producing a Lightroom-compatible XMP
+      sidecar with the `crs:` namespace (`Exposure2012`, `Contrast2012`, `Highlights2012`,
+      `Shadows2012`, `Whites2012`, `Blacks2012`, `Temperature`, `Tint`, `Vibrance`, `Saturation`,
+      `ToneCurvePV2012`). Identity tone curve elided. Spec parses the output via `@xmldom/xmldom`
+      and asserts the right elements / values are present.
 - [ ] 6.3 Tool UI: "Export JPEG" + "Export `.xmp` sidecar" buttons trigger downloads with sensible
-      filenames (`<original-stem>.jpg`, `<original-stem>.xmp`).
+      filenames (`<original-stem>.jpg`, `<original-stem>.xmp`). _Lands in Phase 7 with the rest of
+      the UI._
+- [x] **100% line coverage** on every Phase 6 file.
 
 ### Phase 7 — UI
 

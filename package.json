@@ -94,6 +94,7 @@
     "@types/react": "^19",
     "@typescript/native-preview": "7.0.0-dev.20260425.1",
     "@vitest/coverage-v8": "^4",
+    "@xmldom/xmldom": "^0.9.10",
     "cross-env": "^10",
     "dotenv": "^17.4.2",
     "eslint-plugin-unicorn": "^64.0.0",

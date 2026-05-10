@@ -7520,6 +7520,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmldom/xmldom@npm:^0.9.10":
+  version: 0.9.10
+  resolution: "@xmldom/xmldom@npm:0.9.10"
+  checksum: 10/8d39ed498baf33dc8bbc82ec575e7448ddf08a0d6874bcc30a70c001b7519e6df6564f98d13c03836fa8be099c6d74cbc4078cfcfcbcf005681d4e67f1363412
+  languageName: node
+  linkType: hard
+
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0
   resolution: "@xtuc/ieee754@npm:1.2.0"
@@ -19516,6 +19523,7 @@ __metadata:
     "@types/react-dom": "npm:^19"
     "@typescript/native-preview": "npm:7.0.0-dev.20260425.1"
     "@vitest/coverage-v8": "npm:^4"
+    "@xmldom/xmldom": "npm:^0.9.10"
     canvas: "npm:^3.2.3"
     clsx: "npm:^2.1.1"
     cross-env: "npm:^10"
