@@ -95,7 +95,7 @@
     "eslint-plugin-unicorn": "^64.0.0",
     "glob": "^13.0.6",
     "husky": "^9",
-    "jsdom": "^29",
+    "jsdom": "^26",
     "lint-staged": "^16",
     "oxfmt": "^0.48.0",
     "oxlint": "^1.61.0",
