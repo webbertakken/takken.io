@@ -73,15 +73,19 @@ clean. Lint and typecheck are gates, not afterthoughts.
 
 ### Phase 0 — slot-in scaffolding
 
-- [ ] 0.1 Add a tools-index row in `src/pages/tools/index.tsx`: name "RAW tuner", slug `raw-tuner`,
+- [x] 0.1 Add a tools-index row in `src/pages/tools/index.tsx`: name "RAW tuner", slug `raw-tuner`,
       description, `FaCamera` icon (or similar from `react-icons/fa6`).
-- [ ] 0.2 Create `src/pages/tools/raw-tuner/index.tsx` re-exporting from
+- [x] 0.2 Create `src/pages/tools/raw-tuner/index.tsx` re-exporting from
       `src/components/tools/RawTuner`.
-- [ ] 0.3 Create `src/components/tools/RawTuner/index.tsx` with a `<ToolPage title="RAW tuner">`
+- [x] 0.3 Create `src/components/tools/RawTuner/index.tsx` with a `<ToolPage title="RAW tuner">`
       shell + placeholder body. Page renders, links from tools index work.
-- [ ] 0.4 Verify the `/blog` and `/tools/text-analyser` routes do **not** include any RAW-tuner code
+- [x] 0.4 Verify the `/blog` and `/tools/text-analyser` routes do **not** include any RAW-tuner code
       in their bundles. Run `yarn build`, inspect `build/assets/js/`, fail loudly if RawTuner chunks
-      leak.
+      leak. Implemented as `tests/post-build/raw-tuner.isolation.test.ts`, runs as part of the
+      post-build security-check.
+- [x] 0.5 _Pre-existing infra fix._ `jsdom@29` (Dec 2025) and `whatwg-url@16` migrated to
+      `@exodus/bytes` which is ESM-only, breaking vitest. Pinned `jsdom` to `^26` and renamed
+      `vitest.config.ts` → `vitest.config.mts` to load via ESM.
 
 ### Phase 1 — domain types + heuristics (pure TS, no browser APIs)
 

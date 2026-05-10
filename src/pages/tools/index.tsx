@@ -3,6 +3,7 @@ import type { ComponentType } from 'react'
 import {
   FaArrowRight,
   FaArrowUpRightFromSquare,
+  FaCamera,
   FaCodePullRequest,
   FaDocker,
   FaListUl,
@@ -21,6 +22,13 @@ interface Tool {
 }
 
 const tools: Tool[] = [
+  {
+    name: 'RAW tuner',
+    slug: 'raw-tuner',
+    description:
+      'Drop a RAW or JPEG, get an auto-tuned preview plus suggested looks. Runs entirely on your GPU.',
+    Icon: FaCamera,
+  },
   {
     name: 'Pull requests to release text',
     slug: 'pull-requests-to-release-text',
