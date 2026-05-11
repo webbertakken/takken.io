@@ -17,6 +17,23 @@ declare module '@garmin-fit/sdk' {
   export const Stream: any
 }
 
+declare module 'libraw-wasm' {
+  interface LibRawSettings {
+    outputColor?: number
+    outputBps?: number
+    gamm?: readonly [number, number]
+    useCameraWb?: boolean
+    useAutoWb?: boolean
+    halfSize?: boolean
+    [key: string]: unknown
+  }
+  export default class LibRaw {
+    open(buffer: Uint8Array, settings?: LibRawSettings): Promise<void>
+    metadata(fullOutput?: boolean): Promise<Record<string, unknown>>
+    imageData(): Promise<Uint16Array | Uint8Array>
+  }
+}
+
 declare module '*.module.scss' {
   const classes: { readonly [key: string]: string }
   export default classes
