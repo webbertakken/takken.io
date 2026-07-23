@@ -92,7 +92,7 @@ causes therefore:
       rounded minutes), `startTime`, `maxDepth` (1 decimal), `sport`, `minTemperature`,
       `maxTemperature`, and the undefined cases when `diveSummaryMesgs` / `sessionMesgs` are
       missing.
-- [ ] TDD: add unit tests for `SsiDive.fromGarmin` locking the exact QR payload produced for a
+- [x] TDD: add unit tests for `SsiDive.fromGarmin` locking the exact QR payload produced for a
       complete Garmin-shaped message set (guards the refactor).
 - [ ] Extract the vendor-neutral parts of `GarminFiles` (zip extraction, .fit collection, SDK
       decode, integrity checks) into a shared module, e.g. `src/domain/diving/fit/FitFiles.ts`.
