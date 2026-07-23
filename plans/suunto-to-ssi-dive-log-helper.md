@@ -115,7 +115,7 @@ causes therefore:
       in-memory message fixtures **and** with the real decoded fixture file, asserting concrete
       values: `diveTime` 51, `startTime` 2026-07-13T06:33:04Z, `maxDepth` 11.9, `sport` 'diving',
       `maxTemperature` 29, `minTemperature` 29.
-- [ ] TDD: every non-happy path: missing `sessionMesgs` (throw or undefined fields, mirroring
+- [x] TDD: every non-happy path: missing `sessionMesgs` (throw or undefined fields, mirroring
       `GarminDive`'s conventions), no records with temperature (fallback to `avgTemperature`, then
       undefined), missing `maxDepth`, non-diving sport (error from `diveTypeFromSport` surfaces to
       the UI as a readable message).

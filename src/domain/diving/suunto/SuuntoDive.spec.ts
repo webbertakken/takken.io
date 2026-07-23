@@ -65,6 +65,49 @@ describe('SuuntoDive', () => {
     expect(dive.lastName).toBe('')
   })
 
+  describe('without a session', () => {
+    const sessionless = () => new SuuntoDive(messages({ sessionMesgs: [] }))
+
+    it('yields undefined dive time, start, depth and max temperature', () => {
+      const dive = sessionless()
+      expect(dive.diveTime).toBeUndefined()
+      expect(dive.startTime).toBeUndefined()
+      expect(dive.maxDepth).toBeUndefined()
+      expect(dive.maxTemperature).toBeUndefined()
+    })
+
+    it('throws when reading the sport', () => {
+      expect(() => sessionless().sport).toThrow('No session data available')
+    })
+  })
+
+  it('falls back to the session average when no record has a temperature', () => {
+    const dive = new SuuntoDive(messages({ recordMesgs: records([undefined, undefined]) }))
+    expect(dive.minTemperature).toBe(29)
+  })
+
+  it('yields undefined water temperature with neither records nor an average', () => {
+    const dive = new SuuntoDive(
+      messages({
+        recordMesgs: [],
+        sessionMesgs: [session({ avgTemperature: undefined as unknown as number })],
+      }),
+    )
+    expect(dive.minTemperature).toBeUndefined()
+  })
+
+  it('yields undefined depth when the session omits maxDepth', () => {
+    const dive = new SuuntoDive(
+      messages({ sessionMesgs: [session({ maxDepth: undefined as unknown as number })] }),
+    )
+    expect(dive.maxDepth).toBeUndefined()
+  })
+
+  it('exposes a non-diving sport unchanged', () => {
+    const dive = new SuuntoDive(messages({ sessionMesgs: [session({ sport: 'running' })] }))
+    expect(dive.sport).toBe('running')
+  })
+
   describe('with the real Suunto Ocean fixture', () => {
     it('maps the decoded dive to the expected values', () => {
       const dive = new SuuntoDive(decodeFixture())

@@ -25,7 +25,8 @@ export class SuuntoDive implements Dive {
   }
 
   get maxDepth(): number | undefined {
-    return this.session ? Math.round(this.session.maxDepth * 10) / 10 : undefined
+    const maxDepth = this.session?.maxDepth
+    return maxDepth === undefined ? undefined : Math.round(maxDepth * 10) / 10
   }
 
   get sport(): string {
