@@ -128,11 +128,11 @@ causes therefore:
 
 ## Phase 3 - UI
 
-- [ ] Extract the shared page UI from `GarminToSsiDiveLogHelper` into a reusable component (e.g.
+- [x] Extract the shared page UI from `GarminToSsiDiveLogHelper` into a reusable component (e.g.
       `src/components/tools/FitToSsiDiveLogHelper/`) parameterised by: tool title, vendor name,
       instruction copy, export-instructions image, and dive-adapter factory. Garmin page must render
       pixel-identically (aside from copy changes explicitly listed below).
-- [ ] While extracting, fix the invalid file-input accept attribute (`*.fit,*.zip` → `.fit,.zip`).
+- [x] While extracting, fix the invalid file-input accept attribute (`*.fit,*.zip` → `.fit,.zip`).
 - [ ] Prepare Suunto assets in `src/components/tools/SuuntoToSsiDiveLogHelper/assets/`: copy the
       provided screenshot as `exporting-fit-file-from-suunto-app.png` plus a `.webp` companion
       (match the existing Garmin assets' pattern; use `cwebp` or the repo image tooling). Give the
