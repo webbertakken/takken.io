@@ -54,18 +54,16 @@ describe('SsiDive.toQR', () => {
   })
 })
 
-describe('SsiDive.fromGarmin', () => {
+describe('SsiDive.fromDive', () => {
   it('produces the expected QR payload for a complete Garmin dive', () => {
-    const dive = SsiDive.fromGarmin(new GarminDive(garminMessages()))
+    const dive = SsiDive.fromDive(new GarminDive(garminMessages()))
 
     expect(SsiDive.toQR(dive)).toBe(
       'dive;noid;dive_type:0;divetime:35;datetime:202309151757;depth_m:9.6;' +
         'user_firstname:;user_lastname:;watertemp_c:22;watertemp_max_c:24',
     )
   })
-})
 
-describe('SsiDive.fromDive', () => {
   const decodeSuunto = (): SuuntoMessages => {
     const bytes = suuntoOceanScubaFixture()
     const decoder = new Decoder(Stream.fromByteArray(bytes))
@@ -83,11 +81,5 @@ describe('SsiDive.fromDive', () => {
     expect(qr).toMatch(/(^|;)watertemp_c:29(;|$)/)
     expect(qr).toMatch(/(^|;)watertemp_max_c:29(;|$)/)
     expect(qr).toMatch(/(^|;)datetime:\d{12}(;|$)/)
-  })
-
-  it('is the shared mapping that fromGarmin delegates to', () => {
-    const garmin = new GarminDive(garminMessages())
-
-    expect(SsiDive.fromGarmin(garmin)).toEqual(SsiDive.fromDive(garmin))
   })
 })

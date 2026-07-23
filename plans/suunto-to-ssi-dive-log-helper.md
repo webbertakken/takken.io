@@ -173,9 +173,9 @@ causes therefore:
 
 ## Phase 5 - quality gate and wrap-up
 
-- [ ] Run `yarn check` (coverage-covered tests, oxlint, oxfmt check, tsgo typecheck) and
+- [x] Run `yarn check` (coverage-covered tests, oxlint, oxfmt check, tsgo typecheck) and
       `npx prettier --write` on changed files; fix everything, no suppressions.
-- [ ] Run `yarn build` (includes the post-build security check) and confirm it passes.
+- [x] Run `yarn build` (includes the post-build security check) and confirm it passes.
 - [ ] Re-read the diff end to end: no leftover debug logging (also remove/keep-consistent the
       pre-existing `console.log('reading', fileName)` if it moved), no dead code, JSDoc on new
       domain modules.

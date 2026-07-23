@@ -1,5 +1,4 @@
 import { Dive } from '@site/src/domain/diving/Dive'
-import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
 import {
   AirTempCelcius,
   DepthInMeters,
@@ -45,8 +44,6 @@ export class SsiDive {
   vis_m!: VisibilityInMeters
   watertemp_max_c!: MaxWaterTempCelcius
   deco!: SsiDecompression
-
-  static fromGarmin = (garmin: GarminDive): Partial<SsiDive> => SsiDive.fromDive(garmin)
 
   static fromDive = (dive: Dive): Partial<SsiDive> => {
     return {
