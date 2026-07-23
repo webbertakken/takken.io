@@ -182,7 +182,7 @@ causes therefore:
 - [x] Fold-back: names reflect the end state (no `common`/`shared2`-style placeholders), module
       headers say what each module IS, no comments referencing this plan.
 - [x] Update this plan: all boxes ticked; note any deviations at the bottom.
-- [ ] ASK THE OPERATOR (do not decide yourself): permission to push the branch and open a PR.
+- [x] ASK THE OPERATOR (do not decide yourself): permission to push the branch and open a PR.
       Provide a suggested PR title (≤ 52 chars) and a concise bullet description including the E2E
       screenshot. Only push after explicit approval.
 
