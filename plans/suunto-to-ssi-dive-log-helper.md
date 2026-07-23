@@ -156,20 +156,20 @@ causes therefore:
 
 ## Phase 4 - proof that it works
 
-- [ ] Start the dev server via PM2 (`pm2 start "yarn dev" --name takken-io-dev`), tail the log until
+- [x] Start the dev server via PM2 (`pm2 start "yarn dev" --name takken-io-dev`), tail the log until
       ready.
-- [ ] With `playwright-cli` (dark mode, `prefers-color-scheme: dark`): open
+- [x] With `playwright-cli` (dark mode, `prefers-color-scheme: dark`): open
       `/tools/suunto-to-ssi-dive-log-helper`, upload the Suunto fixture via the file input, assert
       the QR code appears, and read the developer-data QR payload text to assert it contains
       `divetime:51` and `depth_m:11.9` and no `undefined`. Screenshot for the PR.
-- [ ] Same flow on `/tools/garmin-to-ssi-dive-log-helper` with the Suunto fixture to confirm the
+- [x] Same flow on `/tools/garmin-to-ssi-dive-log-helper` with the Suunto fixture to confirm the
       mismatch notice + QR both work there too.
-- [ ] Verify `/tools` index shows both cards; check keyboard navigation and visible focus states on
+- [x] Verify `/tools` index shows both cards; check keyboard navigation and visible focus states on
       the new card and page controls (WCAG 2.2 AA); confirm no layout shift when the QR section
       appears (content is appended below, nothing moves above the fold).
-- [ ] Check the browser console and dev-server log for errors/warnings introduced by the change; fix
+- [x] Check the browser console and dev-server log for errors/warnings introduced by the change; fix
       any.
-- [ ] `pm2 delete takken-io-dev` when done.
+- [x] `pm2 delete takken-io-dev` when done.
 
 ## Phase 5 - quality gate and wrap-up
 
