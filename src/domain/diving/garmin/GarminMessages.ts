@@ -1,4 +1,6 @@
-export interface GarminMessages {
+import type { FitMessages } from '@site/src/domain/diving/fit/FitMessages'
+
+export interface GarminMessages extends FitMessages {
   fileIdMesgs: { timeCreated: Date }[]
   sportMesgs: GarminSport[]
   diveSettingsMesgs: GarminDiveSettings[]

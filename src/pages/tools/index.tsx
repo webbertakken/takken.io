@@ -30,7 +30,15 @@ const tools: Tool[] = [
   {
     name: 'Garmin to SSI dive log helper',
     slug: 'garmin-to-ssi-dive-log-helper',
-    description: 'Convert a Garmin .FIT dive file into a QR code your SSI DiveLog app can scan.',
+    description:
+      'Convert a Garmin .FIT dive file into a QR code your SSI DiveLog app can scan (Suunto has its own tool).',
+    Icon: FaPersonSwimming,
+  },
+  {
+    name: 'Suunto to SSI dive log helper',
+    slug: 'suunto-to-ssi-dive-log-helper',
+    description:
+      'Convert a Suunto app .fit dive file into a QR code your SSI DiveLog app can scan.',
     Icon: FaPersonSwimming,
   },
   {
