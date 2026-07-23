@@ -9,9 +9,9 @@ const SuuntoToSsiDiveLogHelper = (): React.JSX.Element => (
     vendor="suunto"
     createFiles={() => new SuuntoFiles()}
     exportImage={require('./assets/exporting-fit-file-from-suunto-app.png')}
-    exportImageAlt='The Suunto app menu with the "Download FIT file" option'
-    exportImageWidth={304}
-    exportImageHeight={320}
+    exportImageAlt='The Suunto app dive menu with the "Download FIT file" option highlighted'
+    exportImageWidth={440}
+    exportImageHeight={366}
     exportNote={
       <>
         In the Suunto app, open a dive, tap the <span aria-hidden>⋮</span>{' '}
