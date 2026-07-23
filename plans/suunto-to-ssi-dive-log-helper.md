@@ -176,15 +176,34 @@ causes therefore:
 - [x] Run `yarn check` (coverage-covered tests, oxlint, oxfmt check, tsgo typecheck) and
       `npx prettier --write` on changed files; fix everything, no suppressions.
 - [x] Run `yarn build` (includes the post-build security check) and confirm it passes.
-- [ ] Re-read the diff end to end: no leftover debug logging (also remove/keep-consistent the
+- [x] Re-read the diff end to end: no leftover debug logging (also remove/keep-consistent the
       pre-existing `console.log('reading', fileName)` if it moved), no dead code, JSDoc on new
       domain modules.
-- [ ] Fold-back: names reflect the end state (no `common`/`shared2`-style placeholders), module
+- [x] Fold-back: names reflect the end state (no `common`/`shared2`-style placeholders), module
       headers say what each module IS, no comments referencing this plan.
-- [ ] Update this plan: all boxes ticked; note any deviations at the bottom.
+- [x] Update this plan: all boxes ticked; note any deviations at the bottom.
 - [ ] ASK THE OPERATOR (do not decide yourself): permission to push the branch and open a PR.
       Provide a suggested PR title (≤ 52 chars) and a concise bullet description including the E2E
       screenshot. Only push after explicit approval.
+
+## Deviations
+
+- **Screenshot PII (operator-approved).** The supplied Suunto screenshot showed the diver's real
+  name, date, dive-site map and stats. Cropped it to just the ⋮-menu popover (containing "Download
+  FIT file"), dropping all personal data, and added a caption for context. The asset commit was
+  rewritten (branch never pushed) so the original PII image never enters pushable history; only the
+  cropped blob is reachable.
+- **`fromGarmin` removed, not aliased.** Production now calls `SsiDive.fromDive`; the alias was
+  deleted in fold-back rather than kept.
+- **Removed pre-existing debug logging** (`console.log('reading', ...)` and
+  `console.log('unsupported file', ...)`) while extracting the vendor-neutral `FitFiles` core.
+- **Test infrastructure added.** `@theme/ToolPage/ToolPage` and `@site/src/theme/IdealImage` mocks
+  plus vitest aliases, so the tool components render under vitest/jsdom.
+- **Export image dimensions** are 304x320 (near-square crop) instead of the originally assumed tall
+  portrait.
+- **E2E tooling.** No `playwright-cli` binary and no local Playwright in this repo, so the E2E ran
+  via a sibling repo's Playwright (1.61.1) whose cached Chromium (1228) matched; no new browser
+  download needed.
 
 ## Out of scope
 
