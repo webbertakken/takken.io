@@ -1,6 +1,10 @@
+import { Decoder, Stream } from '@garmin-fit/sdk'
 import { describe, expect, it } from 'vitest'
 import { GarminDive } from '../garmin/GarminDive'
 import type { DiveSummary, GarminMessages, GarminSession } from '../garmin/GarminMessages'
+import { suuntoOceanScubaFixture } from '../suunto/__fixtures__/index'
+import { SuuntoDive } from '../suunto/SuuntoDive'
+import type { SuuntoMessages } from '../suunto/SuuntoMessages'
 import { SsiDive } from './SsiDive'
 
 // Local-time Date so `formatDate` (which reads local calendar fields) is
@@ -58,5 +62,32 @@ describe('SsiDive.fromGarmin', () => {
       'dive;noid;dive_type:0;divetime:35;datetime:202309151757;depth_m:9.6;' +
         'user_firstname:;user_lastname:;watertemp_c:22;watertemp_max_c:24',
     )
+  })
+})
+
+describe('SsiDive.fromDive', () => {
+  const decodeSuunto = (): SuuntoMessages => {
+    const bytes = suuntoOceanScubaFixture()
+    const decoder = new Decoder(Stream.fromByteArray(bytes))
+    return decoder.read({ includeUnknownData: false, mergeHeartRates: true })
+      .messages as SuuntoMessages
+  }
+
+  it('maps a Suunto dive to the expected SSI QR payload', () => {
+    const qr = SsiDive.toQR(SsiDive.fromDive(new SuuntoDive(decodeSuunto())))
+
+    expect(qr).not.toMatch(/undefined/)
+    expect(qr).toMatch(/(^|;)dive_type:0(;|$)/)
+    expect(qr).toMatch(/(^|;)divetime:51(;|$)/)
+    expect(qr).toMatch(/(^|;)depth_m:11\.9(;|$)/)
+    expect(qr).toMatch(/(^|;)watertemp_c:29(;|$)/)
+    expect(qr).toMatch(/(^|;)watertemp_max_c:29(;|$)/)
+    expect(qr).toMatch(/(^|;)datetime:\d{12}(;|$)/)
+  })
+
+  it('is the shared mapping that fromGarmin delegates to', () => {
+    const garmin = new GarminDive(garminMessages())
+
+    expect(SsiDive.fromGarmin(garmin)).toEqual(SsiDive.fromDive(garmin))
   })
 })

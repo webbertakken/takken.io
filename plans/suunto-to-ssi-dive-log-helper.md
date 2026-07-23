@@ -119,7 +119,7 @@ causes therefore:
       `GarminDive`'s conventions), no records with temperature (fallback to `avgTemperature`, then
       undefined), missing `maxDepth`, non-diving sport (error from `diveTypeFromSport` surfaces to
       the UI as a readable message).
-- [ ] TDD: add `SsiDive.fromDive(dive: Dive)` (or equivalent) so Garmin and Suunto share the SSI
+- [x] TDD: add `SsiDive.fromDive(dive: Dive)` (or equivalent) so Garmin and Suunto share the SSI
       mapping; `fromGarmin` becomes a thin alias or is replaced at both call sites. Assert the full
       QR string for the Suunto fixture contains no `undefined` and includes `dive_type:0`,
       `divetime:51`, `depth_m:11.9`, `watertemp_c:29`, `watertemp_max_c:29`, and a `datetime:`
