@@ -100,7 +100,7 @@ causes therefore:
       `startTime`, `maxDepth`, `sport`, `minTemperature`, `maxTemperature`, `firstName`, `lastName`.
       `GarminDive` implements it. Existing tests must stay green; keep `GarminFiles`' public surface
       working or migrate its call sites in the same commit.
-- [ ] Add vendor detection from `fileIdMesgs[0].manufacturer` (`'garmin'` | `'suunto'` | unknown)
+- [x] Add vendor detection from `fileIdMesgs[0].manufacturer` (`'garmin'` | `'suunto'` | unknown)
       with unit tests, so each tool can warn when it receives the other vendor's file (exact UX
       decided in Phase 3).
 
