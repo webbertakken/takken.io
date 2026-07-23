@@ -87,7 +87,7 @@ causes therefore:
 - [x] TDD: add unit tests for `SsiDive.toQR` covering: normal key/value pairs, `null` values
       (rendered as bare key, e.g. `dive;noid`), and `undefined` values (must be **omitted
       entirely**, never `key:undefined`). Then fix `toQR` to skip `undefined` values.
-- [ ] TDD: add unit tests for `GarminDive` using typed in-memory `GarminMessages` fixtures (plain
+- [x] TDD: add unit tests for `GarminDive` using typed in-memory `GarminMessages` fixtures (plain
       objects, no .fit file needed) locking current behaviour: `diveTime` (bottomTime seconds →
       rounded minutes), `startTime`, `maxDepth` (1 decimal), `sport`, `minTemperature`,
       `maxTemperature`, and the undefined cases when `diveSummaryMesgs` / `sessionMesgs` are
