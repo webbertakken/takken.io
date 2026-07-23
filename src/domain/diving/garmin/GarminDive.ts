@@ -1,10 +1,11 @@
+import type { Dive } from '@site/src/domain/diving/Dive'
 import {
   DiveSummary,
   GarminMessages,
   GarminSession,
 } from '@site/src/domain/diving/garmin/GarminMessages'
 
-export class GarminDive {
+export class GarminDive implements Dive {
   readonly messages: GarminMessages
   private readonly summary: DiveSummary | undefined
   private readonly session: GarminSession | undefined

@@ -94,7 +94,7 @@ causes therefore:
       missing.
 - [x] TDD: add unit tests for `SsiDive.fromGarmin` locking the exact QR payload produced for a
       complete Garmin-shaped message set (guards the refactor).
-- [ ] Extract the vendor-neutral parts of `GarminFiles` (zip extraction, .fit collection, SDK
+- [x] Extract the vendor-neutral parts of `GarminFiles` (zip extraction, .fit collection, SDK
       decode, integrity checks) into a shared module, e.g. `src/domain/diving/fit/FitFiles.ts`.
       Introduce a common `Dive` interface (e.g. `src/domain/diving/Dive.ts`) with `diveTime`,
       `startTime`, `maxDepth`, `sport`, `minTemperature`, `maxTemperature`, `firstName`, `lastName`.
