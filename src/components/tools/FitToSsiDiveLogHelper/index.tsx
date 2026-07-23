@@ -39,6 +39,10 @@ export interface FitToSsiDiveLogHelperProps {
   exportImage: React.ComponentProps<typeof Image>['img']
   /** Alt text for the export-instructions image. */
   exportImageAlt: string
+  /** Rendered width of the export image, in px (reserve space, zero CLS). */
+  exportImageWidth?: number
+  /** Rendered height of the export image, in px (reserve space, zero CLS). */
+  exportImageHeight?: number
   /** Extra instruction describing where to export the file in the vendor app. */
   exportNote?: React.ReactNode
   /** Link to the sibling tool for the other vendor. */
@@ -52,6 +56,8 @@ const FitToSsiDiveLogHelper = ({
   createFiles,
   exportImage,
   exportImageAlt,
+  exportImageWidth,
+  exportImageHeight,
   exportNote,
   crossLink,
 }: FitToSsiDiveLogHelperProps): React.JSX.Element => {
@@ -142,7 +148,13 @@ const FitToSsiDiveLogHelper = ({
           </div>
 
           <div>
-            <Image img={exportImage} alt={exportImageAlt} noPadding />
+            <Image
+              img={exportImage}
+              alt={exportImageAlt}
+              width={exportImageWidth}
+              height={exportImageHeight}
+              noPadding
+            />
           </div>
         </div>
       </div>

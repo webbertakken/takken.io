@@ -137,7 +137,7 @@ causes therefore:
       provided screenshot as `exporting-fit-file-from-suunto-app.png` plus a `.webp` companion
       (match the existing Garmin assets' pattern; use `cwebp` or the repo image tooling). Give the
       `<Image>` explicit width/height (zero CLS rule).
-- [ ] Create `SuuntoToSsiDiveLogHelper` component and page
+- [x] Create `SuuntoToSsiDiveLogHelper` component and page
       `src/pages/tools/suunto-to-ssi-dive-log-helper/index.tsx` (same thin re-export pattern as
       Garmin). Copy: upload your Suunto `.fit` or `.zip`, scan the QR in the SSI app, "this page
       does not store data", and a short line explaining where to find "Download FIT file" in the
