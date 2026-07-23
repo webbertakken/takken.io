@@ -75,6 +75,7 @@ export class SsiDive {
 
   static toQR = (dive: Partial<SsiDive>): string => {
     return Object.entries(dive)
+      .filter(([, value]) => value !== undefined)
       .map(([key, value]) => (null === value ? key : `${key}:${value}`))
       .join(';')
   }
