@@ -111,7 +111,7 @@ causes therefore:
       `diveNumber`, `surfaceInterval`, `avgTemperature`, `maxTemperature`, `totalTimerTime`,
       `startTime`, `sport`; records with optional `depth` and `temperature`; minimal diveSettings;
       diveGas).
-- [ ] TDD: create `SuuntoDive` implementing `Dive` with the mapping table above. Unit-test with
+- [x] TDD: create `SuuntoDive` implementing `Dive` with the mapping table above. Unit-test with
       in-memory message fixtures **and** with the real decoded fixture file, asserting concrete
       values: `diveTime` 51, `startTime` 2026-07-13T06:33:04Z, `maxDepth` 11.9, `sport` 'diving',
       `maxTemperature` 29, `minTemperature` 29.
