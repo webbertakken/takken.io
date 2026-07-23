@@ -145,9 +145,9 @@ causes therefore:
 - [x] Vendor mismatch UX: when the Suunto page receives a Garmin file or vice versa, still convert
       (both produce SSI QR codes) but show an informational notice linking to the other tool. Test
       this behaviour.
-- [ ] Add the Suunto tool card to `src/pages/tools/index.tsx` (icon `FaPersonSwimming`, description
+- [x] Add the Suunto tool card to `src/pages/tools/index.tsx` (icon `FaPersonSwimming`, description
       mentioning Suunto `.fit` files and the SSI DiveLog app).
-- [ ] Cross-link the two tool pages ("Using a Garmin? → Garmin to SSI dive log helper" and vice
+- [x] Cross-link the two tool pages ("Using a Garmin? → Garmin to SSI dive log helper" and vice
       versa) and mention Suunto compatibility in the Garmin tool card description for
       discoverability (Simo's original request).
 - [x] Component tests (vitest + test-utils) for the new page: renders instructions, upload of the
