@@ -70,14 +70,14 @@ Two root causes therefore:
 
 ## Phase 0 - setup
 
-- [ ] Create a feature branch `suunto-ssi-dive-log-helper` (< 40 chars) off latest `main`
+- [x] Create a feature branch `suunto-ssi-dive-log-helper` (< 40 chars) off latest `main`
       (`git fetch` first). Use a worktree if the main checkout is busy. This plan file is
       currently untracked; commit it as the first commit on the branch.
-- [ ] Copy the Suunto fixture into the repo as
+- [x] Copy the Suunto fixture into the repo as
       `src/domain/diving/suunto/__fixtures__/suunto-ocean-scuba.fit` (from the attachments
       path above). Re-verify before committing that decoding it exposes no PII
       (no position/lat/long fields, no user names).
-- [ ] Add a fixture-loading test helper (Node `fs` read inside vitest) and a smoke test that
+- [x] Add a fixture-loading test helper (Node `fs` read inside vitest) and a smoke test that
       the fixture decodes with `@garmin-fit/sdk` with `isFIT` true, integrity true, zero
       errors. Keep the whole test file < 200ms.
 
