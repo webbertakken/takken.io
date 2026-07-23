@@ -106,7 +106,7 @@ causes therefore:
 
 ## Phase 2 - Suunto domain
 
-- [ ] TDD: create `src/domain/diving/suunto/SuuntoMessages.ts` typing the observed Suunto message
+- [x] TDD: create `src/domain/diving/suunto/SuuntoMessages.ts` typing the observed Suunto message
       shapes (fileId with `manufacturer`/`productName`, session incl. `avgDepth`, `maxDepth`,
       `diveNumber`, `surfaceInterval`, `avgTemperature`, `maxTemperature`, `totalTimerTime`,
       `startTime`, `sport`; records with optional `depth` and `temperature`; minimal diveSettings;
