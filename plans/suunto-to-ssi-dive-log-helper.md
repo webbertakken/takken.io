@@ -142,7 +142,7 @@ causes therefore:
       Garmin). Copy: upload your Suunto `.fit` or `.zip`, scan the QR in the SSI app, "this page
       does not store data", and a short line explaining where to find "Download FIT file" in the
       Suunto app (⋮ menu on a dive).
-- [ ] Vendor mismatch UX: when the Suunto page receives a Garmin file or vice versa, still convert
+- [x] Vendor mismatch UX: when the Suunto page receives a Garmin file or vice versa, still convert
       (both produce SSI QR codes) but show an informational notice linking to the other tool. Test
       this behaviour.
 - [ ] Add the Suunto tool card to `src/pages/tools/index.tsx` (icon `FaPersonSwimming`, description
@@ -150,7 +150,7 @@ causes therefore:
 - [ ] Cross-link the two tool pages ("Using a Garmin? → Garmin to SSI dive log helper" and vice
       versa) and mention Suunto compatibility in the Garmin tool card description for
       discoverability (Simo's original request).
-- [ ] Component tests (vitest + test-utils) for the new page: renders instructions, upload of the
+- [x] Component tests (vitest + test-utils) for the new page: renders instructions, upload of the
       Suunto fixture produces a QR whose payload matches the expected string, error path renders the
       error, developer-data details render the message groups.
 
