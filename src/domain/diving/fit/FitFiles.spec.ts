@@ -126,6 +126,31 @@ describe('FitFiles', () => {
     expect(summary.unreadableArchives).toEqual(['broken.zip'])
   })
 
+  it('keeps going when one file cannot be read at all', async () => {
+    const files = new SuuntoFiles()
+    const unreadable = new File([suunto()], 'gone.fit')
+    vi.spyOn(unreadable, 'arrayBuffer').mockRejectedValue(new Error('disk went away'))
+
+    const summary = await files.add([unreadable, new File([garmin()], 'good.fit')])
+
+    expect(summary.unreadable).toEqual(['gone.fit'])
+    expect(names(files)).toEqual(['good.fit'])
+  })
+
+  it('lets a file be retried after a failed read', async () => {
+    const files = new SuuntoFiles()
+    const flaky = new File([suunto()], 'flaky.fit')
+    const read = vi.spyOn(flaky, 'arrayBuffer').mockRejectedValueOnce(new Error('busy'))
+
+    await files.add([flaky])
+    expect(dives(files)).toHaveLength(0)
+
+    read.mockRestore()
+    await files.add([flaky])
+
+    expect(names(files)).toEqual(['flaky.fit'])
+  })
+
   it('yields an error for a file that fails the integrity check', async () => {
     const files = new SuuntoFiles()
     const corrupted = new Uint8Array(suunto())

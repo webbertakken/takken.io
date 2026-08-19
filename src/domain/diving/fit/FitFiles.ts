@@ -28,6 +28,8 @@ export interface AddSummary {
   emptyArchives: string[]
   /** Archives that could not be opened. */
   unreadableArchives: string[]
+  /** Files whose bytes could not be read at all. */
+  unreadable: string[]
 }
 
 const asError = (error: unknown): Error =>
@@ -83,6 +85,7 @@ export class FitFiles<D extends Dive> {
       unsupported: [],
       emptyArchives: [],
       unreadableArchives: [],
+      unreadable: [],
     }
 
     for (const fileHandle of Array.from(fileList)) {
@@ -123,7 +126,18 @@ export class FitFiles<D extends Dive> {
       return
     }
 
-    const bytes = new Uint8Array(await fileHandle.arrayBuffer())
+    let bytes: Uint8Array<ArrayBuffer>
+
+    try {
+      // A file can vanish or become unreadable between picking and reading it;
+      // that must not cost the diver the rest of the batch.
+      bytes = new Uint8Array(await fileHandle.arrayBuffer())
+    } catch {
+      summary.unreadable.push(name)
+
+      return
+    }
+
     const checksum = await sha256(bytes)
 
     if (this.checksums.has(checksum)) {

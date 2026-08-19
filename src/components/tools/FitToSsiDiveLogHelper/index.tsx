@@ -122,6 +122,9 @@ const FitToSsiDiveLogHelper = ({
         for (const name of summary.unreadableArchives) {
           nextProblems.push(`${name} could not be opened`)
         }
+        for (const name of summary.unreadable) {
+          nextProblems.push(`${name} could not be read`)
+        }
         if (summary.duplicates >= 1) {
           nextNotices.push(`${plural(summary.duplicates, 'file')} skipped, already uploaded`)
         }
@@ -243,7 +246,10 @@ const FitToSsiDiveLogHelper = ({
       event.preventDefault()
       stopDragging()
 
-      if (event.dataTransfer?.files) void parseFiles(event.dataTransfer.files)
+      // An empty FileList is truthy: dragged text or an image must not clear
+      // the messages from the previous upload.
+      const dropped = event.dataTransfer?.files
+      if (dropped && dropped.length >= 1) void parseFiles(dropped)
     }
 
     window.addEventListener('dragenter', handleDragEnter)

@@ -317,14 +317,17 @@ describe('GarminToSsiDiveLogHelper', () => {
       )
     })
 
-    it('reports a failure to read the selected files', async () => {
+    it('converts the rest of the batch when one file cannot be read', async () => {
       const { upload } = renderHelper()
-      const file = new File([suunto()], 'suunto.fit')
-      vi.spyOn(file, 'arrayBuffer').mockRejectedValue(new Error('disk went away'))
+      const unreadable = new File([suunto()], 'gone.fit')
+      vi.spyOn(unreadable, 'arrayBuffer').mockRejectedValue(new Error('disk went away'))
 
-      upload([file])
+      upload([unreadable, new File([garmin()], 'good.fit')])
 
-      await waitFor(() => expect(screen.getByText('disk went away')).toBeInTheDocument())
+      await waitFor(() =>
+        expect(screen.getByText('gone.fit could not be read')).toBeInTheDocument(),
+      )
+      expect(currentFileName()).toBe('good.fit')
     })
   })
 
@@ -390,6 +393,22 @@ describe('GarminToSsiDiveLogHelper', () => {
       fireEvent.drop(window, { dataTransfer: {} })
 
       await waitFor(() => expect(screen.queryByText('Importing your dive')).not.toBeInTheDocument())
+    })
+
+    it('keeps the last messages when dragged text is dropped', async () => {
+      const { upload } = renderHelper()
+
+      upload([new File(['just notes'], 'notes.txt')])
+      await waitFor(() =>
+        expect(screen.getByText('notes.txt is not a .fit or .zip file')).toBeInTheDocument(),
+      )
+
+      // Dropping dragged text yields an empty FileList, which is truthy.
+      fireEvent.drop(window, { dataTransfer: { files: [] } })
+
+      await waitFor(() =>
+        expect(screen.getByText('notes.txt is not a .fit or .zip file')).toBeInTheDocument(),
+      )
     })
   })
 
