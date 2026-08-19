@@ -7,6 +7,15 @@ export interface GarminMessages extends FitMessages {
   diveGasMesgs: GarminDiveGas[]
   sessionMesgs: GarminSession[]
   diveSummaryMesgs: DiveSummary[]
+  tankSummaryMesgs?: GarminTankSummary[]
+}
+
+export interface GarminTankSummary {
+  timestamp: Date
+  sensor: number
+  startPressure: number
+  endPressure: number
+  volumeUsed: number
 }
 
 export interface GarminSport {

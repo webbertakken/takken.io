@@ -8,6 +8,7 @@ import { SsiDive } from '@site/src/domain/diving/ssi/SsiDive'
 import Image from '@site/src/theme/IdealImage'
 import ToolPage from '@theme/ToolPage/ToolPage'
 import React, { createRef, useState } from 'react'
+import { DiveStatsPanel } from './DiveStatsPanel'
 
 const interestingMessages = [
   'fileIdMesgs',
@@ -63,6 +64,7 @@ const FitToSsiDiveLogHelper = ({
 }: FitToSsiDiveLogHelperProps): React.JSX.Element => {
   const fileInputRef = createRef<HTMLInputElement>()
   const [messages, setMessages] = useState<FitMessages | null>(null)
+  const [dive, setDive] = useState<Dive | null>(null)
   const [ssiDive, setSsiDive] = useState<Partial<SsiDive> | null>(null)
   const [diveQR, setDiveQR] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -97,6 +99,7 @@ const FitToSsiDiveLogHelper = ({
   const parseDive = (dive: Dive): void => {
     const ssi = SsiDive.fromDive(dive)
 
+    setDive(dive)
     setSsiDive(ssi)
     setDiveQR(SsiDive.toQR(ssi))
   }
@@ -169,12 +172,15 @@ const FitToSsiDiveLogHelper = ({
         </div>
       )}
 
-      {ssiDive && (
+      {ssiDive && dive && (
         <div className="py-4">
           <h2>Importing your dive</h2>
 
           <div className="flex gap-4 flex-col md:flex-row items-center">
-            <QrCode value={diveQR ?? ''} />
+            <div className="flex flex-col items-center gap-2">
+              <QrCode value={diveQR ?? ''} />
+              <DiveStatsPanel dive={dive} />
+            </div>
             <div className="flex flex-col-reverse md:flex-col">
               <p>
                 First click the QR code icon in the app
