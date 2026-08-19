@@ -80,16 +80,22 @@ const FitToSsiDiveLogHelper = ({
 
     const errors = []
     let sawMismatch = false
-    for (const dive of files) {
-      try {
-        setMessages(dive.messages)
-        const detected = detectVendor(dive.messages)
-        if (detected !== 'unknown' && detected !== vendor) sawMismatch = true
-        parseDive(dive)
-        notify.success('Dive parsed')
-      } catch (error) {
-        errors.push(error)
+    try {
+      for (const dive of files) {
+        try {
+          setMessages(dive.messages)
+          const detected = detectVendor(dive.messages)
+          if (detected !== 'unknown' && detected !== vendor) sawMismatch = true
+          parseDive(dive)
+          notify.success('Dive parsed')
+        } catch (error) {
+          // One unusable dive should not discard the others in the batch.
+          errors.push(error)
+        }
       }
+    } catch (error) {
+      // Decoding happens while iterating, so a corrupt file ends the batch.
+      errors.push(error)
     }
 
     setMismatch(sawMismatch)
@@ -172,13 +178,13 @@ const FitToSsiDiveLogHelper = ({
         </div>
       )}
 
-      {ssiDive && dive && (
+      {ssiDive && dive && diveQR && (
         <div className="py-4">
           <h2>Importing your dive</h2>
 
           <div className="flex gap-4 flex-col md:flex-row items-center">
             <div className="flex flex-col items-center gap-2">
-              <QrCode value={diveQR ?? ''} />
+              <QrCode value={diveQR} />
               <DiveStatsPanel dive={dive} />
             </div>
             <div className="flex flex-col-reverse md:flex-col">
