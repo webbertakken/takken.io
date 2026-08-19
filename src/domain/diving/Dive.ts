@@ -1,4 +1,5 @@
 import type { FitMessages } from '@site/src/domain/diving/fit/FitMessages'
+import type { Pressure } from '@site/src/domain/diving/Pressure'
 
 /**
  * A single dive parsed from a FIT file, exposed in a vendor-neutral shape so the
@@ -14,12 +15,18 @@ export interface Dive {
   readonly startTime: Date | undefined
   /** Maximum depth in metres (one decimal), or `undefined` when not recorded. */
   readonly maxDepth: number | undefined
+  /** Average depth in metres (one decimal), or `undefined` when not recorded. */
+  readonly avgDepth: number | undefined
   /** FIT sport identifier (e.g. `'diving'`); throws when it cannot be read. */
   readonly sport: string
   /** Minimum water temperature in °C, or `undefined` when not recorded. */
   readonly minTemperature: number | undefined
   /** Maximum water temperature in °C, or `undefined` when not recorded. */
   readonly maxTemperature: number | undefined
+  /** Tank start pressure, or `undefined` when not recorded. */
+  readonly startPressure: Pressure | undefined
+  /** Tank end pressure, or `undefined` when not recorded. */
+  readonly endPressure: Pressure | undefined
   /** Diver first name (empty when the file carries none). */
   readonly firstName: string
   /** Diver last name (empty when the file carries none). */

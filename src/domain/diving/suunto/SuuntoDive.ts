@@ -29,6 +29,19 @@ export class SuuntoDive implements Dive {
     return maxDepth === undefined ? undefined : Math.round(maxDepth * 10) / 10
   }
 
+  get avgDepth(): number | undefined {
+    const avgDepth = this.session?.avgDepth
+    return avgDepth === undefined ? undefined : Math.round(avgDepth * 10) / 10
+  }
+
+  get startPressure(): undefined {
+    return undefined
+  }
+
+  get endPressure(): undefined {
+    return undefined
+  }
+
   get sport(): string {
     if (!this.session) throw new Error('No session data available')
     return this.session.sport

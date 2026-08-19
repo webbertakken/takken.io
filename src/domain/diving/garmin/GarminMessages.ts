@@ -1,12 +1,30 @@
 import type { FitMessages } from '@site/src/domain/diving/fit/FitMessages'
 
 export interface GarminMessages extends FitMessages {
-  fileIdMesgs: { timeCreated: Date }[]
+  fileIdMesgs: GarminFileId[]
   sportMesgs: GarminSport[]
   diveSettingsMesgs: GarminDiveSettings[]
   diveGasMesgs: GarminDiveGas[]
   sessionMesgs: GarminSession[]
   diveSummaryMesgs: DiveSummary[]
+  tankSummaryMesgs?: GarminTankSummary[]
+}
+
+export interface GarminFileId {
+  timeCreated: Date
+  /** `'garmin'` for files this tool is built for; absent in sanitised fixtures. */
+  manufacturer?: string
+  /** Device model, e.g. `'descentMk2'`. */
+  garminProduct?: string
+}
+
+export interface GarminTankSummary {
+  timestamp: Date
+  /** Tank-pod id; absent in sanitised fixtures. */
+  sensor?: number
+  startPressure?: number
+  endPressure?: number
+  volumeUsed?: number
 }
 
 export interface GarminSport {

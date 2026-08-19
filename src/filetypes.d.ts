@@ -15,6 +15,18 @@ declare module '@garmin-fit/sdk' {
   export const Decoder: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export const Stream: any
+  /** The FIT profile: message and field names, keyed by their protocol numbers. */
+  export const Profile: {
+    messages: Record<
+      number,
+      | {
+          name: string
+          messagesKey: string
+          fields: Record<number, { name: string } | undefined>
+        }
+      | undefined
+    >
+  }
 }
 
 declare module '*.module.scss' {
