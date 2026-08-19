@@ -21,10 +21,10 @@ const createMockDive = (overrides: Partial<Dive> = {}): Dive => ({
 })
 
 describe('DiveStatsPanel', () => {
-  it('renders the average depth in meters and feet', () => {
+  it('renders the average depth with imperial first and metric on the right', () => {
     render(<DiveStatsPanel dive={createMockDive()} />)
 
-    expect(screen.getByText('6.2 m / 20 ft')).toBeInTheDocument()
+    expect(screen.getByText('20 ft / 6.2 m')).toBeInTheDocument()
   })
 
   it('renders start and end pressure in psi and bar', () => {

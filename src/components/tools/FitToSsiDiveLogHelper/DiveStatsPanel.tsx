@@ -3,9 +3,10 @@ import React from 'react'
 
 const FEET_PER_METER = 3.28084
 
+/** Imperial first, metric on the right, matching the pressure readouts. */
 const formatDepth = (meters: number): string => {
   const feet = Math.round(meters * FEET_PER_METER)
-  return `${meters} m / ${feet} ft`
+  return `${feet} ft / ${meters} m`
 }
 
 interface DiveStatsPanelProps {
