@@ -9,6 +9,10 @@ export class Pressure {
   readonly psi: number
 
   constructor(bar: number) {
+    if (!Number.isFinite(bar) || bar < 0) {
+      throw new RangeError('bar must be a finite, non-negative number')
+    }
+
     this.bar = bar
     this.psi = bar * PSI_PER_BAR
   }

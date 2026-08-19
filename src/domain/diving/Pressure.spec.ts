@@ -24,6 +24,13 @@ describe('Pressure', () => {
     expect(pressure.formatPsi(1)).toBe('725.2 psi')
   })
 
+  it('rejects readings that are not a finite, non-negative number', () => {
+    expect(() => Pressure.fromBar(-1)).toThrow(RangeError)
+    expect(() => Pressure.fromBar(Number.NaN)).toThrow('bar must be a finite, non-negative number')
+    expect(() => Pressure.fromBar(Number.POSITIVE_INFINITY)).toThrow(RangeError)
+    expect(() => Pressure.fromBar(undefined as unknown as number)).toThrow(RangeError)
+  })
+
   it('handles an empty tank', () => {
     const pressure = Pressure.fromBar(0)
 

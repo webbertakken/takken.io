@@ -28,9 +28,18 @@ const baseTypes = new Map<number, BaseType>([
   [0x90, { size: 8, invalid: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00] }], // uint64z
 ])
 
-/** Byte pattern that marks `size` bytes of the given base type as absent. */
+const fallback: BaseType = { size: 1, invalid: [0xff] }
+
+/** Width of one element of the base type, in bytes. */
+export const baseTypeSize = (baseTypeByte: number): number =>
+  (baseTypes.get(baseTypeByte) ?? fallback).size
+
+/**
+ * Byte pattern that marks `size` bytes of the given base type as absent, in
+ * little-endian order (the order the FIT profile documents them in).
+ */
 export const invalidBytesFor = (baseTypeByte: number, size: number): number[] => {
-  const baseType = baseTypes.get(baseTypeByte) ?? { size: 1, invalid: [0xff] }
+  const baseType = baseTypes.get(baseTypeByte) ?? fallback
   const pattern: number[] = []
 
   while (pattern.length < size) pattern.push(...baseType.invalid)

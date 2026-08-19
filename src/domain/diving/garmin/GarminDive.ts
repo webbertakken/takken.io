@@ -7,6 +7,14 @@ import {
 } from '@site/src/domain/diving/garmin/GarminMessages'
 import { Pressure } from '@site/src/domain/diving/Pressure'
 
+/**
+ * A tank summary can omit a pressure, or carry a nonsensical one when the pod
+ * lost contact. Either way the panel should show a dash instead of failing the
+ * whole import.
+ */
+const readPressure = (bar: number | undefined): Pressure | undefined =>
+  bar === undefined || !Number.isFinite(bar) || bar < 0 ? undefined : Pressure.fromBar(bar)
+
 export class GarminDive implements Dive {
   readonly messages: GarminMessages
   private readonly summary: DiveSummary | undefined
@@ -58,10 +66,10 @@ export class GarminDive implements Dive {
   }
 
   get startPressure() {
-    return this.tankSummary ? Pressure.fromBar(this.tankSummary.startPressure) : undefined
+    return readPressure(this.tankSummary?.startPressure)
   }
 
   get endPressure() {
-    return this.tankSummary ? Pressure.fromBar(this.tankSummary.endPressure) : undefined
+    return readPressure(this.tankSummary?.endPressure)
   }
 }

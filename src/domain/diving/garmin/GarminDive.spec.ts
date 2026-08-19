@@ -85,6 +85,31 @@ describe('GarminDive', () => {
     expect(dive.endPressure).toBeUndefined()
   })
 
+  it('yields undefined pressures when the tank summary omits them', () => {
+    const dive = new GarminDive(
+      messages({
+        tankSummaryMesgs: [
+          tankSummary({
+            startPressure: undefined as unknown as number,
+            endPressure: undefined as unknown as number,
+          }),
+        ],
+      }),
+    )
+
+    expect(dive.startPressure).toBeUndefined()
+    expect(dive.endPressure).toBeUndefined()
+  })
+
+  it('ignores nonsensical pressure readings rather than throwing', () => {
+    const dive = new GarminDive(
+      messages({ tankSummaryMesgs: [tankSummary({ startPressure: -1, endPressure: Number.NaN })] }),
+    )
+
+    expect(dive.startPressure).toBeUndefined()
+    expect(dive.endPressure).toBeUndefined()
+  })
+
   it('reads the sport, min and max temperature from the session', () => {
     const dive = new GarminDive(messages())
 

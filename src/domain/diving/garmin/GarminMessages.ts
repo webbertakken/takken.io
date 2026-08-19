@@ -20,10 +20,11 @@ export interface GarminFileId {
 
 export interface GarminTankSummary {
   timestamp: Date
-  sensor: number
-  startPressure: number
-  endPressure: number
-  volumeUsed: number
+  /** Tank-pod id; absent in sanitised fixtures. */
+  sensor?: number
+  startPressure?: number
+  endPressure?: number
+  volumeUsed?: number
 }
 
 export interface GarminSport {

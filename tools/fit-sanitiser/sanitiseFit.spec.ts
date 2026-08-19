@@ -1,7 +1,7 @@
 import { Decoder, Stream } from '@garmin-fit/sdk'
 import { garminDescentScubaFixture } from '@site/src/domain/diving/garmin/__fixtures__/index'
 import { describe, expect, it } from 'vitest'
-import { invalidBytesFor } from './baseTypes'
+import { baseTypeSize, invalidBytesFor } from './baseTypes'
 import { diveFixtureProfile } from './diveFixtureProfile'
 import { fitCrc } from './fitCrc'
 import { sanitiseFit } from './sanitiseFit'
@@ -9,31 +9,55 @@ import { sanitiseFit } from './sanitiseFit'
 const decode = (bytes: Uint8Array) =>
   new Decoder(Stream.fromByteArray(bytes)).read({ includeUnknownData: false }).messages
 
+interface CraftOptions {
+  withDeveloperFields?: boolean
+  compressedTimestamp?: boolean
+  bigEndian?: boolean
+  headerSize?: 12 | 14
+}
+
 /**
- * Minimal FIT file: a 12-byte header (no header CRC), one definition message
- * and one data message, then the file CRC.
+ * Minimal FIT file: a header, one definition for the `record` message with a
+ * single `positionLat` (sint32) field, one data message, then the file CRC.
  */
 const craftFit = ({
   withDeveloperFields = false,
   compressedTimestamp = false,
-} = {}): Uint8Array => {
+  bigEndian = false,
+  headerSize = 12,
+}: CraftOptions = {}): Uint8Array => {
+  const architecture = bigEndian ? 1 : 0
+  const globalNum = bigEndian ? [0, 20] : [20, 0]
+  const positionLat = [0, 4, 0x85]
   const definition = withDeveloperFields
-    ? [0x60, 0, 0, 20, 0, 1, 0, 1, 0x02, 1, 0, 1, 0]
-    : [0x40, 0, 0, 20, 0, 1, 0, 1, 0x02]
+    ? [0x60, 0, architecture, ...globalNum, 1, ...positionLat, 1, 0, 1, 0]
+    : [0x40, 0, architecture, ...globalNum, 1, ...positionLat]
   // A compressed-timestamp header keeps the local message type in bits 5-6.
   const dataHeader = compressedTimestamp ? 0x80 : 0x00
-  const data = withDeveloperFields ? [dataHeader, 42, 7] : [dataHeader, 42]
+  const data = withDeveloperFields ? [dataHeader, 1, 2, 3, 4, 7] : [dataHeader, 1, 2, 3, 4]
   const records = [...definition, ...data]
 
-  const bytes = new Uint8Array(12 + records.length + 2)
-  bytes.set([12, 0x20, 0x00, 0x00], 0)
-  new DataView(bytes.buffer).setUint32(4, records.length, true)
+  const bytes = new Uint8Array(headerSize + records.length + 2)
+  const view = new DataView(bytes.buffer)
+
+  bytes.set([headerSize, 0x20, 0x00, 0x00], 0)
+  view.setUint32(4, records.length, true)
   bytes.set([0x2e, 0x46, 0x49, 0x54], 8)
-  bytes.set(records, 12)
+  bytes.set(records, headerSize)
+  if (headerSize === 14) view.setUint16(12, fitCrc(bytes, 0, 12), true)
+  view.setUint16(bytes.length - 2, fitCrc(bytes, 0, bytes.length - 2), true)
+
+  return bytes
+}
+
+/** Recomputes the trailing CRC after a test has tampered with the bytes. */
+const reseal = (bytes: Uint8Array): Uint8Array => {
   new DataView(bytes.buffer).setUint16(bytes.length - 2, fitCrc(bytes, 0, bytes.length - 2), true)
 
   return bytes
 }
+
+const keepRecords = { keep: ['record'], redact: [] }
 
 describe('fitCrc', () => {
   it('reproduces the CRC stored at the end of a real FIT file', () => {
@@ -63,6 +87,11 @@ describe('invalidBytesFor', () => {
 
   it('falls back to a single invalid byte for unknown base types', () => {
     expect(invalidBytesFor(0x99, 2)).toEqual([0xff, 0xff])
+  })
+
+  it('reports the element width of a base type, falling back to one byte', () => {
+    expect(baseTypeSize(0x85)).toBe(4)
+    expect(baseTypeSize(0x99)).toBe(1)
   })
 })
 
@@ -104,53 +133,9 @@ describe('sanitiseFit', () => {
   })
 
   it('keeps files whose header carries no CRC', () => {
-    const result = sanitiseFit(craftFit(), { keep: ['record'], redact: [] })
+    const crafted = craftFit()
 
-    expect(result[0]).toBe(12)
-    expect(Array.from(result.slice(12))).toEqual([
-      0x40,
-      0,
-      0,
-      20,
-      0,
-      1,
-      0,
-      1,
-      0x02,
-      0x00,
-      42,
-      ...Array.from(result.slice(-2)),
-    ])
-  })
-
-  it('accounts for developer fields when sizing a data message', () => {
-    const withDev = craftFit({ withDeveloperFields: true })
-
-    expect(sanitiseFit(withDev, { keep: ['record'], redact: [] })).toEqual(withDev)
-    expect(sanitiseFit(withDev, { keep: [], redact: [] })).toHaveLength(withDev.length - 3)
-  })
-
-  it('reads data messages that use a compressed timestamp header', () => {
-    const compressed = craftFit({ compressedTimestamp: true })
-
-    expect(sanitiseFit(compressed, { keep: ['record'], redact: [] })).toEqual(compressed)
-    expect(sanitiseFit(compressed, { keep: [], redact: [] })).toHaveLength(compressed.length - 2)
-  })
-
-  it('names messages the profile does not know', () => {
-    const unknown = craftFit()
-    // Global message number 64_000 is not in the FIT profile. It sits two bytes
-    // into the definition body: 12 header, 1 record header, reserved, arch.
-    new DataView(unknown.buffer).setUint16(15, 64_000, true)
-    new DataView(unknown.buffer).setUint16(
-      unknown.length - 2,
-      fitCrc(unknown, 0, unknown.length - 2),
-      true,
-    )
-
-    expect(sanitiseFit(unknown, { keep: ['unknown_64000'], redact: [] })).toHaveLength(
-      unknown.length,
-    )
+    expect(sanitiseFit(crafted, keepRecords)).toEqual(crafted)
   })
 
   it('leaves no personal data behind when run with the dive fixture profile', () => {
@@ -164,11 +149,144 @@ describe('sanitiseFit', () => {
     expect(json).toMatch(/startPressure/)
   })
 
-  it('throws on a data message that has no definition', () => {
-    const orphan = new Uint8Array([12, 0x20, 0, 0, 1, 0, 0, 0, 0x2e, 0x46, 0x49, 0x54, 0x00, 0, 0])
+  describe('redaction', () => {
+    const positionOf = (bytes: Uint8Array): number[] => Array.from(bytes.slice(-6, -2))
 
-    expect(() => sanitiseFit(orphan, { keep: [], redact: [] })).toThrow(
-      'Data message without definition',
+    it('writes little-endian invalid values for little-endian definitions', () => {
+      const result = sanitiseFit(craftFit(), { keep: ['record'], redact: ['positionLat'] })
+
+      expect(positionOf(result)).toEqual([0xff, 0xff, 0xff, 0x7f])
+    })
+
+    it('writes big-endian invalid values for big-endian definitions', () => {
+      const result = sanitiseFit(craftFit({ bigEndian: true }), {
+        keep: ['record'],
+        redact: ['positionLat'],
+      })
+
+      expect(positionOf(result)).toEqual([0x7f, 0xff, 0xff, 0xff])
+    })
+
+    it('drops the whole message when it is not in the keep list', () => {
+      expect(sanitiseFit(craftFit(), { keep: [], redact: [] })).toHaveLength(craftFit().length - 5)
+    })
+  })
+
+  describe('developer fields', () => {
+    it('drops them, since their contents cannot be classified', () => {
+      const result = sanitiseFit(craftFit({ withDeveloperFields: true }), keepRecords)
+
+      // Same output as a file that never had developer fields.
+      expect(result).toEqual(craftFit())
+    })
+
+    it('still drops the message itself when it is not kept', () => {
+      const result = sanitiseFit(craftFit({ withDeveloperFields: true }), { keep: [], redact: [] })
+
+      expect(decode(result).recordMesgs ?? []).toHaveLength(0)
+    })
+  })
+
+  describe('rejected input', () => {
+    it('refuses compressed timestamp records, which the FIT SDK cannot read', () => {
+      expect(() => sanitiseFit(craftFit({ compressedTimestamp: true }), keepRecords)).toThrow(
+        'Compressed timestamp messages are not supported',
+      )
+    })
+
+    it('refuses a buffer too small to hold a header', () => {
+      expect(() => sanitiseFit(new Uint8Array([12, 0x20]), keepRecords)).toThrow('too short')
+    })
+
+    it('refuses a definition that runs past the end of the data', () => {
+      const full = craftFit()
+      // Cut the file mid-definition, then re-declare the shorter data section.
+      const cutOff = new Uint8Array(12 + 4 + 2)
+      cutOff.set(full.slice(0, 12 + 4))
+      new DataView(cutOff.buffer).setUint32(4, 4, true)
+
+      expect(() => sanitiseFit(reseal(cutOff), keepRecords)).toThrow(
+        'definition runs past the data',
+      )
+    })
+
+    it('refuses a file without the FIT signature', () => {
+      const notFit = craftFit()
+      notFit.set([0x2e, 0x46, 0x49, 0x55], 8)
+
+      expect(() => sanitiseFit(reseal(notFit), keepRecords)).toThrow('Not a FIT file')
+    })
+
+    it('refuses an unsupported header size', () => {
+      const oddHeader = craftFit()
+      oddHeader[0] = 13
+
+      expect(() => sanitiseFit(reseal(oddHeader), keepRecords)).toThrow('Unsupported FIT header')
+    })
+
+    it('refuses a file whose declared data size overruns the buffer', () => {
+      const truncated = craftFit()
+      new DataView(truncated.buffer).setUint32(4, 9_000, true)
+
+      expect(() => sanitiseFit(reseal(truncated), keepRecords)).toThrow('truncated')
+    })
+
+    it('refuses a file whose CRC does not match', () => {
+      const corrupt = craftFit()
+      corrupt[corrupt.length - 1] ^= 0xff
+
+      expect(() => sanitiseFit(corrupt, keepRecords)).toThrow('file CRC')
+    })
+
+    it('refuses a file whose header CRC does not match', () => {
+      const corrupt = craftFit({ headerSize: 14 })
+      corrupt[12] ^= 0xff
+
+      expect(() => sanitiseFit(reseal(corrupt), keepRecords)).toThrow('header CRC')
+    })
+
+    it('accepts a 14-byte header with a valid CRC', () => {
+      const crafted = craftFit({ headerSize: 14 })
+
+      expect(sanitiseFit(crafted, keepRecords)).toEqual(crafted)
+    })
+
+    it('accepts a 14-byte header that leaves the CRC field zeroed', () => {
+      const crafted = craftFit({ headerSize: 14 })
+      new DataView(crafted.buffer).setUint16(12, 0, true)
+
+      expect(sanitiseFit(reseal(crafted), keepRecords)).toHaveLength(crafted.length)
+    })
+
+    it('refuses a data message that has no definition', () => {
+      const orphan = new Uint8Array([
+        12, 0x20, 0, 0, 1, 0, 0, 0, 0x2e, 0x46, 0x49, 0x54, 0x00, 0, 0,
+      ])
+
+      expect(() => sanitiseFit(reseal(orphan), keepRecords)).toThrow(
+        'Data message without definition',
+      )
+    })
+
+    it('refuses a record that runs past the end of the data section', () => {
+      const full = craftFit()
+      // Keep the definition whole but cut the data message body short.
+      const cutOff = new Uint8Array(full.length - 2)
+      cutOff.set(full.slice(0, full.length - 4))
+      new DataView(cutOff.buffer).setUint32(4, cutOff.length - 12 - 2, true)
+
+      expect(() => sanitiseFit(reseal(cutOff), keepRecords)).toThrow('record runs past the data')
+    })
+  })
+
+  it('names messages the profile does not know', () => {
+    const unknown = craftFit()
+    // Global message number 64_000 is not in the FIT profile. It sits two bytes
+    // into the definition body: 12 header, 1 record header, reserved, arch.
+    new DataView(unknown.buffer).setUint16(15, 64_000, true)
+
+    expect(sanitiseFit(reseal(unknown), { keep: ['unknown_64000'], redact: [] })).toHaveLength(
+      unknown.length,
     )
   })
 })
