@@ -47,6 +47,17 @@ describe('SuuntoDive', () => {
     expect(new SuuntoDive(messages()).maxDepth).toBe(11.9)
   })
 
+  it('rounds average depth to a single decimal', () => {
+    expect(new SuuntoDive(messages()).avgDepth).toBe(8.6)
+  })
+
+  it('never reports tank pressures, which Suunto exports omit', () => {
+    const dive = new SuuntoDive(messages())
+
+    expect(dive.startPressure).toBeUndefined()
+    expect(dive.endPressure).toBeUndefined()
+  })
+
   it('reads the sport from the session', () => {
     expect(new SuuntoDive(messages()).sport).toBe('diving')
   })
@@ -103,6 +114,18 @@ describe('SuuntoDive', () => {
     expect(dive.maxDepth).toBeUndefined()
   })
 
+  it('yields undefined average depth when the session omits avgDepth', () => {
+    const dive = new SuuntoDive(
+      messages({ sessionMesgs: [session({ avgDepth: undefined as unknown as number })] }),
+    )
+    expect(dive.avgDepth).toBeUndefined()
+  })
+
+  it('falls back to the session average when the file has no records at all', () => {
+    const dive = new SuuntoDive(messages({ recordMesgs: undefined as unknown as SuuntoRecord[] }))
+    expect(dive.minTemperature).toBe(29)
+  })
+
   it('exposes a non-diving sport unchanged', () => {
     const dive = new SuuntoDive(messages({ sessionMesgs: [session({ sport: 'running' })] }))
     expect(dive.sport).toBe('running')
@@ -112,6 +135,9 @@ describe('SuuntoDive', () => {
     it('maps the decoded dive to the expected values', () => {
       const dive = new SuuntoDive(decodeFixture())
 
+      expect(dive.avgDepth).toBe(8.6)
+      expect(dive.startPressure).toBeUndefined()
+      expect(dive.endPressure).toBeUndefined()
       expect(dive.diveTime).toBe(51)
       expect(dive.startTime).toEqual(new Date('2026-07-13T06:33:04.000Z'))
       expect(dive.maxDepth).toBe(11.9)
