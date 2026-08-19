@@ -7,7 +7,7 @@ import { detectVendor, type FitVendor } from '@site/src/domain/diving/fit/FitVen
 import { SsiDive } from '@site/src/domain/diving/ssi/SsiDive'
 import Image from '@site/src/theme/IdealImage'
 import ToolPage from '@theme/ToolPage/ToolPage'
-import React, { createRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { DiveStatsPanel } from './DiveStatsPanel'
 
 const interestingMessages = [
@@ -50,6 +50,14 @@ export interface FitToSsiDiveLogHelperProps {
   crossLink: CrossLink
 }
 
+interface ParsedDive {
+  fileName: string
+  dive: Dive
+  ssiDive: Partial<SsiDive>
+  diveQR: string
+  messages: FitMessages
+}
+
 const FitToSsiDiveLogHelper = ({
   title,
   vendorNoun,
@@ -62,53 +70,126 @@ const FitToSsiDiveLogHelper = ({
   exportNote,
   crossLink,
 }: FitToSsiDiveLogHelperProps): React.JSX.Element => {
-  const fileInputRef = createRef<HTMLInputElement>()
-  const [messages, setMessages] = useState<FitMessages | null>(null)
-  const [dive, setDive] = useState<Dive | null>(null)
-  const [ssiDive, setSsiDive] = useState<Partial<SsiDive> | null>(null)
-  const [diveQR, setDiveQR] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [parsedDives, setParsedDives] = useState<ParsedDive[]>([])
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const [mismatch, setMismatch] = useState<boolean>(false)
   const notify = useNotification()
+
+  const [isDragging, setIsDragging] = useState(false)
+  const dragCounter = useRef(0)
+
+  const [files] = useState(() => createFiles())
+
+  const currentDive = parsedDives[currentIndex]
+
+  const parseFiles = React.useCallback(
+    async (fileList: FileList | File[]): Promise<void> => {
+      await files.add(fileList)
+
+      const errors: Error[] = []
+      let sawMismatch = false
+      const newDives: ParsedDive[] = []
+
+      try {
+        for (const { name, dive } of files) {
+          try {
+            const detected = detectVendor(dive.messages)
+            if (detected !== 'unknown' && detected !== vendor) sawMismatch = true
+
+            const ssiDive = SsiDive.fromDive(dive)
+            const diveQR = SsiDive.toQR(ssiDive)
+
+            newDives.push({
+              fileName: name,
+              dive,
+              ssiDive,
+              diveQR,
+              messages: dive.messages,
+            })
+          } catch (error) {
+            // One unusable dive should not discard the others in the batch.
+            errors.push(error instanceof Error ? error : new Error(String(error)))
+          }
+        }
+      } catch (error) {
+        // Decoding happens while iterating, so a corrupt file ends the batch.
+        errors.push(error instanceof Error ? error : new Error(String(error)))
+      }
+
+      const nextDives = [...parsedDives, ...newDives]
+      setParsedDives(nextDives)
+      if (nextDives.length >= 1 && newDives.length >= 1) {
+        setCurrentIndex(nextDives.length - newDives.length)
+      }
+      setMismatch(sawMismatch)
+      setError(errors.length >= 1 ? errors.map((error) => error.message).join('\n') : null)
+
+      if (newDives.length >= 1) {
+        notify.success(newDives.length === 1 ? 'Dive parsed' : `${newDives.length} dives parsed`)
+      }
+
+      files.reset()
+    },
+    [files, notify, parsedDives, vendor],
+  )
 
   const onUploadFile = async (): Promise<void> => {
     const fileInput = fileInputRef.current
     if (!fileInput?.files) return
 
-    const files = createFiles()
-    await files.add(fileInput.files)
+    await parseFiles(fileInput.files)
+    fileInput.value = ''
+  }
 
-    const errors = []
-    let sawMismatch = false
-    try {
-      for (const dive of files) {
-        try {
-          setMessages(dive.messages)
-          const detected = detectVendor(dive.messages)
-          if (detected !== 'unknown' && detected !== vendor) sawMismatch = true
-          parseDive(dive)
-          notify.success('Dive parsed')
-        } catch (error) {
-          // One unusable dive should not discard the others in the batch.
-          errors.push(error)
-        }
-      }
-    } catch (error) {
-      // Decoding happens while iterating, so a corrupt file ends the batch.
-      errors.push(error)
+  const goToPrevious = (): void => {
+    setCurrentIndex((index) => Math.max(0, index - 1))
+  }
+
+  const goToNext = (): void => {
+    setCurrentIndex((index) => Math.min(parsedDives.length - 1, index + 1))
+  }
+
+  useEffect(() => {
+    const handleDragEnter = (event: DragEvent): void => {
+      event.preventDefault()
+      dragCounter.current += 1
+      setIsDragging(true)
     }
 
-    setMismatch(sawMismatch)
-    setError(errors.length >= 1 ? errors.join('\n') : null)
-  }
+    const handleDragLeave = (event: DragEvent): void => {
+      event.preventDefault()
+      dragCounter.current = Math.max(0, dragCounter.current - 1)
+      if (dragCounter.current === 0) setIsDragging(false)
+    }
 
-  const parseDive = (dive: Dive): void => {
-    const ssi = SsiDive.fromDive(dive)
+    const handleDragOver = (event: DragEvent): void => {
+      event.preventDefault()
+    }
 
-    setDive(dive)
-    setSsiDive(ssi)
-    setDiveQR(SsiDive.toQR(ssi))
-  }
+    const handleDrop = (event: DragEvent): void => {
+      event.preventDefault()
+      dragCounter.current = 0
+      setIsDragging(false)
+
+      if (event.dataTransfer?.files) {
+        void parseFiles(event.dataTransfer.files)
+      }
+    }
+
+    window.addEventListener('dragenter', handleDragEnter)
+    window.addEventListener('dragleave', handleDragLeave)
+    window.addEventListener('dragover', handleDragOver)
+    window.addEventListener('drop', handleDrop)
+
+    return () => {
+      window.removeEventListener('dragenter', handleDragEnter)
+      window.removeEventListener('dragleave', handleDragLeave)
+      window.removeEventListener('dragover', handleDragOver)
+      window.removeEventListener('drop', handleDrop)
+    }
+  }, [parseFiles])
 
   return (
     <ToolPage title={title}>
@@ -118,18 +199,25 @@ const FitToSsiDiveLogHelper = ({
         type="file"
         ref={fileInputRef}
         accept=".fit,.zip"
+        multiple
         style={{ display: 'none' }}
         onInput={onUploadFile}
       />
+
+      {isDragging && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <p className="text-white text-xl font-medium">Drop files here</p>
+        </div>
+      )}
 
       <div className="py-4">
         <div className="flex gap-4 flex-col-reverse md:flex-row md:items-center">
           <div className="flex flex-col items-center">
             <ul className="w-full">
               <li>
-                Upload your {vendorNoun}{' '}
+                Upload or drag and drop your {vendorNoun}{' '}
                 <code className="text-blue-600 dark:text-blue-400">.fit</code> or{' '}
-                <code className="text-blue-600 dark:text-blue-400">.zip</code> file
+                <code className="text-blue-600 dark:text-blue-400">.zip</code> files
               </li>
               <li>Scan the resulting QR code in the SSI app</li>
               <li>Correct any details and save the dive</li>
@@ -143,7 +231,7 @@ const FitToSsiDiveLogHelper = ({
               onClick={() => fileInputRef.current?.click()}
               className="cursor-pointer px-4 py-2 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border w-40 text-white"
             >
-              Select {ssiDive ? 'another ' : ''}file
+              Select {parsedDives.length > 0 ? 'more ' : ''}files
             </button>
 
             {error && (
@@ -178,14 +266,45 @@ const FitToSsiDiveLogHelper = ({
         </div>
       )}
 
-      {ssiDive && dive && diveQR && (
+      {currentDive && (
         <div className="py-4">
-          <h2>Importing your dive</h2>
+          <h3>Importing your dive</h3>
 
           <div className="flex gap-4 flex-col md:flex-row items-center">
             <div className="flex flex-col items-center gap-2">
-              <QrCode value={diveQR} />
-              <DiveStatsPanel dive={dive} />
+              <h2>{currentDive.fileName}</h2>
+
+              <QrCode value={currentDive.diveQR} />
+              <DiveStatsPanel dive={currentDive.dive} />
+
+              {parsedDives.length > 1 && (
+                <nav
+                  aria-label="Dive files"
+                  className="flex gap-4 justify-center items-center py-2"
+                >
+                  <button
+                    type="button"
+                    aria-label="Previous dive"
+                    onClick={goToPrevious}
+                    disabled={currentIndex === 0}
+                    className="cursor-pointer px-3 py-1 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border text-white disabled:opacity-50"
+                  >
+                    ←
+                  </button>
+                  <span className="text-sm">
+                    {currentIndex + 1} / {parsedDives.length}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Next dive"
+                    onClick={goToNext}
+                    disabled={currentIndex === parsedDives.length - 1}
+                    className="cursor-pointer px-3 py-1 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border text-white disabled:opacity-50"
+                  >
+                    →
+                  </button>
+                </nav>
+              )}
             </div>
             <div className="flex flex-col-reverse md:flex-col">
               <p>
@@ -199,24 +318,24 @@ const FitToSsiDiveLogHelper = ({
             <Image
               img={require('./assets/ssi-app-showing-the-qr-code-scanner.png')}
               alt="SSI app showing the QR code scanner"
-              height={400}
-              width={184.5}
+              height={300}
+              width={138.4}
               noPadding
             />
           </div>
         </div>
       )}
 
-      {messages && (
+      {currentDive?.messages && (
         <div className="py-4">
           <details>
             <summary className="cursor-pointer">
               <h2 className="inline-block">Developer data</h2>
             </summary>
 
-            <p style={{ opacity: 0.5 }}>{diveQR}</p>
+            <p style={{ opacity: 0.5 }}>{currentDive.diveQR}</p>
 
-            {Object.keys(messages).map((key) => (
+            {Object.keys(currentDive.messages).map((key) => (
               <details key={key}>
                 <summary
                   className="cursor-pointer"
@@ -225,7 +344,7 @@ const FitToSsiDiveLogHelper = ({
                   {key}
                 </summary>
                 <code>
-                  <pre>{JSON.stringify(messages[key], null, 2)}</pre>
+                  <pre>{JSON.stringify(currentDive.messages[key], null, 2)}</pre>
                 </code>
               </details>
             ))}
