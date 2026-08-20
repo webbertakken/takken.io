@@ -2,7 +2,7 @@ import type { Dive } from '@site/src/domain/diving/Dive'
 import { FitFiles } from '@site/src/domain/diving/fit/FitFiles'
 import { suuntoOceanScubaFixture } from '@site/src/domain/diving/suunto/__fixtures__/index'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import FitToSsiDiveLogHelper from './index'
 
 const diveWithSport = (sport: string): Dive =>
@@ -50,6 +50,20 @@ describe('FitToSsiDiveLogHelper', () => {
 
     await waitFor(() => expect(screen.getByText(/Unsupported sport running/i)).toBeInTheDocument())
     expect(screen.queryByText('Importing your dive')).not.toBeInTheDocument()
+  })
+
+  it('survives a collector that fails outright', async () => {
+    const brokenCollector = () => {
+      const files = new FitFiles<Dive>(() => diveWithSport('diving'))
+      vi.spyOn(files, 'add').mockRejectedValue(new Error('collector gave up'))
+
+      return files
+    }
+    const { container } = renderHelper(brokenCollector)
+
+    upload(container)
+
+    await waitFor(() => expect(screen.getByText('collector gave up')).toBeInTheDocument())
   })
 
   it('ignores an upload event without files', () => {

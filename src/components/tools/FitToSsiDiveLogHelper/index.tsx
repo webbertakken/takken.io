@@ -7,7 +7,7 @@ import { detectVendor, type FitVendor } from '@site/src/domain/diving/fit/FitVen
 import { SsiDive } from '@site/src/domain/diving/ssi/SsiDive'
 import Image from '@site/src/theme/IdealImage'
 import ToolPage from '@theme/ToolPage/ToolPage'
-import React, { createRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { DiveStatsPanel } from './DiveStatsPanel'
 
 const interestingMessages = [
@@ -50,6 +50,29 @@ export interface FitToSsiDiveLogHelperProps {
   crossLink: CrossLink
 }
 
+interface ParsedDive {
+  fileName: string
+  dive: Dive
+  ssiDive: Partial<SsiDive>
+  diveQR: string
+  messages: FitMessages
+  /** True when the file came from the vendor this tool is not built for. */
+  isVendorMismatch: boolean
+}
+
+/** The dives converted so far, and which one the diver is looking at. */
+interface Gallery {
+  dives: ParsedDive[]
+  index: number
+}
+
+const messageOf = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
+
+const plural = (count: number, noun: string): string => `${count} ${noun}${count === 1 ? '' : 's'}`
+
+const diveMoment = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' })
+
 const FitToSsiDiveLogHelper = ({
   title,
   vendorNoun,
@@ -62,74 +85,215 @@ const FitToSsiDiveLogHelper = ({
   exportNote,
   crossLink,
 }: FitToSsiDiveLogHelperProps): React.JSX.Element => {
-  const fileInputRef = createRef<HTMLInputElement>()
-  const [messages, setMessages] = useState<FitMessages | null>(null)
-  const [dive, setDive] = useState<Dive | null>(null)
-  const [ssiDive, setSsiDive] = useState<Partial<SsiDive> | null>(null)
-  const [diveQR, setDiveQR] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [mismatch, setMismatch] = useState<boolean>(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [{ dives, index }, setGallery] = useState<Gallery>({ dives: [], index: 0 })
+  const [problems, setProblems] = useState<string[]>([])
+  const [notices, setNotices] = useState<string[]>([])
+  const [isParsing, setIsParsing] = useState(false)
   const notify = useNotification()
+
+  const [isDragging, setIsDragging] = useState(false)
+  const dragCounter = useRef(0)
+
+  const [files] = useState(() => createFiles())
+  // Uploads are serialised: the collector is shared, so a drop landing while an
+  // earlier batch is still decoding must not interleave with it.
+  const queue = useRef<Promise<void>>(Promise.resolve())
+
+  const currentDive = dives[index]
+
+  const runParse = useCallback(
+    async (fileList: FileList | File[]): Promise<void> => {
+      setIsParsing(true)
+
+      const nextProblems: string[] = []
+      const nextNotices: string[] = []
+      const newDives: ParsedDive[] = []
+
+      try {
+        const summary = await files.add(fileList)
+
+        for (const name of summary.unsupported) {
+          nextProblems.push(`${name} is not a .fit or .zip file`)
+        }
+        for (const name of summary.emptyArchives) {
+          nextProblems.push(`${name} holds no .fit files`)
+        }
+        for (const name of summary.unreadableArchives) {
+          nextProblems.push(`${name} could not be opened`)
+        }
+        for (const name of summary.unreadable) {
+          nextProblems.push(`${name} could not be read`)
+        }
+        if (summary.duplicates >= 1) {
+          nextNotices.push(`${plural(summary.duplicates, 'file')} skipped, already uploaded`)
+        }
+
+        for (const result of files) {
+          if (result.error) {
+            nextProblems.push(`${result.name}: ${result.error.message}`)
+            continue
+          }
+
+          const { name, dive } = result
+
+          try {
+            const ssiDive = SsiDive.fromDive(dive)
+            const detected = detectVendor(dive.messages)
+
+            newDives.push({
+              fileName: name,
+              dive,
+              ssiDive,
+              diveQR: SsiDive.toQR(ssiDive),
+              messages: dive.messages,
+              isVendorMismatch: detected !== 'unknown' && detected !== vendor,
+            })
+          } catch (error) {
+            nextProblems.push(`${name}: ${messageOf(error)}`)
+          }
+        }
+      } catch (error) {
+        nextProblems.push(messageOf(error))
+      } finally {
+        files.reset()
+        setIsParsing(false)
+      }
+
+      setGallery((previous) => ({
+        dives: [...previous.dives, ...newDives],
+        // Land on the first dive of this batch, or stay put when none arrived.
+        index: newDives.length >= 1 ? previous.dives.length : previous.index,
+      }))
+      setProblems(nextProblems)
+      setNotices(nextNotices)
+
+      if (newDives.length >= 1) notify.success(`${plural(newDives.length, 'dive')} parsed`)
+    },
+    [files, notify, vendor],
+  )
+
+  const parseFiles = useCallback(
+    (fileList: FileList | File[]): Promise<void> => {
+      queue.current = queue.current.then(() => runParse(fileList))
+
+      return queue.current
+    },
+    [runParse],
+  )
 
   const onUploadFile = async (): Promise<void> => {
     const fileInput = fileInputRef.current
     if (!fileInput?.files) return
 
-    const files = createFiles()
-    await files.add(fileInput.files)
+    await parseFiles(fileInput.files)
+    fileInput.value = ''
+  }
 
-    const errors = []
-    let sawMismatch = false
-    try {
-      for (const dive of files) {
-        try {
-          setMessages(dive.messages)
-          const detected = detectVendor(dive.messages)
-          if (detected !== 'unknown' && detected !== vendor) sawMismatch = true
-          parseDive(dive)
-          notify.success('Dive parsed')
-        } catch (error) {
-          // One unusable dive should not discard the others in the batch.
-          errors.push(error)
-        }
-      }
-    } catch (error) {
-      // Decoding happens while iterating, so a corrupt file ends the batch.
-      errors.push(error)
+  const goTo = (next: number): void => {
+    setGallery((gallery) => ({
+      ...gallery,
+      index: Math.min(Math.max(0, next), gallery.dives.length - 1),
+    }))
+  }
+
+  // Arrow keys page through the dives. Bound to the window because the button
+  // that had focus becomes disabled on the first and last dive.
+  useEffect(() => {
+    if (dives.length <= 1) return
+
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      const target = event.target as HTMLElement | null
+      const isTyping =
+        target?.getAttribute?.('contenteditable') === 'true' ||
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(target?.tagName ?? '')
+
+      if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+
+      event.preventDefault()
+      goTo(index + (event.key === 'ArrowRight' ? 1 : -1))
     }
 
-    setMismatch(sawMismatch)
-    setError(errors.length >= 1 ? errors.join('\n') : null)
-  }
+    window.addEventListener('keydown', handleKeyDown)
 
-  const parseDive = (dive: Dive): void => {
-    const ssi = SsiDive.fromDive(dive)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [dives.length, index])
 
-    setDive(dive)
-    setSsiDive(ssi)
-    setDiveQR(SsiDive.toQR(ssi))
-  }
+  useEffect(() => {
+    const handleDragEnter = (event: DragEvent): void => {
+      event.preventDefault()
+      dragCounter.current += 1
+      setIsDragging(true)
+    }
+
+    const handleDragLeave = (event: DragEvent): void => {
+      event.preventDefault()
+      dragCounter.current = Math.max(0, dragCounter.current - 1)
+      if (dragCounter.current === 0) setIsDragging(false)
+    }
+
+    const handleDragOver = (event: DragEvent): void => {
+      event.preventDefault()
+    }
+
+    const stopDragging = (): void => {
+      dragCounter.current = 0
+      setIsDragging(false)
+    }
+
+    const handleDrop = (event: DragEvent): void => {
+      event.preventDefault()
+      stopDragging()
+
+      // An empty FileList is truthy: dragged text or an image must not clear
+      // the messages from the previous upload.
+      const dropped = event.dataTransfer?.files
+      if (dropped && dropped.length >= 1) void parseFiles(dropped)
+    }
+
+    window.addEventListener('dragenter', handleDragEnter)
+    window.addEventListener('dragleave', handleDragLeave)
+    window.addEventListener('dragover', handleDragOver)
+    window.addEventListener('drop', handleDrop)
+    // A drag that ends outside the window never fires dragleave.
+    window.addEventListener('dragend', stopDragging)
+
+    return () => {
+      window.removeEventListener('dragenter', handleDragEnter)
+      window.removeEventListener('dragleave', handleDragLeave)
+      window.removeEventListener('dragover', handleDragOver)
+      window.removeEventListener('drop', handleDrop)
+      window.removeEventListener('dragend', stopDragging)
+    }
+  }, [parseFiles])
 
   return (
     <ToolPage title={title}>
-      <link rel="dns-prefetch" href="https://chart.googleapis.com" />
-
       <input
         type="file"
         ref={fileInputRef}
         accept=".fit,.zip"
+        multiple
+        aria-label={`Select ${vendorNoun} .fit or .zip files`}
         style={{ display: 'none' }}
         onInput={onUploadFile}
       />
+
+      {isDragging && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <p className="text-white text-xl font-medium">Drop files here</p>
+        </div>
+      )}
 
       <div className="py-4">
         <div className="flex gap-4 flex-col-reverse md:flex-row md:items-center">
           <div className="flex flex-col items-center">
             <ul className="w-full">
               <li>
-                Upload your {vendorNoun}{' '}
+                Upload or drag and drop your {vendorNoun}{' '}
                 <code className="text-blue-600 dark:text-blue-400">.fit</code> or{' '}
-                <code className="text-blue-600 dark:text-blue-400">.zip</code> file
+                <code className="text-blue-600 dark:text-blue-400">.zip</code> files
               </li>
               <li>Scan the resulting QR code in the SSI app</li>
               <li>Correct any details and save the dive</li>
@@ -141,14 +305,28 @@ const FitToSsiDiveLogHelper = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="cursor-pointer px-4 py-2 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border w-40 text-white"
+              disabled={isParsing}
+              aria-busy={isParsing}
+              className="cursor-pointer px-4 py-2 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border w-40 text-white disabled:opacity-50"
             >
-              Select {ssiDive ? 'another ' : ''}file
+              {isParsing ? 'Reading files…' : `Select ${dives.length >= 1 ? 'more ' : ''}files`}
             </button>
 
-            {error && (
-              <p style={{ display: 'inline-block', paddingLeft: 16, color: 'red' }}>{error}</p>
-            )}
+            <div role="alert" className="w-full pt-2 text-red-600 dark:text-red-400">
+              {problems.map((problem) => (
+                <p key={problem} className="my-0">
+                  {problem}
+                </p>
+              ))}
+            </div>
+
+            <div role="status" className="w-full text-sm text-gray-500 dark:text-gray-400">
+              {notices.map((notice) => (
+                <p key={notice} className="my-0">
+                  {notice}
+                </p>
+              ))}
+            </div>
 
             <p className="w-full pt-2 text-sm text-gray-500 dark:text-gray-400">
               Using a {crossLink.vendorName}?{' '}
@@ -168,7 +346,7 @@ const FitToSsiDiveLogHelper = ({
         </div>
       </div>
 
-      {mismatch && (
+      {currentDive?.isVendorMismatch && (
         <div className="py-2">
           <p role="note" className="text-amber-600 dark:text-amber-400">
             This looks like a {crossLink.vendorName} file. It still converts here, but the{' '}
@@ -178,14 +356,52 @@ const FitToSsiDiveLogHelper = ({
         </div>
       )}
 
-      {ssiDive && dive && diveQR && (
+      {currentDive && (
         <div className="py-4">
           <h2>Importing your dive</h2>
 
           <div className="flex gap-4 flex-col md:flex-row items-center">
             <div className="flex flex-col items-center gap-2">
-              <QrCode value={diveQR} />
-              <DiveStatsPanel dive={dive} />
+              <div className="text-center">
+                <h3 className="mb-0">{currentDive.fileName}</h3>
+                {currentDive.dive.startTime && (
+                  <p className="text-sm text-gray-500 dark:text-gray-400 my-0">
+                    {diveMoment.format(currentDive.dive.startTime)}
+                  </p>
+                )}
+              </div>
+
+              <QrCode value={currentDive.diveQR} />
+              <DiveStatsPanel dive={currentDive.dive} />
+
+              {dives.length > 1 && (
+                <nav
+                  aria-label="Dive files"
+                  className="flex gap-4 justify-center items-center py-2"
+                >
+                  <button
+                    type="button"
+                    aria-label="Previous dive"
+                    onClick={() => goTo(index - 1)}
+                    disabled={index === 0}
+                    className="cursor-pointer w-10 h-10 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border text-white disabled:opacity-50"
+                  >
+                    ←
+                  </button>
+                  <span className="text-sm" aria-live="polite">
+                    Dive {index + 1} of {dives.length}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Next dive"
+                    onClick={() => goTo(index + 1)}
+                    disabled={index === dives.length - 1}
+                    className="cursor-pointer w-10 h-10 bg-(--ifm-color-primary) rounded-sm border-solid border-(--ifm-color-primary-light) border text-white disabled:opacity-50"
+                  >
+                    →
+                  </button>
+                </nav>
+              )}
             </div>
             <div className="flex flex-col-reverse md:flex-col">
               <p>
@@ -199,24 +415,24 @@ const FitToSsiDiveLogHelper = ({
             <Image
               img={require('./assets/ssi-app-showing-the-qr-code-scanner.png')}
               alt="SSI app showing the QR code scanner"
-              height={400}
-              width={184.5}
+              height={300}
+              width={138.4}
               noPadding
             />
           </div>
         </div>
       )}
 
-      {messages && (
+      {currentDive && (
         <div className="py-4">
           <details>
             <summary className="cursor-pointer">
               <h2 className="inline-block">Developer data</h2>
             </summary>
 
-            <p style={{ opacity: 0.5 }}>{diveQR}</p>
+            <p style={{ opacity: 0.5 }}>{currentDive.diveQR}</p>
 
-            {Object.keys(messages).map((key) => (
+            {Object.keys(currentDive.messages).map((key) => (
               <details key={key}>
                 <summary
                   className="cursor-pointer"
@@ -225,7 +441,7 @@ const FitToSsiDiveLogHelper = ({
                   {key}
                 </summary>
                 <code>
-                  <pre>{JSON.stringify(messages[key], null, 2)}</pre>
+                  <pre>{JSON.stringify(currentDive.messages[key], null, 2)}</pre>
                 </code>
               </details>
             ))}

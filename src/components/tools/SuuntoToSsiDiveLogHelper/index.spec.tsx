@@ -17,7 +17,7 @@ describe('SuuntoToSsiDiveLogHelper', () => {
     expect(
       screen.getByRole('heading', { name: 'Suunto to SSI DiveLog helper' }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/Upload your Suunto/i)).toBeInTheDocument()
+    expect(screen.getByText(/Upload or drag and drop your Suunto/i)).toBeInTheDocument()
     expect(screen.getByText(/This page does not store data/i)).toBeInTheDocument()
     expect(screen.getByText(/Download FIT file/i)).toBeInTheDocument()
   })
