@@ -65,7 +65,7 @@ export default {
         max: 2560, // max resized image's size.
         min: 256, // min resized image's size for small thumbnails
         steps: 6, // more steps for better thumbnail optimization
-        disableInDev: false,
+        disableInDev: true,
       },
     ],
     [
