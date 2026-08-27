@@ -72,8 +72,15 @@ Three properties matter:
   rather than left to the model's defaults.
 
 It is worth being precise about what this is not. A plan is scoped to one piece of work and then
-thrown away. A prompt is a request. An instruction set is reusable process memory: it describes how
-your organisation does a kind of work, and it outlives the task that triggered it.
+thrown away. A prompt is a request. A skill sits closer, but a skill behaves like a mode: you invoke
+one at a time, and while it is active it colours how the agent works. An instruction set is reusable
+process memory: it describes how your organisation does a kind of work, and it outlives the task
+that triggered it.
+
+Instruction sets also stack. They nest inside one another, several can be live at once, and one
+agent can hold all of them at the same time. That makes them a natural fit for single agent
+workflows, where one agent keeps the thread from start to finish instead of handing off between
+specialists.
 
 ## Respect the craft you're encoding
 
