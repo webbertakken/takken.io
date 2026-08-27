@@ -115,6 +115,12 @@ const Index = (): React.ReactElement => {
           <Card title="Latest posts">
             <Card.Item>
               📖{' '}
+              <a href="/blog/instruction-sets">
+                Instruction sets: teaching agents to follow a process
+              </a>
+            </Card.Item>
+            <Card.Item>
+              📖{' '}
               <a href="/blog/the-making-of-a-model-in-simple-words">
                 The making of a model, in simple words
               </a>
@@ -134,9 +140,6 @@ const Index = (): React.ReactElement => {
               <a href="/blog/seamless-windows-linux-development">
                 Seamless Windows-Linux development
               </a>
-            </Card.Item>
-            <Card.Item>
-              📖 <a href="/blog/a-modern-terminal-for-windows">A modern terminal for Windows</a>
             </Card.Item>
           </Card>
 
