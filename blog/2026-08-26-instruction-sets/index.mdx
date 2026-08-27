@@ -24,7 +24,6 @@ keywords:
   - Agent skills
   - Step by step instructions
   - Process automation
-draft: true
 ---
 
 import Image from '@theme/IdealImage'
@@ -41,6 +40,8 @@ And the level of detail is implied by the instructions.
 A high-level request gets a high-level interpretation; the fastest plausible route to "request
 fulfilled" wins.
 
+<!-- truncate -->
+
 ## Granularity
 
 Given a goal, agents produce the default average based on their training.
@@ -54,15 +55,17 @@ Agents skip steps when nobody ever told them the steps exist.
 Agents also lack qualities like taste, critical thinking, awareness of time, etc. and they do not
 have your knowledge of the domain if you do not make it explicit.
 
-Therefor it is important for us to distill processes. I've written how we can do so using
+Therefore it is important for us to distil processes. I've written how we can do so using
 [Incremental Contextual Pipelines](/blog/incremental-contextual-pipelines). A more lightweight
 method could be to use what I call **instruction sets**.
 
-## Instruction sets
+## What is an instruction set?
 
-An instruction set, or program, is a list of steps at a granularity where an agent walking through
-them one at a time, patiently and qualitatively, replicates a step-by-step process. Including the
-parts where normally the human would make decisions that are usually never made explicit.
+An instruction set is a progressively disclosed markdown file, containing a list of steps at a
+granularity where an agent walking through them one at a time, idiomatically and qualitatively,
+replicates a step-by-step process. And ideally that list includes the steps where normally a human
+reasons about information and makes decisions in one or more steps that are otherwise never made
+explicit.
 
 Three properties matter:
 
@@ -71,16 +74,22 @@ Three properties matter:
 - **Opinionated.** Your taste, your preferences, your domain specifics are woven into the steps
   rather than left to the model's defaults.
 
-It is worth being precise about what this is not. A plan is scoped to one piece of work and then
-thrown away. A prompt is a request. A skill sits closer, but a skill behaves like a mode: you invoke
-one at a time, and while it is active it colours how the agent works. An instruction set is reusable
-process memory: it describes how your organisation does a kind of work, and it outlives the task
-that triggered it.
+## How is it different?
 
-Instruction sets also stack. They nest inside one another, several can be live at once, and one
-agent can hold all of them at the same time. That makes them a natural fit for single agent
-workflows, where one agent keeps the thread from start to finish instead of handing off between
-specialists.
+It is worth being precise about what this is not.
+
+A plan is scoped to one piece of work and then optionally thrown away.
+
+A prompt holds a request for the model, describing intention, the "What". Also describing the "How"
+often significantly reduces the model's attention on the intention, which is why the process is
+better provided through skills or progressively disclosed documents, like instruction sets.
+
+A skill sits closer, however a skill often behaves like a specialist mode: you invoke one at a time,
+and while it is active it colours how the agent works.
+
+Instruction sets are reusable process memories that can stack, nest inside one another. And several
+can be used at once, making them an especially good fit for single agent workflows, where one agent
+keeps the thread from start to finish instead of handing off between specialists.
 
 ## Respect the craft you're encoding
 
@@ -105,11 +114,11 @@ that stack changes how much attention a piece of text gets.
 
 Each band has its own budget:
 
-| Band                           | Rule                                                                          |
-| ------------------------------ | ----------------------------------------------------------------------------- |
-| Harness context, global agents | Keep as small as possible. It's paid for on every single turn.                |
-| User prompt                    | Convey as much as you can here. This is where goal and intention live.        |
-| Context after the prompt       | Arrives later, closer to generation, and captures attention when it's needed. |
+| Band                                | Rule                                                                                                      |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Harness context, global agents file | Keep as small as possible, for optimal attention on the initial prompt and progressively disclosed files. |
+| User prompt                         | Convey as much as you can here. This is where goal and intention of the session live.                     |
+| Context after the prompt            | Arrives later and as needed, closer to generation, and captures attention when it's needed.               |
 
 This is why **instruction sets must be progressively disclosed**. Dumping all two hundred steps into
 the prompt does not make the agent more methodical, it buries the goal under procedure and the
@@ -117,13 +126,15 @@ attention drifts away from what you actually asked for. Disclosing the steps for
 moment phase C starts puts the procedure exactly where attention already is.
 
 Skills, docs, wikis, pipelines and plans are all the same trick: a store of material outside the
-window, pulled in slice by slice.
+window, pulled in slice by slice and only as needed.
 
 ## Deriving an instruction set
 
 If you are the expert on the process, write down your internal logic as bullet points and split each
-one further. Most of us are not the expert on most processes, so here is the derivation I use
-instead, with UI/UX design as the worked example.
+one further. Assuming most of us aren't an expert on every process, we need a way to derive the
+process by asking the right questions.
+
+For the example we'll derive a UI/UX Designer instruction set.
 
 ### Step 1: ask for responsibilities, and notice what you get
 
@@ -240,5 +251,5 @@ The recipe, condensed:
 Instruction sets are not about controlling the agent. They're about giving it the same thing a new
 hire gets on their first week: not a goal and a shrug, but the way we do things here.
 
-I'm curious whether others have landed on something similar. If you've built process memory for your
-agents in a different shape, I'd like to hear about it in the comments.
+If you've built process memory for your agents in a different shape, I'd like to hear about it in
+the comments.
