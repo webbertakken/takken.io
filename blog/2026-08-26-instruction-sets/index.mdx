@@ -27,38 +27,42 @@ keywords:
 draft: true
 ---
 
+import Image from '@theme/IdealImage'
+
 # Instruction sets: teaching agents to follow a process
 
-Ask an agent to design a signup flow and it will produce something. It will look fine, it will be
-done in two minutes, and it will be the statistical average of every signup flow it has ever seen.
-An **instruction set** is how you replace that average with an actual process.
+## Agents emerge work
 
-<!-- truncate -->
+Without specifying otherwise, instead of following a step-by-step process, agents rather emerge
+work.
 
-## Agents emerge work, they don't follow process
+And the level of detail is implied by the instructions.
 
-Agents work by emergence through predicting tokens.
+A high-level request gets a high-level interpretation; the fastest plausible route to "request
+fulfilled" wins.
 
-Given a goal, they produce the default average of the outputs used in training, at the level of
-detail your prompt implies.
+## Granularity
 
-That default is genuinely good, which is exactly what makes it dangerous: it looks like the work of
-someone who followed a process, without any process having happened.
+Given a goal, agents produce the default average based on their training.
 
-Two things follow from that.
+Agents can do amazing work as long as the instructions are granular enough.
 
-The first is that agents do not skip steps out of laziness. They skip steps because nobody ever told
-them the steps exist. A high-level request gets a high-level interpretation, and the fastest
-plausible route to "request fulfilled" wins.
+## Explicit steps
 
-The second is more encouraging: **agents do amazing work as long as the instructions are granular
-enough**. The capability is there. The methodology isn't. So we supply the methodology.
+Agents skip steps when nobody ever told them the steps exist.
 
-## What an instruction set is
+Agents also lack qualities like taste, critical thinking, awareness of time, etc. and they do not
+have your knowledge of the domain if you do not make it explicit.
+
+Therefor it is important for us to distill processes. I've written how we can do so using
+Incremental Contextural Pipelines. A more lightweight method could be to use what I call
+**instruction sets**.
+
+## Instruction sets
 
 An instruction set, or program, is a list of steps at a granularity where an agent walking through
-them one at a time, patiently and qualitatively, replicates a human process. Including the parts
-where the human makes decisions.
+them one at a time, patiently and qualitatively, replicates a step-by-step process. Including the
+parts where normally the human would make decisions that are usually never made explicit.
 
 Three properties matter:
 
@@ -87,22 +91,10 @@ collecting that knowledge and ordering it, not inventing it.
 The other half of the problem is placement. A session is a stack of context, and position inside
 that stack changes how much attention a piece of text gets.
 
-```mermaid
-flowchart TB
-  subgraph session["Agentic session"]
-    direction TB
-    harness["Harness system context"]
-    global["Global agents file, skills, MCP"]
-    prompt["User prompt"]
-    ctx1["Context: domain, architecture, process"]
-    conv["Intermediate conversation"]
-    ctx2["Context: the next part of the process"]
-    harness --> global --> prompt --> ctx1 --> conv --> ctx2
-  end
-  store[("Skills, docs, wikis, programs, pipelines, plans")]
-  store -. discloses .-> ctx1
-  store -. discloses .-> ctx2
-```
+<Image
+  img={require('./assets/agentic-session-context-window.jpg')}
+  alt="Handwritten diagram of an agentic session as a context window: harness system context and the global agents file with skills and MCP are kept as small as possible, the user prompt conveys as much as possible, and additional context about domain, architecture and process is progressively disclosed from a cloud of skills, docs, wikis, programs, pipelines and plans, both before and after the intermediate conversation"
+/>
 
 Each band has its own budget:
 
