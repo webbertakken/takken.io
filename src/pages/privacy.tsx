@@ -20,18 +20,19 @@ const Privacy = (): React.ReactElement => {
               </h2>
               <ul className="list-inside list-disc space-y-3">
                 <li>
-                  <strong>Analytics</strong> &mdash; We use Google Tag Manager to understand how the
-                  site is used. This includes pages visited, time on site, and general
-                  device/browser info. We do not track any personally identifiable information (PII)
-                  through analytics. Analytics only load after you accept cookies.
+                  <strong>Analytics</strong> &mdash; We use Google Analytics, loaded through Google
+                  Tag Manager, to understand how the site is used. This includes pages visited, time
+                  on site, and general device/browser info. We do not track any personally
+                  identifiable information (PII) through analytics. Analytics only load after you
+                  accept cookies.
                 </li>
                 <li>
                   <strong>Search</strong> &mdash; We use Algolia for site search. Search queries are
                   sent to Algolia.
                 </li>
                 <li>
-                  <strong>Cookies</strong> &mdash; We use cookies for preferences. Google Tag
-                  Manager may set analytics cookies.
+                  <strong>Cookies</strong> &mdash; We use cookies for preferences. Google Analytics
+                  may set analytics cookies.
                 </li>
               </ul>
             </section>
@@ -76,7 +77,10 @@ const Privacy = (): React.ReactElement => {
               </h2>
               <ul className="list-inside list-disc space-y-2">
                 <li>
-                  <strong>Google Tag Manager (Google)</strong> &mdash; analytics
+                  <strong>Google Analytics (Google)</strong> &mdash; analytics
+                </li>
+                <li>
+                  <strong>Google Tag Manager (Google)</strong> &mdash; tag management
                 </li>
                 <li>
                   <strong>Algolia</strong> &mdash; search
