@@ -92,16 +92,16 @@ const Index = (): React.ReactElement => {
               (free gaming platform)
             </Card.Item>
             <Card.Item>
-              📺{' '}
+              ✏️{' '}
               <a
-                href="https://github.com/webbertakken/streamer"
+                href="https://livediagram.app"
                 target="_blank"
                 rel="noreferrer"
                 className="underline"
               >
-                Streamer
+                livediagram.app
               </a>{' '}
-              (free streamer software)
+              (free real-time diagramming)
             </Card.Item>
             <Card.Item>
               🌍{' '}
