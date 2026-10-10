@@ -1,6 +1,5 @@
 import CookieConsent from '@site/src/components/CookieConsent/CookieConsent'
 import FrameLayout from '@site/src/components/layout/FrameLayout'
-import { AuthProvider } from '@site/src/contexts/AuthContext'
 import React, { StrictMode } from 'react'
 import { Toaster } from 'react-hot-toast'
 
@@ -11,11 +10,9 @@ interface RootProps {
 const Root: React.FC<RootProps> = ({ children }) => {
   return (
     <StrictMode>
-      <AuthProvider>
-        <Toaster />
-        <FrameLayout>{children}</FrameLayout>
-        <CookieConsent />
-      </AuthProvider>
+      <Toaster />
+      <FrameLayout>{children}</FrameLayout>
+      <CookieConsent />
     </StrictMode>
   )
 }

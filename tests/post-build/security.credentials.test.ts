@@ -37,8 +37,8 @@ describe('Security Tests', () => {
   })
 
   it('should not expose any forbidden patterns in build artifacts', async () => {
-    // Get all files in the build directory
-    const files = await glob('**/*', {
+    // Text artefacts only; decoding images and fonts as UTF-8 finds nothing and dominates runtime
+    const files = await glob('**/*.{html,js,mjs,cjs,css,json,webmanifest,xml,txt,svg}', {
       cwd: buildDir,
       nodir: true,
       dot: true,
@@ -172,8 +172,7 @@ describe('Security Tests', () => {
               (
                 match.includes('process.env.NODE_ENV') || // Common safe usage
                 match.includes('process.env.PUBLIC_') || // Public env vars
-                match.includes('process.env.REACT_APP_') || // Create React App public vars
-                match.includes('process.env.__FIREBASE_DEFAULTS__')
+                match.includes('process.env.REACT_APP_')
               ) // Create React App public vars
             )
           })

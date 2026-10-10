@@ -18,9 +18,6 @@ generated-images/
 tools/image-generator/test-output/
 tools/image-generator/example-images/
 
-# Firebase
-/.firebase
-
 # dependencies
 **/node_modules
 /.pnp
@@ -63,10 +60,6 @@ generated-images
 test-output
 __pycache__
 static/assets/processed
-
-# Firebase Cloud Functions
-functions/lib/
-functions/node_modules/
 
 # npm (we use yarn)
 package-lock.json
