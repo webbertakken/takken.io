@@ -10,11 +10,20 @@ export default defineConfig({
   resolve: {
     alias: {
       // More specific aliases must precede the general `@site` prefix alias.
-      '@site/src/theme/IdealImage': path.resolve(__dirname, './src/test/mocks/ideal-image.tsx'),
-      '@site': path.resolve(__dirname),
-      '@docusaurus/useGlobalData': path.resolve(__dirname, './src/test/mocks/docusaurus.ts'),
-      '@docusaurus/Link': path.resolve(__dirname, './src/test/mocks/docusaurus-link.tsx'),
-      '@theme/ToolPage/ToolPage': path.resolve(__dirname, './src/test/mocks/tool-page.tsx'),
+      '@site/src/theme/IdealImage': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/ideal-image.tsx',
+      ),
+      '@site': path.resolve(import.meta.dirname),
+      '@docusaurus/useGlobalData': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/docusaurus.ts',
+      ),
+      '@docusaurus/Link': path.resolve(import.meta.dirname, './src/test/mocks/docusaurus-link.tsx'),
+      '@theme/ToolPage/ToolPage': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/tool-page.tsx',
+      ),
     },
   },
   test: {
