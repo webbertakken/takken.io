@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Vercel install step. Vercel's Amazon Linux 2023 build image has no mise and
-# no libatomic, which Node 26's official Linux binary links against.
+# Vercel install step. Vercel's Amazon Linux 2023 build image has no mise, and
+# its documented package list does not include libatomic, which Node 26's
+# official Linux binary links against; install it only when it is missing.
 set -euo pipefail
 
 if ldconfig -p | grep -q 'libatomic\.so\.1'; then
