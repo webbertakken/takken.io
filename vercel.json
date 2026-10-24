@@ -1,4 +1,4 @@
 {
-  "installCommand": "./bin/mise install && ./bin/mise exec -- yarn install --immutable",
+  "installCommand": "./scripts/vercel-install.sh",
   "buildCommand": "./bin/mise exec -- yarn build"
 }
