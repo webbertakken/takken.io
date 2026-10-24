@@ -41,8 +41,9 @@ Merge a PR for it to be deployed to production
 
 ## Upgrading tools
 
-Upgrade Node: pin the new version in `mise.toml`, then move `engines.node` and `@types/node` in
-`package.json` to the same major.
+Upgrade Node: pin the new version in `mise.toml`, then move `@types/node` in `package.json` to the
+same major. Vercel picks its own runtime from `engines.node`, so that range must include a version
+Vercel supports; the install and build still run on the `mise.toml` Node.
 
 ```shell
 mise use node@26
