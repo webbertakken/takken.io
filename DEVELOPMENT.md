@@ -9,8 +9,13 @@
 
 ### Install dependencies
 
+Install the pinned tools, then the packages. Run commands in a shell with
+[mise activated](https://mise.jdx.dev/getting-started.html#activate-mise), or prefix them with
+`mise exec --`.
+
 ```shell
-yarn
+mise install
+yarn install
 ```
 
 ### Environment variables
@@ -46,7 +51,7 @@ same major. Vercel picks its own runtime from `engines.node`, so that range must
 Vercel supports; the install and build still run on the `mise.toml` Node.
 
 ```shell
-mise use node@26
+mise use --pin node@26
 ```
 
 Upgrade Yarn: set the same version in `mise.toml` and in `packageManager` in `package.json`.
