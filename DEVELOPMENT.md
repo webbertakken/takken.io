@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- [mise](https://mise.jdx.dev/) (Node version is pinned in `mise.toml`; Yarn is activated via
-  Corepack from `package.json` `packageManager`)
+- [mise](https://mise.jdx.dev/) (Node and Yarn are pinned in `mise.toml`; the Yarn pin matches
+  `packageManager` in `package.json`)
 
 ## Setup
 
@@ -41,15 +41,16 @@ Merge a PR for it to be deployed to production
 
 ## Upgrading tools
 
-Upgrade Node
+Upgrade Node: pin the new version in `mise.toml`, then move `engines.node` and `@types/node` in
+`package.json` to the same major.
 
 ```shell
-mise use node@lts
+mise use node@26
 ```
 
-Upgrade Yarn
+Upgrade Yarn: set the same version in `mise.toml` and in `packageManager` in `package.json`.
 
 ```shell
-yarn set version stable
-# `packageManager` in package.json is updated automatically by `yarn set version`.
+mise use yarn@4.14.1
+yarn install
 ```
