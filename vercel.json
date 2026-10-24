@@ -1,7 +1,4 @@
 {
-  "build": {
-    "env": {
-      "ENABLE_EXPERIMENTAL_COREPACK": "1"
-    }
-  }
+  "installCommand": "./bin/mise install && ./bin/mise exec -- yarn install --immutable",
+  "buildCommand": "./bin/mise exec -- yarn build"
 }

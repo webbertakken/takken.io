@@ -64,3 +64,4 @@ static/assets/processed
 # npm (we use yarn)
 package-lock.json
 **/package-lock.json
+.mise/

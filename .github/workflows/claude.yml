@@ -29,6 +29,10 @@ jobs:
         with:
           fetch-depth: 1
 
+      # Puts the Node and yarn pinned in mise.toml on PATH for Claude.
+      - name: Setup tools (from mise.toml)
+        uses: jdx/mise-action@v5
+
       - name: Run Claude PR Action
         uses: anthropics/claude-code-action@beta
         with:
@@ -38,7 +42,7 @@ jobs:
             Bash(npm:*)
             Bash(pkill -f \"node\")
           allowed_tools: |
-            Bash(corepack:*)
+            Bash(mise:*)
             Bash(yarn:*)
             Bash(yarn generate-image:*)
             Bash(NODE_ENV=production yarn build-only)
