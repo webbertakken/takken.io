@@ -7,7 +7,7 @@
     "docusaurus": "docusaurus",
     "dev": "node scripts/ensure-husky.mjs && docusaurus start",
     "build": "docusaurus build && yarn security-check",
-    "security-check": "vitest run --config vitest.config.post-build.ts --reporter=verbose",
+    "security-check": "vitest run --config vitest.config.post-build.mts --reporter=verbose",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -87,7 +87,7 @@
     "@types/node": "^26",
     "@types/react": "^19",
     "@typescript/native-preview": "7.0.0-dev.20260425.1",
-    "@vitest/coverage-v8": "^4",
+    "@vitest/coverage-v8": "^5",
     "cross-env": "^10",
     "dotenv": "^17.4.2",
     "eslint-plugin-unicorn": "^64.0.0",
@@ -105,7 +105,8 @@
     "tailwindcss": "^4.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "vitest": "^4",
+    "vite": "^8",
+    "vitest": "^5",
     "webpack": "~5.97.1"
   },
   "resolutions": {
