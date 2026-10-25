@@ -1,0 +1,253 @@
+---
+slug: instruction-sets
+title: 'Instruction sets: teaching agents to follow a process'
+description: >-
+  Coding agents default to the average of their training data. Instruction sets are granular,
+  chronological programs that make them follow a real process instead, disclosed step by step.
+authors: [webber]
+tags:
+  - Agents
+  - Context
+  - Software Engineering
+  - Automation
+  - Productivity
+keywords:
+  - Instruction sets
+  - Agent instruction set
+  - Agent programs
+  - Progressive disclosure
+  - Coding agents
+  - Context window
+  - Agentic workflow
+  - Design thinking process
+  - Unattended agents
+  - Agent skills
+  - Step by step instructions
+  - Process automation
+---
+
+import Image from '@theme/IdealImage'
+
+# Instruction sets: teaching agents to follow a process
+
+Without specifying otherwise, instead of following a step-by-step process, agents rather emerge
+work.
+
+And the level of detail is implied by the instructions.
+
+A high-level request gets a high-level interpretation; the fastest plausible route to "request
+fulfilled" wins.
+
+<!-- truncate -->
+
+## Granularity
+
+Given a goal, agents produce the default average based on their training.
+
+Agents can do amazing work as long as the instructions are granular enough.
+
+## Explicit steps
+
+Agents skip steps when nobody ever told them the steps exist.
+
+Agents also lack qualities like taste, critical thinking, awareness of time, etc. and they do not
+have your knowledge of the domain if you do not make it explicit.
+
+Therefore it is important for us to distil processes. I've written how we can do so using
+[Incremental Contextual Pipelines](/blog/incremental-contextual-pipelines). A more lightweight
+method could be to use what I call **instruction sets**.
+
+## What is an instruction set?
+
+An instruction set is a progressively disclosed markdown file, containing a list of steps at a
+granularity where an agent walking through them one at a time, idiomatically and qualitatively,
+replicates a step-by-step process. And ideally that list includes the steps where normally a human
+reasons about information and makes decisions in one or more steps that are otherwise never made
+explicit.
+
+Three properties matter:
+
+- **Chronological.** Steps are ordered the way the work is actually done, not grouped by theme.
+- **Granular.** Each step is small enough that "did it happen?" has a yes or no answer.
+- **Opinionated.** Your taste, your preferences, your domain specifics are woven into the steps
+  rather than left to the model's defaults.
+
+## How is it different?
+
+It is worth being precise about what this is not.
+
+A plan is scoped to one piece of work and then optionally thrown away.
+
+A prompt holds a request for the model, describing intention, the "What". Also describing the "How"
+often significantly reduces the model's attention on the intention, which is why the process is
+better provided through skills or progressively disclosed documents, like instruction sets.
+
+A skill sits closer, however a skill often behaves like a specialist mode: you invoke one at a time,
+and while it is active it colours how the agent works.
+
+Instruction sets are reusable process memories that can stack, nest inside one another. And several
+can be used at once, making them an especially good fit for single agent workflows, where one agent
+keeps the thread from start to finish instead of handing off between specialists.
+
+## Respect the craft you're encoding
+
+Before deriving anything, an acknowledgement. A UI/UX designer is a full-time job. So is being a
+technical writer, a security reviewer, a data analyst. Those roles carry years of experience and a
+long tail of intricacies that are invisible from the outside.
+
+That is the whole reason instruction sets work. Practitioners write about their process on the
+internet, in detail, for free. The knowledge of how the job is actually done is sitting there,
+already articulated by the people who do it. Deriving an instruction set is mostly an act of
+collecting that knowledge and ordering it, not inventing it.
+
+## Where instruction sets live in the session
+
+The other half of the problem is placement. A session is a stack of context, and position inside
+that stack changes how much attention a piece of text gets.
+
+<Image
+  img={require('./assets/agentic-session-context-window.jpg')}
+  alt="Handwritten diagram of an agentic session as a context window: harness system context and the global agents file with skills and MCP are kept as small as possible, the user prompt conveys as much as possible, and additional context about domain, architecture and process is progressively disclosed from a cloud of skills, docs, wikis, programs, pipelines and plans, both before and after the intermediate conversation"
+/>
+
+Each band has its own budget:
+
+| Band                                | Rule                                                                                                      |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Harness context, global agents file | Keep as small as possible, for optimal attention on the initial prompt and progressively disclosed files. |
+| User prompt                         | Convey as much as you can here. This is where goal and intention of the session live.                     |
+| Context after the prompt            | Arrives later and as needed, closer to generation, and captures attention when it's needed.               |
+
+This is why **instruction sets must be progressively disclosed**. Dumping all two hundred steps into
+the prompt does not make the agent more methodical, it buries the goal under procedure and the
+attention drifts away from what you actually asked for. Disclosing the steps for phase C at the
+moment phase C starts puts the procedure exactly where attention already is.
+
+Skills, docs, wikis, pipelines and plans are all the same trick: a store of material outside the
+window, pulled in slice by slice and only as needed.
+
+## Deriving an instruction set
+
+If you are the expert on the process, write down your internal logic as bullet points and split each
+one further. Assuming most of us aren't an expert on every process, we need a way to derive the
+process by asking the right questions.
+
+For the example we'll derive a UI/UX Designer instruction set.
+
+### Step 1: ask for responsibilities, and notice what you get
+
+> What are the responsibilities of a UI/UX designer?
+
+- Advocating for the user, accessibility and inclusion.
+- Creating intuitive logic and seamless flows through the user's journey.
+- Balancing business goals with user needs without compromising either.
+
+Useful, but note what happened: those are **responsibilities, not process**. You cannot execute
+"advocating for the user". This step exists to establish what the role is for, so the next answer
+stays anchored to it.
+
+### Step 2: ask for the processes behind them
+
+> What are the processes they use to achieve that?
+
+For design, the answer happens to be somewhat standardised as the design thinking process:
+
+- **A. Discovery and research** - ethically stalking users through interviews, surveys and analytics
+  to uncover the actual problem rather than the symptom.
+- **B. Information architecture** - mapping out the logic, navigation and user journeys so people
+  don't get lost in a maze of menus.
+- **C. Wireframing and ideation** - drawing lots of grey boxes to settle layout and hierarchy before
+  getting distracted by shiny colours and typography.
+- **D. Prototyping** - building a clickable fake version of the product to show stakeholders exactly
+  how it will feel.
+- **E. Usability testing** - watching real humans completely misunderstand your perfectly intuitive
+  design, swallowing your pride, and iterating on their struggles.
+- **F. Developer hand-off** - delivering meticulously organised specs, assets and design tokens to
+  engineers.
+
+That is layer one. These six are **titles only**. Handing them to an agent as a task list gets you
+six shallow imitations of six deep activities.
+
+### Step 3: tailor the process for an agent
+
+A human process is not automatically an agent process. Two examples from the list above:
+
+- Agents cannot ethically stalk users through interviews. The equivalent is monitoring usability
+  tooling and reviewing opted-in session recordings, which may not even belong in step A any more.
+  It probably merges into E.
+- Agents don't need to swallow their pride while watching a usability session, because they have
+  none. That step needs a different guiding principle to produce the same outcome.
+
+Ask for the rewrite directly:
+
+> How can we tailor and word these six points in a way that we could have an agent perform them?
+
+- **A. Data ingestion** - parsing user logs and competitor DOMs into structured JSON pain-point
+  clusters.
+- **B. Semantic graphing** - generating routing logic and content hierarchies as directed acyclic
+  graphs instead of visual sitemaps.
+- **C. Algorithmic layout** - emitting spatial bounding-box matrices and semantic HTML scaffolds
+  rather than sketching grey boxes.
+- **D. Programmatic prototyping** - instantiating predefined design system tokens into navigable
+  state machines.
+- **E. Synthetic testing** - spawning headless browser agents with varied personas to attempt UI
+  workflows and log friction points and failure rates.
+- **F. Tokenised compilation** - bypassing hand-off entirely by compiling design decisions straight
+  into TypeScript interfaces, Rust structs and styling configs.
+
+Same six responsibilities, expressed in operations an agent can actually perform. Notice how much of
+the original vocabulary had to go: the human version is full of activities that only make sense with
+hands, eyes and a calendar.
+
+### Step 4: explode each title into steps
+
+Now the actual instruction set. One prompt per title:
+
+> Meticulously, what are the steps of the [process title] process if an agent would have to perform
+> it every step of the way. I want a complete list of up to 200 steps in chronological order.
+
+The 200 matters. Ask for "the steps" and you get twelve, which is the averaging problem again in
+miniature. Ask for up to 200 and the model is forced past the summary into the intricacies, which is
+where the value of a real process lives.
+
+### Step 5: review, cut, and adjust
+
+What comes out is a draft, not a program. It has to be carefully reviewed and adjusted to contain
+the most effective means to your end: steps that don't apply get cut, steps in the wrong order get
+moved, and the ones that encode your specifics get rewritten to say what you actually want.
+
+This is the step people skip, and it is the step that makes the difference between a document that
+sounds thorough and a program that produces good work.
+
+## Design it to run unattended
+
+Agents make great decisions most of the time. What they don't have is taste, preferences, critical
+thinking, or knowledge about your domain and your customers. Those have to come from you, and the
+instruction set is where you put them.
+
+The target is an instruction set that runs reasonably unattended, where **only genuine forks are
+surfaced to the operator**. A fork is a point where the answer depends on taste, on a preference, or
+on something only you know about the business. Everything else should already be decided in the
+steps.
+
+Two failure modes sit either side of that line. Too few interrupts and the agent quietly invents
+your product strategy. Too many and you're doing the work yourself with extra latency. The steps
+that survive review are the ones that move decisions from the first category into the third: not
+asked, not invented, but written down once.
+
+## Where this leaves us
+
+The recipe, condensed:
+
+1. Pick a process practitioners have already written about.
+2. Ask for responsibilities, then for the processes behind them.
+3. Reword each process into operations an agent can perform.
+4. Explode every process title into up to 200 chronological steps.
+5. Review hard, weave in your own taste and specifics.
+6. Disclose it progressively, one phase at a time.
+
+Instruction sets are not about controlling the agent. They're about giving it the same thing a new
+hire gets on their first week: not a goal and a shrug, but the way we do things here.
+
+If you've built process memory for your agents in a different shape, I'd like to hear about it in
+the comments.

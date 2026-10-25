@@ -1,0 +1,41 @@
+import path from 'path'
+import { defineConfig } from 'vitest/config'
+
+// Dive times are rendered in the diver's own timezone, so tests that assert on
+// formatted dates need a fixed one. Set before the workers spawn so they
+// inherit it.
+process.env.TZ = 'UTC'
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      // More specific aliases must precede the general `@site` prefix alias.
+      '@site/src/theme/IdealImage': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/ideal-image.tsx',
+      ),
+      '@site': path.resolve(import.meta.dirname),
+      '@docusaurus/useGlobalData': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/docusaurus.ts',
+      ),
+      '@docusaurus/Link': path.resolve(import.meta.dirname, './src/test/mocks/docusaurus-link.tsx'),
+      '@theme/ToolPage/ToolPage': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/tool-page.tsx',
+      ),
+    },
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    env: { TZ: 'UTC' },
+    setupFiles: ['./src/test/setup.ts'],
+    // Exclude post-build tests from regular test runs
+    exclude: ['**/node_modules/**', '**/tests/post-build/**'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['html', 'lcov', 'clover'],
+    },
+  },
+})

@@ -92,16 +92,16 @@ const Index = (): React.ReactElement => {
               (free gaming platform)
             </Card.Item>
             <Card.Item>
-              📺{' '}
+              ✏️{' '}
               <a
-                href="https://github.com/webbertakken/streamer"
+                href="https://livediagram.app"
                 target="_blank"
                 rel="noreferrer"
                 className="underline"
               >
-                Streamer
+                livediagram.app
               </a>{' '}
-              (free streamer software)
+              (free real-time diagramming)
             </Card.Item>
             <Card.Item>
               🌍{' '}
@@ -113,6 +113,12 @@ const Index = (): React.ReactElement => {
           </Card>
 
           <Card title="Latest posts">
+            <Card.Item>
+              📖{' '}
+              <a href="/blog/instruction-sets">
+                Instruction sets: teaching agents to follow a process
+              </a>
+            </Card.Item>
             <Card.Item>
               📖{' '}
               <a href="/blog/the-making-of-a-model-in-simple-words">
@@ -134,9 +140,6 @@ const Index = (): React.ReactElement => {
               <a href="/blog/seamless-windows-linux-development">
                 Seamless Windows-Linux development
               </a>
-            </Card.Item>
-            <Card.Item>
-              📖 <a href="/blog/a-modern-terminal-for-windows">A modern terminal for Windows</a>
             </Card.Item>
           </Card>
 

@@ -65,7 +65,7 @@ export default {
         max: 2560, // max resized image's size.
         min: 256, // min resized image's size for small thumbnails
         steps: 6, // more steps for better thumbnail optimization
-        disableInDev: false,
+        disableInDev: true,
       },
     ],
     [
@@ -238,7 +238,6 @@ export default {
         { to: '/gists', label: 'Gists', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { to: '/mindset', label: 'Mindset', position: 'left' },
-        { to: '/learning', label: 'Learning', position: 'left' },
         // { to: '/approach', label: 'Approach', position: 'left' },
         {
           href: 'https://github.com/webbertakken/takken.io',

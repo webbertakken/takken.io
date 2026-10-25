@@ -1,7 +1,4 @@
 {
-  "build": {
-    "env": {
-      "ENABLE_EXPERIMENTAL_COREPACK": "1"
-    }
-  }
+  "installCommand": "./scripts/vercel-install.sh",
+  "buildCommand": "./bin/mise exec -- yarn build"
 }

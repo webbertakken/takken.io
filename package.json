@@ -7,7 +7,7 @@
     "docusaurus": "docusaurus",
     "dev": "node scripts/ensure-husky.mjs && docusaurus start",
     "build": "docusaurus build && yarn security-check",
-    "security-check": "vitest run --config vitest.config.post-build.ts --reporter=verbose",
+    "security-check": "vitest run --config vitest.config.post-build.mts --reporter=verbose",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -17,7 +17,7 @@
     "test": "node scripts/ensure-husky.mjs && vitest run",
     "coverage": "vitest --coverage",
     "lint": "yarn lint:js && yarn lint:css",
-    "lint:js": "git ls-files -z ':!functions' '*.ts' '*.tsx' '*.js' '*.jsx' '*.mts' '*.mjs' '*.cjs' | xargs -0 oxlint --max-warnings 0",
+    "lint:js": "git ls-files -z '*.ts' '*.tsx' '*.js' '*.jsx' '*.mts' '*.mjs' '*.cjs' | xargs -0 oxlint --max-warnings 0",
     "lint:css": "stylelint **/*.{css,scss,sass} --fix",
     "format": "oxfmt --write",
     "fix": "yarn format && yarn lint:css && yarn lint --fix",
@@ -53,7 +53,6 @@
     "@garmin-fit/sdk": "^21.115.0",
     "@giscus/react": "^3.1.0",
     "@mdx-js/react": "^3.1.1",
-    "@react-spring/web": "^10.0.3",
     "@types/dedent": "^0.7.2",
     "@types/react-dom": "^19",
     "canvas": "^3.2.3",
@@ -62,7 +61,6 @@
     "docusaurus-plugin-content-gists": "^4.0.0",
     "docusaurus-plugin-sass": "^0.2.6",
     "fflate": "^0.8.2",
-    "firebase": "^12.12.1",
     "js-cookie": "^3.0.5",
     "node-fetch": "2",
     "prism-react-renderer": "^2.4.1",
@@ -86,10 +84,10 @@
     "@types/glob": "^9.0.0",
     "@types/jest": "^30.0.0",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^25",
+    "@types/node": "^26",
     "@types/react": "^19",
     "@typescript/native-preview": "7.0.0-dev.20260425.1",
-    "@vitest/coverage-v8": "^4",
+    "@vitest/coverage-v8": "^5",
     "cross-env": "^10",
     "dotenv": "^17.4.2",
     "eslint-plugin-unicorn": "^64.0.0",
@@ -107,7 +105,8 @@
     "tailwindcss": "^4.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "vitest": "^4",
+    "vite": "^8",
+    "vitest": "^5",
     "webpack": "~5.97.1"
   },
   "resolutions": {
@@ -126,7 +125,8 @@
     "micromatch": "^4.0.8",
     "qs": "^6.14.1",
     "mdast-util-to-hast": "^13.2.1",
-    "webpack": "~5.97.1"
+    "webpack": "~5.97.1",
+    "docusaurus-plugin-content-gists/octokit": "^5"
   },
   "browserslist": {
     "production": [
@@ -140,5 +140,8 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@4.14.1"
+  "packageManager": "yarn@4.14.1",
+  "engines": {
+    "node": ">=24"
+  }
 }

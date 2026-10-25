@@ -1,4 +1,4 @@
-import { GarminDive } from '@site/src/domain/diving/garmin/GarminDive'
+import { Dive } from '@site/src/domain/diving/Dive'
 import {
   AirTempCelcius,
   DepthInMeters,
@@ -45,14 +45,14 @@ export class SsiDive {
   watertemp_max_c!: MaxWaterTempCelcius
   deco!: SsiDecompression
 
-  static fromGarmin = (garmin: GarminDive): Partial<SsiDive> => {
+  static fromDive = (dive: Dive): Partial<SsiDive> => {
     return {
       dive: null,
       noid: null,
-      dive_type: SsiDive.diveTypeFromSport(garmin.sport),
-      divetime: garmin.diveTime,
-      datetime: garmin.startTime ? SsiDive.formatDate(garmin.startTime) : undefined,
-      depth_m: garmin.maxDepth,
+      dive_type: SsiDive.diveTypeFromSport(dive.sport),
+      divetime: dive.diveTime,
+      datetime: dive.startTime ? SsiDive.formatDate(dive.startTime) : undefined,
+      depth_m: dive.maxDepth,
       // site:80095;
       // var_weather_id:2;
       // var_entry_id:21;
@@ -62,11 +62,11 @@ export class SsiDive {
       // var_surface_id:10;
       // var_divetype_id:23;
       // user_master_id:3679373; // Added if created from SSI app, seemingly not useful for importing
-      user_firstname: garmin.firstName || '', // Added if created from SSI app, seemingly not useful for importing
-      user_lastname: garmin.lastName || '', // Added if created from SSI app, seemingly not useful for importing
+      user_firstname: dive.firstName || '', // Added if created from SSI app, seemingly not useful for importing
+      user_lastname: dive.lastName || '', // Added if created from SSI app, seemingly not useful for importing
       // user_leader_id: number // Todo - confirm
-      watertemp_c: garmin.minTemperature,
-      watertemp_max_c: garmin.maxTemperature,
+      watertemp_c: dive.minTemperature,
+      watertemp_max_c: dive.maxTemperature,
       // airtemp_c: AirTempCelcius
       // vis_m: VisibilityInMeters
       // deco: 0, // Note: Even when set to 0 it will open the deco settings in the SSI app, no deco should be property not present
@@ -75,6 +75,7 @@ export class SsiDive {
 
   static toQR = (dive: Partial<SsiDive>): string => {
     return Object.entries(dive)
+      .filter(([, value]) => value !== undefined)
       .map(([key, value]) => (null === value ? key : `${key}:${value}`))
       .join(';')
   }
