@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 9
+  version: 10
   cacheKey: 10
 
 "@adobe/css-tools@npm:^4.4.0":
@@ -5901,10 +5901,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dedent@npm:^0.7.2":
-  version: 0.7.2
-  resolution: "@types/dedent@npm:0.7.2"
-  checksum: 10/7c62900a4871ebc6ba19da77ad2e125a027c8f19516521004f5123f3bc22d129753b9251d22dee9bc748c1e7783cb7e86d496023b96971c94189b9d52e151876
+"@types/dedent@npm:^1.0.0":
+  version: 1.7.2
+  resolution: "@types/dedent@npm:1.7.2"
+  dependencies:
+    dedent: "npm:*"
+  checksum: 10/c55c08fc8b803d21a40a6ccea8c7fe6a4fbfff7ea00c6209606558d198aa0efb730e57978e4859fe8def0af4762cf066110b8193aa8f8d7346118ddf75f33638
   languageName: node
   linkType: hard
 
@@ -9022,6 +9024,18 @@ __metadata:
   dependencies:
     mimic-response: "npm:^3.1.0"
   checksum: 10/d377cf47e02d805e283866c3f50d3d21578b779731e8c5072d6ce8c13cc31493db1c2f6784da9d1d5250822120cefa44f1deab112d5981015f2e17444b763812
+  languageName: node
+  linkType: hard
+
+"dedent@npm:*":
+  version: 1.7.2
+  resolution: "dedent@npm:1.7.2"
+  peerDependencies:
+    babel-plugin-macros: ^3.1.0
+  peerDependenciesMeta:
+    babel-plugin-macros:
+      optional: true
+  checksum: 10/30b9062290dca72b0f5a6cd3667633448cef8cd0dec602eab61015741269ad49df90cabf0521f9a32d134ceab4e21aa7f097258c55cc3baadef94874686d6480
   languageName: node
   linkType: hard
 
@@ -16743,14 +16757,14 @@ __metadata:
 
 "resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>":
   version: 1.22.8
-  resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=9bd1a5"
   dependencies:
     is-core-module: "npm:^2.13.0"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10/f345cd37f56a2c0275e3fe062517c650bb673815d885e7507566df589375d165bbbf4bdb6aa95600a9bc55f4744b81f452b5a63f95b9f10a72787dba3c90890a
+  checksum: 10/b14c82cbce48701a1e963c60f196b91a289186e8b596334e09c881df8069cefcfb0ac9ce85ea768742b361a58005494bf2428a95dc5056d2ba441aa993731b1f
   languageName: node
   linkType: hard
 
@@ -18233,7 +18247,7 @@ __metadata:
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.2"
-    "@types/dedent": "npm:^0.7.2"
+    "@types/dedent": "npm:^1.0.0"
     "@types/glob": "npm:^9.0.0"
     "@types/jest": "npm:^30.0.0"
     "@types/js-cookie": "npm:^3.0.6"
