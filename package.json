@@ -62,7 +62,7 @@
     "docusaurus-plugin-sass": "^0.2.6",
     "fflate": "^0.8.2",
     "js-cookie": "^3.0.5",
-    "node-fetch": "2",
+    "node-fetch": "3",
     "prism-react-renderer": "^2.4.1",
     "qrcode.react": "^4.2.0",
     "react": "^19",
