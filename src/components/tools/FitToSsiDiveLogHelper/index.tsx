@@ -7,7 +7,7 @@ import { detectVendor, type FitVendor } from '@site/src/domain/diving/fit/FitVen
 import { SsiDive } from '@site/src/domain/diving/ssi/SsiDive'
 import Image from '@site/src/theme/IdealImage'
 import ToolPage from '@theme/ToolPage/ToolPage'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { DiveStatsPanel } from './DiveStatsPanel'
 
 const interestingMessages = [
@@ -198,8 +198,9 @@ const FitToSsiDiveLogHelper = ({
   }
 
   // Arrow keys page through the dives. Bound to the window because the button
-  // that had focus becomes disabled on the first and last dive.
-  useEffect(() => {
+  // that had focus becomes disabled on the first and last dive. A layout effect
+  // binds it in the same commit that shows the dives, so no key press is lost.
+  useLayoutEffect(() => {
     if (dives.length <= 1) return
 
     const handleKeyDown = (event: KeyboardEvent): void => {
