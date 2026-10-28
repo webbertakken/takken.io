@@ -89,7 +89,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260425.1",
     "@vitest/coverage-v8": "^5",
     "cross-env": "^10",
-    "dotenv": "^17.4.2",
+    "dotenv": "^18.0.0",
     "eslint-plugin-unicorn": "^64.0.0",
     "glob": "^13.0.6",
     "husky": "^9",
