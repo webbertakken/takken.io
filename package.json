@@ -128,7 +128,8 @@
     "tar": "^7.5.22",
     "mdast-util-to-hast": "^13.2.1",
     "webpack": "~5.97.1",
-    "docusaurus-plugin-content-gists/octokit": "^5"
+    "docusaurus-plugin-content-gists/octokit": "^5",
+    "tinypool": "^2.1.2"
   },
   "browserslist": {
     "production": [
