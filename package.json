@@ -108,7 +108,7 @@
     "typescript": "^5.9.3",
     "vite": "^8",
     "vitest": "^5",
-    "webpack": "~5.97.1"
+    "webpack": "^5.104.1"
   },
   "resolutions": {
     "sharp": "^0.35.5",
@@ -127,7 +127,7 @@
     "qs": "^6.14.1",
     "tar": "^7.5.22",
     "mdast-util-to-hast": "^13.2.1",
-    "webpack": "~5.97.1",
+    "webpack": "^5.104.1",
     "docusaurus-plugin-content-gists/octokit": "^5",
     "tinypool": "^2.1.2",
     "serialize-javascript": "^7.1.4",
