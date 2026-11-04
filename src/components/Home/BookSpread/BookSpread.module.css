@@ -1,0 +1,17 @@
+/* The photo print rests at a slight angle, and settles there once when the page opens. */
+.print {
+  transform: rotate(3deg);
+  animation: settle 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes settle {
+  from {
+    transform: rotate(9deg) translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .print {
+    animation: none;
+  }
+}
