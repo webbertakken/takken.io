@@ -8,11 +8,95 @@
    "RangeError: Invalid code point" crashes. */
 @source not "../../*.md";
 
+/* Fira Mono arrives from Google Fonts after first paint. Until then, text renders in a local
+   monospace font resized to Fira Mono's exact advance width and line metrics, so the swap moves
+   nothing on the page. */
+@font-face {
+  font-family: 'Fira Mono Menlo fallback';
+  font-weight: 100 599;
+  src: local('Menlo Regular'), local('Menlo-Regular');
+  size-adjust: 99.66%;
+  ascent-override: 93.82%;
+  descent-override: 26.59%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono Menlo fallback';
+  font-weight: 600 900;
+  src: local('Menlo Bold'), local('Menlo-Bold');
+  size-adjust: 99.66%;
+  ascent-override: 93.82%;
+  descent-override: 26.59%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono Consolas fallback';
+  font-weight: 100 599;
+  src: local('Consolas');
+  size-adjust: 109.13%;
+  ascent-override: 85.68%;
+  descent-override: 24.28%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono Consolas fallback';
+  font-weight: 600 900;
+  src: local('Consolas Bold'), local('Consolas-Bold');
+  size-adjust: 109.13%;
+  ascent-override: 85.68%;
+  descent-override: 24.28%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono DejaVu fallback';
+  font-weight: 100 599;
+  src: local('DejaVu Sans Mono'), local('DejaVuSansMono');
+  size-adjust: 99.66%;
+  ascent-override: 93.82%;
+  descent-override: 26.59%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono DejaVu fallback';
+  font-weight: 600 900;
+  src: local('DejaVu Sans Mono Bold'), local('DejaVuSansMono-Bold');
+  size-adjust: 99.66%;
+  ascent-override: 93.82%;
+  descent-override: 26.59%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono Liberation fallback';
+  font-weight: 100 599;
+  src: local('Liberation Mono'), local('LiberationMono');
+  size-adjust: 99.98%;
+  ascent-override: 93.52%;
+  descent-override: 26.5%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fira Mono Liberation fallback';
+  font-weight: 600 900;
+  src: local('Liberation Mono Bold'), local('LiberationMono-Bold');
+  size-adjust: 99.98%;
+  ascent-override: 93.52%;
+  descent-override: 26.5%;
+  line-gap-override: 0%;
+}
+
 /* Base theme */
 @theme {
   --font-base:
-    'Fira Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New',
-    monospace;
+    'Fira Mono', 'Fira Mono Menlo fallback', 'Fira Mono Consolas fallback',
+    'Fira Mono DejaVu fallback', 'Fira Mono Liberation fallback', sfmono-regular, menlo, monaco,
+    consolas, 'Liberation Mono', 'Courier New', monospace;
   --font-sans: var(--font-base);
   --font-mono: var(--font-base);
   --font-title: var(--font-base);
