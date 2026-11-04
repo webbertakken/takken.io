@@ -27,7 +27,7 @@ const Index = (): React.ReactElement => {
 
           <div className="mb-4">
             <Image
-              className="[&:not(dialog_&)_img]:rounded-lg"
+              className="rounded-lg [&_img]:rounded-lg"
               img={require('@site/src/assets/webber.jpg')}
               alt="Portrait of Webber Takken"
             />
