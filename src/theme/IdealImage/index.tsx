@@ -72,7 +72,18 @@ const IdealImageWrapper: React.FC<IdealImageWrapperProps> = ({
         </Modal>
       )}
 
-      <div onClick={open} className="cursor-zoom-in leading-[0]">
+      <div
+        role="button"
+        tabIndex={0}
+        aria-haspopup="dialog"
+        onClick={open}
+        onKeyDown={(event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return
+          event.preventDefault()
+          open()
+        }}
+        className="cursor-zoom-in leading-[0] rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink"
+      >
         <div className="flex flex-col pb-8">
           <IdealImage
             img={img}

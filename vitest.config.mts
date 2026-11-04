@@ -15,6 +15,14 @@ export default defineConfig({
         './src/test/mocks/ideal-image.tsx',
       ),
       '@site': path.resolve(import.meta.dirname),
+      '@theme-original/IdealImage': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/theme-original-ideal-image.tsx',
+      ),
+      '@docusaurus/ErrorBoundary': path.resolve(
+        import.meta.dirname,
+        './src/test/mocks/docusaurus-error-boundary.tsx',
+      ),
       '@docusaurus/useGlobalData': path.resolve(
         import.meta.dirname,
         './src/test/mocks/docusaurus.ts',
