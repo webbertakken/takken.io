@@ -15,3 +15,87 @@
     animation: none;
   }
 }
+
+/*
+ * The open book. On narrow screens the two pages stack on one sheet. From the extra-large breakpoint
+ * the book opens: each page tilts up from the spine towards the reader, darkens steeply into the
+ * gutter and gently towards its outer edge.
+ */
+.book {
+  --paper: rgb(255 255 255);
+  --edge: rgb(0 0 0 / 10%);
+  --lift: rgb(0 0 0 / 35%);
+  --spine-near: rgb(0 0 0 / 26%);
+  --spine-mid: rgb(0 0 0 / 9%);
+  --spine-far: rgb(0 0 0 / 3%);
+  --curl: rgb(0 0 0 / 4%);
+
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: 0 24px 60px -24px var(--lift);
+}
+
+:global([data-theme='dark']) .book {
+  --paper: rgb(32 33 35);
+  --edge: rgb(255 255 255 / 10%);
+  --lift: rgb(0 0 0 / 80%);
+  --spine-near: rgb(0 0 0 / 62%);
+  --spine-mid: rgb(0 0 0 / 26%);
+  --spine-far: rgb(0 0 0 / 8%);
+  --curl: rgb(0 0 0 / 14%);
+}
+
+.rightPage {
+  border-top: 1px solid var(--edge);
+}
+
+@media (width >= 80rem) {
+  .book {
+    overflow: visible;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    perspective: 1600px;
+  }
+
+  .leftPage,
+  .rightPage {
+    border: 1px solid var(--edge);
+    background-color: var(--paper);
+    box-shadow: 0 30px 40px -26px var(--lift);
+  }
+
+  .leftPage {
+    border-right: 0;
+    border-radius: 6px 0 0 10px;
+    background-image: linear-gradient(
+      to right,
+      var(--curl),
+      transparent 5%,
+      transparent 80%,
+      var(--spine-far) 88%,
+      var(--spine-mid) 95%,
+      var(--spine-near)
+    );
+    transform: rotateY(14deg);
+    transform-origin: right center;
+  }
+
+  .rightPage {
+    border-left: 0;
+    border-radius: 0 6px 10px 0;
+    background-image: linear-gradient(
+      to left,
+      var(--curl),
+      transparent 5%,
+      transparent 80%,
+      var(--spine-far) 88%,
+      var(--spine-mid) 95%,
+      var(--spine-near)
+    );
+    transform: rotateY(-14deg);
+    transform-origin: left center;
+  }
+}
