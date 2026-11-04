@@ -1,16 +1,17 @@
+import Link from '@docusaurus/Link'
 import React from 'react'
 import type { Chapter, ContentsEntry } from '../chapters'
 
 const Entry = ({ entry }: { entry: ContentsEntry }): React.JSX.Element => (
   <li className="flex flex-wrap items-baseline gap-x-3 py-1">
-    <a
-      href={entry.href}
+    <Link
+      to={entry.href}
       className="max-w-full shrink-0"
       {...(entry.external && { target: '_blank', rel: 'noreferrer' })}
     >
       {entry.title}
       {entry.external && <span className="sr-only">{' (opens in a new tab)'}</span>}
-    </a>
+    </Link>
     <span
       aria-hidden="true"
       className="min-w-4 flex-1 translate-y-[-0.3em] border-0 border-b-2 border-dotted border-gray-300 dark:border-gray-600"

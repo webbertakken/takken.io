@@ -21,7 +21,7 @@
 - Don't use the word "AI" when it's not necessary. For example, "AI coding agents" should simply be
   "coding agents". Only use "AI" when it adds meaningful distinction or clarity.
 - Follow the writing style in ~/WRITING_STYLE.md
-- When adding a new blog post, update the "Latest posts" card in src/components/Home/index.tsx
+- When adding a new blog post, update `latestPosts` in src/components/Home/chapters.ts
 
 ## Testing
 
