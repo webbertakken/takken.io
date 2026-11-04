@@ -60,7 +60,6 @@ const IdealImageWrapper: React.FC<IdealImageWrapperProps> = ({
               src={originalSrc}
               alt={alt}
               {...rest}
-              className={cx(className)}
             />
             {source && (
               <sup className="p-2">
@@ -89,7 +88,7 @@ const IdealImageWrapper: React.FC<IdealImageWrapperProps> = ({
             img={img}
             alt={alt}
             {...rest}
-            className={cx(rest.className, { 'pb-8': !noPadding })}
+            className={cx(className, { 'pb-8': !noPadding })}
           />
           {source && (
             <sup>

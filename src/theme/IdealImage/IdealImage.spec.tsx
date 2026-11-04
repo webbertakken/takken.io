@@ -42,6 +42,19 @@ describe('IdealImageWrapper', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
+  it('styles the inline image with the given class, not the enlarged one', () => {
+    renderWithProviders(
+      <IdealImageWrapper img="/sketch.png" alt="A sketch" className="rounded-lg" />,
+    )
+
+    enlarge()
+
+    expect(screen.getByRole('button', { name: 'A sketch' }).querySelector('img')).toHaveClass(
+      'rounded-lg',
+    )
+    expect(enlargedImage()).not.toHaveClass('rounded-lg')
+  })
+
   it('closes the enlarged image when it is clicked', () => {
     renderWithProviders(<IdealImageWrapper img="/sketch.png" alt="A sketch" />)
     enlarge()
