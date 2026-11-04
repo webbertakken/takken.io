@@ -20,7 +20,7 @@ describe('BookSpread', () => {
     const print = screen.getByRole('figure')
 
     expect(within(print).getByRole('img', { name: /Portrait of Webber/ })).toBeInTheDocument()
-    expect(within(print).getByText('Webber, by the sea')).toBeInTheDocument()
+    expect(within(print).getByText('Webber, 2026')).toBeInTheDocument()
   })
 
   it('invites corrections by email', () => {

@@ -12,9 +12,13 @@ const Letter = ({ portrait }: { portrait: Portrait }): React.JSX.Element => (
     <figure
       className={`${styles.print} mb-6 ml-2 w-40 sm:float-right sm:mb-4 sm:ml-6 bg-[rgb(236_233_226)] p-2.5 pb-2 shadow-[0_14px_30px_-14px_rgb(0_0_0/55%)]`}
     >
-      <IdealImage img={portrait} alt="Portrait of Webber Takken, by the sea" noPadding />
+      <IdealImage
+        img={portrait}
+        alt="Portrait of Webber Takken, smiling, in a peach T-shirt"
+        noPadding
+      />
       <figcaption className="mt-2 text-center text-xs text-[rgb(40_40_44)]">
-        Webber, by the sea
+        Webber, 2026
       </figcaption>
     </figure>
 
