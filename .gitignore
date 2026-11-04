@@ -65,3 +65,6 @@ static/assets/processed
 package-lock.json
 **/package-lock.json
 .mise/
+
+# Impeccable decision sketches and comps (disposable)
+.impeccable/mocks/
