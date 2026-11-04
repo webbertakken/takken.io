@@ -19,7 +19,9 @@ const page = 'px-6 py-8 sm:px-12 sm:py-10'
  * tilting up from the spine. On narrow screens the pages stack on one sheet.
  */
 const BookSpread = ({ portrait, chapters }: Props): React.JSX.Element => (
-  <div className={`${styles.book} mx-auto my-6 grid max-w-6xl sm:my-10 xl:grid-cols-2`}>
+  <div
+    className={`${styles.book} mx-auto my-6 grid max-w-6xl sm:my-10 md:my-14 xl:my-20 xl:max-w-[min(72rem,calc(100vw-12.5rem))] xl:grid-cols-2`}
+  >
     <div className={`${page} ${styles.leftPage} flex flex-col justify-between gap-8`}>
       <Letter portrait={portrait} />
       <Elsewhere />

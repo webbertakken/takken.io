@@ -239,6 +239,14 @@
 }
 
 /* Search */
+
+/* The server renders the macOS shortcut (⌘ K); other platforms swap in the wider Ctrl K once
+   scripts run. A fixed, right-aligned key box keeps that swap from moving the navbar. */
+.DocSearch-Button .DocSearch-Button-Keys {
+  justify-content: flex-end;
+  min-width: 4.25rem;
+}
+
 [data-theme='light'] .DocSearch {
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
   --docsearch-container-background: rgb(94 100 112 / 70%);
