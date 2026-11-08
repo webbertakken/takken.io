@@ -107,6 +107,7 @@ describe('IdealImageWrapper', () => {
     act(() => loaded.forEach((image) => image.onload()))
     enlarge()
 
-    expect(enlargedImage().style.width).toContain('0.8 *')
+    expect(enlargedImage().style.width).toBe('min(-50px + 100vw, -72px + 80vh)')
+    expect(enlargedImage().style.height).toBe('min(-90px + 100vh, -62.5px + 125vw)')
   })
 })
