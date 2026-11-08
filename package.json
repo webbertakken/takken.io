@@ -91,7 +91,7 @@
     "cross-env": "^10",
     "dotenv": "^18.0.0",
     "eslint-plugin-unicorn": "^79.0.0",
-    "glob": "^13.0.6",
+    "glob": "^14.0.0",
     "gray-matter": "^4.0.3",
     "husky": "^9",
     "jsdom": "^31.0.0",
