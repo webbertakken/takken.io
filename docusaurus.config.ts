@@ -313,7 +313,7 @@ export default {
             },
             {
               label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/users/3593896/webber',
+              href: 'https://stackoverflow.com/users/webber',
             },
           ],
         },

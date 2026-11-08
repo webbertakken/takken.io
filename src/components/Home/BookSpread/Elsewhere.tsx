@@ -15,7 +15,7 @@ const places = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/webbertakken/', Icon: FaLinkedinIn },
   {
     label: 'Stack Overflow',
-    href: 'https://stackoverflow.com/users/3593896/webber',
+    href: 'https://stackoverflow.com/users/webber',
     Icon: FaStackOverflow,
   },
   { label: 'Twitch', href: 'https://twitch.tv/webbertakken', Icon: FaTwitch },
