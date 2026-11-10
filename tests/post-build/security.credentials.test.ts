@@ -169,11 +169,9 @@ describe('Security Tests', () => {
           // Filter out known safe environment variable usage
           const dangerousMatches = matches.filter((match) => {
             return !(
-              (
-                match.includes('process.env.NODE_ENV') || // Common safe usage
-                match.includes('process.env.PUBLIC_') || // Public env vars
-                match.includes('process.env.REACT_APP_')
-              ) // Create React App public vars
+              match.includes('process.env.NODE_ENV') || // Common safe usage
+              match.includes('process.env.PUBLIC_') || // Public env vars
+              match.includes('process.env.REACT_APP_') // Create React App public vars
             )
           })
 
