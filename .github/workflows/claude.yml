@@ -31,7 +31,7 @@ jobs:
 
       # Puts the Node and yarn pinned in mise.toml on PATH for Claude.
       - name: Setup tools (from mise.toml)
-        uses: jdx/mise-action@v5
+        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
 
       - name: Run Claude PR Action
         uses: anthropics/claude-code-action@beta
