@@ -96,7 +96,7 @@
     "husky": "^9",
     "jsdom": "^31.0.0",
     "lint-staged": "^17.0.0",
-    "oxfmt": "^0.78.0",
+    "oxfmt": "^0.79.0",
     "oxlint": "^1.61.0",
     "prettier": "^3.8.3",
     "stylelint": "^18",
@@ -144,7 +144,7 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@4.18.1",
+  "packageManager": "yarn@4.19.0",
   "engines": {
     "node": ">=24"
   }
